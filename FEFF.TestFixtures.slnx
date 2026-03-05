@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
+    <Project Path="src/FEFF.TestFixtures.Xunit/FEFF.TestFixtures.Xunit.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FEFF.TestFixtures.Tests/FEFF.TestFixtures.Tests.csproj" />
+  </Folder>
+</Solution>

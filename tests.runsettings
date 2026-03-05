@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+see:
+https://learn.microsoft.com/en-us/visualstudio/test/customizing-code-coverage-analysis?view=visualstudio
+https://learn.microsoft.com/en-us/visualstudio/test/configure-unit-tests-by-using-a-dot-runsettings-file?view=visualstudio#codecoverage-data-collector
+https://xunit.net/docs/config-runsettings
+https://gist.github.com/osmyn/affc8841111283dc8b3ca1a95ace0dc2
+-->
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="Code Coverage" uri="datacollector://Microsoft/CodeCoverage/2.0" assemblyQualifiedName="Microsoft.VisualStudio.Coverage.DynamicCoverageDataCollector, Microsoft.VisualStudio.TraceCollector, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Configuration>
+          <CodeCoverage>
+
+            <!-- Exclude file names -->
+            <Sources>
+              <Exclude>
+              <!-- <Source>\.generated\.cs$</Source> -->
+
+              <!-- Exclude all integration test projects -->
+                <Source>/tests/</Source>
+              </Exclude>
+            </Sources>
+           
+
+            <!-- You can also exclude by attribute, useful for all generated code -->
+            <Attributes>
+              <Exclude>
+                <Attribute>^System\.CodeDom\.Compiler\.GeneratedCodeAttribute$</Attribute>
+              </Exclude>
+            </Attributes>
+
+            <!-- Also may add to .csproj to exclude test project:
+            <ItemGroup>
+                <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+            </ItemGroup>
+            -->
+
+            <!-- We recommend you do not change the following values: -->
+            <UseVerifiableInstrumentation>True</UseVerifiableInstrumentation>
+            <AllowLowIntegrityProcesses>True</AllowLowIntegrityProcesses>
+            <CollectFromChildProcesses>True</CollectFromChildProcesses>
+            <CollectAspDotNet>False</CollectAspDotNet>
+            
+          </CodeCoverage>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
