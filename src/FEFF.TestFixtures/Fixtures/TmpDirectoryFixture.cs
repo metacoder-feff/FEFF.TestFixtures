@@ -8,12 +8,14 @@ namespace FEFF.TestFixtures;
 /// Every call to the fixture within the same scope returns the same fixture instance.
 /// </remarks>
 [Fixture]
-public class TmpDirectoryFixture
+public sealed class TmpDirectoryFixture : IDisposable
 {
-    private readonly string _path;
+//TODO: configure prefix
+//TODO: lazy + _isDisposed
+    public string Path { get; } = Directory.CreateTempSubdirectory().FullName;
 
-    public TmpDirectoryFixture(TmpScopeIdFixture scopeId )
+    public void Dispose()
     {
-        _path = scopeId.Value;
+        Directory.Delete(Path, true);
     }
 }

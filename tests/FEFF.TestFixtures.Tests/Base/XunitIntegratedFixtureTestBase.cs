@@ -1,21 +1,26 @@
+using FEFF.TestFixtures.Xunit;
+
+// register the extension
+[assembly: TestFixturesExtension]
+
 namespace FEFF.TestFixtures.Tests;
 
 public class XunitIntegratedFixtureTestBase
 {
     //----------------------------------------------
     /// <summary>
-    /// Get a TestCase-Fixture. It would be destroyed after TestCase finishes.
+    /// Get a TestCase-Fixture. It would be destroyed after its scope finishes.
     /// </summary>
     /// <remarks>
     /// TestCase-Fixure integration requires:
     /// <code>
-    /// [assembly: FEFF.Experimental.TestFixtures.FixturesXUnitExtension]
+    /// [assembly: TestFixturesExtension]
     /// </code>
     /// Otherwise manage <see cref="IFixtureProvider"/> manually.
     /// </remarks>
-    protected static T GetFixture<T>()
+    protected static T GetFixture<T>(FixtureScopeType scopeType = FixtureScopeType.TestCase)
     where T : notnull
     {
-        return TestContext.Current.GetTestCaseFixtureProvider().GetFixture<T>();
+        return TestContext.Current.GetFeffFixture<T>(scopeType);
     }
 }

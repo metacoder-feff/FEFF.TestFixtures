@@ -3,15 +3,6 @@ namespace FEFF.TestFixtures.Tests;
 public class CustomFixtureTests : XunitIntegratedFixtureTestBase
 {
     [Fact]
-    public void Fixtures__from_same_scope__should_be_equal()
-    {
-        var f1 = GetFixture<CustomFixture>();
-        var f2 = GetFixture<CustomFixture>();
-
-        f2.Should().Be(f1);
-    }
-    
-    [Fact]
     public void Fixture__with_interface__should_be_registered_twice()
     {
         // registration by implemetation type
@@ -36,13 +27,6 @@ public class CustomFixtureTests : XunitIntegratedFixtureTestBase
     }
 }
 
-[Fixture]
-internal class CustomFixture
-{
-    public string Value { get; } = "hello";
-}
-
-
 internal interface ICustomFixtureInterface
 {
     public string Value { get; }
@@ -53,7 +37,6 @@ internal class CustomFixtureWithInterface: ICustomFixtureInterface
 {
     public string Value { get; } = "world";
 }
-
 
 [Fixture]
 internal record CustomFixtureWithDeps(

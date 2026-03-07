@@ -49,6 +49,20 @@ public static class ThrowHelper
             ArgumentException.ThrowIfNullOrEmpty(argument, paramName);
         }
     }
+
+    public static class Guard
+    {
+        public static T NotNull<T>(
+            [NotNull] T? argument, 
+            [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+        where T : notnull
+        {
+            return argument 
+                ?? throw new InvalidOperationException($"Value cannot be null. (Expression '{paramName}')");
+            
+        }
+    }
+
 /* Alternative  'extensible' way
     public interface IArgumentExceptionFactory
     {
