@@ -1,3 +1,5 @@
+using System.Runtime.ExceptionServices;
+
 namespace FEFF.TestFixtures;
 
 public interface IFixtureScope
@@ -52,17 +54,22 @@ public sealed class FixtureScopeManager : IAsyncDisposable
 
         disposables.Add(_provider);
 
-        var exx = await DisposeAsync(disposables);
+        var (first, other) = await DisposeAsync(disposables);
 
-        if(exx.Count > 0)
+        if(other != null)
         {
-            throw new AggregateException("Multiple errors at .Dispose[Async]().", exx);
+            if(first != null) // guard, 'other != null && first == null' should not occur
+                other.Add(first.SourceException);
+            throw new AggregateException("Multiple errors at .Dispose[Async]().", other);
         }
+        else if(first != null)
+            first.Throw();
     }
 
-    private static async Task<List<Exception>> DisposeAsync(List<IAsyncDisposable> disposables)
+    private static async Task<(ExceptionDispatchInfo? first, List<Exception>? other)> DisposeAsync(List<IAsyncDisposable> disposables)
     {
-        var res = new List<Exception>();
+        ExceptionDispatchInfo? first = null;
+        List<Exception>? other = null;
         foreach(var d in disposables)
         {
             try
@@ -71,10 +78,22 @@ public sealed class FixtureScopeManager : IAsyncDisposable
             }
             catch(Exception e)
             {
-                res.Add(e);
+                if(first == null)
+                {
+                    first = ExceptionDispatchInfo.Capture(e);
+                }
+                else if(other == null)
+                {
+                    other = [e];
+                }
+                else
+                {
+                    other.Add(e);
+                }
             }
         }
-        return res;
+
+        return (first, other);
     }
 
     public ValueTask RemoveScopeAsync(string scopeId)

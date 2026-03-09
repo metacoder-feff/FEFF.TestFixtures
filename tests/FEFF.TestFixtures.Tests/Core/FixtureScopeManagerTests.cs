@@ -61,7 +61,7 @@ public class FixtureScopeManagerTests
     }
     
     [Fact]
-    public async Task Dispose__with_multiple_execeptions__should_throw_AggregateException()
+    public async Task Dispose__with_MULTIPLE_execeptions__should_throw_AggregateException()
     {
         var manager = new FixtureScopeManager();
         _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
@@ -69,11 +69,23 @@ public class FixtureScopeManagerTests
 
         var act = () => manager.DisposeAsync().AsTask();
         var err = await act.Should().ThrowExactlyAsync<AggregateException>();
-        
-        foreach(var e in err.Which.InnerExceptions)
-        {
-            e.Should().BeOfType<InvalidOperationException>()
-            .Which.Message.Should().Be("test exception");
-        }
+
+        err.Which.InnerExceptions.Should().AllSatisfy( inner =>
+            inner.Should()
+                .BeOfType<InvalidOperationException>()
+                .Which.Message.Should()
+                    .Be("test exception")
+        );
+    }
+    
+    [Fact]
+    public async Task Dispose__with_SINGLE_exeception__should_throw_InvalidOperationException()
+    {
+        var manager = new FixtureScopeManager();
+        _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
+
+        var act = () => manager.DisposeAsync().AsTask();
+        var err = await act.Should().ThrowExactlyAsync<InvalidOperationException>();
+        err.Which.Message.Should().Be("test exception");
     }
 }
