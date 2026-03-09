@@ -24,6 +24,6 @@ internal static class ScopeRemoverHelper
         var scopeId = ScopeIdHelper.GetTestCaseScopeId(test);
 
 //TODO: async (Xunit proposal https://github.com/xunit/xunit/issues/3504)
-        tracker.RemoveScopeAsync(scopeId).WaitSync();
+        tracker.RemoveScopeAsync(scopeId).Wait();
     }
 }

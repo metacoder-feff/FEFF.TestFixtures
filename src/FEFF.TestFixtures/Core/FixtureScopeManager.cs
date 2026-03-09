@@ -1,5 +1,3 @@
-using System.Runtime.ExceptionServices;
-
 namespace FEFF.TestFixtures;
 
 public interface IFixtureScope
@@ -38,77 +36,34 @@ public sealed class FixtureScopeManager : IAsyncDisposable
         }
     }
 
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
-        // see also (optimizations)
-        // https://github.com/dotnet/runtime/pull/123342
-        // PR: ServiceProviderEngineScope should aggregate exceptions in Dispose rather than throwing on the first
-
         List<IAsyncDisposable> disposables;
-        lock(_lock)
+        lock (_lock)
         {
             _isDisposed = true;
-            disposables = new (_scopes.Count + 1); // reserve slot for _provider
+            disposables = new(_scopes.Count + 1); // reserve a slot for _provider
             disposables.AddRange(_scopes.Values);
         }
 
         disposables.Add(_provider);
 
-        var (first, other) = await DisposeAsync(disposables);
-
-        if(other != null)
-        {
-            if(first != null) // guard, 'other != null && first == null' should not occur
-                other.Add(first.SourceException);
-            throw new AggregateException("Multiple errors at .Dispose[Async]().", other);
-        }
-        else if(first != null)
-            first.Throw();
+        return DisposeHelper.DisposeAsync(disposables);
     }
 
-    private static async Task<(ExceptionDispatchInfo? first, List<Exception>? other)> DisposeAsync(List<IAsyncDisposable> disposables)
-    {
-        ExceptionDispatchInfo? first = null;
-        List<Exception>? other = null;
-        foreach(var d in disposables)
-        {
-            try
-            {
-                await d.DisposeAsync();
-            }
-            catch(Exception e)
-            {
-                if(first == null)
-                {
-                    first = ExceptionDispatchInfo.Capture(e);
-                }
-                else if(other == null)
-                {
-                    other = [e];
-                }
-                else
-                {
-                    other.Add(e);
-                }
-            }
-        }
-
-        return (first, other);
-    }
-
-    public ValueTask RemoveScopeAsync(string scopeId)
+    public async Task RemoveScopeAsync(string scopeId)
     {
         FixtureScope scope;
         lock(_lock)
         {
 //TODO: optimize
             if(_scopes.ContainsKey(scopeId) == false)
-                return ValueTask.CompletedTask;
+                return;
                 
             scope = _scopes[scopeId];
             _scopes.Remove(scopeId);
         }
 
-        return scope.DisposeAsync();
+        await scope.DisposeAsync().ConfigureAwait(false);
     }
 }
