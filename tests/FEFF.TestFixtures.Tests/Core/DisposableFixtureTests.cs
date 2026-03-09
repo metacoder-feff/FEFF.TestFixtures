@@ -59,7 +59,7 @@ public class DisposableFixtureTests : FixtureScopeTestBase
         var f2 = GetFixture<AsyncDisposableFixture>();
 
         var act = () => Scope.DisposeAsync().AsTask();
-        await act.Should().ThrowAsync<InvalidOperationException>();
+        await act.Should().ThrowExactlyAsync<InvalidOperationException>();
 
         // assert previous and next
         f1.IsDisposed.Should().BeTrue();

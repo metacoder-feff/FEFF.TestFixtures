@@ -38,17 +38,43 @@ public sealed class FixtureScopeManager : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        List<FixtureScope> scopes;
+        // see also (optimizations)
+        // https://github.com/dotnet/runtime/pull/123342
+        // PR: ServiceProviderEngineScope should aggregate exceptions in Dispose rather than throwing on the first
+
+        List<IAsyncDisposable> disposables;
         lock(_lock)
         {
             _isDisposed = true;
-            scopes = _scopes.Values.ToList();
+            disposables = new (_scopes.Count + 1); // reserve slot for _provider
+            disposables.AddRange(_scopes.Values);
         }
 
-        foreach(var s in scopes)
-            await s.DisposeAsync();
+        disposables.Add(_provider);
 
-        await _provider.DisposeAsync();
+        var exx = await DisposeAsync(disposables);
+
+        if(exx.Count > 0)
+        {
+            throw new AggregateException("Multiple errors at .Dispose[Async]().", exx);
+        }
+    }
+
+    private static async Task<List<Exception>> DisposeAsync(List<IAsyncDisposable> disposables)
+    {
+        var res = new List<Exception>();
+        foreach(var d in disposables)
+        {
+            try
+            {
+                await d.DisposeAsync();
+            }
+            catch(Exception e)
+            {
+                res.Add(e);
+            }
+        }
+        return res;
     }
 
     public ValueTask RemoveScopeAsync(string scopeId)
