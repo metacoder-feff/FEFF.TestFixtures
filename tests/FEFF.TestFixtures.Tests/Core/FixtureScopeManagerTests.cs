@@ -53,12 +53,27 @@ public class FixtureScopeManagerTests
         var f2 = manager.GetScope("test-3").GetFixture<AsyncDisposableFixture>();
 
         var act = () => manager.DisposeAsync().AsTask();
-        var err = await act.Should()
-            .ThrowExactlyAsync<AggregateException>();
-        err.WithInnerExceptionExactly<InvalidOperationException>();
+        var err = await act.Should().ThrowAsync<Exception>(); // do not check ex type, see other tests
 
         // assert previous and next
         f1.IsDisposed.Should().BeTrue();
         f2.IsDisposed.Should().BeTrue();
+    }
+    
+    [Fact]
+    public async Task Dispose__with_multiple_execeptions__should_throw_AggregateException()
+    {
+        var manager = new FixtureScopeManager();
+        _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
+        _ = manager.GetScope("test-2").GetFixture<ErrorDisposableFixture>();
+
+        var act = () => manager.DisposeAsync().AsTask();
+        var err = await act.Should().ThrowExactlyAsync<AggregateException>();
+        
+        foreach(var e in err.Which.InnerExceptions)
+        {
+            e.Should().BeOfType<InvalidOperationException>()
+            .Which.Message.Should().Be("test exception");
+        }
     }
 }
