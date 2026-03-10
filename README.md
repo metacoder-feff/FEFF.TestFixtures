@@ -1,23 +1,31 @@
 # FEFF.TestFixures
 
+??? brief
+
+## Contents
+
+???
+
 ## Terminology and Goals
 
 A **fixture** is a reusable component used for testing purposes. Fuxures can be packaged into the libraries and reused by any number of testing projects.
-The **fixture** is a class containig three optional (parts):
+The **fixture** is a class containig three optional parts:
 
 + setup code in constructor;
 + state;
 + teardown code in Dispose() or DisposeAsync().
 
-A **scope** of fixures defines is a lifetime of those fixures. The fixture is created lazyly on demand and destroyed at the end of scope. If the fixture has Dispose() or DisposeAsync() it is called.
+A **scope** of the fixures defines a lifetime of those fixures. The fixture is created lazyly on demand and destroyed at the end of scope. If the fixture has Dispose() or DisposeAsync() - it is called.
 A list of **scopes** is defined by test framework used. For **Xunit Integration** available scopes are:
 
-+ test-case;
-+ class;
-+ collection;
-+ assembly.
+| Scope name | Description |
+| --- | -- |
+| test-case | Fixtures are created and destroyed for each test case |
+| class | Fixtures are created and destroyed once for each test class |
+| collection | Fixtures are created and destroyed once for each test collection (TODO: link) |
+| assembly | Fixtures are created and destroyed once for a test assembly |
 
-Class, collection and assembly **fixtures can share state** between all tests within the same scope.
+Every request of the same fixture from same scope results in the same fixture instance. Hence class, collection and assembly **fixtures can share state** between all tests within the same scope.
 
 ## Getting started (Xunit)
 
@@ -67,7 +75,7 @@ public class ExampleTests
 ```
 
 In this example a *TmpDir* is created once the fixture is requested at the test class constructor. The **scope** of the fixture in the example is '*test-case*'.
-After the test finishes the *TmpDir* with it's content would be deleted automatically.
+The *TmpDir* with it's content would be deleted automatically after the test finishes .
 
 ### Difining the scope of a fixture
 
@@ -107,7 +115,7 @@ Where
 
 |Fixture function   | Implementation            |
 |---                | ---                       |
-|Setup              | constructor               |
+|Setup              | Constuctor                |
 |State              | 'Path' property           |
 |Teardown           | IDisposable               |
 
@@ -142,5 +150,9 @@ public class ExampleTests
 
 Note:
 
-+ All fixture dependencies exist same scope as dependent fixture (```MyFixtureSet``` in the example above).
++ All fixture dependencies (```MyCustomFixture1``` & ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
 + Fixtures can't have cyclic dependencies.
+
+## Advanced
+
+...
