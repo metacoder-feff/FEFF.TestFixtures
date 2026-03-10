@@ -5,7 +5,7 @@ namespace FEFF.TestFixtures;
 
 internal static class FixtureCollector
 {
-    internal static ServiceCollection CreateServiceCollection()
+    internal static ServiceCollection CollectFixtureTypes()
     {
         var services = new ServiceCollection();
 
@@ -20,10 +20,9 @@ internal static class FixtureCollector
     {
         var atr = typeof(TAttribute);
         
-        var types = GetAssemblies()
+        return GetAssemblies()
             .SelectMany(a => a.GetTypes())
             .Where(t => t.IsDefined(atr, false));
-        return types;
     }
 
     private static IEnumerable<Assembly> GetAssemblies()

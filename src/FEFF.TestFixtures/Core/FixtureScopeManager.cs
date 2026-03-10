@@ -51,20 +51,19 @@ public sealed class FixtureScopeManager : IAsyncDisposable
         return DisposeHelper.DisposeAsync(disposables);
     }
 
-//TODO: ValueTask??
-    public async Task RemoveScopeAsync(string scopeId)
+    public ValueTask RemoveScopeAsync(string scopeId)
     {
         FixtureScope scope;
         lock(_lock)
         {
 //TODO: optimize
             if(_scopes.ContainsKey(scopeId) == false)
-                return;
+                return ValueTask.CompletedTask;
                 
             scope = _scopes[scopeId];
             _scopes.Remove(scopeId);
         }
 
-        await scope.DisposeAsync().ConfigureAwait(false);
+        return scope.DisposeAsync();
     }
 }

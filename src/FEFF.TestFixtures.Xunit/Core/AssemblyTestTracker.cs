@@ -39,7 +39,7 @@ internal sealed class AssemblyTestTracker : IAsyncDisposable
         return _container.GetScope(id);
     }
 
-    internal Task RemoveScopeAsync(string scopeId)
+    internal ValueTask RemoveScopeAsync(string scopeId)
     {
         return _container.RemoveScopeAsync(scopeId);
     }

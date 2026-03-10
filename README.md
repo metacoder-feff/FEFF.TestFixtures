@@ -85,7 +85,7 @@ The scope of a fixture is defined by test creator using overloaded method:
 TestContext.Current.GetFeffFixture<T>(FixtureScopeType scopeType)
 ```
 
-Also note that multiple instanses of the fixture can exist in differnt scopes if needed.
+Also note that multiple instanses of the fixture can exist in different scopes if needed.
 
 ### Creating a fixture
 
