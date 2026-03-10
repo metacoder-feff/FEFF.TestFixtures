@@ -69,7 +69,7 @@ internal sealed class AssemblyTestTracker : IAsyncDisposable
         _ = ctx.KeyValueStorage.TryGetValue(key, out var res);
 
         return res as AssemblyTestTracker
-            ?? throw new InvalidOperationException("Invalid type stored in 'TestContext.KeyValueStorage'."); 
+            ?? throw new InvalidOperationException($"Extension is not registered. Use '[assembly: {nameof(TestFixturesExtensionAttribute)}]'."); 
     }
     #endregion
 }
