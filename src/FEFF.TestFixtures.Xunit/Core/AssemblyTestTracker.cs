@@ -1,4 +1,5 @@
 using Xunit;
+using FEFF.TestFixtures.Core;
 
 namespace FEFF.TestFixtures.Xunit;
 

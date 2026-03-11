@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FEFF.TestFixtures;
+namespace FEFF.TestFixtures.Core;
 
 internal static class FixtureCollector
 {

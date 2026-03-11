@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FEFF.TestFixtures;
+namespace FEFF.TestFixtures.Core;
 
 public sealed class FixtureScope : IAsyncDisposable, IFixtureScope
 {

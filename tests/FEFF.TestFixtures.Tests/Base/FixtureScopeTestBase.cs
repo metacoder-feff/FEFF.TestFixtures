@@ -1,4 +1,5 @@
 namespace FEFF.TestFixtures.Tests;
+using Core;
 
 /// <summary>
 /// A base class for tests with basic XUnit Test Teardown via IAsyncDisposable

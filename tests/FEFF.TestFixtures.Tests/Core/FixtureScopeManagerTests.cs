@@ -1,4 +1,5 @@
 namespace FEFF.TestFixtures.Tests;
+using Core;
 
 //TODO: provider disposed (singletones)
 public class FixtureScopeManagerTests

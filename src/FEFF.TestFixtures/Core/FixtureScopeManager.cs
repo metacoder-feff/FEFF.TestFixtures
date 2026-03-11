@@ -1,4 +1,4 @@
-namespace FEFF.TestFixtures;
+namespace FEFF.TestFixtures.Core;
 
 public interface IFixtureScope
 {

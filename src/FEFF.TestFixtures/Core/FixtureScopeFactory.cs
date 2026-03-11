@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FEFF.TestFixtures;
+namespace FEFF.TestFixtures.Core;
 
 /// <summary>
 /// This class creates <see cref="FixtureScope"/>.<br/>
