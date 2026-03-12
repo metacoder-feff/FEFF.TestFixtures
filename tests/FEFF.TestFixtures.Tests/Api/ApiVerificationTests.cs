@@ -39,7 +39,7 @@ public class ApiVerificationTests
             .UseFileName(filePrefix)
             //.DisableDiff()
 //TODO: split tests ??
-            .AutoVerifyIfNotCI()
+            .AutoVerifyWhenLocalDevelopment()
             ;
 
         return t;
@@ -51,14 +51,30 @@ public class ApiVerificationTests
 internal static class VerifyExtentions
 {
     public static bool IsCI() => BuildServerDetector.IsGitLab || BuildServerDetector.IsGithubAction;
+    
+    public static bool IsLocalDev()
+    {
+//TODO: other env
+        var e = Environment.GetEnvironmentVariable("REMOTE_CONTAINERS");
+        if(e == null)
+            return false;
+        return e.Equals("true", StringComparison.InvariantCultureIgnoreCase);
+    }
 
     // WORKAROUND:
     // AutoVerify(includeBuildServer: false)
     // uses BuildServerDetector.Detected
     // witch uses BuildServerDetector.IsDocker - not compatible with devcontainers
-    internal static SettingsTask AutoVerifyIfNotCI(this SettingsTask src)
+    // internal static SettingsTask AutoVerifyIfNotCI(this SettingsTask src)
+    // {
+    //     if(IsCI() == true)
+    //         return src;
+    //     return src.AutoVerify();
+    // }
+
+    internal static SettingsTask AutoVerifyWhenLocalDevelopment(this SettingsTask src)
     {
-        if(IsCI() == true)
+        if(IsLocalDev() == false)
             return src;
 
         return src.AutoVerify();
