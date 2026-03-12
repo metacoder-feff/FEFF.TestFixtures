@@ -13,7 +13,12 @@ public sealed class FixtureScopeManager : IAsyncDisposable
 {
     private readonly FixtureScopeFactory _provider = new();
     private readonly Dictionary<string, FixtureScope> _scopes = [];
+
+#if NET9_0_OR_GREATER
     private readonly Lock _lock = new(); 
+#else
+    private readonly Object _lock = new(); 
+#endif
     private bool _isDisposed;
     
     public FixtureScope GetScope(string id)
