@@ -4,7 +4,7 @@ namespace FEFF.Extentions;
 
 //TODO: link nuget
 
-public static class DisposeHelper
+internal static class DisposeHelper
 {
     public static async ValueTask DisposeAsync(List<IAsyncDisposable> disposables)
     {

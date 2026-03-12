@@ -13,6 +13,8 @@
 
   <ItemGroup>
      <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
+     <InternalsVisibleTo Include="FEFF.TestFixtures.Xunit" />
+     <InternalsVisibleTo Include="FEFF.TestFixtures.AspNetCore" />
   </ItemGroup>
   
   <ItemGroup>

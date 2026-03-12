@@ -7,7 +7,7 @@ namespace FEFF.Extentions;
 //TODO: link nuget
 
 [DebuggerNonUserCode]
-public static class ThrowHelper
+internal static class ThrowHelper
 {
     /// <summary>
     /// Throws "InvalidOperationException".
