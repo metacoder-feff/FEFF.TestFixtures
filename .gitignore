@@ -7,8 +7,13 @@
 *[Ss]ecrets.env
 tests/Files/openapi.json.modified.json
 
+#*.received.*
+tests/Files/API/*.received.*
+
+###########################################################################
 # Multiple sources ...
 # 1. FROM: gitlab .Net template
+###########################################################################
 *.swp
 *.*~
 project.lock.json

@@ -1,0 +1,27 @@
+﻿[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+namespace FEFF.TestFixtures.Xunit
+{
+    public enum FixtureScopeType
+    {
+        TestCase = 0,
+        Class = 1,
+        Collection = 2,
+        Assembly = 3,
+    }
+    [System.AttributeUsage(System.AttributeTargets.Assembly)]
+    public class TestFixturesExtensionAttribute : System.Attribute, Xunit.v3.IAssemblyFixtureAttribute, Xunit.v3.IBeforeAfterTestAttribute
+    {
+        public TestFixturesExtensionAttribute() { }
+        public System.Type AssemblyFixtureType { get; }
+        public void After(System.Reflection.MethodInfo methodUnderTest, Xunit.v3.IXunitTest test) { }
+        public void Before(System.Reflection.MethodInfo methodUnderTest, Xunit.v3.IXunitTest test) { }
+    }
+}
+namespace Xunit.v3
+{
+    public static class TestContextExtentions
+    {
+        public static T GetFeffFixture<T>(this Xunit.ITestContext ctx, FEFF.TestFixtures.Xunit.FixtureScopeType scopeType = 0)
+            where T :  notnull { }
+    }
+}
