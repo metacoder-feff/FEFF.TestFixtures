@@ -1,12 +1,15 @@
+using DiffEngine;
 using PublicApiGenerator;
 using VerifyTests.DiffPlex;
 
 namespace FEFF.TestFixtures.Tests;
 
-//ApiApprovalTests
 public class ApiVerificationTests
 {
     static ApiVerificationTests() => VerifyDiffPlex.Initialize(OutputType.Minimal);
+    
+    [Fact]
+    public Task VerifyXunit_checks_should_be_positive() => VerifyChecks.Run();
 
     [Theory]
     [InlineData("FEFF.TestFixtures")]
@@ -14,8 +17,6 @@ public class ApiVerificationTests
     //[InlineData("FEFF.TestFixtures.AspNetCore")]
     public Task API_should_not_change(string assemblyName)
     {
-//TODO: split tests ??
-//TODO: .AutoVerify(includeBuildServer: false)
 
         var assembly = AppDomain.CurrentDomain
             .GetAssemblies()
@@ -37,19 +38,29 @@ public class ApiVerificationTests
             .UseDirectory(dir)
             .UseFileName(filePrefix)
             //.DisableDiff()
+//TODO: split tests ??
+            .AutoVerifyIfNotCI()
             ;
-
-        if(IsCIEnv() == false)
-            t = t.AutoVerify();
 
         return t;
     }
     
-//TODO: utils
-    public const string CiEnvVarName = "IS_CI_TEST";
+}
 
-    public static bool IsCIEnv() =>
-        Environment.GetEnvironmentVariable(CiEnvVarName)?
-        .ToLowerInvariant()
-        == "true";
+//TODO: utils
+internal static class VerifyExtentions
+{
+    public static bool IsCI() => BuildServerDetector.IsGitLab || BuildServerDetector.IsGithubAction;
+
+    // WORKAROUND:
+    // AutoVerify(includeBuildServer: false)
+    // uses BuildServerDetector.Detected
+    // witch uses BuildServerDetector.IsDocker - not compatible with devcontainers
+    internal static SettingsTask AutoVerifyIfNotCI(this SettingsTask src)
+    {
+        if(IsCI() == true)
+            return src;
+
+        return src.AutoVerify();
+    }
 }
