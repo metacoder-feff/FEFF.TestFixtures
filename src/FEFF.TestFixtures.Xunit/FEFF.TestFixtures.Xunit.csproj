@@ -7,8 +7,16 @@
     <!-- Tweaks -->
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <InvariantGlobalization>true</InvariantGlobalization>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
+    <!-- NUGET -->
+    <PackageId>FEFF.TestFixtures.Xunit</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>metacoder-feff</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Xunit extension: Reusable testing components. Better fixtures: test-case fixtures, dependency injection.</Description>
+    <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
+    <PackageTags>testing;fixtures</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
