@@ -1,10 +1,7 @@
 # FEFF.TestFixures
 
-??? brief
-
-## Contents
-
-???
+Replace setup/teardown methods with reusable **Fuxtures**.
+Fixtures can depend on other ones. (!!!)
 
 ## Terminology and Goals
 
@@ -15,24 +12,24 @@ The **fixture** is a class containig three optional parts:
 + state;
 + teardown code in Dispose() or DisposeAsync().
 
-A **scope** of the fixures defines a lifetime of those fixures. The fixture is created lazyly on demand and destroyed at the end of scope. If the fixture has Dispose() or DisposeAsync() - it is called.
-A list of **scopes** is defined by test framework used. For **Xunit Integration** available scopes are:
+A **scope** of the fixures defines a lifetime of those fixures. For a scope the fixture is created only once lazyly on demand and destroyed at the end of the scope. If the fixture has Dispose() or DisposeAsync() - it is called.
+A list of **scopes** is defined by a test framework used. For **Xunit Integration** available scopes are:
 
 | Scope name | Description |
 | --- | -- |
 | test-case | Fixtures are created and destroyed for each test case |
 | class | Fixtures are created and destroyed once for each test class |
-| collection | Fixtures are created and destroyed once for each test collection (TODO: link) |
+| collection | Fixtures are created and destroyed once for each [test collection](https://xunit.net/docs/running-tests-in-parallel#test-collections) |
 | assembly | Fixtures are created and destroyed once for a test assembly |
 
-Every request of the same fixture from same scope results in the same fixture instance. Hence class, collection and assembly **fixtures can share state** between all tests within the same scope.
+Every request of the same fixture from same scope results in the same fixture instance. Hence class-, collection- and assembly- **fixtures can share state** between all tests within the same scope.
 
 ## Getting started (Xunit)
 
 Add library reference to a test project:
 
 ``` bash
-dotnet install package ???
+dotnet add package FEFF.TestFixtures.Xunit
 ```
 
 Add assembly-level attribute to initialize the extension:
@@ -75,9 +72,9 @@ public class ExampleTests
 ```
 
 In this example a *TmpDir* is created once the fixture is requested at the test class constructor. The **scope** of the fixture in the example is '*test-case*'.
-The *TmpDir* with it's content would be deleted automatically after the test finishes .
+The *TmpDir* with it's content would be deleted automatically after the test finishes.
 
-### Difining the scope of a fixture
+### Defining other scopes for a fixture
 
 The scope of a fixture is defined by test creator using overloaded method:
 
@@ -153,6 +150,6 @@ Note:
 + All fixture dependencies (```MyCustomFixture1``` & ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
 + Fixtures can't have cyclic dependencies.
 
-## Advanced
+## Advanced usage
 
 ...

@@ -14,7 +14,7 @@
     <Version>1.0.0</Version>
     <Authors>metacoder-feff</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Xunit extension: Reusable testing components. Better fixtures: test-case fixtures, dependency injection.</Description>
+    <Description>Xunit extension: Replace setup/teardown methods with reusable Fuxtures, dependency injection for fixtures.</Description>
     <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
     <PackageTags>testing;fixtures</PackageTags>
   </PropertyGroup>
