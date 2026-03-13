@@ -5,16 +5,16 @@ namespace FEFF.TestFixtures.Xunit;
 
 internal static class ScopeRemoverHelper
 {
-    internal static async ValueTask RemoveCurrentClassScope() => await RemoveCurrentScope(FixtureScopeType.Class);
-    internal static async ValueTask RemoveCurrentCollectionScope() => await RemoveCurrentScope(FixtureScopeType.Collection);
+    internal static ValueTask RemoveCurrentClassScope() => RemoveCurrentScope(FixtureScopeType.Class);
+    internal static ValueTask RemoveCurrentCollectionScope() => RemoveCurrentScope(FixtureScopeType.Collection);
 
-    private static async Task RemoveCurrentScope(FixtureScopeType scope)
+    private static ValueTask RemoveCurrentScope(FixtureScopeType scope)
     {
         var ctx = TestContext.Current;
         var tracker = AssemblyTestTracker.GetCurrentTracker(ctx);
         var scopeId = ScopeIdHelper.GetScopeId(ctx, scope);
 
-        await tracker.RemoveScopeAsync(scopeId);
+        return tracker.RemoveScopeAsync(scopeId);
     }
 
     internal static void RemoveTestCaseScope(IXunitTest test)

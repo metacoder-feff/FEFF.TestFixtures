@@ -7,12 +7,22 @@
     <!-- Tweaks -->
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <InvariantGlobalization>true</InvariantGlobalization>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
+    <!-- NUGET -->
+    <PackageId>FEFF.TestFixtures</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>metacoder-feff</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Reusable testing components.</Description>
+    <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
+    <PackageTags>testing;fixtures</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
      <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
+     <InternalsVisibleTo Include="FEFF.TestFixtures.Xunit" />
+     <InternalsVisibleTo Include="FEFF.TestFixtures.AspNetCore" />
   </ItemGroup>
   
   <ItemGroup>

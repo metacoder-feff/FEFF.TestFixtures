@@ -75,12 +75,10 @@ internal static class Hack
     private static T? TryGetPrivateInstaceFieldValue<T>(this object obj, string fieldName)
     where T : class
     {
-        Type type = obj.GetType();
-
-        FieldInfo? fieldInfo = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
-        if(fieldInfo is null)
-            return default;
-                
-        return fieldInfo.GetValue(obj) as T;
+        return obj
+            .GetType()
+            .GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance)
+            ?.GetValue(obj)
+            as T;
     }
 }

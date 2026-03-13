@@ -1,4 +1,4 @@
-namespace FEFF.TestFixtures;
+namespace FEFF.TestFixtures.Core;
 
 public interface IFixtureScope
 {
@@ -13,7 +13,12 @@ public sealed class FixtureScopeManager : IAsyncDisposable
 {
     private readonly FixtureScopeFactory _provider = new();
     private readonly Dictionary<string, FixtureScope> _scopes = [];
+
+#if NET9_0_OR_GREATER
     private readonly Lock _lock = new(); 
+#else
+    private readonly Object _lock = new(); 
+#endif
     private bool _isDisposed;
     
     public FixtureScope GetScope(string id)
@@ -36,19 +41,19 @@ public sealed class FixtureScopeManager : IAsyncDisposable
         }
     }
 
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
-        List<FixtureScope> scopes;
-        lock(_lock)
+        List<IAsyncDisposable> disposables;
+        lock (_lock)
         {
             _isDisposed = true;
-            scopes = _scopes.Values.ToList();
+            disposables = new(_scopes.Count + 1); // reserve a slot for _provider
+            disposables.AddRange(_scopes.Values);
         }
 
-        foreach(var s in scopes)
-            await s.DisposeAsync();
+        disposables.Add(_provider);
 
-        await _provider.DisposeAsync();
+        return DisposeHelper.DisposeAsync(disposables);
     }
 
     public ValueTask RemoveScopeAsync(string scopeId)

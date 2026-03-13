@@ -2,7 +2,7 @@ namespace FEFF.Extentions;
 
 //TODO: link nuget
 
-public static class ValueTaskExtentions
+internal static class ValueTaskExtentions
 {
     public static void WaitSync(this in ValueTask task)
     {

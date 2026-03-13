@@ -12,7 +12,7 @@ public class XunitIntegratedFixtureTestBase
     /// Get a TestCase-Fixture. It would be destroyed after its scope finishes.
     /// </summary>
     /// <remarks>
-    /// TestCase-Fixure integration requires:
+    /// TestCase-Fixture integration requires:
     /// <code>
     /// [assembly: TestFixturesExtension]
     /// </code>

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FEFF.TestFixtures;
+namespace FEFF.TestFixtures.Core;
 
 /// <summary>
 /// This class creates <see cref="FixtureScope"/>.<br/>
@@ -9,7 +9,7 @@ namespace FEFF.TestFixtures;
 public sealed class FixtureScopeFactory : IAsyncDisposable
 {
     // thread-safe by default
-    private static readonly Lazy<ServiceCollection> __services = new(FixtureCollector.CreateServiceCollection);
+    private static readonly Lazy<ServiceCollection> __services = new(FixtureCollector.CollectFixtureTypes);
 
     private readonly ServiceProvider _provider;
 

@@ -1,17 +1,17 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FEFF.TestFixtures;
+namespace FEFF.TestFixtures.Core;
 
 internal static class FixtureCollector
 {
-    internal static ServiceCollection CreateServiceCollection()
+    internal static ServiceCollection CollectFixtureTypes()
     {
         var services = new ServiceCollection();
 
         var types = FindFixtureTypes<FixtureAttribute>();
         foreach (var t in types)
-            RegisterFixureType(services, t);
+            RegisterFixtureType(services, t);
         
         return services;
     }
@@ -20,10 +20,9 @@ internal static class FixtureCollector
     {
         var atr = typeof(TAttribute);
         
-        var types = GetAssemblies()
+        return GetAssemblies()
             .SelectMany(a => a.GetTypes())
             .Where(t => t.IsDefined(atr, false));
-        return types;
     }
 
     private static IEnumerable<Assembly> GetAssemblies()
@@ -35,7 +34,7 @@ internal static class FixtureCollector
         return AppDomain.CurrentDomain.GetAssemblies();
     }
 
-    private static void RegisterFixureType(ServiceCollection services, Type t)
+    private static void RegisterFixtureType(ServiceCollection services, Type t)
     {
         services.AddScoped(t);
         var attribute = t.GetCustomAttribute<FixtureAttribute>();

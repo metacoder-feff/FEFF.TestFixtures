@@ -3,7 +3,7 @@ using Xunit.v3;
 
 namespace FEFF.TestFixtures.Xunit;
 
-public static class ScopeIdHelper
+internal static class ScopeIdHelper
 {
     internal static string GetScopeId(ITestContext ctx, FixtureScopeType scopeType)
     {
