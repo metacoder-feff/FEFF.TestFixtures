@@ -74,6 +74,8 @@ public class ExampleTests
 In this example a *TmpDir* is created once the fixture is requested at the test class constructor. The **scope** of the fixture in the example is '*test-case*'.
 The *TmpDir* with it's content would be deleted automatically after the test finishes.
 
+## Advanced usage
+
 ### Defining other scopes for a fixture
 
 The scope of a fixture is defined by test creator using overloaded method:
@@ -150,6 +152,3 @@ Note:
 + All fixture dependencies (```MyCustomFixture1``` & ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
 + Fixtures can't have cyclic dependencies.
 
-## Advanced usage
-
-...
