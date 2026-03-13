@@ -11,7 +11,7 @@ internal static class FixtureCollector
 
         var types = FindFixtureTypes<FixtureAttribute>();
         foreach (var t in types)
-            RegisterFixureType(services, t);
+            RegisterFixtureType(services, t);
         
         return services;
     }
@@ -34,7 +34,7 @@ internal static class FixtureCollector
         return AppDomain.CurrentDomain.GetAssemblies();
     }
 
-    private static void RegisterFixureType(ServiceCollection services, Type t)
+    private static void RegisterFixtureType(ServiceCollection services, Type t)
     {
         services.AddScoped(t);
         var attribute = t.GetCustomAttribute<FixtureAttribute>();

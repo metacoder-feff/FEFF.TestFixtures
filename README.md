@@ -1,19 +1,19 @@
-# FEFF.TestFixures
+# FEFF.TestFixtures
 
-Replace setup/teardown methods with reusable **Fuxtures**.
+Replace setup/teardown methods with reusable **Fixtures**.
 Fixtures can depend on other ones. (!!!)
 
 ## Terminology and Goals
 
-A **fixture** is a reusable component used for testing purposes. Fuxures can be packaged into the libraries and reused by any number of testing projects.
-The **fixture** is a class containig three optional parts:
+A **fixture** is a reusable component used for testing purposes. Fixtures can be packaged into libraries and reused by any number of testing projects.
+The **fixture** is a class containing three optional parts:
 
 + setup code in constructor;
 + state;
 + teardown code in Dispose() or DisposeAsync().
 
-A **scope** of the fixures defines a lifetime of those fixures. For a scope the fixture is created only once lazyly on demand and destroyed at the end of the scope. If the fixture has Dispose() or DisposeAsync() - it is called.
-A list of **scopes** is defined by a test framework used. For **Xunit Integration** available scopes are:
+A **scope** of the fixtures defines a lifetime of those fixtures. For a scope, the fixture is created only once lazily on demand and destroyed at the end of the scope. If the fixture has Dispose() or DisposeAsync(), it is called.
+A list of **scopes** is defined by the test framework used. For **Xunit Integration** available scopes are:
 
 | Scope name | Description |
 | --- | -- |
@@ -22,7 +22,7 @@ A list of **scopes** is defined by a test framework used. For **Xunit Integratio
 | collection | Fixtures are created and destroyed once for each [test collection](https://xunit.net/docs/running-tests-in-parallel#test-collections) |
 | assembly | Fixtures are created and destroyed once for a test assembly |
 
-Every request of the same fixture from same scope results in the same fixture instance. Hence class-, collection- and assembly- **fixtures can share state** between all tests within the same scope.
+Every request of the same fixture from the same scope results in the same fixture instance. Hence class-, collection- and assembly- **fixtures can share state** between all tests within the same scope.
 
 ## Getting started (Xunit)
 
@@ -38,7 +38,7 @@ Add assembly-level attribute to initialize the extension:
 [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
 ```
 
-Use ```TestContext.Current.GetFeffFixture<T>()``` extension method to get required fixture at any moment of a test:
+Use ```TestContext.Current.GetFeffFixture<T>()``` extension method to get the required fixture instance at any moment of a test:
 
 ``` csharp
 public class SystemUnderTest
@@ -72,7 +72,7 @@ public class ExampleTests
 ```
 
 In this example a *TmpDir* is created once the fixture is requested at the test class constructor. The **scope** of the fixture in the example is '*test-case*'.
-The *TmpDir* with it's content would be deleted automatically after the test finishes.
+The *TmpDir* with its content would be deleted automatically after the test finishes.
 
 ## Advanced usage
 
@@ -84,11 +84,11 @@ The scope of a fixture is defined by test creator using overloaded method:
 TestContext.Current.GetFeffFixture<T>(FixtureScopeType scopeType)
 ```
 
-Also note that multiple instanses of the fixture can exist in different scopes if needed.
+Also note that multiple instances of the fixture can exist in different scopes if needed.
 
 ### Creating a fixture
 
-To create a fixture user has to create a class with ```FixtureAttrubute```. Let's look at sources of ```TmpDirectoryFixture``` we have used above.
+To create a fixture, user has to create a class with ```FixtureAttribute```. Let's look at sources of ```TmpDirectoryFixture``` we have used above.
 
 ``` csharp
 [Fixture]
@@ -114,7 +114,7 @@ Where
 
 |Fixture function   | Implementation            |
 |---                | ---                       |
-|Setup              | Constuctor                |
+|Setup              | Constructor               |
 |State              | 'Path' property           |
 |Teardown           | IDisposable               |
 
@@ -151,4 +151,3 @@ Note:
 
 + All fixture dependencies (```MyCustomFixture1``` & ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
 + Fixtures can't have cyclic dependencies.
-
