@@ -10,13 +10,13 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
     <!-- NUGET -->
-    <PackageId>FEFF.TestFixtures.Xunit</PackageId>
+    <PackageId>FEFF.TestFixtures.XunitV3</PackageId>
     <Version>1.0.1</Version>
     <Authors>metacoder-feff</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Xunit extension: Replace setup/teardown methods with reusable Fuxtures, dependency injection for fixtures.</Description>
     <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
-    <PackageTags>testing;fixtures</PackageTags>
+    <PackageTags>testing;fixtures;Xunit</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

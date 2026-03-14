@@ -20,9 +20,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-     <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
-     <InternalsVisibleTo Include="FEFF.TestFixtures.Xunit" />
-     <InternalsVisibleTo Include="FEFF.TestFixtures.AspNetCore" />
+    <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
+    
+    <!-- 
+      To access FEFF.Extentions.ThrowHelper
+      Remove this after link to nuget FEFF.Extentions
+    -->
+    <InternalsVisibleTo Include="FEFF.TestFixtures.XunitV3" />
+    <InternalsVisibleTo Include="FEFF.TestFixtures.AspNetCore" />
   </ItemGroup>
   
   <ItemGroup>
