@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
 
     <!-- Tweaks -->
@@ -11,7 +11,7 @@
 
     <!-- NUGET -->
     <PackageId>FEFF.TestFixtures</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>metacoder-feff</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Reusable testing components.</Description>
