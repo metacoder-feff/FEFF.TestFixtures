@@ -1,0 +1,29 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <!-- MAIN -->
+    <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Tweaks -->
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
+    <!-- NUGET -->
+    <Version>1.0.3</Version>
+    <Authors>metacoder-feff</Authors>
+    <Copyright>Copyright (c) Metacoder-feff 2026</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Reusable testing components.</Description>
+    <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
+    <PackageTags>testing;fixtures</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+</Project>
+
+<!-- TODO: icon -->

@@ -2,21 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-
-    <!-- Tweaks -->
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
     <!-- NUGET -->
     <PackageId>FEFF.TestFixtures</PackageId>
-    <Version>1.0.2</Version>
-    <Authors>metacoder-feff</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Reusable testing components.</Description>
-    <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
-    <PackageTags>testing;fixtures</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
