@@ -1,0 +1,35 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <!-- MAIN -->
+    <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Tweaks -->
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
+    <!-- NUGET -->
+    <Version>1.0.3</Version>
+    <Authors>metacoder-feff</Authors>
+    <Copyright>Copyright (c) Metacoder-feff 2026</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Reusable testing components.</Description>
+    <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
+    <PackageTags>testing;fixtures</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- ... + Adds 'branch' attribute to nuget -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- NUGET -->
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.201" PrivateAssets="All"/>
+    <None Include="../../README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+</Project>
+
+<!-- TODO: icon -->

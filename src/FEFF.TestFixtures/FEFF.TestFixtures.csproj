@@ -1,28 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-
-    <!-- Tweaks -->
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
 
     <!-- NUGET -->
     <PackageId>FEFF.TestFixtures</PackageId>
-    <Version>1.0.1</Version>
-    <Authors>metacoder-feff</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Reusable testing components.</Description>
-    <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
-    <PackageTags>testing;fixtures</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-     <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
-     <InternalsVisibleTo Include="FEFF.TestFixtures.Xunit" />
-     <InternalsVisibleTo Include="FEFF.TestFixtures.AspNetCore" />
+    <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
+    
+    <!-- 
+      To access FEFF.Extentions.ThrowHelper
+      Remove this after link to nuget FEFF.Extentions
+    -->
+    <InternalsVisibleTo Include="FEFF.TestFixtures.XunitV3" />
+    <InternalsVisibleTo Include="FEFF.TestFixtures.AspNetCore" />
   </ItemGroup>
   
   <ItemGroup>

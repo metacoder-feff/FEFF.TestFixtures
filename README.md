@@ -32,7 +32,7 @@ Every request of the same fixture from the same scope results in the same fixtur
 Add library reference to a test project:
 
 ``` bash
-dotnet add package FEFF.TestFixtures.Xunit
+dotnet add package FEFF.TestFixtures.XunitV3
 ```
 
 Add assembly-level attribute to initialize the extension:
@@ -75,7 +75,9 @@ public class ExampleTests
 ```
 
 In this example a *TmpDir* is created once the fixture is requested at the test class constructor. The **scope** of the fixture in the example is '*test-case*'.
-The *TmpDir* with its content would be deleted automatically after the test finishes.
+The *TmpDir* with its content would be deleted automatically after the test finishes.\
+This example uses [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions)  for:  ```Should()```.\
+Have a look at [source code for this example](https://github.com/metacoder-feff/FEFF.TestFixtures/examples/ExampleTests.XunitV3/ExampleTests.cs).
 
 ## Advanced usage
 

@@ -40,7 +40,7 @@
   <ItemGroup>
     <ProjectReference Include="../../src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
     <ProjectReference Include="../../src/FEFF.TestFixtures.AspNetCore/FEFF.TestFixtures.AspNetCore.csproj" />
-    <ProjectReference Include="../../src/FEFF.TestFixtures.Xunit/FEFF.TestFixtures.Xunit.csproj" />
+    <ProjectReference Include="../../src/FEFF.TestFixtures.XunitV3/FEFF.TestFixtures.XunitV3.csproj" />
   </ItemGroup>
 
 </Project>
