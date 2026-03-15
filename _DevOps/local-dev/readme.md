@@ -1,9 +1,7 @@
 # Commands
 
 ``` bash
-dotnet pack
-
-dotnet pack --output ./nupkgs --configuration Release
+_DevOps/local-dev/pack.sh
 ```
 
 ``` bash
