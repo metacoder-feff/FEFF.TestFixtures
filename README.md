@@ -77,7 +77,7 @@ public class ExampleTests
 In this example a *TmpDir* is created once the fixture is requested at the test class constructor. The **scope** of the fixture in the example is '*test-case*'.
 The *TmpDir* with its content would be deleted automatically after the test finishes.\
 This example uses [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions)  for:  ```Should()```.\
-Have a look at [source code for this example](https://github.com/metacoder-feff/FEFF.TestFixtures/examples/ExampleTests.XunitV3/ExampleTests.cs).
+Have a look at [source code for this example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.XunitV3/ExampleTests.cs).
 
 ## Advanced usage
 
