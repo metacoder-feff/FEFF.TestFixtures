@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/examples/">
+    <Project Path="examples/ExampleTests.XunitV3/ExampleTests.XunitV3.csproj" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
     <Project Path="src/FEFF.TestFixtures.AspNetCore/FEFF.TestFixtures.AspNetCore.csproj" />
