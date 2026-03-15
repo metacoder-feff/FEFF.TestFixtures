@@ -5,7 +5,6 @@
 **/tmp/
 *[Ss]ecrets.json
 *[Ss]ecrets.env
-tests/Files/openapi.json.modified.json
 
 #*.received.*
 tests/Files/API/*.received.*
@@ -20,6 +19,8 @@ project.lock.json
 .DS_Store
 *.pyc
 nupkg/
+nupkgs/
+
 
 # Visual Studio Code
 .vscode
@@ -210,6 +211,7 @@ PublishScripts/
 
 # NuGet Packages
 *.nupkg
+*.snupkg
 # The packages folder can be ignored because of Package Restore
 **/packages/*
 # except build/, which is used as an MSBuild target.
