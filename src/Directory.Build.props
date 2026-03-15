@@ -18,9 +18,15 @@
     <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
     <PackageTags>testing;fixtures</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- ... + Adds 'branch' attribute to nuget -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- NUGET -->
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.201" PrivateAssets="All"/>
     <None Include="../../README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
