@@ -7,6 +7,8 @@
 ✅ Replace setup/teardown methods and cumbersome "Disposable pattern" with reusable **Fixtures**.  
 ✅ Fixtures can depend on other fixtures.
 
+[Fixture list](#fixture-list)
+
 ## Terminology and Goals
 
 A **fixture** is a reusable component used for testing purposes. Fixtures can be packaged into libraries and reused by any number of testing projects.
@@ -80,8 +82,6 @@ In this example, a *TmpDir* is created once the fixture is requested in the test
 The *TmpDir* and its contents are automatically deleted after the test finishes.\
 This example uses [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions) for ```Should()```.\
 Have a look at [source code for this example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.XunitV3/ExampleTests.cs).
-
-## Advanced usage
 
 ### Defining other scopes for a fixture
 
@@ -160,12 +160,28 @@ Note:
 + All fixture dependencies (```MyCustomFixture1``` and ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
 + Fixtures can't have cyclic dependencies.
 
-## AspNetCore Fixture Library (preview)
+## Advanced usage
+
+### Fixture factory internals
+
+### Advanced Fixture registration
+
+### Configuring Fixtures
+
+## Fixture List
+
+### Core Library
+
++ EnvironmentFixture
++ TmpDirectoryFixture
++ TmpScopeIdFixture
+
+### AspNetCore Fixture Library (Preview)
 
 + Start and stop the application via TestHost
 + Create an HttpClient for testing
-+ Access the application service provider in tests
-+ Modify Configuration/ServiceCollection before application start
++ Access the application's service provider in tests
++ Modify Configuration/ServiceCollection before the application starts
 + Generate unique database names for test isolation
 + Stub TimeProvider with FakeTimeProvider
 + Stub Random.Shared with FakeRandom
