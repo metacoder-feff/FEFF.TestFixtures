@@ -3,8 +3,8 @@
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=FEFF.TestFixtures)
 
-Replace setup/teardown methods with reusable **Fixtures**.
-Fixtures can depend on other ones. (!!!)
+✅ Replace setup/teardown methods and cumbersome "Disposable pattern" with reusable **Fixtures**.  
+✅ Fixtures can depend on other fixtures.
 
 ## Terminology and Goals
 
@@ -15,8 +15,9 @@ The **fixture** is a class containing three optional parts:
 + state;
 + teardown code in Dispose() or DisposeAsync().
 
-A **scope** of the fixtures defines a lifetime of those fixtures. For a scope, the fixture is created only once lazily on demand and destroyed at the end of the scope. If the fixture has Dispose() or DisposeAsync(), it is called.
-A list of **scopes** is defined by the test framework used. For **Xunit Integration** available scopes are:
+A **scope** of fixtures defines the lifetime of those fixtures. Within a scope, each fixture is created only once (lazily on demand) and destroyed at the end of the scope. If the fixture has Dispose() or DisposeAsync(), it is called.
+
+The available scopes are defined by the test framework used. For **Xunit Integration**, they are:
 
 | Scope name | Description |
 | --- | -- |
@@ -25,9 +26,9 @@ A list of **scopes** is defined by the test framework used. For **Xunit Integrat
 | collection | Fixtures are created and destroyed once for each [test collection](https://xunit.net/docs/running-tests-in-parallel#test-collections) |
 | assembly | Fixtures are created and destroyed once for a test assembly |
 
-Every request of the same fixture from the same scope results in the same fixture instance. Hence class-, collection- and assembly- **fixtures can share state** between all tests within the same scope.
+Every request for the same fixture within the same scope returns the same fixture instance. Therefore, class-, collection-, and assembly-level **fixtures can share state** between all tests within the same scope.
 
-## Getting started (Xunit)
+## Getting started (Xunit.V3)
 
 Add library reference to a test project:
 
@@ -74,16 +75,16 @@ public class ExampleTests
 }
 ```
 
-In this example a *TmpDir* is created once the fixture is requested at the test class constructor. The **scope** of the fixture in the example is '*test-case*'.
-The *TmpDir* with its content would be deleted automatically after the test finishes.\
-This example uses [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions)  for:  ```Should()```.\
+In this example, a *TmpDir* is created once the fixture is requested in the test class constructor. The **scope** of the fixture in this example is 'test-case'.
+The *TmpDir* and its contents are automatically deleted after the test finishes.\
+This example uses [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions) for ```Should()```.\
 Have a look at [source code for this example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.XunitV3/ExampleTests.cs).
 
 ## Advanced usage
 
 ### Defining other scopes for a fixture
 
-The scope of a fixture is defined by test creator using overloaded method:
+The scope of a fixture is defined by the test creator using an overloaded method:
 
 ``` csharp
 TestContext.Current.GetFeffFixture<T>(FixtureScopeType scopeType)
@@ -93,7 +94,7 @@ Also note that multiple instances of the fixture can exist in different scopes i
 
 ### Creating a fixture
 
-To create a fixture, user has to create a class with ```FixtureAttribute```. Let's look at sources of ```TmpDirectoryFixture``` we have used above.
+Create a class with the ```FixtureAttribute```. Let's look at sources of the ```TmpDirectoryFixture``` we used above.
 
 ``` csharp
 [Fixture]
@@ -154,5 +155,14 @@ public class ExampleTests
 
 Note:
 
-+ All fixture dependencies (```MyCustomFixture1``` & ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
++ All fixture dependencies (```MyCustomFixture1``` and ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
 + Fixtures can't have cyclic dependencies.
+
+## AspNetCore Fixture Library (preview)
+
++ Start/Stop application via TestHost and create HttpClient.
++ Use application service provider in the test context.
++ Edit application Configuration/ServiceCollection before starting the application.
++ Set unique (random) database name.
++ Stub TimeProvider by FakeTimeProvider.
++ Stub Random.Shared by FakeRandom.
