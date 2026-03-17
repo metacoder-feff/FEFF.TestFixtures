@@ -28,6 +28,9 @@ public class EnvironmentFixtureTest : XunitIntegratedFixtureTestBase
 
         f.Dispose();
 
+        f.InitialSnapshot.TryGetValue(k, out var initialStored);
+        initialStored.Should().Be(initial);
+
         // Assert
         GetEnv(k).Should().Be(initial);
     }

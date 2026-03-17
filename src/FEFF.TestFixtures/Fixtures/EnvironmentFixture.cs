@@ -21,7 +21,9 @@ public sealed class EnvironmentFixture : IDisposable
 
     //Disallow parallel env saving or restoring Process-wide
     private static volatile Env? __oldEnv;
-    
+
+    public Env InitialSnapshot { get; }
+
     public  EnvironmentFixture()
     {
         lock(__lockObj)
@@ -29,7 +31,9 @@ public sealed class EnvironmentFixture : IDisposable
             if (__oldEnv != null)
                 throw new InvalidOperationException($"Can't use {nameof(EnvironmentFixture)} in parallel tests. For Xunit consider using [Collection] attribute to all the test classes that will be part of a collection. Tests within the same collection run sequentially.");
                 
-            __oldEnv = EnvironmentHelper.GetEnvironmentVariables();
+            InitialSnapshot = EnvironmentHelper.GetEnvironmentVariables();
+
+            __oldEnv = InitialSnapshot;
         }
     }
 

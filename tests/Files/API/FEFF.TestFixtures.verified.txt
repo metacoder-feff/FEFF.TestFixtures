@@ -36,6 +36,7 @@ namespace FEFF.TestFixtures
     public sealed class EnvironmentFixture : System.IDisposable
     {
         public EnvironmentFixture() { }
+        public System.Collections.Frozen.FrozenDictionary<string, string> InitialSnapshot { get; }
         public void Dispose() { }
         public void SetEnvironmentVariable(string variable, string? value) { }
     }
