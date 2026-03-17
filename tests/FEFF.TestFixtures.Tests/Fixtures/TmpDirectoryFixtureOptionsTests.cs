@@ -10,18 +10,32 @@ public class TmpDirectoryFixtureOptionsTests : FixtureScopeTestBase
     // Use regular fuxture integration for EnvironmentFixture used here as a helper
     protected EnvironmentFixture Env {get;} = TestContext.Current.GetFeffFixture<EnvironmentFixture>();
 
-    // [Fact]
-    // public void prefix()
-    // {
-    //     Env.SetEnvironmentVariable("TmpDirectoryFixture__Prefix", "prefix");
-    //     // Force IConfiguration reread Env
-    //     var c = GetFixture<IConfiguration>() as IConfigurationRoot;
-    //     c!.Reload();
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Path__should_start_with_prefix(bool prefixExpected)
+    {
+        var prefix = "prefix-";
 
-    //     var f = GetFixture<TmpDirectoryFixture>();
+        if(prefixExpected)
+            Env.SetEnvironmentVariable("TmpDirectoryFixture__Prefix", prefix);
+        else
+            Env.SetEnvironmentVariable("TmpDirectoryFixture__Prefix", null);
 
-    //     f.Path.Should().Be("zzz");
-    // }
+        // Force IConfiguration reread Env
+        var c = GetFixture<IConfiguration>() as IConfigurationRoot;
+        c!.Reload();
+
+        var f = GetFixture<TmpDirectoryFixture>();
+
+        //f.Path.Should().Be("zzz");
+        var di = new DirectoryInfo(f.Path);
+
+        if(prefixExpected)
+            di.Name.Should().StartWith(prefix);
+        else
+            di.Name.Should().NotStartWith(prefix);
+    }
 
     [Theory]
     [InlineData("Skip"  , true , Label = "Skip")]
@@ -30,6 +44,9 @@ public class TmpDirectoryFixtureOptionsTests : FixtureScopeTestBase
     {
         // Arrange
         Env.SetEnvironmentVariable("TmpDirectoryFixture__DisposeType", env);
+        // Force IConfiguration reread Env
+        var c = GetFixture<IConfiguration>() as IConfigurationRoot;
+        c!.Reload();
 
         // Act
         var f = GetFixture<TmpDirectoryFixture>();
