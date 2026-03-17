@@ -94,7 +94,8 @@ Also note that multiple instances of the fixture can exist in different scopes i
 
 ### Creating a fixture
 
-Create a class with the ```FixtureAttribute```. Let's look at sources of the ```TmpDirectoryFixture``` we used above.
+Just create a class with the ```FixtureAttribute```.  
+Let's examine the source code for the ```TmpDirectoryFixture``` we used above.
 
 ``` csharp
 [Fixture]
@@ -160,9 +161,10 @@ Note:
 
 ## AspNetCore Fixture Library (preview)
 
-+ Start/Stop application via TestHost and create HttpClient.
-+ Use application service provider in the test context.
-+ Edit application Configuration/ServiceCollection before starting the application.
-+ Set unique (random) database name.
-+ Stub TimeProvider by FakeTimeProvider.
-+ Stub Random.Shared by FakeRandom.
++ Start and stop the application via TestHost
++ Create an HttpClient for testing
++ Access the application service provider in tests
++ Modify Configuration/ServiceCollection before application start
++ Generate unique database names for test isolation
++ Stub TimeProvider with FakeTimeProvider
++ Stub Random.Shared with FakeRandom
