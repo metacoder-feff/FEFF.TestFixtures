@@ -1,6 +1,6 @@
 # FEFF.TestFixtures
 
-![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.Xunit?label=FEFF.TestFixtures.Xunit)
+![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=FEFF.TestFixtures)
 
 Replace setup/teardown methods with reusable **Fixtures**.
