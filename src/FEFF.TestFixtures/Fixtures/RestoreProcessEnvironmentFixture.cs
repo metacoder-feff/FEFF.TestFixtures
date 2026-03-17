@@ -13,8 +13,11 @@ using Env = FrozenDictionary<string, string>;
 [Fixture]
 public sealed class RestoreProcessEnvironmentFixture : IDisposable
 {
-    private readonly static object __lockObj = new();
-    //private readonly static Lock __lockObj = new();
+#if NET9_0_OR_GREATER
+    private static readonly Lock __lockObj = new(); 
+#else
+    private static readonly Object __lockObj = new(); 
+#endif
 
     //Disallow parallel env saving or restoring Process-wide
     private static volatile Env? __oldEnv;
