@@ -1,6 +1,7 @@
 namespace FEFF.TestFixtures.Tests;
 
-public class RestoreProcessEnvironmentFixtureTest : XunitIntegratedFixtureTestBase
+[Collection("env-tests-run-sequentially")]
+public class EnvironmentFixtureTest : XunitIntegratedFixtureTestBase
 {
     private static string? GetEnv(string key)
     {
@@ -20,7 +21,7 @@ public class RestoreProcessEnvironmentFixtureTest : XunitIntegratedFixtureTestBa
         GetEnv(k).Should().Be(initial);
 
         // Act
-        using var f = GetFixture<RestoreProcessEnvironmentFixture>();
+        var f = GetFixture<EnvironmentFixture>();
 
         Environment.SetEnvironmentVariable(k, modified);
         GetEnv(k).Should().Be(modified);
@@ -29,5 +30,14 @@ public class RestoreProcessEnvironmentFixtureTest : XunitIntegratedFixtureTestBa
 
         // Assert
         GetEnv(k).Should().Be(initial);
+    }
+
+    [Fact]
+    public void Double_dispose__should_not_throw()
+    {
+        var f = GetFixture<EnvironmentFixture>();
+
+        f.Dispose();
+        f.Dispose();
     }
 }

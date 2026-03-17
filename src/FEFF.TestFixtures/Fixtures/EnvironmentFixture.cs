@@ -11,7 +11,7 @@ using Env = FrozenDictionary<string, string>;
 /// Tests within the same collection run sequentially.
 /// </summary>
 [Fixture]
-public sealed class RestoreProcessEnvironmentFixture : IDisposable
+public sealed class EnvironmentFixture : IDisposable
 {
 #if NET9_0_OR_GREATER
     private static readonly Lock __lockObj = new(); 
@@ -22,16 +22,27 @@ public sealed class RestoreProcessEnvironmentFixture : IDisposable
     //Disallow parallel env saving or restoring Process-wide
     private static volatile Env? __oldEnv;
     
-    public  RestoreProcessEnvironmentFixture()
+    public  EnvironmentFixture()
     {
         lock(__lockObj)
         {
             if (__oldEnv != null)
-                throw new InvalidOperationException($"Can't use {nameof(RestoreProcessEnvironmentFixture)} in parallel tests. For Xunit consider using [Collection] attribute to all the test classes that will be part of a collection. Tests within the same collection run sequentially.");
+                throw new InvalidOperationException($"Can't use {nameof(EnvironmentFixture)} in parallel tests. For Xunit consider using [Collection] attribute to all the test classes that will be part of a collection. Tests within the same collection run sequentially.");
                 
             __oldEnv = EnvironmentHelper.GetEnvironmentVariables();
         }
     }
+
+    /// <summary>
+    /// Same as <see cref="Environment.SetEnvironmentVariable"/>.<br/>
+    /// This method is used not to forget to instantiate <see cref="EnvironmentFixture"/>.
+    /// </summary>
+#pragma warning disable CA1822 // Mark members as static
+    public void SetEnvironmentVariable(string variable, string? value)
+    {
+        Environment.SetEnvironmentVariable(variable, value);
+    }
+#pragma warning restore CA1822 // Mark members as static
 
     public void Dispose()
     {

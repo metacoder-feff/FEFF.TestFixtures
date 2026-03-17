@@ -32,6 +32,13 @@ namespace FEFF.TestFixtures.Core
 }
 namespace FEFF.TestFixtures
 {
+    [FEFF.TestFixtures.Fixture]
+    public sealed class EnvironmentFixture : System.IDisposable
+    {
+        public EnvironmentFixture() { }
+        public void Dispose() { }
+        public void SetEnvironmentVariable(string variable, string? value) { }
+    }
     [System.AttributeUsage(System.AttributeTargets.Class)]
     public class FixtureAttribute : System.Attribute
     {
@@ -41,12 +48,6 @@ namespace FEFF.TestFixtures
     public interface IFixureRegistrator
     {
         void RegisterFixture(Microsoft.Extensions.DependencyInjection.IServiceCollection services);
-    }
-    [FEFF.TestFixtures.Fixture]
-    public sealed class RestoreProcessEnvironmentFixture : System.IDisposable
-    {
-        public RestoreProcessEnvironmentFixture() { }
-        public void Dispose() { }
     }
     [FEFF.TestFixtures.Fixture]
     public sealed class TmpDirectoryFixture : FEFF.TestFixtures.IFixureRegistrator, System.IDisposable
