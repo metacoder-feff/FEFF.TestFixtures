@@ -1,0 +1,33 @@
+namespace FEFF.TestFixtures.Tests;
+
+public class RestoreProcessEnvironmentFixtureTest : XunitIntegratedFixtureTestBase
+{
+    private static string? GetEnv(string key)
+    {
+        return Environment.GetEnvironmentVariable(key);
+    }
+
+    [Theory]
+    [InlineData(null     , "123", Label = "when_added")]
+    [InlineData("default", "123", Label = "when_modified")]
+    [InlineData("default", null , Label = "when_removed")]
+    public void Env__after_dispose__should_be_restored(string? initial, string? modified)
+    {
+        // Arrange
+        var k = $"new_key_{Guid.NewGuid()}";
+
+        Environment.SetEnvironmentVariable(k, initial);
+        GetEnv(k).Should().Be(initial);
+
+        // Act
+        using var f = GetFixture<RestoreProcessEnvironmentFixture>();
+
+        Environment.SetEnvironmentVariable(k, modified);
+        GetEnv(k).Should().Be(modified);
+
+        f.Dispose();
+
+        // Assert
+        GetEnv(k).Should().Be(initial);
+    }
+}

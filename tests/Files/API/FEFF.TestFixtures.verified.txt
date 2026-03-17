@@ -43,6 +43,12 @@ namespace FEFF.TestFixtures
         void RegisterFixture(Microsoft.Extensions.DependencyInjection.IServiceCollection services);
     }
     [FEFF.TestFixtures.Fixture]
+    public sealed class RestoreProcessEnvironmentFixture : System.IDisposable
+    {
+        public RestoreProcessEnvironmentFixture() { }
+        public void Dispose() { }
+    }
+    [FEFF.TestFixtures.Fixture]
     public sealed class TmpDirectoryFixture : FEFF.TestFixtures.IFixureRegistrator, System.IDisposable
     {
         public TmpDirectoryFixture(Microsoft.Extensions.Options.IOptions<FEFF.TestFixtures.TmpDirectoryFixture.Options> opts) { }
