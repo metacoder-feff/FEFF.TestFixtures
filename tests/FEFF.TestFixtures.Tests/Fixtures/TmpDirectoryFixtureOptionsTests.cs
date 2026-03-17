@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace FEFF.TestFixtures.Tests;
 
-[Collection("env-tests-run-sequentially")]
+[Collection(EnvironmentCollection)]
 // FixtureScopeTestBase - use new ServiceProvider for each test of 'TmpDirectory'
 public class TmpDirectoryFixtureOptionsTests : FixtureScopeTestBase
 {

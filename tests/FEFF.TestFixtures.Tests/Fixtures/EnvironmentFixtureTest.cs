@@ -1,6 +1,6 @@
 namespace FEFF.TestFixtures.Tests;
 
-[Collection("env-tests-run-sequentially")]
+[Collection(EnvironmentCollection)]
 public class EnvironmentFixtureTest : XunitIntegratedFixtureTestBase
 {
     private static string? GetEnv(string key)
