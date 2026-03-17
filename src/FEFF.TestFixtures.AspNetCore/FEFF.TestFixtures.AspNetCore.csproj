@@ -6,13 +6,16 @@
   <PropertyGroup>
     <OutputType>library</OutputType><!-- for Microsoft.NET.Sdk.Web -->
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <!--
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    -->
 
-    <!-- Tweaks -->
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- NUGET -->
+    <IsPackable>true</IsPackable><!-- for Microsoft.NET.Sdk.Web -->
+    <VersionSuffix>alpha</VersionSuffix>
+    <PackageId>FEFF.TestFixtures.AspNetCore</PackageId>
+    <Description>A library of fuxtures used to test AspNetCore appications.</Description>
+    <PackageTags>testing;fixtures;AspNetCore</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
