@@ -13,13 +13,13 @@ namespace FEFF.TestFixtures.Core
     }
     public sealed class FixtureScopeFactory : System.IAsyncDisposable
     {
-        public FixtureScopeFactory() { }
+        public FixtureScopeFactory(System.Collections.Generic.Dictionary<string, string?>? additionalConfiguration = null) { }
         public FEFF.TestFixtures.Core.FixtureScope CreateScope() { }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
     }
     public sealed class FixtureScopeManager : System.IAsyncDisposable
     {
-        public FixtureScopeManager() { }
+        public FixtureScopeManager(System.Collections.Generic.Dictionary<string, string?>? additionalConfiguration = null) { }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
         public FEFF.TestFixtures.Core.FixtureScope GetScope(string id) { }
         public System.Threading.Tasks.ValueTask RemoveScopeAsync(string scopeId) { }

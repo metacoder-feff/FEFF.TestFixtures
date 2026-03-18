@@ -1,12 +1,7 @@
 namespace FEFF.TestFixtures.Tests;
 using Core;
 
-/// <summary>
-/// A base class for tests with basic XUnit Test Teardown via IAsyncDisposable
-/// </summary>
-/// <remarks>
-/// Do not use fixtures to test fixtures here
-/// <remarks/>
+//TODO: use fuxture instead of base class
 public class FixtureTestBase : IAsyncDisposable
 {
     //----------------------------------------------
@@ -22,9 +17,11 @@ public class FixtureTestBase : IAsyncDisposable
     protected FixtureScopeManager FixtureManager { get; }
     protected FixtureScope Scope { get; }
 
+    private readonly Dictionary<string, string?> __additionalConfiguration = new();
+
     public FixtureTestBase()
     {
-        FixtureManager = new FixtureScopeManager();
+        FixtureManager = new FixtureScopeManager(__additionalConfiguration);
         Scope = FixtureManager.GetScope("testing-scope-1");
     }
 
@@ -37,5 +34,24 @@ public class FixtureTestBase : IAsyncDisposable
     protected async virtual ValueTask DisposeAsyncCore()
     {
         await FixtureManager.DisposeAsync().ConfigureAwait(false);;
+    }
+
+    /// <summary>
+    /// Add Settings to configuration in 'env' format:<br/>
+    /// Seactions are separated by '__' - double inderscore.
+    /// </summary>
+    protected void UseSettingEnv(string name, string? value)
+    {
+        var n = name.Replace("__", ":");
+        UseSetting(n, value);
+    }
+
+    /// <summary>
+    /// Add Settings to configuration in default format:<br/>
+    /// Seactions are separated by ':' - colon.
+    /// </summary>
+    protected void UseSetting(string name, string? value)
+    {
+        __additionalConfiguration[name] = value;
     }
 }

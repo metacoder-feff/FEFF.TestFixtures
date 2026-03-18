@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace FEFF.TestFixtures.Core;
 
@@ -13,8 +14,6 @@ internal static class FixtureCollector
     {
         var services = new ServiceCollection();
 
-        AddBaseServices(services);
-
         foreach(var t in GetAllLoadedTypes())
         {
             services.TryAddFixture(t);
@@ -24,18 +23,33 @@ internal static class FixtureCollector
         return services;
     }
 
-    private static void AddBaseServices(ServiceCollection services)
+    internal static IServiceCollection AddConfiguration(this IServiceCollection services, Dictionary<string, string?>? additional)
     {
-        var configuration = new ConfigurationBuilder()
-            // .SetBasePath(Directory.GetCurrentDirectory())
-            // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddEnvironmentVariables()
-            .Build();
+        // .SetBasePath(Directory.GetCurrentDirectory())
+        // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        //     ;
 
-        services.AddSingleton<IConfiguration>(configuration);
+        services.Configure<ConfigurationBuilder>(b => b
+            .AddEnvironmentVariables()
+        );
+
+        if(additional != null)
+        {
+            services.Configure<ConfigurationBuilder>(b => b
+                .AddInMemoryCollection(additional)
+            );
+        }
+
+        services.AddSingleton<IConfiguration>((sp) => sp
+            .GetRequiredService<IOptions<ConfigurationBuilder>>()
+            .Value
+            .Build()
+        );
+
+        return services;
     }
 
-//TODO: optimize?  
+    //TODO: optimize?  
     private static IEnumerable<Type> GetAllLoadedTypes() =>
         AppDomain.CurrentDomain
             .GetAssemblies()
