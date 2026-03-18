@@ -1,9 +1,9 @@
 # Commands
 
 ``` bash
-dotnet pack
+_DevOps/local-dev/pack.sh
 ```
 
 ``` bash
-dotnet nuget push Contoso.08.28.22.001.Test.1.0.0.nupkg --api-key <...> --source https://api.nuget.org/v3/index.json
+dotnet nuget push "./nupkgs/*.nupkg" --api-key <> --source https://api.nuget.org/v3/index.json
 ```

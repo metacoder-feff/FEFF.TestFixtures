@@ -1,14 +1,21 @@
 namespace FEFF.TestFixtures.Tests;
 using Core;
 
-//TODO: provider disposed (singletones)
-public class FixtureScopeManagerTests
+/// <remarks>
+/// Do not use TestFixtures to test <see cref="FixtureScopeManager"/> here 
+/// because error in <see cref="FixtureScopeManager"/> or integration would fail everything
+/// <remarks/>
+public sealed class FixtureScopeManagerTests : IAsyncDisposable 
 {
+    private readonly FixtureScopeManager manager = new();
+    public ValueTask DisposeAsync()
+    {
+        return manager.DisposeAsync();
+    }
+
     [Fact]
     public async Task FixtureScopes__should_be_cached()
     {
-        await using var manager = new FixtureScopeManager();
-
         var sc1 = manager.GetScope("test-1");
         var sc2 = manager.GetScope("test-1");
 
@@ -18,8 +25,6 @@ public class FixtureScopeManagerTests
     [Fact]
     public async Task FixtureScopes__should_be_distinct()
     {
-        await using var manager = new FixtureScopeManager();
-
         var sc1 = manager.GetScope("test-1");
         var sc2 = manager.GetScope("test-2");
 
@@ -29,8 +34,6 @@ public class FixtureScopeManagerTests
     [Fact]
     public async Task Dispose__should_dispose_nested_scope()
     {
-        var manager = new FixtureScopeManager();
-
         var sc1 = manager.GetScope("test-1");
 
         var f = sc1.GetFixture<DisposableFixture>();
@@ -46,8 +49,6 @@ public class FixtureScopeManagerTests
     [Fact]
     public async Task Dispose__with_exeception__should_not_prevent_other_scopes_from_being_disposed()
     {
-        var manager = new FixtureScopeManager();
-
         // scopes would be disposed in same/reverse order
         var f1 = manager.GetScope("test-1").GetFixture<DisposableFixture>();
         _ = manager.GetScope("test-2").GetFixture<ErrorDisposableFixture>();
@@ -64,7 +65,6 @@ public class FixtureScopeManagerTests
     [Fact]
     public async Task Dispose__with_MULTIPLE_execeptions__should_throw_AggregateException()
     {
-        var manager = new FixtureScopeManager();
         _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
         _ = manager.GetScope("test-2").GetFixture<ErrorDisposableFixture>();
 
@@ -82,7 +82,6 @@ public class FixtureScopeManagerTests
     [Fact]
     public async Task Dispose__with_SINGLE_exeception__should_throw_InvalidOperationException()
     {
-        var manager = new FixtureScopeManager();
         _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
 
         var act = () => manager.DisposeAsync().AsTask();

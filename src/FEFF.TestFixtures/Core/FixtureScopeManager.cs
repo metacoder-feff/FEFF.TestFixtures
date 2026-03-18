@@ -11,7 +11,7 @@ public interface IFixtureScope
 /// </summary>
 public sealed class FixtureScopeManager : IAsyncDisposable
 {
-    private readonly FixtureScopeFactory _provider = new();
+    private readonly FixtureScopeFactory _factory;
     private readonly Dictionary<string, FixtureScope> _scopes = [];
 
 #if NET9_0_OR_GREATER
@@ -20,7 +20,12 @@ public sealed class FixtureScopeManager : IAsyncDisposable
     private readonly Object _lock = new(); 
 #endif
     private bool _isDisposed;
-    
+
+    public FixtureScopeManager(Dictionary<string, string?>? additionalConfiguration = null)
+    {
+        _factory = new(additionalConfiguration);
+    }
+
     public FixtureScope GetScope(string id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
@@ -35,7 +40,7 @@ public sealed class FixtureScopeManager : IAsyncDisposable
             if(_scopes.ContainsKey(id))
                 return _scopes[id];
 
-            var res = _provider.CreateScope();
+            var res = _factory.CreateScope();
             _scopes[id] = res;
             return res; 
         }
@@ -51,7 +56,7 @@ public sealed class FixtureScopeManager : IAsyncDisposable
             disposables.AddRange(_scopes.Values);
         }
 
-        disposables.Add(_provider);
+        disposables.Add(_factory);
 
         return DisposeHelper.DisposeAsync(disposables);
     }

@@ -1,16 +1,16 @@
 namespace FEFF.TestFixtures.Tests;
 
-public class DisposableFixtureTests : FixtureScopeTestBase
+public class DisposableFixtureTests : FixtureTestBase
 {
     [Fact]
     public async Task DisposableFixture__after_scope_ends__should_be_disposed()
     {
         // Arrange
-        var f1 = GetFixture<DisposableFixture>();
+        var f1 = Helper.GetFixture<DisposableFixture>();
         f1.IsDisposed.Should().BeFalse();
 
         // Act
-        await Scope.DisposeAsync();
+        await Helper.Scope.DisposeAsync();
         
         // Assert
         f1.IsDisposed.Should().BeTrue();
@@ -20,11 +20,11 @@ public class DisposableFixtureTests : FixtureScopeTestBase
     public async Task AsyncDisposableFixture__after_scope_ends__should_be_disposed()
     {
         // Arrange
-        var f1 = GetFixture<AsyncDisposableFixture>();
+        var f1 = Helper.GetFixture<AsyncDisposableFixture>();
         f1.IsDisposed.Should().BeFalse();
 
         // Act
-        await Scope.DisposeAsync();
+        await Helper.Scope.DisposeAsync();
         
         // Assert
         f1.IsDisposed.Should().BeTrue();
@@ -34,12 +34,12 @@ public class DisposableFixtureTests : FixtureScopeTestBase
     public async Task BothDisposableFixture__after_scope_ends__should_be_disposed__ASYNC_ONLY()
     {
         // Arrange
-        var f1 = GetFixture<BothDisposableFixture>();
+        var f1 = Helper.GetFixture<BothDisposableFixture>();
         f1.IsDisposedSync.Should().BeFalse();
         f1.IsDisposedAsync.Should().BeFalse();
 
         // Act
-        await Scope.DisposeAsync();
+        await Helper.Scope.DisposeAsync();
         
         // Assert
         f1.IsDisposedSync.Should().BeFalse();       // Only DisposeAsync has been called
@@ -54,11 +54,11 @@ public class DisposableFixtureTests : FixtureScopeTestBase
         //https://github.com/dotnet/runtime/pull/123342
 
         // fixtures would be disposed in same/reverse order
-        var f1 = GetFixture<DisposableFixture>();
-        _ = GetFixture<ErrorDisposableFixture>();
-        var f2 = GetFixture<AsyncDisposableFixture>();
+        var f1 = Helper.GetFixture<DisposableFixture>();
+        _ = Helper.GetFixture<ErrorDisposableFixture>();
+        var f2 = Helper.GetFixture<AsyncDisposableFixture>();
 
-        var act = () => Scope.DisposeAsync().AsTask();
+        var act = () => Helper.Scope.DisposeAsync().AsTask();
         await act.Should().ThrowExactlyAsync<InvalidOperationException>();
 
         // assert previous and next

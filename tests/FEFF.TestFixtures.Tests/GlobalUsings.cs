@@ -6,3 +6,5 @@ global using System.Net;
 
 // global using NodaTime;
 global using FEFF.Extentions;
+
+global using static FEFF.TestFixtures.Tests.Consts;

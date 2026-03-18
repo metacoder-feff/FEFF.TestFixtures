@@ -13,13 +13,13 @@ namespace FEFF.TestFixtures.Core
     }
     public sealed class FixtureScopeFactory : System.IAsyncDisposable
     {
-        public FixtureScopeFactory() { }
+        public FixtureScopeFactory(System.Collections.Generic.Dictionary<string, string?>? additionalConfiguration = null) { }
         public FEFF.TestFixtures.Core.FixtureScope CreateScope() { }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
     }
     public sealed class FixtureScopeManager : System.IAsyncDisposable
     {
-        public FixtureScopeManager() { }
+        public FixtureScopeManager(System.Collections.Generic.Dictionary<string, string?>? additionalConfiguration = null) { }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
         public FEFF.TestFixtures.Core.FixtureScope GetScope(string id) { }
         public System.Threading.Tasks.ValueTask RemoveScopeAsync(string scopeId) { }
@@ -32,18 +32,42 @@ namespace FEFF.TestFixtures.Core
 }
 namespace FEFF.TestFixtures
 {
+    [FEFF.TestFixtures.Fixture]
+    public sealed class EnvironmentFixture : System.IDisposable
+    {
+        public EnvironmentFixture() { }
+        public System.Collections.Frozen.FrozenDictionary<string, string> InitialSnapshot { get; }
+        public void Dispose() { }
+        public void SetEnvironmentVariable(string variable, string? value) { }
+    }
     [System.AttributeUsage(System.AttributeTargets.Class)]
     public class FixtureAttribute : System.Attribute
     {
         public FixtureAttribute() { }
         public System.Type? RegisterWithType { get; set; }
     }
-    [FEFF.TestFixtures.Fixture]
-    public sealed class TmpDirectoryFixture : System.IDisposable
+    public interface IFixureRegistrator
     {
-        public TmpDirectoryFixture() { }
+        void RegisterFixture(Microsoft.Extensions.DependencyInjection.IServiceCollection services);
+    }
+    [FEFF.TestFixtures.Fixture]
+    public sealed class TmpDirectoryFixture : FEFF.TestFixtures.IFixureRegistrator, System.IDisposable
+    {
+        public TmpDirectoryFixture(Microsoft.Extensions.Options.IOptions<FEFF.TestFixtures.TmpDirectoryFixture.Options> opts) { }
         public string Path { get; }
         public void Dispose() { }
+        public static void RegisterFixture(Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
+        public enum DisposeType
+        {
+            Delete = 0,
+            Skip = 1,
+        }
+        public class Options
+        {
+            public Options() { }
+            public FEFF.TestFixtures.TmpDirectoryFixture.DisposeType DisposeType { get; set; }
+            public string? Prefix { get; set; }
+        }
     }
     [FEFF.TestFixtures.Fixture]
     public class TmpScopeIdFixture
