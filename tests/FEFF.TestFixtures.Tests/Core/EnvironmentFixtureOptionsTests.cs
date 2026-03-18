@@ -21,11 +21,11 @@ public class EnvironmentFixtureOptionsTests : FixtureTestBase
         // Arrange
         Env.SetEnvironmentVariable("FixtureWithOptions__Prefix", value);
         // Force IConfiguration reread Env
-        var c = GetFixture<IConfiguration>() as IConfigurationRoot;
+        var c = Helper.GetFixture<IConfiguration>() as IConfigurationRoot;
         c!.Reload();
 
         // Act
-        var f = GetFixture<FixtureWithOptions>();
+        var f = Helper.GetFixture<FixtureWithOptions>();
 
         // Assert
         f.Prefix.Should().Be(value);

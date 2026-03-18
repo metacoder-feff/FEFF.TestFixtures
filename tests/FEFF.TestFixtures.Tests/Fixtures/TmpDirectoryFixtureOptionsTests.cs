@@ -11,12 +11,12 @@ public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
         var prefix = "prefix-";
 
         if(prefixExpected)
-            UseSettingEnv("TmpDirectoryFixture__Prefix", prefix);
+            Helper.UseSettingEnv("TmpDirectoryFixture__Prefix", prefix);
         else
-            UseSettingEnv("TmpDirectoryFixture__Prefix", null);
+            Helper.UseSettingEnv("TmpDirectoryFixture__Prefix", null);
 
         // Act: first access to IConfiguration must be after UseSetting
-        var f = GetFixture<TmpDirectoryFixture>();
+        var f = Helper.GetFixture<TmpDirectoryFixture>();
 
         // ssert
         var di = new DirectoryInfo(f.Path);
@@ -32,10 +32,10 @@ public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
     public void Directory__after_dispose__should_exist__when_option(string env, bool expected)
     {
         // Arrange
-        UseSettingEnv("TmpDirectoryFixture__DisposeType", env);
+        Helper.UseSettingEnv("TmpDirectoryFixture__DisposeType", env);
 
         // Act: first access to IConfiguration must be after UseSetting
-        var f = GetFixture<TmpDirectoryFixture>();
+        var f = Helper.GetFixture<TmpDirectoryFixture>();
         Directory.Exists(f.Path).Should().BeTrue();
         f.Dispose();
 

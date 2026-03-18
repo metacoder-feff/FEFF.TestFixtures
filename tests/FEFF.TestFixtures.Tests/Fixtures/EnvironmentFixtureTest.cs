@@ -21,7 +21,7 @@ public class EnvironmentFixtureTest : FixtureTestBase
         GetEnv(k).Should().Be(initial);
 
         // Act
-        var f = GetFixture<EnvironmentFixture>();
+        var f = Helper.GetFixture<EnvironmentFixture>();
 
         Environment.SetEnvironmentVariable(k, modified);
         GetEnv(k).Should().Be(modified);
@@ -38,7 +38,7 @@ public class EnvironmentFixtureTest : FixtureTestBase
     [Fact]
     public void Double_dispose__should_not_throw()
     {
-        var f = GetFixture<EnvironmentFixture>();
+        var f = Helper.GetFixture<EnvironmentFixture>();
 
         f.Dispose();
         f.Dispose();

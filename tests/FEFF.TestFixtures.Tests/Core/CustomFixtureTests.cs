@@ -6,11 +6,11 @@ public class CustomFixtureTests : FixtureTestBase
     public void Fixture__with_interface__should_be_registered_twice()
     {
         // registration by implemetation type
-        CustomFixtureWithInterface f1 = GetFixture<CustomFixtureWithInterface>();
+        CustomFixtureWithInterface f1 = Helper.GetFixture<CustomFixtureWithInterface>();
         f1.Value.Should().Be("world");
 
         // registration by RegisterWithType
-        ICustomFixtureInterface f2 = GetFixture<ICustomFixtureInterface>();
+        ICustomFixtureInterface f2 = Helper.GetFixture<ICustomFixtureInterface>();
         f2.Value.Should().Be("world");
 
         // both points to same instance
@@ -20,7 +20,7 @@ public class CustomFixtureTests : FixtureTestBase
     [Fact]
     public void Fixture__with_dependencies__should_be_registered_and_returned()
     {
-        var f = GetFixture<CustomFixtureWithDeps>();
+        var f = Helper.GetFixture<CustomFixtureWithDeps>();
         f.F1.Value.Should().Be("hello");
         f.F2.Value.Should().Be("world");
         f.F2.Should().BeOfType<CustomFixtureWithInterface>();
