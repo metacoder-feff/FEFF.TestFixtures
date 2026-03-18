@@ -2,14 +2,21 @@ using System.Text;
 
 namespace FEFF.TestFixtures.Tests;
 
-public class TmpDirectoryFixtureTests : XunitIntegratedFixtureTestBase
+public class TmpDirectoryFixtureTests : FixtureScopeTestBase
 {
-    private readonly TmpDirectoryFixture _f = GetFixture<TmpDirectoryFixture>();
+    private readonly TmpDirectoryFixture _f;
+
+    public TmpDirectoryFixtureTests()
+    {
+        _f = GetFixture<TmpDirectoryFixture>();
+    }
 
     [Fact]
-    public void Path__should_be_unique()
+    public async Task Path__should_be_unique()
     {
-        var f2 = GetFixture<TmpDirectoryFixture>(Xunit.FixtureScopeType.Assembly);
+        //var f2 =  GetFixture<TmpDirectoryFixture>(Xunit.FixtureScopeType.Assembly);
+        await using var scope2 = Factory.CreateScope();
+        var f2 = scope2.GetFixture<TmpDirectoryFixture>();
 
         _f.Path.Should().NotBe(f2.Path);
     }

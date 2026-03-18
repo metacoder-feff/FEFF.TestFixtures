@@ -1,7 +1,7 @@
 namespace FEFF.TestFixtures.Tests;
 
 [Collection(EnvironmentCollection)]
-public class EnvironmentFixtureTest : XunitIntegratedFixtureTestBase
+public class EnvironmentFixtureTest : FixtureScopeTestBase
 {
     private static string? GetEnv(string key)
     {
