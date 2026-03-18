@@ -69,9 +69,10 @@ internal static class FixtureCollector
         if (attribute.RegisterWithType is null)
             return;
 
-//TODO: analizer
-        if(attribute.RegisterWithType.IsAssignableFrom(t) == false)
-            throw new InvalidOperationException($"The implementation type'{t}' should be a subtype or implement {nameof(FixtureAttribute.RegisterWithType)} '{attribute.RegisterWithType}'.");
+//TODO: add analizer
+        // better to throw InvalidCastException when trying to resolve 'RegisterWithType'
+        // if(attribute.RegisterWithType.IsAssignableFrom(t) == false)
+        //     throw new InvalidOperationException($"The implementation type'{t}' should be a subtype or implement {nameof(FixtureAttribute.RegisterWithType)} '{attribute.RegisterWithType}'.");
 
         services.AddScoped(attribute.RegisterWithType, sp => sp.GetRequiredService(t));
     }

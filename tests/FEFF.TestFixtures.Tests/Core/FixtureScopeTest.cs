@@ -2,8 +2,6 @@ using FEFF.TestFixtures.Core;
 
 namespace FEFF.TestFixtures.Tests;
 
-//TODO: test RegisterWithType registration error
-
 /// <remarks>
 /// Do not use TestFixtures to test <see cref="FixtureScope"/> here 
 /// because error in <see cref="FixtureScope"/> or integration would fail everything

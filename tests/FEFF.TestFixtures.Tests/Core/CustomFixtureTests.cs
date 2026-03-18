@@ -16,6 +16,14 @@ public class CustomFixtureTests : FixtureTestBase
         // both points to same instance
         f2.Should().Be(f1);
     }
+
+    [Fact]
+    public void GetFixture__with_error_interface__should_throw()
+    {
+        var act = () => _= Helper.GetFixture<IDataAttribute>();
+
+        act.Should().ThrowExactly<InvalidCastException>();
+    }
     
     [Fact]
     public void Fixture__with_dependencies__should_be_registered_and_returned()
@@ -43,3 +51,10 @@ internal record CustomFixtureWithDeps(
     CustomFixture F1,
     ICustomFixtureInterface F2 // this interface is already registered by 'CustomFixtureWithInterface'
 );
+
+// fixture with invalid RegisterWithType
+[Fixture(RegisterWithType = typeof(IDataAttribute))]
+internal class ErrorFixtureWithInterface
+{
+    public string Value { get; } = "world";
+}
