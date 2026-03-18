@@ -1,12 +1,14 @@
 namespace FEFF.TestFixtures.Tests;
 
-public class TmpScopeIdFixtureTests //: FixtureScopeTestBase
+public class TmpScopeIdFixtureTests : FixtureTestBase
 {
     [Fact]
     public void Value__should_be_unique()
     {
-        var f1 = TestContext.Current.GetFeffFixture<TmpScopeIdFixture>();
-        var f2 = TestContext.Current.GetFeffFixture<TmpScopeIdFixture>(Xunit.FixtureScopeType.Assembly);
+        var f1 = GetFixture<TmpScopeIdFixture>();
+
+        var scope2 = FixtureManager.GetScope("testing-scope-2");
+        var f2 = scope2.GetFixture<TmpScopeIdFixture>();
 
         f1.Value.Should().NotBe(f2.Value);
     }

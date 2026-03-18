@@ -1,9 +1,32 @@
+using FEFF.TestFixtures.Core;
+
 namespace FEFF.TestFixtures.Tests;
 
 //TODO: test RegisterWithType registration error
 
-public class FixtureScopeTest : FixtureScopeTestBase
+public sealed class FixtureScopeTest : IAsyncDisposable
 {
+    private T GetFixture<T>()
+    where T : notnull
+    {
+        return Scope.GetFixture<T>();
+    }
+
+    private readonly FixtureScopeFactory Factory;
+    private readonly FixtureScope Scope;
+
+    public FixtureScopeTest()
+    {
+        Factory = new FixtureScopeFactory();
+        Scope = Factory.CreateScope();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await Scope.DisposeAsync().ConfigureAwait(false);;
+        await Factory.DisposeAsync().ConfigureAwait(false);;
+    }
+
     [Fact]
     public void Fixture__should_be_registered_and_returned()
     {

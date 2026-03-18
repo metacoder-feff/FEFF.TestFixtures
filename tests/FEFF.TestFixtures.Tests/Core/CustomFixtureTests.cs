@@ -1,6 +1,6 @@
 namespace FEFF.TestFixtures.Tests;
 
-public class CustomFixtureTests : FixtureScopeTestBase
+public class CustomFixtureTests : FixtureTestBase
 {
     [Fact]
     public void Fixture__with_interface__should_be_registered_twice()

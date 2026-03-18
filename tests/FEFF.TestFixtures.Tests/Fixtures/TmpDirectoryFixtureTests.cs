@@ -2,7 +2,7 @@ using System.Text;
 
 namespace FEFF.TestFixtures.Tests;
 
-public class TmpDirectoryFixtureTests : FixtureScopeTestBase
+public class TmpDirectoryFixtureTests : FixtureTestBase
 {
     private readonly TmpDirectoryFixture _f;
 
@@ -12,10 +12,9 @@ public class TmpDirectoryFixtureTests : FixtureScopeTestBase
     }
 
     [Fact]
-    public async Task Path__should_be_unique()
+    public void Path__should_be_unique()
     {
-        //var f2 =  GetFixture<TmpDirectoryFixture>(Xunit.FixtureScopeType.Assembly);
-        await using var scope2 = Factory.CreateScope();
+        var scope2 = FixtureManager.GetScope("testing-scope-2");
         var f2 = scope2.GetFixture<TmpDirectoryFixture>();
 
         _f.Path.Should().NotBe(f2.Path);

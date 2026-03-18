@@ -1,6 +1,6 @@
 namespace FEFF.TestFixtures.Tests;
 
-public class DisposableFixtureTests : FixtureScopeTestBase
+public class DisposableFixtureTests : FixtureTestBase
 {
     [Fact]
     public async Task DisposableFixture__after_scope_ends__should_be_disposed()

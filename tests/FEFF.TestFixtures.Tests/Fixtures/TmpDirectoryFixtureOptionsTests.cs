@@ -4,7 +4,7 @@ namespace FEFF.TestFixtures.Tests;
 
 [Collection(EnvironmentCollection)]
 // FixtureScopeTestBase - use new ServiceProvider for each test of 'TmpDirectory'
-public class TmpDirectoryFixtureOptionsTests : FixtureScopeTestBase
+public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
 {
     // Auto restore ENV after test
     // Use regular fuxture integration for EnvironmentFixture used here as a helper

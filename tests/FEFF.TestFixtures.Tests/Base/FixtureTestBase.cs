@@ -4,7 +4,10 @@ using Core;
 /// <summary>
 /// A base class for tests with basic XUnit Test Teardown via IAsyncDisposable
 /// </summary>
-public class FixtureScopeTestBase : IAsyncDisposable
+/// <remarks>
+/// Do not use fixtures to test fixtures here
+/// <remarks/>
+public class FixtureTestBase : IAsyncDisposable
 {
     //----------------------------------------------
     /// <summary>
@@ -16,13 +19,13 @@ public class FixtureScopeTestBase : IAsyncDisposable
         return Scope.GetFixture<T>();
     }
 
-    protected FixtureScopeFactory Factory;
-    protected FixtureScope Scope;
+    protected FixtureScopeManager FixtureManager { get; }
+    protected FixtureScope Scope { get; }
 
-    public FixtureScopeTestBase()
+    public FixtureTestBase()
     {
-        Factory = new FixtureScopeFactory();
-        Scope = Factory.CreateScope();
+        FixtureManager = new FixtureScopeManager();
+        Scope = FixtureManager.GetScope("testing-scope-1");
     }
 
     public async ValueTask DisposeAsync()
@@ -33,7 +36,6 @@ public class FixtureScopeTestBase : IAsyncDisposable
     
     protected async virtual ValueTask DisposeAsyncCore()
     {
-        await Scope.DisposeAsync().ConfigureAwait(false);;
-        await Factory.DisposeAsync().ConfigureAwait(false);;
+        await FixtureManager.DisposeAsync().ConfigureAwait(false);;
     }
 }
