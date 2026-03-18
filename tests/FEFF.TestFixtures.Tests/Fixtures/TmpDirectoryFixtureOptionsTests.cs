@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Configuration;
-
 namespace FEFF.TestFixtures.Tests;
 
 public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
@@ -17,7 +15,7 @@ public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
         else
             UseSettingEnv("TmpDirectoryFixture__Prefix", null);
 
-        // Act
+        // Act: first access to IConfiguration must be after UseSetting
         var f = GetFixture<TmpDirectoryFixture>();
 
         // ssert
@@ -36,7 +34,7 @@ public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
         // Arrange
         UseSettingEnv("TmpDirectoryFixture__DisposeType", env);
 
-        // Act
+        // Act: first access to IConfiguration must be after UseSetting
         var f = GetFixture<TmpDirectoryFixture>();
         Directory.Exists(f.Path).Should().BeTrue();
         f.Dispose();
