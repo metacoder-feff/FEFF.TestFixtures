@@ -162,11 +162,21 @@ Note:
 
 ## Advanced usage
 
+### Add/Get Fixture by interface
+
+Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/tests/FEFF.TestFixtures.Tests/Core/CustomFixtureTests.cs#L6).
+
 ### Fixture factory internals
+
+Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures/Core/FixtureScopeManager.cs).
 
 ### Advanced Fixture registration
 
+Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs#L18).
+
 ### Configuring Fixtures
+
+Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs#L38).
 
 ## Fixture List
 

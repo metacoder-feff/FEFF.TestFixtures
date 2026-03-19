@@ -8,7 +8,6 @@ namespace FEFF.TestFixtures.Core;
 /// </summary>
 public sealed class FixtureScopeFactory : IAsyncDisposable
 {
-
     private readonly ServiceProvider _provider;
 
     public FixtureScopeFactory(Action<IServiceCollection>? configure = null)
