@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace FEFF.TestFixtures.Tests;
 using Core;
 
@@ -12,7 +14,7 @@ internal class FixtureHelper : IAsyncDisposable
     public FixtureHelper()
     {
         FixtureManager = new FixtureScopeManager((services) =>
-            services.AddInMemoryAddConfiguration(_additionalConfiguration)
+            services.AddInMemoryConfiguration(_additionalConfiguration)
         );
         Scope = FixtureManager.GetScope("testing-scope-1");
     }

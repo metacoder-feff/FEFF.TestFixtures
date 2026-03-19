@@ -1,16 +1,34 @@
 using System.Reflection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace FEFF.TestFixtures.Core;
 
 internal static class FixtureCollector
 {
+    // thread-safe by default
+    // TODO: cache callbacks only
+    private static readonly Lazy<ServiceCollection> __cachedFixtureServices = new(CreateServiceCollection);
+
+    private static ServiceCollection CreateServiceCollection()
+    {
+        var r = CreateServiceCollectionInternal();
+        r.MakeReadOnly();
+        return r;
+    }
+
+    internal static IServiceCollection AddFixtures(this IServiceCollection services)
+    {
+        foreach(var s in __cachedFixtureServices.Value)
+        {
+            services.Add(s);
+        }
+        return services;
+    }
+
     /// <remarks>
     /// Heavy operation. Better to memoize the result.
     /// </remarks>
-    internal static ServiceCollection CreateServiceCollection()
+    private static ServiceCollection CreateServiceCollectionInternal()
     {
         var services = new ServiceCollection();
 
@@ -23,41 +41,7 @@ internal static class FixtureCollector
         return services;
     }
 
-    internal static IServiceCollection Apply(this IServiceCollection services, Action<IServiceCollection>? action)
-    {
-        action?.Invoke(services);
-        return services;
-    }
-
-    internal static IServiceCollection AddConfiguration(this IServiceCollection services)
-    {
-        // .SetBasePath(Directory.GetCurrentDirectory())
-        // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        //     ;
-
-        services.Configure<ConfigurationBuilder>(b => b
-            .AddEnvironmentVariables()
-        );
-
-        services.AddSingleton<IConfiguration>((sp) => sp
-            .GetRequiredService<IOptions<ConfigurationBuilder>>()
-            .Value
-            .Build()
-        );
-
-        return services;
-    }
-
-    internal static IServiceCollection AddInMemoryAddConfiguration(this IServiceCollection services, Dictionary<string, string?>? additional)
-    {
-        services.Configure<ConfigurationBuilder>(b => b
-            .AddInMemoryCollection(additional)
-        );
-
-        return services;
-    }
-
-    //TODO: optimize?  
+//TODO: optimize?  
     private static IEnumerable<Type> GetAllLoadedTypes() =>
         AppDomain.CurrentDomain
             .GetAssemblies()

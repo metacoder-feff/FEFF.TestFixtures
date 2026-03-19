@@ -8,36 +8,18 @@ namespace FEFF.TestFixtures.Core;
 /// </summary>
 public sealed class FixtureScopeFactory : IAsyncDisposable
 {
-    // thread-safe by default
-    // TODO: cache callbacks only
-    private static readonly Lazy<ServiceCollection> __cachedFixtureServices = new(CreateServiceCollection);
-
-    private static ServiceCollection CreateServiceCollection()
-    {
-        var r = FixtureCollector.CreateServiceCollection();
-        r.MakeReadOnly();
-        return r;
-    }
 
     private readonly ServiceProvider _provider;
 
     public FixtureScopeFactory(Action<IServiceCollection>? configure = null)
     {
-        _provider = Clone(__cachedFixtureServices.Value)
+        _provider = new ServiceCollection()
             .AddConfiguration()
+            .AddEnvironmentConfiguration()
+            .AddFixtures()
             .Apply(configure)
             .BuildServiceProvider(true)
             ;
-    }
-
-    private static IServiceCollection Clone(IServiceCollection src)
-    {
-        IServiceCollection res = new ServiceCollection();
-        foreach (var service in src)
-        {
-            res.Add(service);
-        }
-        return res;
     }
 
     public ValueTask DisposeAsync()
