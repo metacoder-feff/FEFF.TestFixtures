@@ -75,7 +75,7 @@ internal static class FixtureCollector
             return;
 
 //TODO: memoize?
-        var method = ThrowHelper.GuardNotNull(
+        var method = ThrowHelper.EnsureNotNull(
             typeof(FixtureCollector).GetMethod(nameof(RegisterExtended), BindingFlags.NonPublic | BindingFlags.Static)
         );
 

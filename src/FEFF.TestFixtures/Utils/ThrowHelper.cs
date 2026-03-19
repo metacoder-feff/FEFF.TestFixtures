@@ -30,7 +30,7 @@ internal static class ThrowHelper
     /// Throws <see cref="InvalidOperationException"/> otherwise.
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    public static T GuardNotNull<T>(
+    public static T EnsureNotNull<T>(
         [NotNull] T? argument, 
         [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : notnull
