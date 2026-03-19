@@ -12,7 +12,7 @@ namespace FEFF.TestFixtures.Xunit;
 
 internal sealed class AssemblyTestTracker : IAsyncDisposable
 {
-    private readonly FixtureScopeManager _container;
+    private readonly FixtureManager _container;
 
     public AssemblyTestTracker()
     {

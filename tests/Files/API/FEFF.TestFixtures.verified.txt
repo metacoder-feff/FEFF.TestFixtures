@@ -4,6 +4,13 @@
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
 namespace FEFF.TestFixtures.Core
 {
+    public sealed class FixtureManager : System.IAsyncDisposable
+    {
+        public FixtureManager(System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection>? configure = null) { }
+        public System.Threading.Tasks.ValueTask DisposeAsync() { }
+        public FEFF.TestFixtures.Core.FixtureScope GetScope(string id) { }
+        public System.Threading.Tasks.ValueTask RemoveScopeAsync(string scopeId) { }
+    }
     public sealed class FixtureScope : FEFF.TestFixtures.Core.IFixtureScope, System.IAsyncDisposable
     {
         public FixtureScope(Microsoft.Extensions.DependencyInjection.ServiceProvider sp) { }
@@ -11,18 +18,11 @@ namespace FEFF.TestFixtures.Core
         public T GetFixture<T>()
             where T :  notnull { }
     }
-    public sealed class FixtureScopeFactory : System.IAsyncDisposable
+    public sealed class FixtureServiceProvider : System.IAsyncDisposable
     {
-        public FixtureScopeFactory(System.Collections.Generic.Dictionary<string, string?>? additionalConfiguration = null) { }
+        public FixtureServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
         public FEFF.TestFixtures.Core.FixtureScope CreateScope() { }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
-    }
-    public sealed class FixtureScopeManager : System.IAsyncDisposable
-    {
-        public FixtureScopeManager(System.Collections.Generic.Dictionary<string, string?>? additionalConfiguration = null) { }
-        public System.Threading.Tasks.ValueTask DisposeAsync() { }
-        public FEFF.TestFixtures.Core.FixtureScope GetScope(string id) { }
-        public System.Threading.Tasks.ValueTask RemoveScopeAsync(string scopeId) { }
     }
     public interface IFixtureScope
     {

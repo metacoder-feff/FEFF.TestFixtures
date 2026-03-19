@@ -2,12 +2,12 @@ namespace FEFF.TestFixtures.Tests;
 using Core;
 
 /// <remarks>
-/// Do not use TestFixtures to test <see cref="FixtureScopeManager"/> here 
-/// because error in <see cref="FixtureScopeManager"/> or integration would fail everything
+/// Do not use TestFixtures to test <see cref="FixtureManager"/> here 
+/// because error in <see cref="FixtureManager"/> or integration would fail everything
 /// <remarks/>
-public sealed class FixtureScopeManagerTests : IAsyncDisposable 
+public sealed class FixtureManagerTests : IAsyncDisposable 
 {
-    private readonly FixtureScopeManager manager = new();
+    private readonly FixtureManager manager = new();
     public ValueTask DisposeAsync()
     {
         return manager.DisposeAsync();
@@ -47,7 +47,7 @@ public sealed class FixtureScopeManagerTests : IAsyncDisposable
     }
     
     [Fact]
-    public async Task Dispose__with_exeception__should_not_prevent_other_scopes_from_being_disposed()
+    public async Task Dispose__with_exception__should_not_prevent_other_scopes_from_being_disposed()
     {
         // scopes would be disposed in same/reverse order
         var f1 = manager.GetScope("test-1").GetFixture<DisposableFixture>();
@@ -63,7 +63,7 @@ public sealed class FixtureScopeManagerTests : IAsyncDisposable
     }
     
     [Fact]
-    public async Task Dispose__with_MULTIPLE_execeptions__should_throw_AggregateException()
+    public async Task Dispose__with_MULTIPLE_exceptions__should_throw_AggregateException()
     {
         _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
         _ = manager.GetScope("test-2").GetFixture<ErrorDisposableFixture>();
@@ -80,7 +80,7 @@ public sealed class FixtureScopeManagerTests : IAsyncDisposable
     }
     
     [Fact]
-    public async Task Dispose__with_SINGLE_exeception__should_throw_InvalidOperationException()
+    public async Task Dispose__with_SINGLE_exception__should_throw_InvalidOperationException()
     {
         _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
 

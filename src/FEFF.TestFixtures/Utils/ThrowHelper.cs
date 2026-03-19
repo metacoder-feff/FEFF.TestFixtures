@@ -10,7 +10,7 @@ namespace FEFF.Extentions;
 internal static class ThrowHelper
 {
     /// <summary>
-    /// Throws "InvalidOperationException".
+    /// Throws <see cref="InvalidOperationException"/> if assertion fails.
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     public static void Assert(
@@ -23,6 +23,20 @@ internal static class ThrowHelper
         {
             throw new InvalidOperationException($"Assertion violated: '{argumentExpression}'");
         }
+    }
+
+    /// <summary>
+    /// Returns argument if it is not null.<br/>
+    /// Throws <see cref="InvalidOperationException"/> otherwise.
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static T EnsureNotNull<T>(
+        [NotNull] T? argument, 
+        [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+        where T : notnull
+    {
+        return argument 
+            ?? throw new InvalidOperationException($"Value cannot be null. (Expression '{paramName}')");
     }
 
     public static class Argument
@@ -47,19 +61,6 @@ internal static class ThrowHelper
                 string? paramName = null)
         {
             ArgumentException.ThrowIfNullOrEmpty(argument, paramName);
-        }
-    }
-
-    public static class Guard
-    {
-        public static T NotNull<T>(
-            [NotNull] T? argument, 
-            [CallerArgumentExpression(nameof(argument))] string? paramName = null)
-        where T : notnull
-        {
-            return argument 
-                ?? throw new InvalidOperationException($"Value cannot be null. (Expression '{paramName}')");
-            
         }
     }
 

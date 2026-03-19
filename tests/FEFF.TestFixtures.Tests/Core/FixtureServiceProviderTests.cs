@@ -1,21 +1,24 @@
-using FEFF.TestFixtures.Core;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Tests;
-
-//TODO: test RegisterWithType registration error
+using Core;
 
 /// <remarks>
 /// Do not use TestFixtures to test <see cref="FixtureScope"/> here 
 /// because error in <see cref="FixtureScope"/> or integration would fail everything
 /// <remarks/>
-public sealed class FixtureScopeTest : IAsyncDisposable
+public sealed class FixtureServiceProviderTests : IAsyncDisposable
 {
-    private readonly FixtureScopeFactory Factory;
+    private readonly FixtureServiceProvider Factory;
     private readonly FixtureScope Scope;
 
-    public FixtureScopeTest()
+    public FixtureServiceProviderTests()
     {
-        Factory = new FixtureScopeFactory();
+        var services = new ServiceCollection();
+        // services.AddFixtures();
+        services.AddScoped<CustomFixture>();
+
+        Factory = new FixtureServiceProvider(services);
         Scope = Factory.CreateScope();
     }
 

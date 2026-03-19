@@ -17,10 +17,10 @@ internal static class ScopeIdHelper
     {
         return scopeType switch
         {
-            FixtureScopeType.TestCase   => ThrowHelper.Guard.NotNull(testContext.Test).UniqueID,
-            FixtureScopeType.Class      => ThrowHelper.Guard.NotNull(testContext.TestClass).UniqueID,
-            FixtureScopeType.Collection => ThrowHelper.Guard.NotNull(testContext.TestCollection).UniqueID,
-            FixtureScopeType.Assembly   => ThrowHelper.Guard.NotNull(testContext.TestAssembly).UniqueID,
+            FixtureScopeType.TestCase   => ThrowHelper.EnsureNotNull(testContext.Test).UniqueID,
+            FixtureScopeType.Class      => ThrowHelper.EnsureNotNull(testContext.TestClass).UniqueID,
+            FixtureScopeType.Collection => ThrowHelper.EnsureNotNull(testContext.TestCollection).UniqueID,
+            FixtureScopeType.Assembly   => ThrowHelper.EnsureNotNull(testContext.TestAssembly).UniqueID,
             _ => 
                 throw new InvalidOperationException($"Invalid enum value: '{scopeType}' ({(int)scopeType})")
 //TODO: utils EnumMatchException
