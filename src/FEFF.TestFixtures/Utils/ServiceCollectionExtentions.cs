@@ -1,6 +1,7 @@
 //TODO: nuget
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -15,22 +16,29 @@ internal static class ServiceCollectionExtentions
 
     internal static IServiceCollection AddConfiguration(this IServiceCollection services)
     {
-        // .SetBasePath(Directory.GetCurrentDirectory())
-        // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        //     ;
 
-        services.AddSingleton<IConfigurationRoot>((sp) => sp
+        services.TryAddSingleton<IConfigurationRoot>((sp) => sp
             .GetRequiredService<IOptions<ConfigurationBuilder>>()
             .Value
             .Build()
         );
 
-        services.AddSingleton<IConfiguration>((sp) => sp
+        services.TryAddSingleton<IConfiguration>((sp) => sp
             .GetRequiredService<IConfigurationRoot>()
         );
 
         return services;
     }
+
+    // internal static IServiceCollection AddJsonFileConfiguration(this IServiceCollection services, string name)
+    // {
+    //         .SetBasePath(Directory.GetCurrentDirectory())
+    //     services.Configure<ConfigurationBuilder>(b => b
+    //         .AddJsonFile(name, optional: true, reloadOnChange: false)
+    //     );
+
+    //     return services;
+    // }
 
     internal static IServiceCollection AddEnvironmentConfiguration(this IServiceCollection services)
     {
@@ -41,7 +49,7 @@ internal static class ServiceCollectionExtentions
         return services;
     }
 
-    internal static IServiceCollection AddInMemoryConfiguration(this IServiceCollection services, Dictionary<string, string?>? additional)
+    internal static IServiceCollection AddInMemoryConfiguration(this IServiceCollection services, Dictionary<string, string?> additional)
     {
         services.Configure<ConfigurationBuilder>(b => b
             .AddInMemoryCollection(additional)
