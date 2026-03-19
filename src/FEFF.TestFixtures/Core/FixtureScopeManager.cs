@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace FEFF.TestFixtures.Core;
 
 public interface IFixtureScope
@@ -21,9 +23,9 @@ public sealed class FixtureScopeManager : IAsyncDisposable
 #endif
     private bool _isDisposed;
 
-    public FixtureScopeManager(Dictionary<string, string?>? additionalConfiguration = null)
+    public FixtureScopeManager(Action<IServiceCollection>? configure = null)
     {
-        _factory = new(additionalConfiguration);
+        _factory = new(configure);
     }
 
     public FixtureScope GetScope(string id)

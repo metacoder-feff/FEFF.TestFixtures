@@ -23,7 +23,13 @@ internal static class FixtureCollector
         return services;
     }
 
-    internal static IServiceCollection AddConfiguration(this IServiceCollection services, Dictionary<string, string?>? additional)
+    internal static IServiceCollection Apply(this IServiceCollection services, Action<IServiceCollection>? action)
+    {
+        action?.Invoke(services);
+        return services;
+    }
+
+    internal static IServiceCollection AddConfiguration(this IServiceCollection services)
     {
         // .SetBasePath(Directory.GetCurrentDirectory())
         // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -33,17 +39,19 @@ internal static class FixtureCollector
             .AddEnvironmentVariables()
         );
 
-        if(additional != null)
-        {
-            services.Configure<ConfigurationBuilder>(b => b
-                .AddInMemoryCollection(additional)
-            );
-        }
-
         services.AddSingleton<IConfiguration>((sp) => sp
             .GetRequiredService<IOptions<ConfigurationBuilder>>()
             .Value
             .Build()
+        );
+
+        return services;
+    }
+
+    internal static IServiceCollection AddInMemoryAddConfiguration(this IServiceCollection services, Dictionary<string, string?>? additional)
+    {
+        services.Configure<ConfigurationBuilder>(b => b
+            .AddInMemoryCollection(additional)
         );
 
         return services;

@@ -21,10 +21,11 @@ public sealed class FixtureScopeFactory : IAsyncDisposable
 
     private readonly ServiceProvider _provider;
 
-    public FixtureScopeFactory(Dictionary<string, string?>? additionalConfiguration = null)
+    public FixtureScopeFactory(Action<IServiceCollection>? configure = null)
     {
         _provider = Clone(__cachedFixtureServices.Value)
-            .AddConfiguration(additionalConfiguration)
+            .AddConfiguration()
+            .Apply(configure)
             .BuildServiceProvider(true)
             ;
     }
