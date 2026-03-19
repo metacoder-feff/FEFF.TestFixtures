@@ -47,7 +47,7 @@ public sealed class FixtureManagerTests : IAsyncDisposable
     }
     
     [Fact]
-    public async Task Dispose__with_exeception__should_not_prevent_other_scopes_from_being_disposed()
+    public async Task Dispose__with_exception__should_not_prevent_other_scopes_from_being_disposed()
     {
         // scopes would be disposed in same/reverse order
         var f1 = manager.GetScope("test-1").GetFixture<DisposableFixture>();
@@ -63,7 +63,7 @@ public sealed class FixtureManagerTests : IAsyncDisposable
     }
     
     [Fact]
-    public async Task Dispose__with_MULTIPLE_execeptions__should_throw_AggregateException()
+    public async Task Dispose__with_MULTIPLE_exceptions__should_throw_AggregateException()
     {
         _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
         _ = manager.GetScope("test-2").GetFixture<ErrorDisposableFixture>();
@@ -80,7 +80,7 @@ public sealed class FixtureManagerTests : IAsyncDisposable
     }
     
     [Fact]
-    public async Task Dispose__with_SINGLE_exeception__should_throw_InvalidOperationException()
+    public async Task Dispose__with_SINGLE_exception__should_throw_InvalidOperationException()
     {
         _ = manager.GetScope("test-1").GetFixture<ErrorDisposableFixture>();
 
