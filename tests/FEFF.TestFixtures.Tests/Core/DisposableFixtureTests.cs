@@ -46,6 +46,7 @@ public class DisposableFixtureTests : FixtureTestBase
         f1.IsDisposedAsync.Should().BeTrue();
     }
     
+//TODO: enable when Microsoft.Extensions.DependencyInjection.dll v11+
     [Fact(Skip = "implemented in dotnet 11: https://github.com/dotnet/runtime/commit/800f26a3668eef82327355f9f11bc9ec6ca8ee1f")]
     public async Task Dispose__with_exeception__should_not_prevent_other_fixtures_from_being_disposed()
     {

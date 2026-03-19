@@ -7,18 +7,18 @@ using Core;
 /// Do not use TestFixtures to test <see cref="FixtureScope"/> here 
 /// because error in <see cref="FixtureScope"/> or integration would fail everything
 /// <remarks/>
-public sealed class FixtureScopeTest : IAsyncDisposable
+public sealed class FixtureScopeTests : IAsyncDisposable
 {
-    private readonly FixtureScopeFactory Factory;
+    private readonly FixtureServiceProvider Factory;
     private readonly FixtureScope Scope;
 
-    public FixtureScopeTest()
+    public FixtureScopeTests()
     {
         var services = new ServiceCollection();
         // services.AddFixtures();
         services.AddScoped<CustomFixture>();
 
-        Factory = new FixtureScopeFactory(services);
+        Factory = new FixtureServiceProvider(services);
         Scope = Factory.CreateScope();
     }
 

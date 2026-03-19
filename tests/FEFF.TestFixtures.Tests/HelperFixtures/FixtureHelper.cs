@@ -6,14 +6,14 @@ using Core;
 [Fixture]
 internal class FixtureHelper : IAsyncDisposable
 {
-    public FixtureScopeManager FixtureManager { get; }
+    public FixtureManager FixtureManager { get; }
     public FixtureScope Scope { get; }
 
     private readonly Dictionary<string, string?> _additionalConfiguration = new();
 
     public FixtureHelper()
     {
-        FixtureManager = new FixtureScopeManager((services) =>
+        FixtureManager = new FixtureManager((services) =>
             services.AddInMemoryConfiguration(_additionalConfiguration)
         );
         Scope = FixtureManager.GetScope("testing-scope-1");

@@ -2,12 +2,12 @@ namespace FEFF.TestFixtures.Tests;
 using Core;
 
 /// <remarks>
-/// Do not use TestFixtures to test <see cref="FixtureScopeManager"/> here 
-/// because error in <see cref="FixtureScopeManager"/> or integration would fail everything
+/// Do not use TestFixtures to test <see cref="FixtureManager"/> here 
+/// because error in <see cref="FixtureManager"/> or integration would fail everything
 /// <remarks/>
-public sealed class FixtureScopeManagerTests : IAsyncDisposable 
+public sealed class FixtureManagerTests : IAsyncDisposable 
 {
-    private readonly FixtureScopeManager manager = new();
+    private readonly FixtureManager manager = new();
     public ValueTask DisposeAsync()
     {
         return manager.DisposeAsync();
