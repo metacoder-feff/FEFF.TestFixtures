@@ -25,7 +25,13 @@ public sealed class FixtureScopeManager : IAsyncDisposable
 
     public FixtureScopeManager(Action<IServiceCollection>? configure = null)
     {
-        _factory = new(configure);
+        var services = new ServiceCollection()
+            .AddConfiguration()
+            .AddEnvironmentConfiguration()
+            .AddFixtures()
+            .Apply(configure);
+
+        _factory = new(services);
     }
 
     public FixtureScope GetScope(string id)

@@ -1,6 +1,7 @@
-using FEFF.TestFixtures.Core;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Tests;
+using Core;
 
 /// <remarks>
 /// Do not use TestFixtures to test <see cref="FixtureScope"/> here 
@@ -13,7 +14,11 @@ public sealed class FixtureScopeTest : IAsyncDisposable
 
     public FixtureScopeTest()
     {
-        Factory = new FixtureScopeFactory();
+        var services = new ServiceCollection();
+        // services.AddFixtures();
+        services.AddScoped<CustomFixture>();
+
+        Factory = new FixtureScopeFactory(services);
         Scope = Factory.CreateScope();
     }
 

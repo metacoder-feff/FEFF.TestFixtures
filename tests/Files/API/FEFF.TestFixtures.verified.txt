@@ -13,7 +13,7 @@ namespace FEFF.TestFixtures.Core
     }
     public sealed class FixtureScopeFactory : System.IAsyncDisposable
     {
-        public FixtureScopeFactory(System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection>? configure = null) { }
+        public FixtureScopeFactory(Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
         public FEFF.TestFixtures.Core.FixtureScope CreateScope() { }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
     }

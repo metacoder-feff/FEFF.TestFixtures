@@ -10,15 +10,9 @@ public sealed class FixtureScopeFactory : IAsyncDisposable
 {
     private readonly ServiceProvider _provider;
 
-    public FixtureScopeFactory(Action<IServiceCollection>? configure = null)
+    public FixtureScopeFactory(IServiceCollection services)
     {
-        _provider = new ServiceCollection()
-            .AddConfiguration()
-            .AddEnvironmentConfiguration()
-            .AddFixtures()
-            .Apply(configure)
-            .BuildServiceProvider(true)
-            ;
+        _provider = services.BuildServiceProvider(true);
     }
 
     public ValueTask DisposeAsync()
