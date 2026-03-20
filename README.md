@@ -164,11 +164,11 @@ Note:
 
 ### Add/Get Fixture by interface
 
-Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/tests/FEFF.TestFixtures.Tests/Core/CustomFixtureTests.cs#L6).
+Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/d4e7561bd6bf0a3882e6f2777f0012c4ef9c3aa9/tests/FEFF.TestFixtures.Tests/Core/FixtureInterfaceTests.cs#L6).
 
 ### Fixture factory internals
 
-Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures/Core/FixtureScopeManager.cs).
+Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/d4e7561bd6bf0a3882e6f2777f0012c4ef9c3aa9/src/FEFF.TestFixtures/Core/FixtureManager.cs#L14).
 
 ### Advanced Fixture registration
 
