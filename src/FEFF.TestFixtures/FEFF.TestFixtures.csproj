@@ -5,6 +5,7 @@
 
     <!-- NUGET -->
     <PackageId>FEFF.TestFixtures</PackageId>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
