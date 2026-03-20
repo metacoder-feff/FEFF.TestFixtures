@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -18,11 +17,16 @@ public class EnvironmentFixtureOptionsTests : FixtureTestBase
     [InlineData("Value-2")]
     public void Directory__after_dispose__should_exist__when_option(string? value)
     {
+        var k = "FixtureWithOptions__Prefix";
         // Arrange
-        Env.SetEnvironmentVariable("FixtureWithOptions__Prefix", value);
-        // Force IConfiguration reread Env
-        var c = Helper.GetFixture<IConfiguration>() as IConfigurationRoot;
-        c!.Reload();
+        Env.SetEnvironmentVariable(k, value);
+        Environment.GetEnvironmentVariable(k)
+            .Should().Be(value);
+
+        // Force reread Configuration.Environment
+        // (need when IConfiguration has already been materialized for eny fixture from FixtureManager)
+        // var c = Helper.GetFixture<IConfigurationRoot>();
+        // c!.Reload();
 
         // Act
         var f = Helper.GetFixture<FixtureWithOptions>();

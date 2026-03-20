@@ -9,7 +9,7 @@ internal class FixtureHelper : IAsyncDisposable
     public FixtureManager FixtureManager { get; }
     public FixtureScope Scope { get; }
 
-    private readonly Dictionary<string, string?> _additionalConfiguration = new();
+    private readonly Dictionary<string, string?> _additionalConfiguration = [];
 
     public FixtureHelper()
     {
@@ -32,7 +32,7 @@ internal class FixtureHelper : IAsyncDisposable
 
     /// <summary>
     /// Add Settings to configuration in 'env' format:<br/>
-    /// Seactions are separated by '__' - double inderscore.
+    /// Sections are separated by '__' - double inderscore.
     /// </summary>
     public void UseSettingEnv(string name, string? value)
     {
@@ -42,7 +42,7 @@ internal class FixtureHelper : IAsyncDisposable
 
     /// <summary>
     /// Add Settings to configuration in default format:<br/>
-    /// Seactions are separated by ':' - colon.
+    /// Sections are separated by ':' - colon.
     /// </summary>
     public void UseSetting(string name, string? value)
     {

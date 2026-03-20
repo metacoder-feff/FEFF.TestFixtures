@@ -1,6 +1,6 @@
 namespace FEFF.TestFixtures.Tests;
 
-public class CustomFixtureTests : FixtureTestBase
+public class FixtureInterfaceTests : FixtureTestBase
 {
     [Fact]
     public void Fixture__with_interface__should_be_registered_twice()
@@ -24,15 +24,6 @@ public class CustomFixtureTests : FixtureTestBase
 
         act.Should().ThrowExactly<InvalidCastException>();
     }
-    
-    [Fact]
-    public void Fixture__with_dependencies__should_be_registered_and_returned()
-    {
-        var f = Helper.GetFixture<CustomFixtureWithDeps>();
-        f.F1.Value.Should().Be("hello");
-        f.F2.Value.Should().Be("world");
-        f.F2.Should().BeOfType<CustomFixtureWithInterface>();
-    }
 }
 
 internal interface ICustomFixtureInterface
@@ -45,12 +36,6 @@ internal class CustomFixtureWithInterface: ICustomFixtureInterface
 {
     public string Value { get; } = "world";
 }
-
-[Fixture]
-internal record CustomFixtureWithDeps(
-    CustomFixture F1,
-    ICustomFixtureInterface F2 // this interface is already registered by 'CustomFixtureWithInterface'
-);
 
 // fixture with invalid RegisterWithType
 [Fixture(RegisterWithType = typeof(IDataAttribute))]

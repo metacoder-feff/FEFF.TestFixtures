@@ -9,5 +9,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FEFF.TestFixtures.Tests/FEFF.TestFixtures.Tests.csproj" />
+    <Project Path="tests/FEFF.TestFixtures.XunitV3.Tests/FEFF.TestFixtures.XunitV3.Tests.csproj" />
   </Folder>
 </Solution>

@@ -8,3 +8,6 @@ global using System.Net;
 global using FEFF.Extentions;
 
 global using static FEFF.TestFixtures.Tests.Consts;
+
+// register the 'TestFixtures' extension
+[assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
