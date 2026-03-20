@@ -12,7 +12,7 @@
 
     <!-- NUGET -->
     <IsPackable>false</IsPackable> <!-- need override in each lib -->
-    <VersionPrefix>1.0.7</VersionPrefix>
+    <VersionPrefix>1.0.8</VersionPrefix>
     <Authors>metacoder-feff</Authors>
     <Copyright>Copyright (c) Metacoder-feff 2026</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
