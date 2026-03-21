@@ -13,12 +13,12 @@ internal class FixtureHelper : IAsyncDisposable
 
     public FixtureHelper()
     {
-        var builder = new FixtureServiceProviderBuilder();
-        builder.Configure((services) =>
+        var builder = new FixtureManagerBuilder();
+        builder.ConfigureServices((services) =>
             services.AddInMemoryConfiguration(_additionalConfiguration)
         );
 
-        FixtureManager = new FixtureManager(builder);
+        FixtureManager = builder.Build();
         Scope = FixtureManager.GetScope("testing-scope-1");
     }
 
