@@ -22,7 +22,7 @@ internal sealed class AssemblyTestTracker : IAsyncDisposable
         if(added == false)
             throw new InvalidOperationException("Another value exists in 'TestContext.KeyValueStorage'.");
 
-        _container = new();
+        _container = new FixtureManagerBuilder().Build();
     }
 
     public ValueTask DisposeAsync()

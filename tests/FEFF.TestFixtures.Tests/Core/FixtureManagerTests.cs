@@ -7,7 +7,7 @@ using Core;
 /// <remarks/>
 public sealed class FixtureManagerTests : IAsyncDisposable 
 {
-    private readonly FixtureManager manager = new();
+    private readonly FixtureManager manager = new FixtureManagerBuilder().Build();
     public ValueTask DisposeAsync()
     {
         return manager.DisposeAsync();

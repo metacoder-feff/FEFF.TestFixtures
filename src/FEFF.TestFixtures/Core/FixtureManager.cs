@@ -5,18 +5,16 @@ public interface IFixtureScope
     T GetFixture<T>() where T : notnull;
 }
 
-public interface IFixtureServiceProviderBuilder
-{
-    FixtureServiceProvider Build();
-}
-
 /// <summary>
 /// This class creates, memoizes and disoses <see cref="IFixtureScope"/>.<br/>
 /// User can destroy <see cref="IFixtureScope"/> either by calling <see cref="RemoveScopeAsync"/> or by <see cref="DisposeAsync"/> that disposes all resources including all cached fuxture-scopes.
 /// </summary>
+/// <remarks>
+/// Use <see cref="FixtureManagerBuilder"/> for instance construction.
+/// </remarks>
 public sealed class FixtureManager : IAsyncDisposable
 {
-    private readonly FixtureServiceProvider _factory;
+    private readonly FixtureServiceProvider _provider;
     private readonly Dictionary<string, FixtureScope> _scopes = [];
 
 #if NET9_0_OR_GREATER
@@ -26,10 +24,9 @@ public sealed class FixtureManager : IAsyncDisposable
 #endif
     private bool _isDisposed;
 
-    public FixtureManager(IFixtureServiceProviderBuilder? builder = null)
+    internal FixtureManager(FixtureServiceProvider provider)
     {
-        builder ??= new FixtureServiceProviderBuilder();
-        _factory = builder.Build();
+        _provider = provider;
     }
 
     public FixtureScope GetScope(string id)
@@ -46,7 +43,7 @@ public sealed class FixtureManager : IAsyncDisposable
             if(_scopes.ContainsKey(id))
                 return _scopes[id];
 
-            var res = _factory.CreateScope();
+            var res = _provider.CreateScope();
             _scopes[id] = res;
             return res; 
         }
@@ -62,7 +59,7 @@ public sealed class FixtureManager : IAsyncDisposable
             disposables.AddRange(_scopes.Values);
         }
 
-        disposables.Add(_factory);
+        disposables.Add(_provider);
 
         return DisposeHelper.DisposeAsync(disposables);
     }
