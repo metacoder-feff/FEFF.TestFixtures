@@ -14,7 +14,7 @@ internal class FixtureHelper : IAsyncDisposable
     public FixtureHelper()
     {
         var builder = new FixtureServiceProviderBuilder();
-        builder.Configure((services) =>
+        builder.ConfigureServices((services) =>
             services.AddInMemoryConfiguration(_additionalConfiguration)
         );
 

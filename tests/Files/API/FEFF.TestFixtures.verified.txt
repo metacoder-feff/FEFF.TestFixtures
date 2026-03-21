@@ -27,8 +27,9 @@ namespace FEFF.TestFixtures.Core
     public class FixtureServiceProviderBuilder : FEFF.TestFixtures.Core.IFixtureServiceProviderBuilder
     {
         public FixtureServiceProviderBuilder() { }
+        public System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> DiscoverFixturesAction { get; set; }
         public FEFF.TestFixtures.Core.FixtureServiceProvider Build() { }
-        public void Configure(System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> action) { }
+        public void ConfigureServices(System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> action) { }
     }
     public interface IFixtureScope
     {

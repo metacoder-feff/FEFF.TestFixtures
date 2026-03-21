@@ -6,7 +6,15 @@ public class FixtureServiceProviderBuilder : IFixtureServiceProviderBuilder
 {
     private readonly List<Action<IServiceCollection>> _actions = [];
 
-    public void Configure(Action<IServiceCollection> action)
+    /// <remarks>
+    /// Mandatory delegate with default implementation.
+    /// </remarks>
+    public Action<IServiceCollection> DiscoverFixturesAction { get; set; } = (services) => services.AddFixturesByReflection();
+
+    /// <remarks>
+    /// Add one or more optional delegates.
+    /// </remarks>
+    public void ConfigureServices(Action<IServiceCollection> action)
     {
         _actions.Add(action);
     }
@@ -16,12 +24,12 @@ public class FixtureServiceProviderBuilder : IFixtureServiceProviderBuilder
         var services = new ServiceCollection()
             .AddConfiguration()
             .AddEnvironmentConfiguration()
-            .AddFixturesByReflection() // TODO: optionally replace
+            .Apply(DiscoverFixturesAction)
             ;
 
         foreach(var action in _actions)
-            action(services);
-            //services.Apply(action);
+            services.Apply(action);
+            //== action(services);
 
         return new(services);
     }
