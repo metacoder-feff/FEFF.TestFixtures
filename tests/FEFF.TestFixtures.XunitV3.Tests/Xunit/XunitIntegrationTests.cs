@@ -12,11 +12,14 @@ public class XunitIntegrationTests
     {
         var results = await RunAsync(typeof(TestSubject));
 
+        await Task.Delay(500, TestContext.Current.CancellationToken);
+
         var filtered = results.Select(x => x switch
-        {
-            IDiagnosticMessage dm => $"{x.GetType().Name}: {dm.Message}",
-            _ => x.GetType().Name
-        });
+            {
+                IDiagnosticMessage dm => $"{x.GetType().Name}: {dm.Message}",
+                _ => x.GetType().Name
+            })
+            .ToList();
 
         // Assert that the result message stream should contain some messages in strict order
         JToken.FromObject(filtered)
@@ -49,23 +52,52 @@ public class XunitIntegrationTests
         """);
     }
 
+    [Fact]
+    public async ValueTask Fixture_dispose_count__should_equal_scope_count()
+    {
+        var results = await RunAsync([typeof(TestSubject), typeof(SecondTestSubject), typeof(ThirdTestSubject)]);
+
+        await Task.Delay(500, TestContext.Current.CancellationToken);
+
+        var filtered = results.Select(x => x switch
+        {
+            IDiagnosticMessage dm => $"{x.GetType().Name}: {dm.Message}",
+            _ => x.GetType().Name
+        })
+            .ToList();
+
+        AssertMsgCount(filtered, 6, "AfterTestFinished", "DiagnosticMessage: disposed TestFix");
+
+        AssertMsgCount(filtered, 3, "TestClassFinished", "DiagnosticMessage: disposed ClassFix");
+
+        AssertMsgCount(filtered, 2, "TestCollectionFinished", "DiagnosticMessage: disposed CollectionFix");
+
+        AssertMsgCount(filtered, 1, "TestAssemblyFinished", "DiagnosticMessage: disposed AssemblyFix");
+    }
+
+    private static void AssertMsgCount(List<string> filtered, int count, string msg1, string msg2)
+    {
+        filtered.Count(x => x == msg1)
+            .Should().Be(count);
+        filtered.Count(x => x == msg2)
+            .Should().Be(count);
+    }
+
     public static ValueTask<List<IMessageSinkMessage>> RunAsync(
         Type type,
         bool preEnumerateTheories = true,
-        ExplicitOption? explicitOption = null,
-        IMessageSink? diagnosticMessageSink = null) =>
-            RunAsync([type], preEnumerateTheories, explicitOption, diagnosticMessageSink);
+        ExplicitOption? explicitOption = null) =>
+            RunAsync([type], preEnumerateTheories, explicitOption);
 
 
 
     public static ValueTask<List<IMessageSinkMessage>> RunAsync(
         Type[] types,
         bool preEnumerateTheories = true,
-        ExplicitOption? explicitOption = null,
-        IMessageSink? diagnosticMessageSink = null)
+        ExplicitOption? explicitOption = null)
     {
         var runSink = new SpyMessageSink();
-        diagnosticMessageSink ??= runSink;
+        var diagnosticMessageSink = runSink;
 
         var tcs = new TaskCompletionSource<List<IMessageSinkMessage>>();
 
@@ -191,11 +223,16 @@ public class XunitIntegrationTests
 
 public class SpyMessageSink : IMessageSink
 {
+    private readonly Lock _lockObj = new();
     public List<IMessageSinkMessage> Messages { get; } = [];
 
     public virtual bool OnMessage(IMessageSinkMessage message)
     {
-        Messages.Add(message);
+        lock(_lockObj)
+        {  
+            Messages.Add(message);
+        }
+
         return  true;
     }
 }

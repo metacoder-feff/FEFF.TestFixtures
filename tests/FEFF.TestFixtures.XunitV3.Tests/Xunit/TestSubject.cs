@@ -48,4 +48,23 @@ public class TestSubject
         f3.Should().BeOfType<CollectionFix>();
         f4.Should().BeOfType<AssemblyFix>();
     }
+
+    [Fact]
+    public void Second_test_method()
+    {
+        var f1 = GetFixture<TestFix>();
+        var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
+        var f3 = GetFixture<CollectionFix>(FixtureScopeType.Collection);
+        var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
+
+        f1.Should().BeOfType<TestFix>();
+        f2.Should().BeOfType<ClassFix>();
+        f3.Should().BeOfType<CollectionFix>();
+        f4.Should().BeOfType<AssemblyFix>();
+    }
 }
+
+[Collection("collecion-a")]
+public class SecondTestSubject : TestSubject {}
+[Collection("collecion-a")]
+public class ThirdTestSubject : TestSubject {}
