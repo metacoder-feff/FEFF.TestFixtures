@@ -1,10 +1,13 @@
-using Microsoft.Extensions.DependencyInjection;
-
 namespace FEFF.TestFixtures.Core;
 
 public interface IFixtureScope
 {
     T GetFixture<T>() where T : notnull;
+}
+
+public interface IFixtureServiceProviderBuilder
+{
+    FixtureServiceProvider Build();
 }
 
 /// <summary>
@@ -23,15 +26,10 @@ public sealed class FixtureManager : IAsyncDisposable
 #endif
     private bool _isDisposed;
 
-    public FixtureManager(Action<IServiceCollection>? configure = null)
+    public FixtureManager(IFixtureServiceProviderBuilder? builder = null)
     {
-        var services = new ServiceCollection()
-            .AddConfiguration()
-            .AddEnvironmentConfiguration()
-            .AddFixtures()
-            .Apply(configure);
-
-        _factory = new(services);
+        builder ??= new FixtureServiceProviderBuilder();
+        _factory = builder.Build();
     }
 
     public FixtureScope GetScope(string id)

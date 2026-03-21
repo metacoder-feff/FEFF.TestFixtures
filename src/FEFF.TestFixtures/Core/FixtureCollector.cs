@@ -16,7 +16,7 @@ internal static class FixtureCollector
         return r;
     }
 
-    internal static IServiceCollection AddFixtures(this IServiceCollection services)
+    internal static IServiceCollection AddFixturesByReflection(this IServiceCollection services)
     {
         foreach(var s in __cachedFixtureServices.Value)
         {
