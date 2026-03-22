@@ -21,7 +21,7 @@ internal interface IFixtureManagerOptions
 /// </remarks>
 public sealed class FixtureManager : IAsyncDisposable
 {
-    private readonly FixtureServiceProvider _provider;
+    private readonly ServiceProvider _provider;
     private readonly Dictionary<string, FixtureScope> _scopes = [];
 
 #if NET9_0_OR_GREATER
@@ -33,7 +33,7 @@ public sealed class FixtureManager : IAsyncDisposable
 
     internal FixtureManager(IFixtureManagerOptions options)
     {
-        _provider = new(options.BuildServiceProvider());
+        _provider = options.BuildServiceProvider();
     }
 
     public FixtureScope GetScope(string id)
@@ -50,10 +50,15 @@ public sealed class FixtureManager : IAsyncDisposable
             if(_scopes.ContainsKey(id))
                 return _scopes[id];
 
-            var res = _provider.CreateScope();
+            var res = CreateScope();
             _scopes[id] = res;
             return res; 
         }
+    }
+
+    private FixtureScope CreateScope()
+    {
+        return new FixtureScope(_provider);
     }
 
     public ValueTask DisposeAsync()
