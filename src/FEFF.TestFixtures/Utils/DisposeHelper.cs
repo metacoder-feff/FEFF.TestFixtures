@@ -18,8 +18,6 @@ internal static class DisposeHelper
         // https://github.com/dotnet/runtime/pull/123342
         // PR: ServiceProviderEngineScope should aggregate exceptions in Dispose rather than throwing on the first
 
-//TODO: optimize await ValueTask
-
         ExceptionDispatchInfo? first = null;
         List<Exception>? other = null;
 
@@ -28,6 +26,10 @@ internal static class DisposeHelper
             try
             {
                 await DisposeObject(d).ConfigureAwait(false);
+
+                // var vt = DisposeObject(d);
+                // if(vt.IsCompleted == false)
+                //     await vt.ConfigureAwait(false);
             }
             catch(Exception e)
             {

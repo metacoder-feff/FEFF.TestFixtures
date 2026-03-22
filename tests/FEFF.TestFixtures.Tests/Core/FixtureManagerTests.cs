@@ -84,7 +84,7 @@ public sealed class FixtureManagerTests : IAsyncDisposable
         // scopes would be disposed in same/reverse order
         var f1 = manager.GetScope("test-1").GetFixture<DisposableFixture>();
         _ = manager.GetScope("test-2").GetFixture<ErrorDisposableFixture>();
-        var f2 = manager.GetScope("test-3").GetFixture<AsyncDisposableFixture>();
+        var f2 = manager.GetScope("test-3").GetFixture<CompletedAsyncDisposableFixture>();
 
         var act = () => manager.DisposeAsync().AsTask();
         var err = await act.Should().ThrowAsync<Exception>(); // do not check ex type, see other tests
