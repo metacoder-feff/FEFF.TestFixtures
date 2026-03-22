@@ -1,6 +1,6 @@
-using System.Reflection;
 using Xunit;
 using Xunit.v3;
+using FEFF.Extentions.Reflection;
 
 namespace FEFF.TestFixtures.Xunit;
 
@@ -71,14 +71,4 @@ internal static class Hack
 
     private static string? GetFixtureCategory(FixtureMappingManager obj) => 
         obj.TryGetPrivateInstaceFieldValue<string>("fixtureCategory");
-
-    private static T? TryGetPrivateInstaceFieldValue<T>(this object obj, string fieldName)
-    where T : class
-    {
-        return obj
-            .GetType()
-            .GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance)
-            ?.GetValue(obj)
-            as T;
-    }
 }
