@@ -31,6 +31,7 @@ public sealed class FixtureManager : IAsyncDisposable
 #endif
     private bool _isDisposed;
 
+//TODO: public ctor
     internal FixtureManager(IFixtureManagerOptions options)
     {
         _provider = options.BuildServiceProvider();
