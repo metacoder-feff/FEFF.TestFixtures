@@ -13,7 +13,7 @@ internal interface IFixtureManagerOptions
 }
 
 /// <summary>
-/// This class creates, memoizes and disoses <see cref="IFixtureScope"/>.<br/>
+/// This class creates, memoizes and disposes <see cref="IFixtureScope"/>.<br/>
 /// User can destroy <see cref="IFixtureScope"/> either by calling <see cref="RemoveScopeAsync"/> or by <see cref="DisposeAsync"/> that disposes all resources including all cached fuxture-scopes.
 /// </summary>
 /// <remarks>
