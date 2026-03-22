@@ -24,12 +24,6 @@ namespace FEFF.TestFixtures.Core
         public T GetFixture<T>()
             where T :  notnull { }
     }
-    public sealed class FixtureServiceProvider : System.IAsyncDisposable
-    {
-        public FixtureServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
-        public FEFF.TestFixtures.Core.FixtureScope CreateScope() { }
-        public System.Threading.Tasks.ValueTask DisposeAsync() { }
-    }
     public interface IFixtureScope
     {
         T GetFixture<T>()

@@ -21,17 +21,25 @@ public class FixtureManagerBuilder
 
     public FixtureManager Build()
     {
+        var sp = BuildServiceProvider();
+        var provider = new FixtureServiceProvider(sp);
+
+        return new(provider);
+    }
+
+    private ServiceProvider BuildServiceProvider()
+    {
         var services = new ServiceCollection()
             .AddConfiguration()
             .AddEnvironmentConfiguration()
             .Apply(DiscoverFixturesAction)
             ;
 
-        foreach(var action in _actions)
+        foreach (var action in _actions)
             services.Apply(action);
-            //== action(services);
+        //== action(services);
 
-        var provider = new FixtureServiceProvider(services);
-        return new(provider);
+        var sc = services.BuildServiceProvider(true);
+        return sc;
     }
 }

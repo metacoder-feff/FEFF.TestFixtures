@@ -18,7 +18,7 @@ public sealed class FixtureServiceProviderTests : IAsyncDisposable
         // services.AddFixtures();
         services.AddScoped<CustomFixture>();
 
-        Factory = new FixtureServiceProvider(services);
+        Factory = new FixtureServiceProvider(services.BuildServiceProvider());
         Scope = Factory.CreateScope();
     }
 
