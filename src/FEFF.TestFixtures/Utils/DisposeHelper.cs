@@ -4,15 +4,28 @@ namespace FEFF.Extentions;
 
 //TODO: link nuget
 
+internal interface IDisposer<T>
+{
+    static abstract ValueTask DisposeAsync(T disposable);
+}
+
 internal static class DisposeHelper
 {
-    public static ValueTask DisposeAsync(List<IAsyncDisposable> disposables)
+    public static ValueTask DisposeAsync(IReadOnlyList<IAsyncDisposable> disposables)
     {
-//TODO: optimize        
-        return DisposeAsync((IEnumerable<object>)disposables);
+        return InternalDisposeAsync<Disposer, IAsyncDisposable>(disposables);
     }
 
-    public static async ValueTask DisposeAsync(IEnumerable<object> disposables)
+    public static ValueTask DisposeAsync(IReadOnlyList<object> disposables)
+    {
+        return InternalDisposeAsync<Disposer, object>(disposables);
+    }
+
+    /// <remarks>
+    /// Polymorfic over 'T' algorithm. The <see cref="Disposer"/> class defines abstraction over non-polymorphic static methods.
+    /// </remarks>
+    private static async ValueTask InternalDisposeAsync<TDisposer,T>(IReadOnlyList<T> disposables)
+    where TDisposer : IDisposer<T>
     {
         // see also (optimizations)
         // https://github.com/dotnet/runtime/pull/123342
@@ -25,8 +38,9 @@ internal static class DisposeHelper
         {
             try
             {
-                await DisposeObject(d).ConfigureAwait(false);
-
+//TODO: optimize
+                await TDisposer.DisposeAsync(d).ConfigureAwait(false);
+                // not working
                 // var vt = DisposeObject(d);
                 // if(vt.IsCompleted == false)
                 //     await vt.ConfigureAwait(false);
@@ -55,14 +69,23 @@ internal static class DisposeHelper
             first.Throw();
     }
 
-    private static ValueTask DisposeObject(object o)
+    // static class can not implement interface therefore create non-static nested class
+    private class Disposer : IDisposer<object>, IDisposer<IAsyncDisposable>
     {
-        if(o is IAsyncDisposable ad)
-            return ad.DisposeAsync();
+        static ValueTask IDisposer<object>.DisposeAsync(object disposable)
+        {
+            if(disposable is IAsyncDisposable ad)
+                return ad.DisposeAsync();
 
-        else if(o is IDisposable d)
-            d.Dispose();
+            else if(disposable is IDisposable d)
+                d.Dispose();
 
-        return ValueTask.CompletedTask;
+            return ValueTask.CompletedTask;
+        }
+
+        static ValueTask IDisposer<IAsyncDisposable>.DisposeAsync(IAsyncDisposable disposable)
+        {
+            return disposable.DisposeAsync();
+        }
     }
 }
