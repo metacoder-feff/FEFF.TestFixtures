@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Core;
 
-internal class FixtureManagerOptions : IFixtureManagerOptions
+public class FixtureManagerOptions : IFixtureManagerOptions
 {
     private readonly List<Action<IServiceCollection>> _actions = [];
 
@@ -34,26 +34,14 @@ internal class FixtureManagerOptions : IFixtureManagerOptions
         var sc = services.BuildServiceProvider(true);
         return sc;
     }
-    
 }
 
 public class FixtureManagerBuilder
 {
-    private readonly FixtureManagerOptions _options = new();
-
-    /// <remarks>
-    /// Mandatory delegate with default implementation.
-    /// </remarks>
-    // public Action<IServiceCollection> DiscoverFixturesAction { get; set; }
-
-    /// <remarks>
-    /// Add one or more optional delegates.
-    /// </remarks>
-    public void ConfigureServices(Action<IServiceCollection> action) =>
-        _options.ConfigureServices(action);
+    public FixtureManagerOptions Options { get; set; } = new();
 
     public FixtureManager Build()
     {
-        return new(_options);
+        return new(Options);
     }
 }

@@ -13,7 +13,14 @@ namespace FEFF.TestFixtures.Core
     public class FixtureManagerBuilder
     {
         public FixtureManagerBuilder() { }
+        public FEFF.TestFixtures.Core.FixtureManagerOptions Options { get; set; }
         public FEFF.TestFixtures.Core.FixtureManager Build() { }
+    }
+    public class FixtureManagerOptions
+    {
+        public FixtureManagerOptions() { }
+        public System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> DiscoverFixturesAction { get; set; }
+        public Microsoft.Extensions.DependencyInjection.ServiceProvider BuildServiceProvider() { }
         public void ConfigureServices(System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> action) { }
     }
     public interface IFixtureScope
