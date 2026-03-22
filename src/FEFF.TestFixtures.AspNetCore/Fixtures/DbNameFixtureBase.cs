@@ -52,7 +52,7 @@ public class DbNameFixtureBase
         // need to delete at all ?
         // or just leave ?
         // or intellegent backround batch delete after a number of tests finished?
-        //await TryDeleteDatabaseAsync();
+        //await TryDeleteDatabaseAsync().ConfigureAwait(false);
     // }
     
 //TODO: delete without DbCtx
@@ -62,7 +62,7 @@ public class DbNameFixtureBase
 //         // e.g. App cannot be started in a negative test
 //         try
 //         {
-//             await DbCtx.Database.EnsureDeletedAsync();
+//             await DbCtx.Database.EnsureDeletedAsync().ConfigureAwait(false);
 //         }
 //         catch { }
 //     }
