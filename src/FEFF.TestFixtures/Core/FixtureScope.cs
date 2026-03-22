@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Core;
 
-public sealed class FixtureScope : IAsyncDisposable, IFixtureScope
+internal sealed class FixtureScope : IAsyncDisposable, IFixtureScope
 {
     private readonly AsyncServiceScope _serviceScope;
 

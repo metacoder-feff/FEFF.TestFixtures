@@ -6,8 +6,9 @@ using Core;
 [Fixture]
 internal class FixtureHelper : IAsyncDisposable
 {
+    public const string ScopeId = "testing-scope-1";
     public FixtureManager FixtureManager { get; }
-    public FixtureScope Scope { get; }
+    public IFixtureScope Scope { get; }
 
     private readonly Dictionary<string, string?> _additionalConfiguration = [];
 
@@ -19,7 +20,7 @@ internal class FixtureHelper : IAsyncDisposable
         );
 
         FixtureManager = builder.Build();
-        Scope = FixtureManager.GetScope("testing-scope-1");
+        Scope = FixtureManager.GetScope(ScopeId);
     }
 
     public ValueTask DisposeAsync()

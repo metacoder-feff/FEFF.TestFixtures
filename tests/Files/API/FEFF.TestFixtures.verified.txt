@@ -7,7 +7,7 @@ namespace FEFF.TestFixtures.Core
     public sealed class FixtureManager : System.IAsyncDisposable
     {
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
-        public FEFF.TestFixtures.Core.FixtureScope GetScope(string id) { }
+        public FEFF.TestFixtures.Core.IFixtureScope GetScope(string id) { }
         public System.Threading.Tasks.ValueTask RemoveScopeAsync(string scopeId) { }
     }
     public class FixtureManagerBuilder
@@ -16,13 +16,6 @@ namespace FEFF.TestFixtures.Core
         public System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> DiscoverFixturesAction { get; set; }
         public FEFF.TestFixtures.Core.FixtureManager Build() { }
         public void ConfigureServices(System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> action) { }
-    }
-    public sealed class FixtureScope : FEFF.TestFixtures.Core.IFixtureScope, System.IAsyncDisposable
-    {
-        public FixtureScope(Microsoft.Extensions.DependencyInjection.ServiceProvider sp) { }
-        public System.Threading.Tasks.ValueTask DisposeAsync() { }
-        public T GetFixture<T>()
-            where T :  notnull { }
     }
     public interface IFixtureScope
     {

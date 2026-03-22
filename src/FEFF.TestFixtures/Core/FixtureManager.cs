@@ -36,7 +36,7 @@ public sealed class FixtureManager : IAsyncDisposable
         _provider = options.BuildServiceProvider();
     }
 
-    public FixtureScope GetScope(string id)
+    public IFixtureScope GetScope(string id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
 
