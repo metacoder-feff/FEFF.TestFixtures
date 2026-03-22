@@ -3,11 +3,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Core;
 
-internal static class FixtureCollector
+// Lazy<> is thread-safe by default
+internal static class ReflectiveFixtureCollector
 {
-    // thread-safe by default
-    // TODO: cache callbacks only
+// TODO: cache callbacks only
     private static readonly Lazy<ServiceCollection> __cachedFixtureServices = new(CreateServiceCollection);
+    
+    private static readonly Lazy<MethodInfo> RegisterExtendedMethodInfo = new(() =>
+        ThrowHelper.EnsureNotNull(
+            typeof(ReflectiveFixtureCollector)
+            .GetMethod(nameof(RegisterExtended), BindingFlags.NonPublic | BindingFlags.Static)
+        )
+    );
 
     private static ServiceCollection CreateServiceCollection()
     {
@@ -74,18 +81,13 @@ internal static class FixtureCollector
         if(t.GetInterfaces().Contains(typeof(IFixureRegistrator)) == false)
             return;
 
-//TODO: memoize?
-        var method = ThrowHelper.EnsureNotNull(
-            typeof(FixtureCollector).GetMethod(nameof(RegisterExtended), BindingFlags.NonPublic | BindingFlags.Static)
-        );
-
-        method
+        RegisterExtendedMethodInfo.Value
             .MakeGenericMethod(t)
             .Invoke(null, [services])
             ;
     }
 
-    // Since an interface implementation may have a different method name, 
+    // Since an interface implementation may have a different method name or visibility, 
     // it's safer to call it through static linking rather than directly via reflection.
     private static void RegisterExtended<T>(ServiceCollection services)
     where T: IFixureRegistrator
