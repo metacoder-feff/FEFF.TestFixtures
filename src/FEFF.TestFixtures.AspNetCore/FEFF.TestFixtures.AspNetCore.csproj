@@ -15,7 +15,7 @@
     <VersionSuffix>alpha</VersionSuffix>
     <PackageId>FEFF.TestFixtures.AspNetCore</PackageId>
     <Description>A library of fuxtures used to test AspNetCore appications.</Description>
-    <PackageTags>testing;fixtures;AspNetCore</PackageTags>
+    <PackageTags>testing;fixtures;AspNetCore;FEFF;</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

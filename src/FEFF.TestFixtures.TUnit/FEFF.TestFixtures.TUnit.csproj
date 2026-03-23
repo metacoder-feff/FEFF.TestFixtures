@@ -1,21 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
 
     <!-- NUGET -->
-    <PackageId>FEFF.TestFixtures.XunitV3</PackageId>
+    <PackageId>FEFF.TestFixtures.TUnit</PackageId>
     <IsPackable>true</IsPackable>
-    <Description>Xunit extension: Replace setup/teardown methods with reusable Fuxtures, dependency injection for fixtures.</Description>
-    <PackageTags>testing;fixtures;Xunit;FEFF;</PackageTags>
+    <Description>TUnit extension for 'FEFF.Fixures'.</Description>
+    <PackageTags>testing;fixtures;TUnit;FEFF;</PackageTags>
+<!-- TODO: readme -->
   </PropertyGroup>
 
   <ItemGroup>
      <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.2" />
+    <PackageReference Include="TUnit.Core" Version="1.20.0" />
   </ItemGroup>
 
   <ItemGroup>

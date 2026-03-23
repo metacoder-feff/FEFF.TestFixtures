@@ -1,10 +1,12 @@
 <Solution>
   <Folder Name="/examples/">
+    <Project Path="examples/ExampleTests.TUnit/ExampleTests.TUnit.csproj" />
     <Project Path="examples/ExampleTests.XunitV3/ExampleTests.XunitV3.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
     <Project Path="src/FEFF.TestFixtures.AspNetCore/FEFF.TestFixtures.AspNetCore.csproj" />
+    <Project Path="src/FEFF.TestFixtures.TUnit/FEFF.TestFixtures.TUnit.csproj" />
     <Project Path="src/FEFF.TestFixtures.XunitV3/FEFF.TestFixtures.XunitV3.csproj" />
   </Folder>
   <Folder Name="/tests/">
