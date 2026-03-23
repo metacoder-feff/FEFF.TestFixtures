@@ -3,7 +3,7 @@ using AwesomeAssertions;
 using FEFF.TestFixtures;
 using FEFF.TestFixtures.TUnit;
 
-namespace ExampleTests.XunitV3;
+namespace ExampleTests.TUnit;
 
 public class SystemUnderTest
 {
@@ -14,6 +14,9 @@ public class SystemUnderTest
 public class ExampleTests
 {
     protected TmpDirectoryFixture TmpDir { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>();
+    // protected TmpDirectoryFixture TmpDir1 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(FixtureScopeType.Class);
+    // protected TmpDirectoryFixture TmpDir2 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(FixtureScopeType.Assembly);
+    // protected TmpDirectoryFixture TmpDir3 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(FixtureScopeType.Session);
 
     [Test]
     public void File__should_be_created()

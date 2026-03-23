@@ -1,20 +1,16 @@
 using FEFF.TestFixtures.Core;
-using TUnit.Core.Interfaces;
 
 namespace FEFF.TestFixtures.TUnit;
 
 public enum FixtureScopeType { TestCase, Class, Assembly, Session };
 
-public static class DisposeHelper
-{
-    
-}
-
-
-
 // ctor/dispose not called without tests
-public static class GlobalHooks
+public static class GlobalHooksExtention
 {
+//TODO: multiple sessions???
+// => scopeId
+// => dispose
+
 #if NET9_0_OR_GREATER
     private static readonly Lock _lock = new(); 
 #else
@@ -31,12 +27,30 @@ public static class GlobalHooks
         var id = GetScopeId(ctx, scopeType);
         return m.GetScope(id).GetFixture<T>();
     }
-
-    private static string GetScopeId(Context ctx, FixtureScopeType scopeType)
+    private static string GetScopeId(TestContext ctx, FixtureScopeType scopeType) => scopeType switch
     {
-        var tc = (TestContext)ctx;
-        return $"{scopeType}-{tc.Id}";
-    }
+        FixtureScopeType.TestCase   => GetScopeId(ctx),
+        FixtureScopeType.Class      => GetScopeId(ctx.ClassContext),
+        FixtureScopeType.Assembly   => GetScopeId(ctx.ClassContext.AssemblyContext),
+        FixtureScopeType.Session    => GetScopeId(ctx.ClassContext.AssemblyContext.TestSessionContext),
+//TODO: UTILS        
+        _ => throw new InvalidOperationException($"Enum match error: '{nameof(FixtureScopeType)}' has value '{scopeType}' ({(int)scopeType})")
+    };
+
+    private static string GetScopeId(string ctxId, FixtureScopeType scopeType) =>
+        $"{scopeType}-{ctxId}";
+
+    private static string GetScopeId(TestContext ctx) =>
+        GetScopeId(ctx.Id, FixtureScopeType.TestCase);
+
+    private static string GetScopeId(ClassHookContext ctx) =>
+        GetScopeId($"{ctx.ClassType.FullName}_{ctx.ClassType.Assembly.FullName}", FixtureScopeType.Class);
+
+    private static string GetScopeId(AssemblyHookContext ctx) =>
+        GetScopeId(ctx.Assembly.FullName!, FixtureScopeType.Assembly);
+
+    private static string GetScopeId(TestSessionContext ctx) =>
+        GetScopeId(ctx.Id, FixtureScopeType.Session);
 
     private static FixtureManager GetManager()
     {
@@ -52,48 +66,55 @@ public static class GlobalHooks
         return _manager;
     }
 
-    private static async Task RemoveScope(Context ctx, FixtureManager? manager, FixtureScopeType sc)
+    private static async Task RemoveScope(FixtureManager? manager, string id)
     {
         if (manager == null)
             return;
-
-        var id = GetScopeId(ctx, sc);
 
         await manager.RemoveScopeAsync(id);
     }
 
     [AfterEvery(Test)]
-    public async static Task After(TestContext ctx)
+    public async static Task AfterT(TestContext ctx)
     {
-        await RemoveScope(ctx, _manager, FixtureScopeType.TestCase);
+        var id = GetScopeId(ctx);
+        await RemoveScope(_manager, id);
     }
 
-    // [AfterEvery(Class)]
-    // public async static Task After(ClassHookContext ctx)
-    // {
-    //     await RemoveScope(ctx, _manager, FixtureScopeType.Class);
-    // }
+//TODO: not called
+    [AfterEvery(Class)]
+    // [After(Class)]
+    public async static Task AfterC(ClassHookContext ctx)
+    {
+        var id = GetScopeId(ctx);
+        await RemoveScope(_manager, id);
+    }
+//TODO: not called
+    [AfterEvery(Assembly)]
+    //[After(Assembly)]
+    public async static Task AfterA(AssemblyHookContext ctx)
+    {
+        var id = GetScopeId(ctx);
+        await RemoveScope(_manager, id);
+    }
 
-    // [AfterEvery(Assembly)]
-    // public async static Task After(AssemblyHookContext ctx)
-    // {
-    //     await RemoveScope(ctx, _manager, FixtureScopeType.Assembly);
-    // }
+    // Dispose _manager here.
+    [After(TestSession)]
+    public async static Task AfterS(TestSessionContext ctx)
+    {
+        var m = Interlocked.Exchange(ref _manager, null);
 
-    // [After(TestSession)]
-    // public async static Task After(TestSessionContext ctx)
-    // {
-    //     var m = Interlocked.Exchange(ref _manager, null);
-
-    //     await RemoveScope(ctx, m, FixtureScopeType.Session);
+        var id = GetScopeId(ctx);
+        await RemoveScope(m, id);
         
-    //     if(m != null)
-    //         await m.DisposeAsync();
-    // }
+        if(m != null)
+            await m.DisposeAsync();
+    }
 }
 
 //TODO: not called
 /*
+using TUnit.Core.Interfaces;
 public sealed class LoggingHookExecutor : IHookExecutor, IDisposable
 {
     public LoggingHookExecutor()
