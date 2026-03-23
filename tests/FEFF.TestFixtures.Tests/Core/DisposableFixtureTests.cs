@@ -2,6 +2,11 @@ namespace FEFF.TestFixtures.Tests;
 
 public class DisposableFixtureTests : FixtureTestBase
 {
+    private ValueTask DisposeScopeAsync()
+    {
+        return Helper.FixtureManager.RemoveScopeAsync(FixtureHelper.ScopeId);
+    }
+
     [Fact]
     public async Task DisposableFixture__after_scope_ends__should_be_disposed()
     {
@@ -10,7 +15,7 @@ public class DisposableFixtureTests : FixtureTestBase
         f1.IsDisposed.Should().BeFalse();
 
         // Act
-        await Helper.Scope.DisposeAsync();
+        await DisposeScopeAsync();
         
         // Assert
         f1.IsDisposed.Should().BeTrue();
@@ -20,11 +25,25 @@ public class DisposableFixtureTests : FixtureTestBase
     public async Task AsyncDisposableFixture__after_scope_ends__should_be_disposed()
     {
         // Arrange
-        var f1 = Helper.GetFixture<AsyncDisposableFixture>();
+        var f1 = Helper.GetFixture<CompletedAsyncDisposableFixture>();
         f1.IsDisposed.Should().BeFalse();
 
         // Act
-        await Helper.Scope.DisposeAsync();
+        await DisposeScopeAsync();
+        
+        // Assert
+        f1.IsDisposed.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task CompletedAsyncDisposableFixture__after_scope_ends__should_be_disposed()
+    {
+        // Arrange
+        var f1 = Helper.GetFixture<CompletedAsyncDisposableFixture>();
+        f1.IsDisposed.Should().BeFalse();
+
+        // Act
+        await DisposeScopeAsync();
         
         // Assert
         f1.IsDisposed.Should().BeTrue();
@@ -39,15 +58,23 @@ public class DisposableFixtureTests : FixtureTestBase
         f1.IsDisposedAsync.Should().BeFalse();
 
         // Act
-        await Helper.Scope.DisposeAsync();
+        await DisposeScopeAsync();
         
         // Assert
         f1.IsDisposedSync.Should().BeFalse();       // Only DisposeAsync has been called
         f1.IsDisposedAsync.Should().BeTrue();
     }
+
+    [Fact]
+    public async Task Dispose__with_exception__should_throw()
+    {
+        _ = Helper.GetFixture<ErrorDisposableFixture>();
+
+        var act = () => DisposeScopeAsync().AsTask();
+        await act.Should().ThrowExactlyAsync<InvalidOperationException>();
+    }
     
-//TODO: enable when Microsoft.Extensions.DependencyInjection.dll v11+
-    [Fact(Skip = "implemented in dotnet 11: https://github.com/dotnet/runtime/commit/800f26a3668eef82327355f9f11bc9ec6ca8ee1f")]
+    [Fact]
     public async Task Dispose__with_exception__should_not_prevent_other_fixtures_from_being_disposed()
     {
         //ServiceProviderEngineScope should aggregate exceptions in Dispose rather than throwing on the first
@@ -57,9 +84,9 @@ public class DisposableFixtureTests : FixtureTestBase
         // fixtures would be disposed in same/reverse order
         var f1 = Helper.GetFixture<DisposableFixture>();
         _ = Helper.GetFixture<ErrorDisposableFixture>();
-        var f2 = Helper.GetFixture<AsyncDisposableFixture>();
+        var f2 = Helper.GetFixture<CompletedAsyncDisposableFixture>();
 
-        var act = () => Helper.Scope.DisposeAsync().AsTask();
+        var act = () => DisposeScopeAsync().AsTask();
         await act.Should().ThrowExactlyAsync<InvalidOperationException>();
 
         // assert previous and next
@@ -77,7 +104,7 @@ internal class DisposableFixture : IDisposable
 }
 
 [Fixture]
-internal sealed class AsyncDisposableFixture : IAsyncDisposable
+internal sealed class CompletedAsyncDisposableFixture : IAsyncDisposable
 {
     public bool IsDisposed { get; private set;}
 
@@ -107,4 +134,17 @@ internal sealed class BothDisposableFixture : IAsyncDisposable, IDisposable
 internal class ErrorDisposableFixture : IDisposable
 {
     public void Dispose() => throw new InvalidOperationException("test exception");
+}
+
+[Fixture]
+internal sealed class AsyncDisposableFixture : IAsyncDisposable
+{
+    public bool IsDisposed { get; private set;}
+
+    public async ValueTask DisposeAsync()
+    {
+        await Task.Delay(100);
+
+        IsDisposed = true;
+    }
 }

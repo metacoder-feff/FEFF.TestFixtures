@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Core;
 
-public class FixtureManagerBuilder
+public class FixtureManagerOptions : IFixtureManagerOptions
 {
     private readonly List<Action<IServiceCollection>> _actions = [];
 
@@ -19,7 +19,7 @@ public class FixtureManagerBuilder
         _actions.Add(action);
     }
 
-    public FixtureManager Build()
+    public ServiceProvider BuildServiceProvider()
     {
         var services = new ServiceCollection()
             .AddConfiguration()
@@ -27,11 +27,21 @@ public class FixtureManagerBuilder
             .Apply(DiscoverFixturesAction)
             ;
 
-        foreach(var action in _actions)
+        foreach (var action in _actions)
             services.Apply(action);
-            //== action(services);
+        //== action(services);
 
-        var provider = new FixtureServiceProvider(services);
-        return new(provider);
+        var sc = services.BuildServiceProvider(true);
+        return sc;
+    }
+}
+
+public class FixtureManagerBuilder
+{
+    public FixtureManagerOptions Options { get; set; } = new();
+
+    public FixtureManager Build()
+    {
+        return new(Options);
     }
 }

@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace FEFF.TestFixtures.Core;
 
 public interface IFixtureScope
@@ -5,8 +7,13 @@ public interface IFixtureScope
     T GetFixture<T>() where T : notnull;
 }
 
+internal interface IFixtureManagerOptions
+{
+    ServiceProvider BuildServiceProvider();    
+}
+
 /// <summary>
-/// This class creates, memoizes and disoses <see cref="IFixtureScope"/>.<br/>
+/// This class creates, memoizes and disposes <see cref="IFixtureScope"/>.<br/>
 /// User can destroy <see cref="IFixtureScope"/> either by calling <see cref="RemoveScopeAsync"/> or by <see cref="DisposeAsync"/> that disposes all resources including all cached fuxture-scopes.
 /// </summary>
 /// <remarks>
@@ -14,7 +21,7 @@ public interface IFixtureScope
 /// </remarks>
 public sealed class FixtureManager : IAsyncDisposable
 {
-    private readonly FixtureServiceProvider _provider;
+    private readonly ServiceProvider _provider;
     private readonly Dictionary<string, FixtureScope> _scopes = [];
 
 #if NET9_0_OR_GREATER
@@ -24,12 +31,16 @@ public sealed class FixtureManager : IAsyncDisposable
 #endif
     private bool _isDisposed;
 
-    internal FixtureManager(FixtureServiceProvider provider)
+//TODO: public ctor
+    /// <remarks>
+    /// Use <see cref="FixtureManagerBuilder"/> for instance construction.
+    /// </remarks>
+    internal FixtureManager(IFixtureManagerOptions options)
     {
-        _provider = provider;
+        _provider = options.BuildServiceProvider();
     }
 
-    public FixtureScope GetScope(string id)
+    public IFixtureScope GetScope(string id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
 
@@ -43,10 +54,15 @@ public sealed class FixtureManager : IAsyncDisposable
             if(_scopes.ContainsKey(id))
                 return _scopes[id];
 
-            var res = _provider.CreateScope();
+            var res = CreateScope();
             _scopes[id] = res;
             return res; 
         }
+    }
+
+    private FixtureScope CreateScope()
+    {
+        return new FixtureScope(_provider);
     }
 
     public ValueTask DisposeAsync()

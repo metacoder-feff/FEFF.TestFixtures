@@ -6,39 +6,27 @@ namespace FEFF.TestFixtures.Core
 {
     public sealed class FixtureManager : System.IAsyncDisposable
     {
-        public FixtureManager(FEFF.TestFixtures.Core.IFixtureServiceProviderBuilder? builder = null) { }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
-        public FEFF.TestFixtures.Core.FixtureScope GetScope(string id) { }
+        public FEFF.TestFixtures.Core.IFixtureScope GetScope(string id) { }
         public System.Threading.Tasks.ValueTask RemoveScopeAsync(string scopeId) { }
     }
-    public sealed class FixtureScope : FEFF.TestFixtures.Core.IFixtureScope, System.IAsyncDisposable
+    public class FixtureManagerBuilder
     {
-        public FixtureScope(Microsoft.Extensions.DependencyInjection.ServiceProvider sp) { }
-        public System.Threading.Tasks.ValueTask DisposeAsync() { }
-        public T GetFixture<T>()
-            where T :  notnull { }
+        public FixtureManagerBuilder() { }
+        public FEFF.TestFixtures.Core.FixtureManagerOptions Options { get; set; }
+        public FEFF.TestFixtures.Core.FixtureManager Build() { }
     }
-    public sealed class FixtureServiceProvider : System.IAsyncDisposable
+    public class FixtureManagerOptions
     {
-        public FixtureServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
-        public FEFF.TestFixtures.Core.FixtureScope CreateScope() { }
-        public System.Threading.Tasks.ValueTask DisposeAsync() { }
-    }
-    public class FixtureServiceProviderBuilder : FEFF.TestFixtures.Core.IFixtureServiceProviderBuilder
-    {
-        public FixtureServiceProviderBuilder() { }
+        public FixtureManagerOptions() { }
         public System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> DiscoverFixturesAction { get; set; }
-        public FEFF.TestFixtures.Core.FixtureServiceProvider Build() { }
+        public Microsoft.Extensions.DependencyInjection.ServiceProvider BuildServiceProvider() { }
         public void ConfigureServices(System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> action) { }
     }
     public interface IFixtureScope
     {
         T GetFixture<T>()
             where T :  notnull;
-    }
-    public interface IFixtureServiceProviderBuilder
-    {
-        FEFF.TestFixtures.Core.FixtureServiceProvider Build();
     }
 }
 namespace FEFF.TestFixtures

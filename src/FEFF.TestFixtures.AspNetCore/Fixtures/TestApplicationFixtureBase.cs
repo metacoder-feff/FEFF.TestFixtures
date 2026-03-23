@@ -18,7 +18,7 @@ public interface ITestApplicationFixture
 /// User should derive a fixture class with fixed <see cref="TEntryPoint"/> and add <see cref="FixtureAttribute(FixtureType = typeof(ITestApplicationFixture))"/> to register.
 /// </summary>
 /// <typeparam name="TEntryPoint"></typeparam>
-public class TestApplicationFixtureBase<TEntryPoint> : IAsyncDisposable, ITestApplicationFixture
+public sealed class TestApplicationFixtureBase<TEntryPoint> : IAsyncDisposable, ITestApplicationFixture
 where TEntryPoint: class
 {
     private readonly TestApplicationBuilder<TEntryPoint> _appBuilder = new();
@@ -48,6 +48,6 @@ where TEntryPoint: class
     public async ValueTask DisposeAsync()
     {
         if (_app.IsValueCreated)
-            await _app.Value.DisposeAsync();
+            await _app.Value.DisposeAsync().ConfigureAwait(false);
     }
 }
