@@ -26,6 +26,7 @@ public static class GlobalHooksExtention
         var id = GetScopeId(ctx, scopeType);
         return m.GetScope(id).GetFixture<T>();
     }
+    
     private static string GetScopeId(TestContext ctx, FixtureScopeType scopeType) => scopeType switch
     {
         FixtureScopeType.TestCase   => GetScopeId(ctx),
@@ -89,8 +90,8 @@ public static class GlobalHooksExtention
         await RemoveScope(_manager, id);
     }
 //TODO: not called
-    [AfterEvery(Assembly)]
-    //[After(Assembly)]
+    // [AfterEvery(Assembly)]
+    [After(Assembly)]
     public async static Task AfterA(AssemblyHookContext ctx)
     {
         var id = GetScopeId(ctx);
