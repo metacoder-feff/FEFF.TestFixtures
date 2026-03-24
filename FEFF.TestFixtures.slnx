@@ -10,6 +10,7 @@
     <Project Path="src/FEFF.TestFixtures.XunitV3/FEFF.TestFixtures.XunitV3.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/FEFF.TestFixtures.ApiVerification.Tests/FEFF.TestFixtures.ApiVerification.Tests.csproj" />
     <Project Path="tests/FEFF.TestFixtures.Tests/FEFF.TestFixtures.Tests.csproj" />
     <Project Path="tests/FEFF.TestFixtures.XunitV3.Tests/FEFF.TestFixtures.XunitV3.Tests.csproj" />
   </Folder>
