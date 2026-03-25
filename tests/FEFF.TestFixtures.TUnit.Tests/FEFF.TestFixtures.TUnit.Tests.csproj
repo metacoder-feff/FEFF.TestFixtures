@@ -9,11 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
+    <PackageReference Include="AwesomeAssertions.Json" Version="9.0.0" />
     <PackageReference Include="TUnit" Version="1.*" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FEFF.TestFixtures.TUnit" Version="1.2.1" />
+    <ProjectReference Include="../FEFF.TestFixtures.TUnit.TestSubject/FEFF.TestFixtures.TUnit.TestSubject.csproj" />
   </ItemGroup>
 
 </Project>

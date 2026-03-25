@@ -18,11 +18,7 @@ public class ExampleTests
     // Other scopes example:
     // protected TmpDirectoryFixture TmpDir1 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(FixtureScopeType.Class);
     // protected TmpDirectoryFixture TmpDir2 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(FixtureScopeType.Assembly);
-
-    // Tnit.Core.SharedType can also be used:
-    // protected TmpDirectoryFixture TmpDir3 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(SharedType.PerTestSession);
-
-    // NOTE: Tnit.Core.SharedType.Keyed not suppoted.
+    // protected TmpDirectoryFixture TmpDir3 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(FixtureScopeType.Session);
 
     [Test]
     public void File__should_be_created()

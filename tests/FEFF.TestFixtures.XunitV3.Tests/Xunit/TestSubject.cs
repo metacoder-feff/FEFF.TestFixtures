@@ -1,4 +1,5 @@
 using FEFF.TestFixtures.Xunit;
+using Microsoft.Extensions.DependencyInjection;
 
 // register the extension
 [assembly: TestFixturesExtension]
@@ -27,6 +28,21 @@ class CollectionFix : BaseFix {}
 [Fixture]
 class AssemblyFix : BaseFix {}
 
+class SingletoneTester : IFixureRegistrator, IDisposable
+{
+    public static bool IsDisposed { get; set; }
+
+    public static void RegisterFixture(IServiceCollection services)
+    {
+        services.AddSingleton<SingletoneTester>();
+    }
+
+    public void Dispose()
+    {
+        IsDisposed = true;
+    }
+}
+
 public class TestSubject
 {   
     protected static T GetFixture<T>(FixtureScopeType scopeType = FixtureScopeType.TestCase)
@@ -42,11 +58,13 @@ public class TestSubject
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
         var f3 = GetFixture<CollectionFix>(FixtureScopeType.Collection);
         var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
+        var s  = GetFixture<SingletoneTester>();
 
         f1.Should().BeOfType<TestFix>();
         f2.Should().BeOfType<ClassFix>();
         f3.Should().BeOfType<CollectionFix>();
         f4.Should().BeOfType<AssemblyFix>();
+        s.Should().BeOfType<SingletoneTester>();
     }
 
     [Fact]
