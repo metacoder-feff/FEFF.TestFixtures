@@ -18,7 +18,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Reusable testing components.</Description>
     <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
-    <PackageTags>testing;fixtures</PackageTags>
+    <PackageTags>testing;fixtures;FEFF;</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <!-- PDB/SourceLink -->
     <IncludeSymbols>true</IncludeSymbols>

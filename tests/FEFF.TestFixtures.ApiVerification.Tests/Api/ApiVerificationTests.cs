@@ -12,16 +12,21 @@ public class ApiVerificationTests
     public Task VerifyXunit_checks_should_be_positive() => VerifyChecks.Run();
 
     [Theory]
+    // this assemblies are referenced by project to set build order
     [InlineData("FEFF.TestFixtures")]
     [InlineData("FEFF.TestFixtures.XunitV3")]
-    //[InlineData("FEFF.TestFixtures.AspNetCore")]
+    [InlineData("FEFF.TestFixtures.TUnit")]
+    [InlineData("FEFF.TestFixtures.AspNetCore")]
     public Task API_should_not_change(string assemblyName)
     {
+        // var assembly = AppDomain.CurrentDomain
+        //     .GetAssemblies()
+        //     .Single(x => x.GetName().Name == assemblyName)
+        //     ;
 
-        var assembly = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .Single(x => x.GetName().Name == assemblyName)
-            ;
+        var loc = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        var dirAsm = new FileInfo(loc).Directory?.FullName;
+        var assembly = System.Reflection.Assembly.LoadFile($"{dirAsm}/{assemblyName}.dll");
 
         var publicApi = assembly.GeneratePublicApi(options: null);
 

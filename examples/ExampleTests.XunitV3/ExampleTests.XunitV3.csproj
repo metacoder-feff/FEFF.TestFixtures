@@ -8,19 +8,28 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
-    <PackageReference Include="coverlet.collector" Version="8.0.1">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="FEFF.TestFixtures.XunitV3" Version="1.0.5" />
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageReference Include="xunit.v3" Version="3.2.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
+    <PackageReference Include="AwesomeAssertions.Json" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FEFF.TestFixtures.XunitV3" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

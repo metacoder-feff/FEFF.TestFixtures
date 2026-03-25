@@ -1,0 +1,44 @@
+﻿using System.Text;
+using AwesomeAssertions;
+using FEFF.TestFixtures;
+using FEFF.TestFixtures.TUnit;
+
+namespace ExampleTests.TUnit;
+
+public class SystemUnderTest
+{
+    public static void Write(string filePath) =>
+        File.WriteAllText(filePath, "some-data", Encoding.UTF8);
+}
+
+public class ExampleTests
+{
+    protected TmpDirectoryFixture TmpDir { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>();
+
+    // Other scopes example:
+    // protected TmpDirectoryFixture TmpDir1 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(FixtureScopeType.Class);
+    // protected TmpDirectoryFixture TmpDir2 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(FixtureScopeType.Assembly);
+
+    // Tnit.Core.SharedType can also be used:
+    // protected TmpDirectoryFixture TmpDir3 { get; } = TestContext.Current!.GetFeffFixture<TmpDirectoryFixture>(SharedType.PerTestSession);
+
+    // NOTE: Tnit.Core.SharedType.Keyed not suppoted.
+
+    [Test]
+    public void File__should_be_created()
+    {
+        // Arrange
+        var filePath = TmpDir.Path + "/file.tmp";
+        File.Exists(filePath).Should().BeFalse();
+
+        // Act
+        SystemUnderTest.Write(filePath);
+
+        // Assert
+        File.Exists(filePath)
+            .Should().BeTrue();
+
+        File.ReadAllText(filePath, Encoding.UTF8)
+            .Should().Be("some-data");
+    }
+}
