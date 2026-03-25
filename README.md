@@ -1,9 +1,9 @@
 # FEFF.TestFixtures
 
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)
+![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=FEFF.TestFixtures.TUnit)
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=FEFF.TestFixtures)
 ![NuGet Version](https://img.shields.io/nuget/vpre/FEFF.TestFixtures.AspNetCore?label=FEFF.TestFixtures.AspNetCore)
-![NuGet Version](https://img.shields.io/nuget/vpre/FEFF.TestFixtures.TUnit?label=FEFF.TestFixtures.TUnit)
 
 ✅ Replace setup/teardown methods and cumbersome "Disposable pattern" with reusable **Fixtures**.  
 ✅ Fixtures can depend on other fixtures.

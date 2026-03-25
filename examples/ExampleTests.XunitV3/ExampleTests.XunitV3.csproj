@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FEFF.TestFixtures.XunitV3" Version="1.0.5" />
+    <PackageReference Include="FEFF.TestFixtures.XunitV3" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
