@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Tests;
-using Core;
+using Engine;
 
 [Fixture]
 internal class FixtureHelper : IAsyncDisposable

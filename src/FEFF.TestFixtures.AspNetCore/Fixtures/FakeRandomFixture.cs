@@ -11,9 +11,9 @@ public class FakeRandomFixture
 {
     public readonly FakeRandom Value = new();
 
-    public FakeRandomFixture(ITestApplicationFixture app)
+    public FakeRandomFixture(TestApplicationExtention app)
     {
-        app.ApplicationBuilder.ConfigureServices(ReconfigureFactory);
+        app.ConfigureServices(ReconfigureFactory);
     }
 
     private void ReconfigureFactory(IServiceCollection services)

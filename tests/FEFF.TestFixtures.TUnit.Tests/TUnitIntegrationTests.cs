@@ -18,7 +18,7 @@ public class TUnitIntegrationTests
         var fi = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
         var d = fi.Directory!.FullName;
         // testSubject is referenced by this project, therefore it is built and copied here
-        var testSubject = $"{d}/FEFF.TestFixtures.TUnit.TestSubject.dll";
+        var testSubject = $"{d}/TUnit.TestSubject.dll";
         // testSubject creates a file in its dir
         var resultFile = $"{d}/test-subject-result.json";
         

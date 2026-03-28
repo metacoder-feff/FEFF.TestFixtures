@@ -1,0 +1,32 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/metacoder-feff/FEFF.TestFixtures")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FEFF.TestFixtures.AspNetCore")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FEFF.TestFixtures.TUnit")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FEFF.TestFixtures.XunitV3")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+namespace FEFF.TestFixtures.Engine
+{
+    public sealed class FixtureManager : System.IAsyncDisposable
+    {
+        public System.Threading.Tasks.ValueTask DisposeAsync() { }
+        public FEFF.TestFixtures.Engine.IFixtureScope GetScope(string id) { }
+        public System.Threading.Tasks.ValueTask RemoveScopeAsync(string scopeId) { }
+    }
+    public class FixtureManagerBuilder
+    {
+        public FixtureManagerBuilder() { }
+        public FEFF.TestFixtures.Engine.FixtureManagerOptions Options { get; set; }
+        public FEFF.TestFixtures.Engine.FixtureManager Build() { }
+    }
+    public class FixtureManagerOptions
+    {
+        public FixtureManagerOptions() { }
+        public System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> DiscoverFixturesAction { get; set; }
+        public Microsoft.Extensions.DependencyInjection.ServiceProvider BuildServiceProvider() { }
+        public void ConfigureServices(System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> action) { }
+    }
+    public interface IFixtureScope
+    {
+        T GetFixture<T>()
+            where T :  notnull;
+    }
+}

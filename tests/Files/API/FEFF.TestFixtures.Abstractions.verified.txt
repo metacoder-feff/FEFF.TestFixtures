@@ -1,0 +1,20 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/metacoder-feff/FEFF.TestFixtures")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FEFF.TestFixtures")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FEFF.TestFixtures.AspNetCore")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FEFF.TestFixtures.Engine")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FEFF.TestFixtures.TUnit")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("FEFF.TestFixtures.XunitV3")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+namespace FEFF.TestFixtures
+{
+    [System.AttributeUsage(System.AttributeTargets.Class)]
+    public class FixtureAttribute : System.Attribute
+    {
+        public FixtureAttribute() { }
+        public System.Type? RegisterWithType { get; set; }
+    }
+    public interface IFixureRegistar
+    {
+        void RegisterFixture(Microsoft.Extensions.DependencyInjection.IServiceCollection services);
+    }
+}

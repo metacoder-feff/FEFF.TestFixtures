@@ -14,9 +14,11 @@ public class ApiVerificationTests
     [Theory]
     // this assemblies are referenced by project to set build order
     [InlineData("FEFF.TestFixtures")]
+    [InlineData("FEFF.TestFixtures.Abstractions")]
+    [InlineData("FEFF.TestFixtures.Engine")]
+    [InlineData("FEFF.TestFixtures.AspNetCore")]
     [InlineData("FEFF.TestFixtures.XunitV3")]
     [InlineData("FEFF.TestFixtures.TUnit")]
-    [InlineData("FEFF.TestFixtures.AspNetCore")]
     public Task API_should_not_change(string assemblyName)
     {
         // var assembly = AppDomain.CurrentDomain

@@ -4,9 +4,8 @@
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
 
     <!-- NUGET -->
-    <PackageId>FEFF.TestFixtures.XunitV3</PackageId>
     <IsPackable>true</IsPackable>
-    <Description>Xunit extension: Replace setup/teardown methods with reusable Fuxtures, dependency injection for fixtures.</Description>
+    <Description>Xunit extension, adds 'FEFF.TestFixtures': Replace setup/teardown methods with reusable Fuxtures, dependency injection for fixtures.</Description>
     <PackageTags>testing;fixtures;Xunit;FEFF;</PackageTags>
   </PropertyGroup>
 
@@ -20,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
+    <ProjectReference Include="../FEFF.TestFixtures.Engine/FEFF.TestFixtures.Engine.csproj" />
   </ItemGroup>
 
 </Project>
