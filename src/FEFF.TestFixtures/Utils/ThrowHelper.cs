@@ -6,7 +6,8 @@ namespace FEFF.Extentions;
 
 //TODO: link nuget
 
-[DebuggerNonUserCode]
+[DebuggerStepThrough] // Break on exceptions only in an outer context when debugging
+[StackTraceHidden]    // Do not show this methods in a trace of the test ouputs (for AwesomeAseertions)
 internal static class ThrowHelper
 {
     /// <summary>
@@ -29,6 +30,19 @@ internal static class ThrowHelper
     /// Returns argument if it is not null.<br/>
     /// Throws <see cref="InvalidOperationException"/> otherwise.
     /// </summary>
+    /// <remarks>
+    /// It is convenient to wrap a complex expression with <see cref="EnsureNotNull"/>:
+    /// <example>
+    /// <code>
+    /// var result = ThrowHelper.Ensure(anObject?.Nested?.Nested?.Value);
+    /// </code>
+    /// </example>
+    /// Here:
+    /// <list type="number">
+    /// <item> The whole expression is serialized into error message, if expression is null.</item>
+    /// <item> The expression is calculated only once and is returned to consumer, if expression is NOT null.</item>
+    /// </list>
+    /// </remarks>
     /// <exception cref="InvalidOperationException"></exception>
     public static T EnsureNotNull<T>(
         [NotNull] T? argument, 
@@ -64,34 +78,65 @@ internal static class ThrowHelper
         }
     }
 
-/* Alternative  'extensible' way
-    public interface IArgumentExceptionFactory
-    {
-        [DoesNotReturn]
-        void Throw(string? message, string? paramName);
-    }
-
-    public class ArgumentExceptionFactory : IArgumentExceptionFactory
-    {
-        [DoesNotReturn]
-        public void Throw(string? message, string? paramName)
+/* Better Alternative  'extensible' way:
+        private static void Example1()
         {
-            throw new ArgumentException(message, paramName);
+            ThrowHelper.Throw<ArgumentException, ArgExFactory>("123");
         }
-    }
 
-    public static readonly ArgumentExceptionFactory Argument = new ();
+        [DoesNotReturn]
+        public static void Throw<TException, TFactory>(string? msg)
+        where TException : Exception
+        where TFactory : IExceptionFactory<TException>
+        {
+            throw TFactory.Create(msg);
+        }
 
-    public static void ThrowIfNullOrEmpty<T>(this IArgumentExceptionFactory src,
-        [NotNull]
-            IEnumerable<T>? argument,
-        [CallerArgumentExpression(nameof(argument))]
-            string? paramName = null)
-    {
-        ArgumentNullException.ThrowIfNull(argument, paramName);
+        public interface IExceptionFactory<T>
+        where T : Exception
+        {
+            public static abstract T Create(string? msg);
+        }
 
-        if(argument.Any() == false)
-            src.Throw("The value cannot be an empty collection.", paramName);
-    }
-    //*/
+        class ArgExFactory : IExceptionFactory<ArgumentException>
+        {
+            public static ArgumentException Create(string? msg) => new(msg);
+        }
+//*/
+
+/* Alternative  'extensible' way
+        private static void Example2()
+        {
+            ThrowHelper.Argument2.ThrowIfNullOrEmpty("");
+        }
+
+        public interface IArgumentExceptionFactory
+        {
+            [DoesNotReturn]
+            void Throw(string? message, string? paramName);
+        }
+
+        public class ArgumentExceptionFactory : IArgumentExceptionFactory
+        {
+            [DoesNotReturn]
+            public void Throw(string? message, string? paramName)
+            {
+                throw new ArgumentException(message, paramName);
+            }
+        }
+
+        public static readonly ArgumentExceptionFactory Argument2 = new ();
+
+        public static void ThrowIfNullOrEmpty<T>(this IArgumentExceptionFactory src,
+            [NotNull]
+                IEnumerable<T>? argument,
+            [CallerArgumentExpression(nameof(argument))]
+                string? paramName = null)
+        {
+            ArgumentNullException.ThrowIfNull(argument, paramName);
+
+            if(argument.Any() == false)
+                src.Throw("The value cannot be an empty collection.", paramName);
+        }
+//*/
 }

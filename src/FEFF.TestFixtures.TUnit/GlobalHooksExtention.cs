@@ -1,5 +1,6 @@
 namespace FEFF.TestFixtures.TUnit;
 using Core;
+using FEFF.Extentions;
 
 public enum FixtureScopeType { TestCase, Class, Assembly, Session };
 
@@ -17,26 +18,6 @@ public static class GlobalHooksExtention
 #endif
     private static volatile FixtureManager? _manager;
 
-    public static T GetFeffFixture<T>(this TestContext ctx, SharedType scopeType)
-    where T : notnull
-    {
-        ArgumentNullException.ThrowIfNull(ctx);
-
-        var fst = scopeType switch
-        {
-            SharedType.None => FixtureScopeType.TestCase,
-            SharedType.PerClass => FixtureScopeType.TestCase,
-            SharedType.PerAssembly => FixtureScopeType.TestCase,
-            SharedType.PerTestSession => FixtureScopeType.TestCase,
-
-            SharedType.Keyed => throw new NotSupportedException("SharedType.Keyed not spported for GetFeffFixture"),
-//TODO: UTILS        
-            _ => throw new InvalidOperationException($"Enum match error: '{nameof(SharedType)}' has value '{scopeType}' ({(int)scopeType})")
-        };
-
-        return ctx.GetFeffFixture<T>(fst);
-    }
-
     public static T GetFeffFixture<T>(this TestContext ctx, FixtureScopeType scopeType = FixtureScopeType.TestCase)
     where T : notnull
     {
@@ -53,8 +34,8 @@ public static class GlobalHooksExtention
         FixtureScopeType.Class      => GetScopeId(ctx.ClassContext),
         FixtureScopeType.Assembly   => GetScopeId(ctx.ClassContext.AssemblyContext),
         FixtureScopeType.Session    => GetScopeId(ctx.ClassContext.AssemblyContext.TestSessionContext),
-//TODO: UTILS        
-        _ => throw new InvalidOperationException($"Enum match error: '{nameof(FixtureScopeType)}' has value '{scopeType}' ({(int)scopeType})")
+        _ =>
+            throw EnumMatchException.From(scopeType)
     };
 
     private static string GetScopeId(string ctxId, FixtureScopeType scopeType) =>
@@ -86,33 +67,33 @@ public static class GlobalHooksExtention
         return _manager;
     }
 
-    private static async Task RemoveScope(FixtureManager? manager, string id)
+    private static ValueTask RemoveScope(FixtureManager? manager, string id)
     {
         if (manager == null)
-            return;
+            return ValueTask.CompletedTask;;
 
-        await manager.RemoveScopeAsync(id);
+        return manager.RemoveScopeAsync(id);
     }
 
     [AfterEvery(Test)]
     public async static Task AfterT(TestContext ctx)
     {
         var id = GetScopeId(ctx);
-        await RemoveScope(_manager, id);
+        await RemoveScope(_manager, id).ConfigureAwait(false);
     }
 
     [AfterEvery(Class)]
     public async static Task AfterC(ClassHookContext ctx)
     {
         var id = GetScopeId(ctx);
-        await RemoveScope(_manager, id);
+        await RemoveScope(_manager, id).ConfigureAwait(false);
     }
 
     [AfterEvery(Assembly)]
     public async static Task AfterA(AssemblyHookContext ctx)
     {
         var id = GetScopeId(ctx);
-        await RemoveScope(_manager, id);
+        await RemoveScope(_manager, id).ConfigureAwait(false);
     }
 
     // Dispose _manager here.
@@ -122,9 +103,10 @@ public static class GlobalHooksExtention
         var m = Interlocked.Exchange(ref _manager, null);
 
         var id = GetScopeId(ctx);
-        await RemoveScope(m, id);
+        await RemoveScope(m, id).ConfigureAwait(false);
         
+        // dispose both: manager & assemblyFixtureScope
         if(m != null)
-            await m.DisposeAsync();
+            await m.DisposeAsync().ConfigureAwait(false);
     }
 }

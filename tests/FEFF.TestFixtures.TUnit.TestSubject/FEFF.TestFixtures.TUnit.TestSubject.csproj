@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FEFF.TestFixtures.TUnit" Version="1.2.1" />
+    <ProjectReference Include="../../src/FEFF.TestFixtures.TUnit/FEFF.TestFixtures.TUnit.csproj" />
   </ItemGroup>
 
 </Project>
