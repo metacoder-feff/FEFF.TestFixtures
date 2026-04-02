@@ -5,5 +5,5 @@ _DevOps/local-dev/pack.sh
 ```
 
 ``` bash
-dotnet nuget push "./nupkgs/*.nupkg" --api-key <> --source https://api.nuget.org/v3/index.json
+dotnet nuget push "./nupkgs" --api-key <> --source https://api.nuget.org/v3/index.json --skip-duplicate
 ```

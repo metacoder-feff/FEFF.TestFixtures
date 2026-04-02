@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Loader;
@@ -9,17 +10,31 @@ internal class AssemblyDiscoverer
     public static List<Assembly> GetAssemblies() => 
         new AssemblyDiscoverer().GetAssembliesInt();
 
-    // ecapsulate
+    //---------------------------
+    // encapsulate state
+    //---------------------------
+
+    private readonly HashSet<string> _visitedNames = [];
+    // "FEFF.TestFixtures.Abstractions"
+    private readonly string _mainFixtureAssemblyName;
+    private readonly ImmutableArray<string> _defaultAssemblyFiles;
+
     private AssemblyDiscoverer()
     {
-    }
+        var mainFixtureAssembly = typeof(FixtureAttribute).Assembly;
+        _mainFixtureAssemblyName = ThrowHelper.EnsureNotNull(
+            mainFixtureAssembly.GetName().Name
+        );
 
-    // "FEFF.TestFixtures.Abstractions"
-    private readonly string _mainFixtureAssemblyName = ThrowHelper.EnsureNotNull(
-        typeof(FixtureAttribute).Assembly.GetName().Name
-    );
-    
-    private readonly HashSet<string> _visitedNames = [];
+        var localDir = ThrowHelper.EnsureNotNull(
+            Path.GetDirectoryName(mainFixtureAssembly.Location)
+        );
+        var localAssemblies = Directory.GetFiles(localDir, "*.dll");
+
+        var runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();
+        var runtimeAssemblies = Directory.GetFiles(runtimeDir, "*.dll");
+        _defaultAssemblyFiles = [.. runtimeAssemblies, .. localAssemblies];
+    }
 
     private static bool AssemblyNameFilter(AssemblyName an)
     {
@@ -92,15 +107,16 @@ internal class AssemblyDiscoverer
     */
     private IEnumerable<Assembly> DiscoverAndLoadReferencedAssemblies(Assembly[] allLoaded)
     {
-        // PATHS
+        // 'Path'
         var referencedNonLoadedAssemblyPaths = allLoaded
             .SelectMany(GetRefLocationsAndAppendVisited)
             .ToList() // need materialize
             ;
 
-        // AssemblyName
+        // 'AssemblyName'
         var refsToLoad = GetRefsToLoad(referencedNonLoadedAssemblyPaths);
 
+        // 'Assembly'
         var referencedRealAssms = LoadRefs(refsToLoad);
 
         if (referencedRealAssms.Length <= 0)
@@ -145,9 +161,20 @@ internal class AssemblyDiscoverer
 
             // AppendVisited
             _visitedNames.Add(r.Name);
+
+            // get referenced Assembly Loacation based on "deps.json"
+            // witch is located near or embedded into the source Assembly
             var loc = resolver.ResolveAssemblyToPath(r);
             if(loc == null)
-                continue; //TODO:??
+                continue; //TODO: deps.json not found??
+
+                // e.g.:
+                // "Microsoft.AspNetCore"
+                // "Microsoft.AspNetCore.Routing"
+                // "Microsoft.Win32.Registry"
+                // "Microsoft.AspNetCore.Hosting.Abstractions"
+                // "Microsoft.Extensions.Logging"
+                // "Microsoft.Extensions.Logging.Abstractions"
 
             yield return loc;
         }
@@ -159,9 +186,8 @@ internal class AssemblyDiscoverer
     private List<AssemblyName> GetRefsToLoad(IEnumerable<string> referencedNonLoadedAssemblyPaths)
     {
 //TODO: filter referencedMetaAssms by containing types (attribute & interface)
-//TODO: DRY
-        var runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
-        var paths = runtimeAssemblies
+
+        var paths = _defaultAssemblyFiles
             .Concat(referencedNonLoadedAssemblyPaths)
             // .ToList()
             ;

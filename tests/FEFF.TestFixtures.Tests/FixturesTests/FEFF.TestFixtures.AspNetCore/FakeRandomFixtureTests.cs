@@ -1,0 +1,39 @@
+using FEFF.Extentions.Testing;
+using Newtonsoft.Json.Linq;
+using WebApiTestSubject;
+
+namespace FEFF.TestFixtures.AspNetCore.Tests;
+
+public class FakeRandomFixtureTests
+{
+    protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
+
+    // FakeRandomFixture is injected into TestApplicationFixture.ApplicationBuilder
+    protected FakeRandomFixture FakeRandomFx = TestContext.Current.GetFeffFixture<FakeRandomFixture>();
+    protected FakeRandom FakeRandom => FakeRandomFx.Value;
+
+    [Theory]
+    [InlineData(11)]
+    [InlineData(22)]
+    public async Task FakeRandomFixture__should_make_api_to_respond_with(int randValue)
+    {
+        // FakeRandom singletone object can be updated at any moment of test
+        FakeRandom.IntStrategy = FakeRandom.ConstStrategy(randValue);
+
+        var resp = await Client.LazyValue.GetAsync("/weatherforecast/random", TestContext.Current.CancellationToken);
+        resp.StatusCode.Should().Be(HttpStatusCode.OK);
+        var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+
+        JToken.Parse(body)
+            .Should().BeEquivalentTo(
+            $$"""
+            [
+                {
+                    "date": "2000-01-01",
+                    "temperatureC": {{randValue}},
+                    "summary": "normal"
+                }
+            ]
+            """);
+    }
+}

@@ -109,7 +109,6 @@ namespace FEFF.TestFixtures.AspNetCore
     public class TestApplicationExtention : FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator
     {
         public TestApplicationExtention() { }
-        public System.Collections.Generic.IReadOnlyList<System.Action<Microsoft.AspNetCore.Hosting.IWebHostBuilder>> Actions { get; }
         public void ConfigureWebHost(System.Action<Microsoft.AspNetCore.Hosting.IWebHostBuilder> action) { }
     }
     [FEFF.TestFixtures.Fixture]
