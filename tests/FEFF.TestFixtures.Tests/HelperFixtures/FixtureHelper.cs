@@ -35,8 +35,8 @@ internal class FixtureHelper : IAsyncDisposable
     }
 
     /// <summary>
-    /// Add Settings to configuration in 'env' format:<br/>
-    /// Sections are separated by '__' - double inderscore.
+    /// Add settings to configuration in 'env' format:<br/>
+    /// Sections are separated by '__' - a double underscore.
     /// </summary>
     public void UseSettingEnv(string name, string? value)
     {

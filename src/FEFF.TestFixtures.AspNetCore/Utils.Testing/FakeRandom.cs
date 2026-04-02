@@ -1,4 +1,4 @@
-namespace FEFF.Extentions.Testing;
+namespace FEFF.Extensions.Testing;
 
 public interface IRandomStrategy<T>
 {
@@ -120,7 +120,7 @@ public class FakeRandom : Random
     // protected override double Sample() => throw new NotSupportedException();
 
     // public static IRandomStrategy<int>? DefaultIntStrategy => null;
-    // public static IRandomStrategy<float>? DefaultSingletrategy => null;
+    // public static IRandomStrategy<float>? DefaultSingleStrategy => null;
     // public static IRandomStrategy<double>? DefaultDoubleStrategy => null;
 
     public static ConstRandomStrategy<T> ConstStrategy<T>(T value)

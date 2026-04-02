@@ -1,6 +1,6 @@
 using Xunit;
 using Xunit.v3;
-using FEFF.Extentions.Reflection;
+using FEFF.Extensions.Reflection;
 
 namespace FEFF.TestFixtures.Xunit;
 

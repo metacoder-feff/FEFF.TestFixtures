@@ -1,4 +1,4 @@
-namespace FEFF.Extentions.Tests;
+namespace FEFF.Extensions.Tests;
 
 public class EnumMatchExceptionTests
 {

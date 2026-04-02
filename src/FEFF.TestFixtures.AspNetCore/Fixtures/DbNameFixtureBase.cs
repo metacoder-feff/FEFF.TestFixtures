@@ -1,12 +1,12 @@
 /* TODO:
 
 using System.Data.Common;
-using FEFF.Extentions.Testing.AspNetCore;
+using FEFF.Extensions.Testing.AspNetCore;
 
 namespace FEFF.TestFixtures.AspNetCore;
 
 /// <summary>
-/// Mutates connectionstring before tested application is stared.<br/>
+/// Mutates the connection string before the tested application is started.<br/>
 /// Prefixes DB name with test-unique (random) string.
 /// </summary>
 //TODO: remove db after test (without dbcontext)
@@ -53,7 +53,7 @@ public class DbNameFixtureBase
     // {
         // need to delete at all ?
         // or just leave ?
-        // or intellegent backround batch delete after a number of tests finished?
+        // or intelligent background batch delete after a number of tests finish?
         //await TryDeleteDatabaseAsync().ConfigureAwait(false);
     // }
     

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.TestHost;
 
-namespace FEFF.Extentions.Testing.AspNetCore;
+namespace FEFF.Extensions.Testing.AspNetCore;
 
 public interface IApplicationConfigurator
 {

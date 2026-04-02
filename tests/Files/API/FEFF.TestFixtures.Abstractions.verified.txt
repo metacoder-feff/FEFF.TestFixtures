@@ -13,7 +13,7 @@ namespace FEFF.TestFixtures
         public FixtureAttribute() { }
         public System.Type? RegisterWithType { get; set; }
     }
-    public interface IFixureRegistar
+    public interface IFixtureRegistrar
     {
         void RegisterFixture(Microsoft.Extensions.DependencyInjection.IServiceCollection services);
     }

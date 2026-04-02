@@ -7,7 +7,7 @@ public class FixtureInterfaceTests : FixtureTestBase
     [Fact]
     public void Fixture__with_interface__should_be_registered_twice()
     {
-        // registration by implemetation type
+        // Registration by implementation type
         CustomFixtureWithInterface f1 = Helper.GetFixture<CustomFixtureWithInterface>();
         f1.Value.Should().Be("world");
 

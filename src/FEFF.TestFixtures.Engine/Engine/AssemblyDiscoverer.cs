@@ -110,7 +110,7 @@ internal class AssemblyDiscoverer
         // 'Path'
         var referencedNonLoadedAssemblyPaths = allLoaded
             .SelectMany(GetRefLocationsAndAppendVisited)
-            .ToList() // need materialize
+            .ToList() // need to materialize
             ;
 
         // 'AssemblyName'
@@ -130,10 +130,10 @@ internal class AssemblyDiscoverer
     }
 
     // FORCE
-    // load referenced but not loaded yet assemblies
-    // that has DIRECT reference to 'FEFF.TestFixtures.Abstractions'
-    // ATTENTION: load by AssemblyName is the correct way
-    // (loading by filePath causes to load multiple Assembly instances)
+    // load referenced but not yet loaded assemblies
+    // that have a DIRECT reference to 'FEFF.TestFixtures.Abstractions'
+    // ATTENTION: loading by AssemblyName is the correct way
+    // (loading by filePath causes multiple Assembly instances to be loaded)
     private static Assembly[] LoadRefs(List<AssemblyName> refsToLoad)
     {
         var res = new Assembly[refsToLoad.Count];
@@ -162,8 +162,8 @@ internal class AssemblyDiscoverer
             // AppendVisited
             _visitedNames.Add(r.Name);
 
-            // get referenced Assembly Loacation based on "deps.json"
-            // witch is located near or embedded into the source Assembly
+            // get referenced Assembly Location based on "deps.json"
+            // which is located near or embedded into the source Assembly
             var loc = resolver.ResolveAssemblyToPath(r);
             if(loc == null)
                 continue; //TODO: deps.json not found??
@@ -180,9 +180,9 @@ internal class AssemblyDiscoverer
         }
     }
 
-    // input Assembly Location
-    // apply 'AssemblyFilter' to referencedNonLoadedAssemblyPaths reading its metadata
-    // returns Assembly ref
+    // input: Assembly Location
+    // applies 'AssemblyFilter' to referencedNonLoadedAssemblyPaths by reading their metadata
+    // returns Assembly refs
     private List<AssemblyName> GetRefsToLoad(IEnumerable<string> referencedNonLoadedAssemblyPaths)
     {
 //TODO: filter referencedMetaAssms by containing types (attribute & interface)
@@ -202,7 +202,7 @@ internal class AssemblyDiscoverer
             // .ToList()
             ;
 
-        // Call .ToList() to materialize referencedRealAssms during mlc is alive
+        // Call .ToList() to materialize referencedRealAssms while the MLC is alive
         return referencedMetaAssms
             .Select(x => x.GetName())
             .ToList()

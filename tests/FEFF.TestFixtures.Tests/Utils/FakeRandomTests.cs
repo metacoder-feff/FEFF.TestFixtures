@@ -1,5 +1,5 @@
 
-namespace FEFF.Extentions.Testing.Tests;
+namespace FEFF.Extensions.Testing.Tests;
 
 public class FakeRandomTests
 {

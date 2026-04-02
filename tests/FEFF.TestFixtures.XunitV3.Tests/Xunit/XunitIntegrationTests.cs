@@ -78,12 +78,12 @@ public class XunitIntegrationTests
     [Fact]
     public async ValueTask FixtureManager__should_be_disposed()
     {
-        SingletoneTester.IsDisposed = false;
-        SingletoneTester.IsDisposed.Should().BeFalse();
+        SingletonTester.IsDisposed = false;
+        SingletonTester.IsDisposed.Should().BeFalse();
 
         _ = await RunAsync([typeof(TestSubject)]);
-        
-        SingletoneTester.IsDisposed.Should().BeTrue();
+
+        SingletonTester.IsDisposed.Should().BeTrue();
     }
 
     private static void AssertMsgCount(List<string> filtered, int count, string msg1, string msg2)

@@ -1,4 +1,4 @@
-using FEFF.Extentions;
+using FEFF.Extensions;
 
 namespace FEFF.TestFixtures.TUnit;
 using Engine;

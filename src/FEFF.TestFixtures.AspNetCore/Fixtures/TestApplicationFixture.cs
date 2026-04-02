@@ -1,4 +1,4 @@
-using FEFF.Extentions.Testing.AspNetCore;
+using FEFF.Extensions.Testing.AspNetCore;
 
 namespace FEFF.TestFixtures.AspNetCore;
 
@@ -6,32 +6,15 @@ namespace FEFF.TestFixtures.AspNetCore;
 //TODO: async StartServerAsync-> OnStartedHandlerAsync[]
 //  e.g. DB.Create
 
-[Fixture]
-public class TestApplicationExtention : IApplicationConfigurator
-{
-    private readonly List<Action<IWebHostBuilder>> _builderOverrides = [];
-
-    internal bool IsBuilt { get; private set; }
-
-    public void ConfigureWebHost(Action<IWebHostBuilder> action)
-    {
-        if(IsBuilt)
-            throw new InvalidOperationException($"Can't use '{nameof(IApplicationConfigurator)}' after application is created.");
-
-        _builderOverrides.Add(action);
-    }
-
-    internal IEnumerable<Action<IWebHostBuilder>> BuildActions()
-    {
-        IsBuilt = true;
-        return _builderOverrides.AsReadOnly();
-    }
-}
-
 public interface ITestApplicationFixture
 {
     IApplicationConfigurator Configuration   { get; }
     ITestApplication         LazyApplication { get; }
+}
+
+public interface ITestApplicationExtension
+{
+    void Configure(ITestApplicationFixture app);
 }
 
 /// <summary>
@@ -45,30 +28,60 @@ public sealed class TestApplicationFixture<TEntryPoint> : IAsyncDisposable, ITes
 where TEntryPoint: class
 {
     private readonly Lazy<ITestApplication> _app;
-    private readonly TestApplicationExtention _ext;
+    private readonly OneTimeAppBuilder<TEntryPoint> _builder = new();
 
-    public IApplicationConfigurator Configuration => _ext;
+    public IApplicationConfigurator Configuration => _builder;
 
     /// <summary>
-    /// Creates, memoizes and returns App. The App may be started.<br/>
+    /// Creates, memoizes and returns App.<br/>
     /// Access to <see cref="LazyApplication"/> finishes app building.
     /// </summary>
     public ITestApplication LazyApplication => _app.Value;
 
-    public TestApplicationFixture(TestApplicationExtention ext)
+    public TestApplicationFixture()
     {
-        _app = new (Create);
-        _ext = ext;
+        _app = new (_builder.Build);
     }
 
-    private ITestApplication Create()
-    {
-        return TestApplicationBuilder.Build<TEntryPoint>(_ext.BuildActions());
-    }
-
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
         if (_app.IsValueCreated)
-            await _app.Value.DisposeAsync().ConfigureAwait(false);
+            return _app.Value.DisposeAsync();
+
+        return ValueTask.CompletedTask;
+    }
+}
+
+internal class OneTimeAppBuilder<TEntryPoint>: IApplicationConfigurator
+where TEntryPoint: class
+{
+    private readonly TestApplicationBuilder<TEntryPoint> _builder = new();
+    private ITestApplication? _instance;
+    internal bool IsBuilt => _instance != null;
+
+    public void ConfigureWebHost(Action<IWebHostBuilder> action)
+    {
+        if(IsBuilt)
+            throw new InvalidOperationException($"Can't use '{nameof(IApplicationConfigurator)}' after application is created.");
+
+        _builder.ConfigureWebHost(action);
+    }
+
+    public ITestApplication Build()
+    {
+        _instance ??= _builder.Build();
+        return _instance;
+    }
+}
+
+public static class TestApplicationFixtureExt
+{
+    // Chain result configuration of 'ITestApplicationFixture'
+    public static ITestApplicationFixture AttachExtensions(this ITestApplicationFixture src, params ITestApplicationExtension[] extensions)
+    {
+        foreach(var e in extensions)
+            e.Configure(src);
+        
+        return src;
     }
 }

@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
-public static class DependencyInjectionExtentions
+public static class DependencyInjectionExtensions
 {
     public static IServiceCollection TryReplaceSingleton<TService>(this IServiceCollection services, TService instance)
         where TService : class

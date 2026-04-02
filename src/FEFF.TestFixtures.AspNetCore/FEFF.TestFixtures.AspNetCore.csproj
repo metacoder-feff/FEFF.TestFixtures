@@ -12,8 +12,7 @@
 
     <!-- NUGET -->
     <IsPackable>true</IsPackable><!-- for Microsoft.NET.Sdk.Web -->
-    <VersionSuffix>alpha</VersionSuffix>
-    <Description>A library of fuxtures used to test AspNetCore appications.</Description>
+    <Description>A library of fixtures used to test AspNetCore appications.</Description>
     <PackageTags>testing;fixtures;AspNetCore;FEFF;</PackageTags>
   </PropertyGroup>
 

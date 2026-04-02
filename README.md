@@ -1,7 +1,9 @@
 # FEFF.TestFixtures
 
+Integrations:
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)
-![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=FEFF.TestFixtures.TUnit)
+![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=FEFF.TestFixtures.TUnit)  
+Fixture libraries:
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=FEFF.TestFixtures)
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore?label=FEFF.TestFixtures.AspNetCore)
 
@@ -35,13 +37,13 @@ Every request for the same fixture within the same scope returns the same fixtur
 
 ## Getting started (Xunit.V3)
 
-Add library reference to a test project:
+Add a library reference to a test project:
 
 ``` bash
 dotnet add package FEFF.TestFixtures.XunitV3
 ```
 
-Add assembly-level attribute to initialize the extension:
+Add an assembly-level attribute to initialize the extension:
 
 ``` csharp
 [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
@@ -120,9 +122,9 @@ public sealed class TmpDirectoryFixture : IDisposable
 }
 ```
 
-Where
+When:
 
-|Fixture function   | Implementation            |
+| Fixture function  | Implementation            |
 |---                | ---                       |
 |Setup              | Constructor               |
 |State              | 'Path' property           |
@@ -130,7 +132,7 @@ Where
 
 ### Fixture dependencies
 
-Fixtures can depend on other fixtures. Dependencies are injected via constructor:
+Fixtures can depend on other fixtures. Dependencies are injected via the constructor:
 
 ``` csharp
 [Fixture]
@@ -185,22 +187,32 @@ Documentation is under development, [see examples](https://github.com/metacoder-
 ### Core Library
 
 + EnvironmentFixture
+  + Snapshots the process environment and restores it after a test (the test scope)
 + TmpDirectoryFixture
+  + Creates a unique directory and removes it along with its contents after a test (the test scope)
+  + Can optionally skip deletion
 + TmpScopeIdFixture
+  + Generates a string which is unique for each scope (e.g. for each test)
 
 ### AspNetCore Fixture Library
 
-+ Start and stop the application via TestHost
-+ Create an HttpClient for testing
-+ Access the application's service provider in tests
-+ Modify Configuration/ServiceCollection before the application starts
-+ Stub TimeProvider with FakeTimeProvider
-+ Stub Random with FakeRandom
-+ Stub Logger<> with FakeLogger
++ TestApplicationFixture
+  + Starts and stops the application via TestHost
+  + Modifies Configuration/ServiceCollection before the application starts
++ AppClientFixture
+  + Creates/Disposes an HttpClient for testing
++ AppServicesFixture
+  + Accesses the application's service provider in the test context
++ FakeLoggerFixture (extension to TestApplicationFixture)
+  + Replaces Logger<> with FakeLogger
++ FakeTimeFixture (extension to TestApplicationFixture)
+  + Replaces TimeProvider with FakeTimeProvider
++ FakeRandomFixture (extension to TestApplicationFixture)
+  + Replaces Random with FakeRandom
 
 ### AspNetCore Fixture Library [work in progress]
 
-+ Generate unique database names for test isolation
-+ Generate unique Redis key prefix for test isolation
-+ Generate unique S3 path prefix for test isolation
-+ Create a SignalRClient for testing
++ Generates a unique database name for test isolation
++ Generates a unique Redis key prefix for test isolation
++ Generates a unique S3 path prefix for test isolation
++ Creates a SignalRClient for testing

@@ -28,13 +28,13 @@ class CollectionFix : BaseFix {}
 [Fixture]
 class AssemblyFix : BaseFix {}
 
-class SingletoneTester : IFixureRegistar, IDisposable
+class SingletonTester : IFixtureRegistrar, IDisposable
 {
     public static bool IsDisposed { get; set; }
 
     public static void RegisterFixture(IServiceCollection services)
     {
-        services.AddSingleton<SingletoneTester>();
+        services.AddSingleton<SingletonTester>();
     }
 
     public void Dispose()
@@ -58,13 +58,13 @@ public class TestSubject
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
         var f3 = GetFixture<CollectionFix>(FixtureScopeType.Collection);
         var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
-        var s  = GetFixture<SingletoneTester>();
+        var s  = GetFixture<SingletonTester>();
 
         f1.Should().BeOfType<TestFix>();
         f2.Should().BeOfType<ClassFix>();
         f3.Should().BeOfType<CollectionFix>();
         f4.Should().BeOfType<AssemblyFix>();
-        s.Should().BeOfType<SingletoneTester>();
+        s.Should().BeOfType<SingletonTester>();
     }
 
     [Fact]
