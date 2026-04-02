@@ -107,15 +107,16 @@ internal class AssemblyDiscoverer
     */
     private IEnumerable<Assembly> DiscoverAndLoadReferencedAssemblies(Assembly[] allLoaded)
     {
-        // PATHS
+        // 'Path'
         var referencedNonLoadedAssemblyPaths = allLoaded
             .SelectMany(GetRefLocationsAndAppendVisited)
             .ToList() // need materialize
             ;
 
-        // AssemblyName
+        // 'AssemblyName'
         var refsToLoad = GetRefsToLoad(referencedNonLoadedAssemblyPaths);
 
+        // 'Assembly'
         var referencedRealAssms = LoadRefs(refsToLoad);
 
         if (referencedRealAssms.Length <= 0)
@@ -160,9 +161,20 @@ internal class AssemblyDiscoverer
 
             // AppendVisited
             _visitedNames.Add(r.Name);
+
+            // get referenced Assembly Loacation based on "deps.json"
+            // witch is located near or embedded into the source Assembly
             var loc = resolver.ResolveAssemblyToPath(r);
             if(loc == null)
-                continue; //TODO:??
+                continue; //TODO: deps.json not found??
+
+                // e.g.:
+                // "Microsoft.AspNetCore"
+                // "Microsoft.AspNetCore.Routing"
+                // "Microsoft.Win32.Registry"
+                // "Microsoft.AspNetCore.Hosting.Abstractions"
+                // "Microsoft.Extensions.Logging"
+                // "Microsoft.Extensions.Logging.Abstractions"
 
             yield return loc;
         }
