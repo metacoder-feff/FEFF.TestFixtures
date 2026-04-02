@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Loader;
@@ -9,17 +10,31 @@ internal class AssemblyDiscoverer
     public static List<Assembly> GetAssemblies() => 
         new AssemblyDiscoverer().GetAssembliesInt();
 
-    // ecapsulate
+    //---------------------------
+    // encapsulate state
+    //---------------------------
+
+    private readonly HashSet<string> _visitedNames = [];
+    // "FEFF.TestFixtures.Abstractions"
+    private readonly string _mainFixtureAssemblyName;
+    private readonly ImmutableArray<string> _defaultAssemblyFiles;
+
     private AssemblyDiscoverer()
     {
-    }
+        var mainFixtureAssembly = typeof(FixtureAttribute).Assembly;
+        _mainFixtureAssemblyName = ThrowHelper.EnsureNotNull(
+            mainFixtureAssembly.GetName().Name
+        );
 
-    // "FEFF.TestFixtures.Abstractions"
-    private readonly string _mainFixtureAssemblyName = ThrowHelper.EnsureNotNull(
-        typeof(FixtureAttribute).Assembly.GetName().Name
-    );
-    
-    private readonly HashSet<string> _visitedNames = [];
+        var localDir = ThrowHelper.EnsureNotNull(
+            Path.GetDirectoryName(mainFixtureAssembly.Location)
+        );
+        var localAssemblies = Directory.GetFiles(localDir, "*.dll");
+
+        var runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();
+        var runtimeAssemblies = Directory.GetFiles(runtimeDir, "*.dll");
+        _defaultAssemblyFiles = [.. runtimeAssemblies, .. localAssemblies];
+    }
 
     private static bool AssemblyNameFilter(AssemblyName an)
     {
@@ -159,9 +174,8 @@ internal class AssemblyDiscoverer
     private List<AssemblyName> GetRefsToLoad(IEnumerable<string> referencedNonLoadedAssemblyPaths)
     {
 //TODO: filter referencedMetaAssms by containing types (attribute & interface)
-//TODO: DRY
-        var runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
-        var paths = runtimeAssemblies
+
+        var paths = _defaultAssemblyFiles
             .Concat(referencedNonLoadedAssemblyPaths)
             // .ToList()
             ;
