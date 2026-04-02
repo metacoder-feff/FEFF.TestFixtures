@@ -11,11 +11,20 @@ public class TestApplicationExtention : IApplicationConfigurator
 {
     private readonly List<Action<IWebHostBuilder>> _builderOverrides = [];
 
-    public IReadOnlyList<Action<IWebHostBuilder>> Actions => _builderOverrides.AsReadOnly();
+    internal bool IsBuilt { get; private set; }
 
     public void ConfigureWebHost(Action<IWebHostBuilder> action)
     {
+        if(IsBuilt)
+            throw new InvalidOperationException($"Can't use '{nameof(IApplicationConfigurator)}' after application is created.");
+
         _builderOverrides.Add(action);
+    }
+
+    internal IEnumerable<Action<IWebHostBuilder>> BuildActions()
+    {
+        IsBuilt = true;
+        return _builderOverrides.AsReadOnly();
     }
 }
 
@@ -38,16 +47,7 @@ where TEntryPoint: class
     private readonly Lazy<ITestApplication> _app;
     private readonly TestApplicationExtention _ext;
 
-    public IApplicationConfigurator Configuration
-    {
-        get
-        {
-            if(_app.IsValueCreated)
-                throw new InvalidOperationException("Can't use ApplicationBuilder after application is created.");
-
-            return _ext;
-        }
-    }
+    public IApplicationConfigurator Configuration => _ext;
 
     /// <summary>
     /// Creates, memoizes and returns App. The App may be started.<br/>
@@ -63,7 +63,7 @@ where TEntryPoint: class
 
     private ITestApplication Create()
     {
-        return TestApplicationBuilder.Build<TEntryPoint>(_ext.Actions);
+        return TestApplicationBuilder.Build<TEntryPoint>(_ext.BuildActions());
     }
 
     public async ValueTask DisposeAsync()

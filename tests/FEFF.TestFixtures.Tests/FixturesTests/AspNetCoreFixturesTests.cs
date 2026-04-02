@@ -156,6 +156,19 @@ public class ConfiguredApplicationFixtureTests
                 """);
         }
     }
+
+    [Fact]
+    public void Configuration_attempt__after_app_is_built__should_throw()
+    {
+        // Build an applixation
+        _ = App.LazyApplication;
+
+        var act = () => App.Configuration.UseAspEnvironment(AspEnvironment.Production);
+        act.Should()
+            .ThrowExactly<InvalidOperationException>()
+            .WithMessage("Can't use 'IApplicationConfigurator' after application is created.")
+            ;
+    }
 }
 
 public class FakeRandomFixtureTests
