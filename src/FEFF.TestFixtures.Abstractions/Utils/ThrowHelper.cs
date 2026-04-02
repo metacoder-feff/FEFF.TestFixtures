@@ -7,7 +7,7 @@ namespace FEFF.Extentions;
 //TODO: link nuget
 
 [DebuggerStepThrough] // Break on exceptions only in an outer context when debugging
-[StackTraceHidden]    // Do not show this methods in a trace of the test ouputs (for AwesomeAseertions)
+[StackTraceHidden]    // Do not show this methods in a trace of the test ouputs (for AwesomeAssertions)
 internal static class ThrowHelper
 {
     /// <summary>
@@ -55,7 +55,7 @@ internal static class ThrowHelper
 
 
     [DebuggerStepThrough] // Break on exceptions only in an outer context when debugging
-    [StackTraceHidden]    // Do not show this methods in a trace of the test ouputs (for AwesomeAseertions)
+    [StackTraceHidden]    // Do not show this methods in a trace of the test ouputs (for AwesomeAssertions)
     public static class Argument
     {
         public static void ThrowIfNullOrEmpty<T>(

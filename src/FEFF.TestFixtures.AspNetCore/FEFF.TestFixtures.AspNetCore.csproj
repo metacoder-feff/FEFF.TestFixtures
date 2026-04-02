@@ -5,7 +5,6 @@
 
   <PropertyGroup>
     <OutputType>library</OutputType><!-- for Microsoft.NET.Sdk.Web -->
-    <VersionSuffix>alpha</VersionSuffix>
     <TargetFramework>net10.0</TargetFramework>
     <!--
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
@@ -13,6 +12,7 @@
 
     <!-- NUGET -->
     <IsPackable>true</IsPackable><!-- for Microsoft.NET.Sdk.Web -->
+    <VersionSuffix>alpha</VersionSuffix>
     <Description>A library of fuxtures used to test AspNetCore appications.</Description>
     <PackageTags>testing;fixtures;AspNetCore;FEFF;</PackageTags>
   </PropertyGroup>
