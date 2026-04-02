@@ -7,6 +7,10 @@ namespace FEFF.Extentions.Testing.AspNetCore
         Development = 0,
         Production = 1,
     }
+    public interface IApplicationConfigurator
+    {
+        void ConfigureWebHost(System.Action<Microsoft.AspNetCore.Hosting.IWebHostBuilder> action);
+    }
     public interface ITestApplication : System.IAsyncDisposable
     {
         Microsoft.AspNetCore.TestHost.TestServer Server { get; }
@@ -14,24 +18,12 @@ namespace FEFF.Extentions.Testing.AspNetCore
         System.Net.Http.HttpClient CreateClient();
         void StartServer();
     }
-    public interface ITestApplicationBuilder
+    public static class TestApplicationConfigureExtentions
     {
-        FEFF.Extentions.Testing.AspNetCore.ITestApplication Build();
-        void ConfigureWebHost(System.Action<Microsoft.AspNetCore.Hosting.IWebHostBuilder> action);
-    }
-    public static class TestApplicationBuilderExtentions
-    {
-        public static void ConfigureServices(this FEFF.Extentions.Testing.AspNetCore.ITestApplicationBuilder builder, System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configureServices) { }
-        public static void ConfigureServices(this FEFF.Extentions.Testing.AspNetCore.ITestApplicationBuilder builder, System.Action<Microsoft.AspNetCore.Hosting.WebHostBuilderContext, Microsoft.Extensions.DependencyInjection.IServiceCollection> configureServices) { }
-        public static void UseAspEnvironment(this FEFF.Extentions.Testing.AspNetCore.ITestApplicationBuilder builder, FEFF.Extentions.Testing.AspNetCore.AspEnvironment env) { }
-        public static void UseSetting(this FEFF.Extentions.Testing.AspNetCore.ITestApplicationBuilder builder, string key, string? value) { }
-    }
-    public class TestApplicationBuilder<TEntryPoint> : FEFF.Extentions.Testing.AspNetCore.ITestApplicationBuilder
-        where TEntryPoint :  class
-    {
-        public TestApplicationBuilder() { }
-        public FEFF.Extentions.Testing.AspNetCore.ITestApplication Build() { }
-        public void ConfigureWebHost(System.Action<Microsoft.AspNetCore.Hosting.IWebHostBuilder> action) { }
+        public static void ConfigureServices(this FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator builder, System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configureServices) { }
+        public static void ConfigureServices(this FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator builder, System.Action<Microsoft.AspNetCore.Hosting.WebHostBuilderContext, Microsoft.Extensions.DependencyInjection.IServiceCollection> configureServices) { }
+        public static void UseAspEnvironment(this FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator builder, FEFF.Extentions.Testing.AspNetCore.AspEnvironment env) { }
+        public static void UseSetting(this FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator builder, string key, string? value) { }
     }
 }
 namespace FEFF.Extentions.Testing
@@ -45,6 +37,7 @@ namespace FEFF.Extentions.Testing
     {
         public FakeRandom() { }
         public FEFF.Extentions.Testing.IRandomStrategy<double>? DoubleStrategy { get; set; }
+        public FEFF.Extentions.Testing.IRandomStrategy<long>? Int64Strategy { get; set; }
         public FEFF.Extentions.Testing.IRandomStrategy<int>? IntStrategy { get; set; }
         public FEFF.Extentions.Testing.IRandomStrategy<float>? SingleStrategy { get; set; }
         public override int Next() { }
@@ -65,48 +58,67 @@ namespace FEFF.Extentions.Testing
 namespace FEFF.TestFixtures.AspNetCore
 {
     [FEFF.TestFixtures.Fixture]
-    public sealed class AppClientFixture : System.IDisposable
+    public sealed class AppClientFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.IAppClientFixture, System.IDisposable
+        where TEntryPoint :  class
     {
-        public AppClientFixture(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app) { }
-        public System.Net.Http.HttpClient Value { get; }
+        public AppClientFixture(FEFF.TestFixtures.AspNetCore.TestApplicationFixture<TEntryPoint> app) { }
+        public System.Net.Http.HttpClient LazyValue { get; }
         public void Dispose() { }
     }
     [FEFF.TestFixtures.Fixture]
-    public sealed class AppServicesFixture : System.IAsyncDisposable
+    public sealed class AppServicesFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.IAppServicesFixture, System.IAsyncDisposable
+        where TEntryPoint :  class
     {
-        public AppServicesFixture(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app) { }
-        public System.IServiceProvider ServiceProvider { get; }
+        public AppServicesFixture(FEFF.TestFixtures.AspNetCore.TestApplicationFixture<TEntryPoint> app) { }
+        public System.IServiceProvider LazyServiceProvider { get; }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
-        public T GetRequiredService<T>()
-            where T :  notnull { }
     }
-    public class DbNameFixtureBase
+    [FEFF.TestFixtures.Fixture]
+    public sealed class FakeLoggerFixture : System.IDisposable
     {
-        public DbNameFixtureBase(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app, FEFF.TestFixtures.TmpScopeIdFixture testId, string connectionStringName) { }
+        public FakeLoggerFixture(FEFF.TestFixtures.AspNetCore.TestApplicationExtention app) { }
+        public Microsoft.Extensions.Logging.Testing.FakeLogCollector Collector { get; }
+        public void Dispose() { }
     }
     [FEFF.TestFixtures.Fixture]
     public class FakeRandomFixture
     {
         public readonly FEFF.Extentions.Testing.FakeRandom Value;
-        public FakeRandomFixture(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app) { }
+        public FakeRandomFixture(FEFF.TestFixtures.AspNetCore.TestApplicationExtention app) { }
     }
     [FEFF.TestFixtures.Fixture]
     public class FakeTimeFixture
     {
         public readonly Microsoft.Extensions.Time.Testing.FakeTimeProvider Value;
-        public FakeTimeFixture(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app) { }
+        public FakeTimeFixture(FEFF.TestFixtures.AspNetCore.TestApplicationExtention app) { }
+    }
+    public interface IAppClientFixture
+    {
+        System.Net.Http.HttpClient LazyValue { get; }
+    }
+    public interface IAppServicesFixture
+    {
+        System.IServiceProvider LazyServiceProvider { get; }
     }
     public interface ITestApplicationFixture
     {
-        FEFF.Extentions.Testing.AspNetCore.ITestApplicationBuilder ApplicationBuilder { get; }
-        FEFF.Extentions.Testing.AspNetCore.ITestApplication LazyCreatedApplication { get; }
+        FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator Configuration { get; }
+        FEFF.Extentions.Testing.AspNetCore.ITestApplication LazyApplication { get; }
     }
-    public sealed class TestApplicationFixtureBase<TEntryPoint> : FEFF.TestFixtures.AspNetCore.ITestApplicationFixture, System.IAsyncDisposable
+    [FEFF.TestFixtures.Fixture]
+    public class TestApplicationExtention : FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator
+    {
+        public TestApplicationExtention() { }
+        public System.Collections.Generic.IReadOnlyList<System.Action<Microsoft.AspNetCore.Hosting.IWebHostBuilder>> Actions { get; }
+        public void ConfigureWebHost(System.Action<Microsoft.AspNetCore.Hosting.IWebHostBuilder> action) { }
+    }
+    [FEFF.TestFixtures.Fixture]
+    public sealed class TestApplicationFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.ITestApplicationFixture, System.IAsyncDisposable
         where TEntryPoint :  class
     {
-        public TestApplicationFixtureBase() { }
-        public FEFF.Extentions.Testing.AspNetCore.ITestApplicationBuilder ApplicationBuilder { get; }
-        public FEFF.Extentions.Testing.AspNetCore.ITestApplication LazyCreatedApplication { get; }
+        public TestApplicationFixture(FEFF.TestFixtures.AspNetCore.TestApplicationExtention ext) { }
+        public FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator Configuration { get; }
+        public FEFF.Extentions.Testing.AspNetCore.ITestApplication LazyApplication { get; }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
     }
 }

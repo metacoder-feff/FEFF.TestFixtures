@@ -28,7 +28,7 @@ class CollectionFix : BaseFix {}
 [Fixture]
 class AssemblyFix : BaseFix {}
 
-class SingletoneTester : IFixureRegistrator, IDisposable
+class SingletoneTester : IFixureRegistar, IDisposable
 {
     public static bool IsDisposed { get; set; }
 

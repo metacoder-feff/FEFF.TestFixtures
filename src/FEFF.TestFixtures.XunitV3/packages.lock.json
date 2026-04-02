@@ -119,6 +119,11 @@
         "resolved": "10.0.5",
         "contentHash": "8IBJWcCT9+e4Bmevm4T7+fQEiAh133KGiz4oiVTgJckd3Q76OFdR1falgn9lpz7+C4HJvogCDJeAa2QmvbeVtg=="
       },
+      "System.Reflection.MetadataLoadContext": {
+        "type": "Transitive",
+        "resolved": "10.0.5",
+        "contentHash": "z9yyFZcuCwtZXrxxDc2nBfB5lTHf96gS/rsD38Lcv6Ok25TOYPjNKlqpTZUqu2HTLPAM4w+/WjGL6gi9cIJO6w=="
+      },
       "xunit.v3.common": {
         "type": "Transitive",
         "resolved": "3.2.2",
@@ -130,10 +135,25 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
+          "FEFF.TestFixtures.Abstractions": "[1.2.3, )",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
+        }
+      },
+      "feff.testfixtures.abstractions": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "[10.0.5, )"
+        }
+      },
+      "FEFF.TestFixtures.Engine": {
+        "type": "Project",
+        "dependencies": {
+          "FEFF.TestFixtures.Abstractions": "[1.2.3, )",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "[10.0.5, )",
           "Microsoft.Extensions.DependencyInjection": "[10.0.5, )",
           "Microsoft.Extensions.Options": "[10.0.5, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )",
+          "System.Reflection.MetadataLoadContext": "[10.0.5, )"
         }
       }
     },
@@ -250,10 +270,32 @@
         "resolved": "10.0.201",
         "contentHash": "QbBYhkjgL6rCnBfDbzsAJLlsad13TlBHqYCFDIw56OO2g6ix+9RsmY8uxiQGdWwFKbZXaXyAA6jDCzFYVGCZDw=="
       },
+      "System.Collections.Immutable": {
+        "type": "Transitive",
+        "resolved": "10.0.5",
+        "contentHash": "nozrOKfEgfrvvswkCfxaumY68RA/x1F3ZYwtwRvva8ul91NCnUzb6MKpl5/P7u9v/nIagVL4OXXj8d007tucxw=="
+      },
       "System.IO.Hashing": {
         "type": "Transitive",
         "resolved": "10.0.5",
         "contentHash": "8IBJWcCT9+e4Bmevm4T7+fQEiAh133KGiz4oiVTgJckd3Q76OFdR1falgn9lpz7+C4HJvogCDJeAa2QmvbeVtg=="
+      },
+      "System.Reflection.Metadata": {
+        "type": "Transitive",
+        "resolved": "10.0.5",
+        "contentHash": "fEAXJCtauNLYr5ESg3t6HE2Av6urWdJdymxZbuSt/DDqhtNtLtUtXTEpKbp0vkTdyBJwmaha8d2454vSzS/lcQ==",
+        "dependencies": {
+          "System.Collections.Immutable": "10.0.5"
+        }
+      },
+      "System.Reflection.MetadataLoadContext": {
+        "type": "Transitive",
+        "resolved": "10.0.5",
+        "contentHash": "z9yyFZcuCwtZXrxxDc2nBfB5lTHf96gS/rsD38Lcv6Ok25TOYPjNKlqpTZUqu2HTLPAM4w+/WjGL6gi9cIJO6w==",
+        "dependencies": {
+          "System.Collections.Immutable": "10.0.5",
+          "System.Reflection.Metadata": "10.0.5"
+        }
       },
       "xunit.v3.common": {
         "type": "Transitive",
@@ -266,10 +308,25 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
+          "FEFF.TestFixtures.Abstractions": "[1.2.3, )",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
+        }
+      },
+      "feff.testfixtures.abstractions": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "[10.0.5, )"
+        }
+      },
+      "FEFF.TestFixtures.Engine": {
+        "type": "Project",
+        "dependencies": {
+          "FEFF.TestFixtures.Abstractions": "[1.2.3, )",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "[10.0.5, )",
           "Microsoft.Extensions.DependencyInjection": "[10.0.5, )",
           "Microsoft.Extensions.Options": "[10.0.5, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )",
+          "System.Reflection.MetadataLoadContext": "[10.0.5, )"
         }
       }
     }

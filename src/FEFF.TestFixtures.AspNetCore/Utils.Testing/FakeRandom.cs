@@ -7,19 +7,20 @@ public interface IRandomStrategy<T>
 /// <summary>
 /// The default strategy is "Constant seed"
 /// Additional strategies are:
-/// - ConstNext
-/// - AutoIncrementNext (TODO)
+/// - Const
+/// - AutoIncrement     (TODO)
 /// - ListRoundRobin    (TODO)
 /// For types:
 /// - int
-/// - long      (not tested)
-/// - float     (not tested)
-/// - double    (not tested)
-/// - byte[]    (TODO)
+/// - long
+/// - float (single)
+/// - double
+/// - byte[]            (TODO)
 /// </summary>
 public class FakeRandom : Random
 {
     public IRandomStrategy<int>?    IntStrategy     { get; set; }
+    public IRandomStrategy<long>?   Int64Strategy   { get; set; }
     public IRandomStrategy<float>?  SingleStrategy  { get; set; }
     public IRandomStrategy<double>? DoubleStrategy  { get; set; }
 
@@ -27,7 +28,7 @@ public class FakeRandom : Random
     {
     }
 
-    #region  int
+    #region int
     public override int Next()
     {
         var s = IntStrategy;
@@ -53,16 +54,18 @@ public class FakeRandom : Random
         if (minValue == maxValue)
             return minValue;
 
+        ThrowHelper.Assert(maxValue > minValue);
+
         var d = maxValue - minValue;
         var r = minValue + Next(d);
         return r;
     }
     #endregion
 
-    #region  long
+    #region long
     public override long NextInt64()
     {
-        var s = IntStrategy;
+        var s = Int64Strategy;
         if(s == null)
             return base.NextInt64();
 

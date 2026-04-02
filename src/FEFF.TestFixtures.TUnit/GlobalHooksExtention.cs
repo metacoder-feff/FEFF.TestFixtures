@@ -1,6 +1,7 @@
-namespace FEFF.TestFixtures.TUnit;
-using Core;
 using FEFF.Extentions;
+
+namespace FEFF.TestFixtures.TUnit;
+using Engine;
 
 public enum FixtureScopeType { TestCase, Class, Assembly, Session };
 

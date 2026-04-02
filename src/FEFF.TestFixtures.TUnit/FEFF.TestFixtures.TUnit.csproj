@@ -4,9 +4,8 @@
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
 
     <!-- NUGET -->
-    <PackageId>FEFF.TestFixtures.TUnit</PackageId>
     <IsPackable>true</IsPackable>
-    <Description>TUnit extension for 'FEFF.Fixures'.</Description>
+    <Description>TUnit extension, adds 'FEFF.TestFixtures'.</Description>
     <PackageTags>testing;fixtures;TUnit;FEFF;</PackageTags>
 <!-- TODO: readme -->
   </PropertyGroup>
@@ -21,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
+    <ProjectReference Include="../FEFF.TestFixtures.Engine/FEFF.TestFixtures.Engine.csproj" />
   </ItemGroup>
 
 </Project>

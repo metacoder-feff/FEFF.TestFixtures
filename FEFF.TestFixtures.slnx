@@ -5,7 +5,9 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
+    <Project Path="src/FEFF.TestFixtures.Abstractions/FEFF.TestFixtures.Abstractions.csproj" />
     <Project Path="src/FEFF.TestFixtures.AspNetCore/FEFF.TestFixtures.AspNetCore.csproj" />
+    <Project Path="src/FEFF.TestFixtures.Engine/FEFF.TestFixtures.Engine.csproj" />
     <Project Path="src/FEFF.TestFixtures.TUnit/FEFF.TestFixtures.TUnit.csproj" />
     <Project Path="src/FEFF.TestFixtures.XunitV3/FEFF.TestFixtures.XunitV3.csproj" />
   </Folder>
@@ -14,6 +16,11 @@
     <Project Path="tests/FEFF.TestFixtures.Tests/FEFF.TestFixtures.Tests.csproj" />
     <Project Path="tests/FEFF.TestFixtures.XunitV3.Tests/FEFF.TestFixtures.XunitV3.Tests.csproj" />
     <Project Path="tests/FEFF.TestFixtures.TUnit.Tests/FEFF.TestFixtures.TUnit.Tests.csproj" />
-    <Project Path="tests/FEFF.TestFixtures.TUnit.TestSubject/FEFF.TestFixtures.TUnit.TestSubject.csproj" />
+  </Folder>
+  <Folder Name="/tests/Subjects/">
+    <Project Path="tests/Subjects/RefFixtures/RefFixtures.csproj" />
+    <Project Path="tests/Subjects/RefRefFixtures/RefRefFixtures.csproj" />
+    <Project Path="tests/Subjects/TUnit.TestSubject/TUnit.TestSubject.csproj" />
+    <Project Path="tests/Subjects/WebApiTestSubject/WebApiTestSubject.csproj" />
   </Folder>
 </Solution>

@@ -3,6 +3,8 @@ using Xunit.v3;
 
 namespace FEFF.TestFixtures.Xunit;
 
+// Remarks: Dispose() is not called for IBeforeAfterTestAttribute
+
 /// <summary>
 /// Manages <see cref="FixtureScopeManager"/> for XUnit tests. <br/>
 /// Allows to use <see cref="TestContextExtentions.GetFeffFixture"/>.

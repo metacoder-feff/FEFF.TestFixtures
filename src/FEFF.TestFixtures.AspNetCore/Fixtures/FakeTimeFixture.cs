@@ -11,9 +11,9 @@ public class FakeTimeFixture
 {
     public readonly FakeTimeProvider Value = new(new DateTimeOffset(2000, 1, 1, 0, 0, 0, 0, TimeSpan.Zero));
 
-    public FakeTimeFixture(ITestApplicationFixture app)
+    public FakeTimeFixture(TestApplicationExtention app)
     {
-        app.ApplicationBuilder.ConfigureServices(ReconfigureFactory);
+        app.ConfigureServices(ReconfigureFactory);
     }
 
     private void ReconfigureFactory(IServiceCollection services)

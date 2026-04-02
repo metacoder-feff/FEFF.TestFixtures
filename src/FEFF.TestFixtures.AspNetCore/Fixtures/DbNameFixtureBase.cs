@@ -1,3 +1,5 @@
+/* TODO:
+
 using System.Data.Common;
 using FEFF.Extentions.Testing.AspNetCore;
 
@@ -22,7 +24,7 @@ public class DbNameFixtureBase
         _prefix = $"test-{testId.Value}-";
         _connectionStringName = connectionStringName;
 
-        app.ApplicationBuilder.ConfigureServices(ReconfigureFactory);
+        app.Configuration.ConfigureServices(ReconfigureFactory);
     }
 
     private void ReconfigureFactory(WebHostBuilderContext ctx, IServiceCollection _)
@@ -67,3 +69,5 @@ public class DbNameFixtureBase
 //         catch { }
 //     }
 }
+
+//*/

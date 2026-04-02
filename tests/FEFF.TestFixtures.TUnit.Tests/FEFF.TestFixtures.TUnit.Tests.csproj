@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../FEFF.TestFixtures.TUnit.TestSubject/FEFF.TestFixtures.TUnit.TestSubject.csproj" />
+    <ProjectReference Include="../Subjects/TUnit.TestSubject/TUnit.TestSubject.csproj" />
   </ItemGroup>
 
 </Project>

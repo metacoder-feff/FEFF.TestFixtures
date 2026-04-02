@@ -3,10 +3,10 @@
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=FEFF.TestFixtures.TUnit)
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=FEFF.TestFixtures)
-![NuGet Version](https://img.shields.io/nuget/vpre/FEFF.TestFixtures.AspNetCore?label=FEFF.TestFixtures.AspNetCore)
+![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore?label=FEFF.TestFixtures.AspNetCore)
 
 ✅ Replace setup/teardown methods and cumbersome "Disposable pattern" with reusable **Fixtures**.  
-✅ Fixtures can depend on other fixtures.
+✅ Fixtures can depend on other fixtures.  
 ✅ Fixtures can be configured via standard IServiceProvider.
 
 [Fixture list](#fixture-list)
@@ -188,12 +188,19 @@ Documentation is under development, [see examples](https://github.com/metacoder-
 + TmpDirectoryFixture
 + TmpScopeIdFixture
 
-### AspNetCore Fixture Library (Preview)
+### AspNetCore Fixture Library
 
 + Start and stop the application via TestHost
 + Create an HttpClient for testing
 + Access the application's service provider in tests
 + Modify Configuration/ServiceCollection before the application starts
-+ Generate unique database names for test isolation
 + Stub TimeProvider with FakeTimeProvider
-+ Stub Random.Shared with FakeRandom
++ Stub Random with FakeRandom
++ Stub Logger<> with FakeLogger
+
+### AspNetCore Fixture Library [work in progress]
+
++ Generate unique database names for test isolation
++ Generate unique Redis key prefix for test isolation
++ Generate unique S3 path prefix for test isolation
++ Create a SignalRClient for testing

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 
 namespace FEFF.TestFixtures;
 //TODO: lazy-CreateTempSubdirectory + _isDisposed + threadsafe ?
-//TODO: DisposeType.Deffered
+//TODO: DisposeType.Deferred
 
 /// <summary>
 /// Returns a unique directory for each scope where the fixture is requested.<br/>
@@ -13,7 +13,7 @@ namespace FEFF.TestFixtures;
 /// Every call to the fixture within the same scope returns the same fixture instance.
 /// </remarks>
 [Fixture]
-public sealed class TmpDirectoryFixture : IDisposable, IFixureRegistrator
+public sealed class TmpDirectoryFixture : IDisposable, IFixureRegistar
 {
     #region Advanced Registration
     public enum DisposeType { Delete, Skip };
