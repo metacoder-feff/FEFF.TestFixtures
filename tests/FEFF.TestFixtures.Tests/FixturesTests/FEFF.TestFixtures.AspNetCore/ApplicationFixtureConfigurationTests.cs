@@ -1,11 +1,11 @@
 using System.Text.Json;
-using FEFF.Extentions.Testing.AspNetCore;
+using FEFF.Extensions.Testing.AspNetCore;
 using Newtonsoft.Json.Linq;
 using WebApiTestSubject;
 
 namespace FEFF.TestFixtures.AspNetCore.Tests;
 
-public class ConfiguredApplicationFixtureTests
+public class ApplicationFixtureConfigurationTests
 {
     protected ITestApplicationFixture App = TestContext.Current.GetFeffFixture<TestApplicationFixture<Program>>();
     protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();

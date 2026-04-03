@@ -12,8 +12,8 @@
     <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
     
     <!-- 
-      To access FEFF.Extentions.ThrowHelper
-      Remove this after link to nuget FEFF.Extentions
+      To access FEFF.Extensions.ThrowHelper
+      Remove this after link to nuget FEFF.Extensions
     -->
     <InternalsVisibleTo Include="FEFF.TestFixtures.XunitV3" />
     <InternalsVisibleTo Include="FEFF.TestFixtures.AspNetCore" />

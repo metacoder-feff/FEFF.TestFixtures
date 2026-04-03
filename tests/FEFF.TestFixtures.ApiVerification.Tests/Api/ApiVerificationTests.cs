@@ -55,7 +55,7 @@ public class ApiVerificationTests
 }
 
 //TODO: utils
-internal static class VerifyExtentions
+internal static class VerifyExtensions
 {
     public static bool IsCI() => BuildServerDetector.IsGitLab || BuildServerDetector.IsGithubAction;
     
@@ -71,7 +71,7 @@ internal static class VerifyExtentions
     // WORKAROUND:
     // AutoVerify(includeBuildServer: false)
     // uses BuildServerDetector.Detected
-    // witch uses BuildServerDetector.IsDocker - not compatible with devcontainers
+    // which uses BuildServerDetector.IsDocker - not compatible with devcontainers
     // internal static SettingsTask AutoVerifyIfNotCI(this SettingsTask src)
     // {
     //     if(IsCI() == true)

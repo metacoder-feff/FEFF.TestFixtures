@@ -1,6 +1,6 @@
 //TODO: link nuget
 
-namespace FEFF.Extentions;
+namespace FEFF.Extensions;
 
 internal class EnumMatchException : InvalidOperationException
 {

@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace FEFF.Extentions;
+namespace FEFF.Extensions;
 
 //TODO: link nuget
 

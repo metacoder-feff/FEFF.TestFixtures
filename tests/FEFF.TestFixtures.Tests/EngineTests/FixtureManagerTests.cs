@@ -73,7 +73,7 @@ public sealed class FixtureManagerTests : IAsyncDisposable
         await manager.DisposeAsync();
         f.IsDisposed.Should().BeTrue();
 
-        // error
+        // Expected: this should throw an error
         //var f2 = sc1.GetFixture<DisposableFixture>();
     }
     

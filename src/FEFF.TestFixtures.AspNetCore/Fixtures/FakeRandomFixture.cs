@@ -1,23 +1,33 @@
-using FEFF.Extentions.Testing;
-using FEFF.Extentions.Testing.AspNetCore;
+using FEFF.Extensions.Testing;
+using FEFF.Extensions.Testing.AspNetCore;
 
 namespace FEFF.TestFixtures.AspNetCore;
 
-/// <summary>
-/// Replaces <see cref="Random"/> service with <see cref="FakeRandom"/> singleton in a tested application.
-/// </summary>
 [Fixture]
-public class FakeRandomFixture
+public class FakeRandomFixture : ITestApplicationExtension
 {
-    public readonly FakeRandom Value = new();
+    public FakeRandom Value { get; } = new();
 
-    public FakeRandomFixture(TestApplicationExtention app)
+    public void Configure(ITestApplicationFixture app)
     {
-        app.ConfigureServices(ReconfigureFactory);
+        app.Configuration.ConfigureServices(ReconfigureFactory);
     }
 
     private void ReconfigureFactory(IServiceCollection services)
     {
         services.TryReplaceSingleton<Random>(Value);
+    }
+}
+
+/// <summary>
+/// Replaces <see cref="Random"/> service with <see cref="FakeRandom"/> singleton in a tested application.
+/// </summary>
+[Fixture]
+public class FakeRandomFixture<TEntryPoint> : FakeRandomFixture
+where TEntryPoint: class
+{
+    public FakeRandomFixture(TestApplicationFixture<TEntryPoint> app)
+    {
+        Configure(app);
     }
 }

@@ -8,7 +8,7 @@ namespace FEFF.TestFixtures.Engine.Tests;
 public class EnvironmentFixtureOptionsTests : FixtureTestBase
 {
     // Auto restore ENV after test
-    // Use regular fuxture integration for EnvironmentFixture used here as a helper
+    // Use regular fixture integration for EnvironmentFixture used here as a helper
     protected EnvironmentFixture Env {get;} = TestContext.Current.GetFeffFixture<EnvironmentFixture>();
 
     [Theory]
@@ -25,7 +25,7 @@ public class EnvironmentFixtureOptionsTests : FixtureTestBase
             .Should().Be(value);
 
         // Force reread Configuration.Environment
-        // (need when IConfiguration has already been materialized for eny fixture from FixtureManager)
+        // (need when IConfiguration has already been materialized for any fixture from FixtureManager)
         // var c = Helper.GetFixture<IConfigurationRoot>();
         // c!.Reload();
 
@@ -38,7 +38,7 @@ public class EnvironmentFixtureOptionsTests : FixtureTestBase
 }
 
 [Fixture]
-public sealed class FixtureWithOptions : IFixureRegistar
+public sealed class FixtureWithOptions : IFixtureRegistrar
 {
     public class Options
     {

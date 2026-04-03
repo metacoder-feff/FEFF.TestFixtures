@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Frozen;
 
-namespace FEFF.Extentions;
+namespace FEFF.Extensions;
 
 //TODO: link nuget
 

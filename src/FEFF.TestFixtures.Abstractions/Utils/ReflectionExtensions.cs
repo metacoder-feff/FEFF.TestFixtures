@@ -1,10 +1,10 @@
 using System.Reflection;
 
-namespace FEFF.Extentions.Reflection;
+namespace FEFF.Extensions.Reflection;
 
 //TODO: link nuget
 
-internal static class ReflectionExtentions
+internal static class ReflectionExtensions
 {
     public static T? TryGetPrivateInstaceFieldValue<T>(this object obj, string fieldName)
     where T : class

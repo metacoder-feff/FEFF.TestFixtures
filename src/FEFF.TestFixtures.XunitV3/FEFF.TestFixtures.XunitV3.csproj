@@ -5,7 +5,7 @@
 
     <!-- NUGET -->
     <IsPackable>true</IsPackable>
-    <Description>Xunit extension, adds 'FEFF.TestFixtures': Replace setup/teardown methods with reusable Fuxtures, dependency injection for fixtures.</Description>
+    <Description>Xunit extension, adds 'FEFF.TestFixtures': Replace setup/teardown methods with reusable Fixtures, dependency injection for fixtures.</Description>
     <PackageTags>testing;fixtures;Xunit;FEFF;</PackageTags>
   </PropertyGroup>
 

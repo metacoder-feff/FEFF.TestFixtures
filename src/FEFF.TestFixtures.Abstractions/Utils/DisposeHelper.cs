@@ -1,6 +1,6 @@
 using System.Runtime.ExceptionServices;
 
-namespace FEFF.Extentions;
+namespace FEFF.Extensions;
 
 //TODO: link nuget
 
@@ -49,7 +49,7 @@ internal static class DisposeHelper
 
     /// <remarks>
     /// DRY and optimization:
-    /// Polymorfic over 'T' algorithm. The <see cref="Disposer"/> class defines abstraction over non-polymorphic static methods.
+    /// Polymorphic over 'T' algorithm. The <see cref="Disposer"/> class provides an abstraction over non-polymorphic static methods.
     /// </remarks>
     private static ValueTask InternalDisposeAsync<TDisposer,T>(IReadOnlyList<T> disposables)
     where TDisposer : IDisposer<T>
@@ -128,7 +128,7 @@ internal static class DisposeHelper
 
     // Rethrows nothing if no exceptions were handled.
     // Rethrows source exception if only one was handled.
-    // Rethrows AggregateException if more then one exception were handled.
+    // Rethrows AggregateException if more than one exception was handled.
     // DRY: used in multiple places
     private struct ErrorContext
     {
@@ -164,14 +164,14 @@ internal static class DisposeHelper
         }
     }
 
-    // Optimizations for polymorfic 'DisposeAsync' call. 
-    // Using direct generic static call intead of vcall or delegate.
+    // Optimizations for polymorphic 'DisposeAsync' call.
+    // Using a direct generic static call instead of a vcall or delegate.
     internal interface IDisposer<T>
     {
         static abstract ValueTask DisposeAsync(T disposable);
     }
 
-    // static class can not implement interface therefore create non-static nested class
+    // A static class cannot implement an interface; therefore, a non-static nested class is created.
     private class Disposer : IDisposer<object>, IDisposer<IAsyncDisposable>
     {
         static ValueTask IDisposer<object>.DisposeAsync(object disposable)

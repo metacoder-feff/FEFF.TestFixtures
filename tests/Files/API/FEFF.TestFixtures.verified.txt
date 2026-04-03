@@ -11,7 +11,7 @@ namespace FEFF.TestFixtures
         public void SetEnvironmentVariable(string variable, string? value) { }
     }
     [FEFF.TestFixtures.Fixture]
-    public sealed class TmpDirectoryFixture : FEFF.TestFixtures.IFixureRegistar, System.IDisposable
+    public sealed class TmpDirectoryFixture : FEFF.TestFixtures.IFixtureRegistrar, System.IDisposable
     {
         public TmpDirectoryFixture(Microsoft.Extensions.Options.IOptions<FEFF.TestFixtures.TmpDirectoryFixture.Options> opts) { }
         public string Path { get; }

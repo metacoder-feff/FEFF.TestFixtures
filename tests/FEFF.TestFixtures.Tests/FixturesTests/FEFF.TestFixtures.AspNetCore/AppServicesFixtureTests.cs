@@ -7,7 +7,7 @@ public class AppServicesFixtureTests
 {
     protected IAppServicesFixture ServicesFx = TestContext.Current.GetFeffFixture<AppServicesFixture<Program>>();
 
-    protected FakeLoggerFixture FakeLoggerFx = TestContext.Current.GetFeffFixture<FakeLoggerFixture>();
+    protected FakeLoggerFixture FakeLoggerFx = TestContext.Current.GetFeffFixture<FakeLoggerFixture<Program>>();
 
     [Fact]
     public async Task AppServices_should_be_resolved()

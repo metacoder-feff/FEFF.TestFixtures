@@ -1,6 +1,6 @@
 namespace FEFF.TestFixtures;
 
-// <summary>
+/// <summary>
 /// Returns a unique string for each scope where the fixture is requested.<br/>
 /// </summary>
 /// <remarks>

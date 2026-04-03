@@ -21,11 +21,11 @@ class AssemblyFix : BaseFix {}
 [Fixture]
 class SessionFix : BaseFix {}
 
-class SingletoneFix : BaseFix, IFixureRegistar
+class SingletonFix : BaseFix, IFixtureRegistrar
 {
     public static void RegisterFixture(IServiceCollection services)
     {
-        services.AddSingleton<SingletoneFix>();
+        services.AddSingleton<SingletonFix>();
     }
 }
 
@@ -44,13 +44,13 @@ public class TestSubject
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
         var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
         var f5 = GetFixture<SessionFix>(FixtureScopeType.Session);
-        var s  = GetFixture<SingletoneFix>();
+        var s  = GetFixture<SingletonFix>();
 
         f1.Should().BeOfType<TestFix>();
         f2.Should().BeOfType<ClassFix>();
         f4.Should().BeOfType<AssemblyFix>();
         f5.Should().BeOfType<SessionFix>();
-        s.Should().BeOfType<SingletoneFix>();
+        s.Should().BeOfType<SingletonFix>();
     }
 
     [Test]
@@ -60,13 +60,13 @@ public class TestSubject
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
         var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
         var f5 = GetFixture<SessionFix>(FixtureScopeType.Session);
-        var s  = GetFixture<SingletoneFix>();
+        var s  = GetFixture<SingletonFix>();
 
         f1.Should().BeOfType<TestFix>();
         f2.Should().BeOfType<ClassFix>();
         f4.Should().BeOfType<AssemblyFix>();
         f5.Should().BeOfType<SessionFix>();
-        s.Should().BeOfType<SingletoneFix>();
+        s.Should().BeOfType<SingletonFix>();
     }
 }
 

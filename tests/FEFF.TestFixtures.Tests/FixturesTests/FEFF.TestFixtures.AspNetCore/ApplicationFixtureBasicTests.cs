@@ -4,16 +4,16 @@ using WebApiTestSubject;
 
 namespace FEFF.TestFixtures.AspNetCore.Tests;
 
-public class BasicApplicationFixtureTests
+public class ApplicationFixtureBasicTests
 {
     protected ITestApplicationFixture App = TestContext.Current.GetFeffFixture<TestApplicationFixture<Program>>();
 
     [Fact]
     public async Task Api__should_respond()
     {
-        /// fixture starts and creates clients
-        /// user has to dispose these clients manually
-        /// <see cref="AppClientFixture{}"/> for automation.
+        /// The fixture starts the app and creates clients.
+        /// The user has to dispose these clients manually.
+        /// See <see cref="AppClientFixture{}"/> for automation.
         using var client = App.LazyApplication.CreateClient();
 
         var resp = await client.GetAsync("/weatherforecast/const", TestContext.Current.CancellationToken);
@@ -36,9 +36,9 @@ public class BasicApplicationFixtureTests
     [Fact]
     public async Task AppServices_should_be_resolved()
     {
-        /// fixture starts app and creates serviceScope
-        /// user has to dispose the serviceScope manually
-        /// <see cref="AppServicesFixture"/> for automation.
+        /// The fixture starts the app and creates a service scope.
+        /// The user has to dispose the service scope manually.
+        /// See <see cref="AppServicesFixture"/> for automation.
         using var serviceScope = App.LazyApplication.Services.CreateScope();
 
         var svc = serviceScope.ServiceProvider.GetRequiredService<SomeService>();

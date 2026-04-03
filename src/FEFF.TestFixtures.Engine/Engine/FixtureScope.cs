@@ -1,4 +1,4 @@
-using FEFF.Extentions.Reflection;
+using FEFF.Extensions.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Engine;

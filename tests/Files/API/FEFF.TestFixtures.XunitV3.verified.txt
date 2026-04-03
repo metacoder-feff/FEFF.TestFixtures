@@ -20,7 +20,7 @@ namespace FEFF.TestFixtures.Xunit
 }
 namespace Xunit.v3
 {
-    public static class TestContextExtentions
+    public static class TestContextExtensions
     {
         public static T GetFeffFixture<T>(this Xunit.ITestContext ctx, FEFF.TestFixtures.Xunit.FixtureScopeType scopeType = 0)
             where T :  notnull { }

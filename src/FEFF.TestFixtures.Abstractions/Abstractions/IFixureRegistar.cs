@@ -3,8 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 namespace FEFF.TestFixtures;
 
 // should not be used on open generics
-//TODO: analizer
-public interface IFixureRegistar
+//TODO: analyzer
+public interface IFixtureRegistrar
 {
     static abstract void RegisterFixture(IServiceCollection services);
 }

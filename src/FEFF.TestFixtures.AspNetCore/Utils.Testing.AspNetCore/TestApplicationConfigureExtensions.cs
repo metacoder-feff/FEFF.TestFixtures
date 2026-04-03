@@ -1,8 +1,8 @@
-namespace FEFF.Extentions.Testing.AspNetCore;
+namespace FEFF.Extensions.Testing.AspNetCore;
 
 public enum AspEnvironment { Development, Production };
 
-public static class TestApplicationConfigureExtentions
+public static class TestApplicationConfigureExtensions
 {
     public static void UseSetting(this IApplicationConfigurator builder, string key, string? value)
     {

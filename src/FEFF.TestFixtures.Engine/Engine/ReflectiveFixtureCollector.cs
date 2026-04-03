@@ -65,7 +65,7 @@ internal static class ReflectiveFixtureCollector
         if (attribute.RegisterWithType is null)
             return;
 
-//TODO: add analizer
+//TODO: add analyzer
         // better to throw InvalidCastException when trying to resolve 'RegisterWithType'
         // if(attribute.RegisterWithType.IsAssignableFrom(t) == false)
         //     throw new InvalidOperationException($"The implementation type'{t}' should be a subtype or implement {nameof(FixtureAttribute.RegisterWithType)} '{attribute.RegisterWithType}'.");
@@ -75,7 +75,7 @@ internal static class ReflectiveFixtureCollector
 
     private static void TryRegisterExtended(this ServiceCollection services, Type t)
     {
-        if(t.GetInterfaces().Contains(typeof(IFixureRegistar)) == false)
+        if(t.GetInterfaces().Contains(typeof(IFixtureRegistrar)) == false)
             return;
 
         RegisterExtendedMethodInfo.Value
@@ -84,10 +84,10 @@ internal static class ReflectiveFixtureCollector
             ;
     }
 
-    // Since an interface implementation may have a different method name or visibility, 
-    // it's safer to call it through static linking rather than directly via reflection.
+    // Since an interface implementation may use a different method name or visibility modifier,
+    // it is safer to invoke it through static linking rather than directly via reflection.
     private static void RegisterExtended<T>(ServiceCollection services)
-    where T: IFixureRegistar
+    where T: IFixtureRegistrar
     {
         T.RegisterFixture(services);
     }

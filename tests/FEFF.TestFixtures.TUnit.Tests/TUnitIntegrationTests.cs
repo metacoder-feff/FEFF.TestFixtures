@@ -10,7 +10,7 @@ namespace FEFF.TestFixtures.TUnit.Tests;
 
 public class TUnitIntegrationTests
 {
-    // Fuxture creating is tested inside TestSubject
+    // Fixture creating is tested inside TestSubject
     [Test]
     public async Task Fixtures__should_be_disposed()
     {
@@ -53,7 +53,7 @@ public class TUnitIntegrationTests
             "ClassFix":2,
             "AssemblyFix":1,
             "SessionFix":1,
-            "SingletoneFix":1,
+            "SingletonFix":1,
         }
         """);
     }

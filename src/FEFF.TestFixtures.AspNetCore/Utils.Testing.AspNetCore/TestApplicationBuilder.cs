@@ -1,13 +1,22 @@
+using System.Collections.Immutable;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace FEFF.Extentions.Testing.AspNetCore;
+namespace FEFF.Extensions.Testing.AspNetCore;
 
-internal class TestApplicationBuilder
+
+internal class TestApplicationBuilder<TEntryPoint>: IApplicationConfigurator
+where TEntryPoint: class
 {
-    internal static ITestApplication Build<TEntryPoint>(IEnumerable<Action<IWebHostBuilder>> configureActions)
-    where TEntryPoint: class
+    private readonly List<Action<IWebHostBuilder>> _builderOverrides = [];
+
+    public void ConfigureWebHost(Action<IWebHostBuilder> action)
     {
-        return new OverridenWebApplicationFactory<TEntryPoint>(configureActions);
+        _builderOverrides.Add(action);
+    }
+
+    public ITestApplication Build()
+    {
+        return new OverridenWebApplicationFactory<TEntryPoint>(_builderOverrides.ToImmutableArray());
     }
 }
 

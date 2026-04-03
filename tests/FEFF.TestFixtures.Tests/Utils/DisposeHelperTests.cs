@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace FEFF.Extentions.Tests;
+namespace FEFF.Extensions.Tests;
 
 public class DisposeHelperTests
 {

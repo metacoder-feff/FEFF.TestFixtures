@@ -8,7 +8,7 @@ public class FakeLoggerFixtureTests
     protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
     // FakeLoggerFixture is injected into TestApplicationFixture.ApplicationBuilder
-    protected FakeLoggerFixture FakeLoggerFx = TestContext.Current.GetFeffFixture<FakeLoggerFixture>();
+    protected FakeLoggerFixture FakeLoggerFx = TestContext.Current.GetFeffFixture<FakeLoggerFixture<Program>>();
 
     [Fact]
     public async Task FakeLoggerFixture__should_collect_logs()

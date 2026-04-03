@@ -20,7 +20,7 @@ foreach (var testCase in testCasesToRun)
 -> DisposalTracker.DisposeAsync()
 */
 
-public static class TestContextExtentions
+public static class TestContextExtensions
 {
     public static T GetFeffFixture<T>(this ITestContext ctx, FixtureScopeType scopeType = FixtureScopeType.TestCase)
     where T : notnull

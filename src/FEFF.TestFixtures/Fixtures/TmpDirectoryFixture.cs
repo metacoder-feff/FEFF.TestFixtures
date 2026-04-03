@@ -13,7 +13,7 @@ namespace FEFF.TestFixtures;
 /// Every call to the fixture within the same scope returns the same fixture instance.
 /// </remarks>
 [Fixture]
-public sealed class TmpDirectoryFixture : IDisposable, IFixureRegistar
+public sealed class TmpDirectoryFixture : IDisposable, IFixtureRegistrar
 {
     #region Advanced Registration
     public enum DisposeType { Delete, Skip };

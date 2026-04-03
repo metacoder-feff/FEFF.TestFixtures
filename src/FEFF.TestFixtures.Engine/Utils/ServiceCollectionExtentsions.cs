@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
-internal static class ServiceCollectionExtentions
+internal static class ServiceCollectionExtensions
 {
     internal static IServiceCollection Apply(this IServiceCollection services, Action<IServiceCollection>? action)
     {

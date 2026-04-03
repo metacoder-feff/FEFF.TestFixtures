@@ -1,4 +1,4 @@
-using FEFF.Extentions.Testing;
+using FEFF.Extensions.Testing;
 using Newtonsoft.Json.Linq;
 using WebApiTestSubject;
 
@@ -9,7 +9,7 @@ public class FakeRandomFixtureTests
     protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
     // FakeRandomFixture is injected into TestApplicationFixture.ApplicationBuilder
-    protected FakeRandomFixture FakeRandomFx = TestContext.Current.GetFeffFixture<FakeRandomFixture>();
+    protected FakeRandomFixture FakeRandomFx = TestContext.Current.GetFeffFixture<FakeRandomFixture<Program>>();
     protected FakeRandom FakeRandom => FakeRandomFx.Value;
 
     [Theory]
@@ -17,7 +17,7 @@ public class FakeRandomFixtureTests
     [InlineData(22)]
     public async Task FakeRandomFixture__should_make_api_to_respond_with(int randValue)
     {
-        // FakeRandom singletone object can be updated at any moment of test
+        // FakeRandom singleton object can be updated at any moment of test
         FakeRandom.IntStrategy = FakeRandom.ConstStrategy(randValue);
 
         var resp = await Client.LazyValue.GetAsync("/weatherforecast/random", TestContext.Current.CancellationToken);

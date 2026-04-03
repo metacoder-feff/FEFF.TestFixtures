@@ -1,6 +1,6 @@
 ﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/metacoder-feff/FEFF.TestFixtures")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
-namespace FEFF.Extentions.Testing.AspNetCore
+namespace FEFF.Extensions.Testing.AspNetCore
 {
     public enum AspEnvironment
     {
@@ -18,17 +18,17 @@ namespace FEFF.Extentions.Testing.AspNetCore
         System.Net.Http.HttpClient CreateClient();
         void StartServer();
     }
-    public static class TestApplicationConfigureExtentions
+    public static class TestApplicationConfigureExtensions
     {
-        public static void ConfigureServices(this FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator builder, System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configureServices) { }
-        public static void ConfigureServices(this FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator builder, System.Action<Microsoft.AspNetCore.Hosting.WebHostBuilderContext, Microsoft.Extensions.DependencyInjection.IServiceCollection> configureServices) { }
-        public static void UseAspEnvironment(this FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator builder, FEFF.Extentions.Testing.AspNetCore.AspEnvironment env) { }
-        public static void UseSetting(this FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator builder, string key, string? value) { }
+        public static void ConfigureServices(this FEFF.Extensions.Testing.AspNetCore.IApplicationConfigurator builder, System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection> configureServices) { }
+        public static void ConfigureServices(this FEFF.Extensions.Testing.AspNetCore.IApplicationConfigurator builder, System.Action<Microsoft.AspNetCore.Hosting.WebHostBuilderContext, Microsoft.Extensions.DependencyInjection.IServiceCollection> configureServices) { }
+        public static void UseAspEnvironment(this FEFF.Extensions.Testing.AspNetCore.IApplicationConfigurator builder, FEFF.Extensions.Testing.AspNetCore.AspEnvironment env) { }
+        public static void UseSetting(this FEFF.Extensions.Testing.AspNetCore.IApplicationConfigurator builder, string key, string? value) { }
     }
 }
-namespace FEFF.Extentions.Testing
+namespace FEFF.Extensions.Testing
 {
-    public class ConstRandomStrategy<T> : FEFF.Extentions.Testing.IRandomStrategy<T>
+    public class ConstRandomStrategy<T> : FEFF.Extensions.Testing.IRandomStrategy<T>
     {
         public ConstRandomStrategy(T value) { }
         public T Next() { }
@@ -36,10 +36,10 @@ namespace FEFF.Extentions.Testing
     public class FakeRandom : System.Random
     {
         public FakeRandom() { }
-        public FEFF.Extentions.Testing.IRandomStrategy<double>? DoubleStrategy { get; set; }
-        public FEFF.Extentions.Testing.IRandomStrategy<long>? Int64Strategy { get; set; }
-        public FEFF.Extentions.Testing.IRandomStrategy<int>? IntStrategy { get; set; }
-        public FEFF.Extentions.Testing.IRandomStrategy<float>? SingleStrategy { get; set; }
+        public FEFF.Extensions.Testing.IRandomStrategy<double>? DoubleStrategy { get; set; }
+        public FEFF.Extensions.Testing.IRandomStrategy<long>? Int64Strategy { get; set; }
+        public FEFF.Extensions.Testing.IRandomStrategy<int>? IntStrategy { get; set; }
+        public FEFF.Extensions.Testing.IRandomStrategy<float>? SingleStrategy { get; set; }
         public override int Next() { }
         public override int Next(int maxValue) { }
         public override int Next(int minValue, int maxValue) { }
@@ -48,7 +48,7 @@ namespace FEFF.Extentions.Testing
         public override long NextInt64(long maxValue) { }
         public override long NextInt64(long minValue, long maxValue) { }
         public override float NextSingle() { }
-        public static FEFF.Extentions.Testing.ConstRandomStrategy<T> ConstStrategy<T>(T value) { }
+        public static FEFF.Extensions.Testing.ConstRandomStrategy<T> ConstStrategy<T>(T value) { }
     }
     public interface IRandomStrategy<T>
     {
@@ -74,23 +74,46 @@ namespace FEFF.TestFixtures.AspNetCore
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
     }
     [FEFF.TestFixtures.Fixture]
-    public sealed class FakeLoggerFixture : System.IDisposable
+    public class FakeLoggerFixture : FEFF.TestFixtures.AspNetCore.ITestApplicationExtension, System.IDisposable
     {
-        public FakeLoggerFixture(FEFF.TestFixtures.AspNetCore.TestApplicationExtention app) { }
+        protected readonly Microsoft.Extensions.Logging.Testing.FakeLoggerProvider _provider;
+        public FakeLoggerFixture() { }
         public Microsoft.Extensions.Logging.Testing.FakeLogCollector Collector { get; }
+        public void Configure(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app) { }
         public void Dispose() { }
+        protected virtual void Dispose(bool disposing) { }
     }
     [FEFF.TestFixtures.Fixture]
-    public class FakeRandomFixture
+    public class FakeLoggerFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.FakeLoggerFixture
+        where TEntryPoint :  class
     {
-        public readonly FEFF.Extentions.Testing.FakeRandom Value;
-        public FakeRandomFixture(FEFF.TestFixtures.AspNetCore.TestApplicationExtention app) { }
+        public FakeLoggerFixture(FEFF.TestFixtures.AspNetCore.TestApplicationFixture<TEntryPoint> app) { }
     }
     [FEFF.TestFixtures.Fixture]
-    public class FakeTimeFixture
+    public class FakeRandomFixture : FEFF.TestFixtures.AspNetCore.ITestApplicationExtension
     {
-        public readonly Microsoft.Extensions.Time.Testing.FakeTimeProvider Value;
-        public FakeTimeFixture(FEFF.TestFixtures.AspNetCore.TestApplicationExtention app) { }
+        public FakeRandomFixture() { }
+        public FEFF.Extensions.Testing.FakeRandom Value { get; }
+        public void Configure(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app) { }
+    }
+    [FEFF.TestFixtures.Fixture]
+    public class FakeRandomFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.FakeRandomFixture
+        where TEntryPoint :  class
+    {
+        public FakeRandomFixture(FEFF.TestFixtures.AspNetCore.TestApplicationFixture<TEntryPoint> app) { }
+    }
+    [FEFF.TestFixtures.Fixture]
+    public class FakeTimeFixture : FEFF.TestFixtures.AspNetCore.ITestApplicationExtension
+    {
+        public FakeTimeFixture() { }
+        public Microsoft.Extensions.Time.Testing.FakeTimeProvider Value { get; }
+        public void Configure(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app) { }
+    }
+    [FEFF.TestFixtures.Fixture]
+    public class FakeTimeFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.FakeTimeFixture
+        where TEntryPoint :  class
+    {
+        public FakeTimeFixture(FEFF.TestFixtures.AspNetCore.TestApplicationFixture<TEntryPoint> app) { }
     }
     public interface IAppClientFixture
     {
@@ -100,24 +123,26 @@ namespace FEFF.TestFixtures.AspNetCore
     {
         System.IServiceProvider LazyServiceProvider { get; }
     }
+    public interface ITestApplicationExtension
+    {
+        void Configure(FEFF.TestFixtures.AspNetCore.ITestApplicationFixture app);
+    }
     public interface ITestApplicationFixture
     {
-        FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator Configuration { get; }
-        FEFF.Extentions.Testing.AspNetCore.ITestApplication LazyApplication { get; }
+        FEFF.Extensions.Testing.AspNetCore.IApplicationConfigurator Configuration { get; }
+        FEFF.Extensions.Testing.AspNetCore.ITestApplication LazyApplication { get; }
     }
-    [FEFF.TestFixtures.Fixture]
-    public class TestApplicationExtention : FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator
+    public static class TestApplicationFixtureExt
     {
-        public TestApplicationExtention() { }
-        public void ConfigureWebHost(System.Action<Microsoft.AspNetCore.Hosting.IWebHostBuilder> action) { }
+        public static FEFF.TestFixtures.AspNetCore.ITestApplicationFixture AttachExtensions(this FEFF.TestFixtures.AspNetCore.ITestApplicationFixture src, params FEFF.TestFixtures.AspNetCore.ITestApplicationExtension[] extensions) { }
     }
     [FEFF.TestFixtures.Fixture]
     public sealed class TestApplicationFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.ITestApplicationFixture, System.IAsyncDisposable
         where TEntryPoint :  class
     {
-        public TestApplicationFixture(FEFF.TestFixtures.AspNetCore.TestApplicationExtention ext) { }
-        public FEFF.Extentions.Testing.AspNetCore.IApplicationConfigurator Configuration { get; }
-        public FEFF.Extentions.Testing.AspNetCore.ITestApplication LazyApplication { get; }
+        public TestApplicationFixture() { }
+        public FEFF.Extensions.Testing.AspNetCore.IApplicationConfigurator Configuration { get; }
+        public FEFF.Extensions.Testing.AspNetCore.ITestApplication LazyApplication { get; }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
     }
 }

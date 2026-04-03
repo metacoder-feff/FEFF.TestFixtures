@@ -18,7 +18,7 @@ public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
         // Act: first access to IConfiguration must be after UseSetting
         var f = Helper.GetFixture<TmpDirectoryFixture>();
 
-        // ssert
+        // Assert
         var di = new DirectoryInfo(f.Path);
         if(prefixExpected)
             di.Name.Should().StartWith(prefix);
