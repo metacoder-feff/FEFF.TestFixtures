@@ -38,7 +38,7 @@ public sealed class EnvironmentFixture : IDisposable
     }
 
     /// <summary>
-    /// Same as <see cref="Environment.SetEnvironmentVariable"/>.<br/>
+    /// Same as <see cref="Environment.SetEnvironmentVariable(string, string?)"/>.<br/>
     /// This method is used not to forget to instantiate <see cref="EnvironmentFixture"/>.
     /// </summary>
 #pragma warning disable CA1822 // Mark members as static

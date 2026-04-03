@@ -11,7 +11,7 @@ public class FakeLoggerFixtureTests
     protected FakeLoggerFixture FakeLoggerFx = TestContext.Current.GetFeffFixture<FakeLoggerFixture<Program>>();
 
     [Fact]
-    public async Task FakeLoggerFixture__should_collect_logs()
+    public async Task Fixture__should_collect_logs()
     {
         var resp = await Client.LazyValue.PostAsync("/logging", null, TestContext.Current.CancellationToken);
         resp.StatusCode.Should().Be(HttpStatusCode.OK);

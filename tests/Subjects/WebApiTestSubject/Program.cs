@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace WebApiTestSubject;
 
 public class SomeService(ILogger<SomeService> logger)
@@ -13,6 +15,22 @@ public class SomeService(ILogger<SomeService> logger)
 
 public class Program
 {
+    /// <remarks>
+    /// <list type="bullet">
+    /// <item> For development:<br/>
+    /// Postgres is started using "DevContainer" ("postgres" service).<br/>
+    /// The connection string is defined as an environment variable for main container ("app" service).<br/>
+    /// See <see href="https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/.devcontainer/devcontainer.json">.devcontainer/docker-compose.yml</see>.
+    /// </item>
+    /// <item> 
+    /// For CI e.g. GitLab:<br/>
+    /// Postgres is started as an additional service.<br/>
+    /// The connection string is defined as an environment variable for test job.
+    /// </item>
+    /// </list>
+    /// </remarks>
+    public const string ConnectionStringName = "PgDb";
+
     record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary);
 
     public static void Main(string[] args)
@@ -21,7 +39,16 @@ public class Program
         builder.Services
             .AddSingleton((_) => Random.Shared)
             .AddSingleton((_) => TimeProvider.System)
-            .AddScoped<SomeService>();
+            .AddScoped<SomeService>()
+            .AddDbContext<ApplicationDbContext>((sp, options) =>
+            {
+                // options.UseNpgsql(builder.Configuration.GetConnectionString(ConnectionStringName));
+                var connStr = sp
+                    .GetRequiredService<IConfiguration>()
+                    .GetConnectionString(ConnectionStringName)
+                    ;
+                options.UseNpgsql(connStr);
+            });
         var app = builder.Build();
 
         app.MapGet("/weatherforecast/const", () =>
@@ -75,31 +102,14 @@ public class Program
             svc.Log();
         });
 
+        app.MapGet("/db-info", async (ApplicationDbContext dbCtx) =>
+        {
+            await dbCtx.Database.EnsureCreatedAsync();
+            return new { 
+                Name = dbCtx.Database.GetDbConnection().Database 
+            };
+        });
+
         app.Run();
     }
 }
-
-/*
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapOpenApi();
-        }
-        app.UseHttpsRedirection();
-
-        var summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-        app.MapGet("/weatherforecast", () =>
-        {
-            var forecast =  Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-                .ToArray();
-            return forecast;
-        });
-*/

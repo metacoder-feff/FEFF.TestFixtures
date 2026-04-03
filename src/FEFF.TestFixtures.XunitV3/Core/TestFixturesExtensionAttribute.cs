@@ -6,7 +6,7 @@ namespace FEFF.TestFixtures.Xunit;
 // Remarks: Dispose() is not called for IBeforeAfterTestAttribute
 
 /// <summary>
-/// Manages <see cref="FixtureScopeManager"/> for Xunit tests. <br/>
+/// Manages <see cref="Engine.FixtureManager"/> for Xunit tests. <br/>
 /// Allows use of <see cref="TestContextExtensions.GetFeffFixture"/>.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]

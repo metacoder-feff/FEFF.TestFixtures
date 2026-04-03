@@ -1,8 +1,18 @@
 using System.Collections.Immutable;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace FEFF.Extensions.Testing.AspNetCore;
+namespace FEFF.TestFixtures.AspNetCore;
 
+internal interface IWebApplicationFactory : IAsyncDisposable
+{
+    IServiceProvider Services { get; }
+
+    HttpClient CreateClient();
+
+    void StartServer();
+    // TestServer Server { get; }
+    // ...
+}
 
 internal class TestApplicationBuilder<TEntryPoint>: IApplicationConfigurator
 where TEntryPoint: class
@@ -14,13 +24,13 @@ where TEntryPoint: class
         _builderOverrides.Add(action);
     }
 
-    public ITestApplication Build()
+    public IWebApplicationFactory Build()
     {
         return new OverridenWebApplicationFactory<TEntryPoint>(_builderOverrides.ToImmutableArray());
     }
 }
 
-internal class OverridenWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint>, ITestApplication
+internal class OverridenWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint>, IWebApplicationFactory
 where TEntryPoint: class
 {
     private readonly IEnumerable<Action<IWebHostBuilder>> _builderOverrides;

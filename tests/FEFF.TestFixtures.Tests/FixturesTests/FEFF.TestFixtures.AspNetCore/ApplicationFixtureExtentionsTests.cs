@@ -17,7 +17,7 @@ public class ApplicationFixtureExtensionsTests
     [InlineData("fixture-configure-app")]
     [InlineData("app-attach-extension")]
     [InlineData("generic-auto-configure")]
-    public void TestApplicationFixture_extensions__should_be_attached_with(string? configMethod)
+    public void Fixture_extensions__should_be_attached_with(string? configMethod)
     {
         // Arrange: Register App Extensions with different methods
 

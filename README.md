@@ -122,7 +122,7 @@ public sealed class TmpDirectoryFixture : IDisposable
 }
 ```
 
-When:
+Where:
 
 | Fixture function  | Implementation            |
 |---                | ---                       |
