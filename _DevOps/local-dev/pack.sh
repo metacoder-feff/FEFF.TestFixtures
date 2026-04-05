@@ -8,10 +8,8 @@ ROOT_DIR=$(realpath "${SCRIPT_DIR}/../..")
 
 NUGET_DIR=$ROOT_DIR/nupkgs
 
-#TODO: check/create/...
-#mkdir "$NUGET_DIR"
-rm -f "$NUGET_DIR"/*
-# rm -rf "$NUGET_DIR"
+mkdir -p "$NUGET_DIR"
+rm -rf "$NUGET_DIR"/*
 
 dotnet pack \
   -p:ContinuousIntegrationBuild=true \

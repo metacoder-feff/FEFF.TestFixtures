@@ -12,11 +12,12 @@ public class ApiVerificationTests
     public Task VerifyXunit_checks_should_be_positive() => VerifyChecks.Run();
 
     [Theory]
-    // this assemblies are referenced by project to set build order
+    // these projects should be referenced by this test project to set build order
     [InlineData("FEFF.TestFixtures")]
     [InlineData("FEFF.TestFixtures.Abstractions")]
     [InlineData("FEFF.TestFixtures.Engine")]
     [InlineData("FEFF.TestFixtures.AspNetCore")]
+    [InlineData("FEFF.TestFixtures.AspNetCore.EF")]
     [InlineData("FEFF.TestFixtures.XunitV3")]
     [InlineData("FEFF.TestFixtures.TUnit")]
     public Task API_should_not_change(string assemblyName)

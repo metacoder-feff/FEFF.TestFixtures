@@ -1,6 +1,7 @@
 using Xunit;
 using Xunit.v3;
 using FEFF.Extensions.Reflection;
+using Xunit.Sdk;
 
 namespace FEFF.TestFixtures.Xunit;
 
@@ -39,6 +40,8 @@ internal static class Hack
         if(mapping.LocalFixtureTypes.Contains(type))
             return;
 
+        // otherwize WaitSync() can deadlock
+        ThrowHelper.Assert(type.Implements(typeof(IAsyncLifetime)) == false);
         mapping.InitializeAsync(type).WaitSync();
     }
 

@@ -9,7 +9,7 @@ internal static class EnvironmentHelper
 {
     /// <summary>
     /// Typed version of Environment.GetEnvironmentVariables().
-    /// Skips env records when key or value is null, that typically should not occur.
+    /// Skipping records when key or value is null, that typically should not occur.
     /// </summary>
     public static FrozenDictionary<string, string> GetEnvironmentVariables()
     {

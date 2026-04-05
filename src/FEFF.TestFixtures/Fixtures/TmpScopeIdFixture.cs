@@ -1,7 +1,7 @@
 namespace FEFF.TestFixtures;
 
 /// <summary>
-/// Returns a unique string for each scope where the fixture is requested.<br/>
+/// Returns a unique string for each scope where the fixture is requested.
 /// </summary>
 /// <remarks>
 /// Every call to the fixture within the same scope returns the same fixture instance.

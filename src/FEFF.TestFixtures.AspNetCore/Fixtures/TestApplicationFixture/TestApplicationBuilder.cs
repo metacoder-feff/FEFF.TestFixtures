@@ -47,4 +47,11 @@ where TEntryPoint: class
         foreach(var configureAction in _builderOverrides)
             configureAction(builder);
     }
+
+#if ! NET10_0_OR_GREATER
+    public void StartServer()
+    {
+        _ = Server;
+    }
+#endif
 }

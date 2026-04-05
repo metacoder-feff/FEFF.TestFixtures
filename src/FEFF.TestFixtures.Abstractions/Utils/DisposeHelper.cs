@@ -4,6 +4,8 @@ namespace FEFF.Extensions;
 
 //TODO: link nuget
 
+//TODO: reverse order
+
 internal static class DisposeHelper
 {
     public static void Dispose(IReadOnlyList<IDisposable> disposables)
@@ -60,70 +62,36 @@ internal static class DisposeHelper
 
         ArgumentNullException.ThrowIfNull(disposables);
 
-        if(disposables.Count <= 0)
+        if (disposables.Count <= 0)
             return ValueTask.CompletedTask;
 
-        if(disposables.Count == 1)
+        if (disposables.Count == 1)
             return TDisposer.DisposeAsync(disposables[0]);
 
+        return InternalDisposeManyAsync<TDisposer, T>(disposables);
+    }
+
+    private static async ValueTask InternalDisposeManyAsync<TDisposer, T>(IReadOnlyList<T> disposables) where TDisposer : IDisposer<T>
+    {
         var errorCtx = new ErrorContext();
 
-        var tasks = BeginDispose<TDisposer, T>(disposables, ref errorCtx);
-
-        // if all tasks finished sync
-        if(tasks.Count <= 0)
-        {
-            errorCtx.RethrowIfAny();
-            return ValueTask.CompletedTask;
-        }
-
-        // some of tasks needs to be awaited...
-
-        // WARNING: "Async methods cannot have ref, in or out parameters",
-        // we can't use 'ref errorCtx'
-        // but 'errorCtx' would not be used anymore
-        // therefore just copy it
-        return AwaitTasksAndRethrow(tasks, errorCtx);
-    }
-
-    // WARNING: "Async methods cannot have ref, in or out parameters",
-    private static async ValueTask AwaitTasksAndRethrow(List<ValueTask> tasks, ErrorContext errorCtx)
-    {
-        foreach (var t in tasks)
-        {
-            try
-            {
-                await t.ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                errorCtx.Add(e);
-            }
-        }
-
-        errorCtx.RethrowIfAny();
-    }
-
-    private static List<ValueTask> BeginDispose<TDisposer,T>(IReadOnlyList<T> disposables, ref ErrorContext errorCtx)
-    where TDisposer : IDisposer<T>
-    {
-        var res = new List<ValueTask>(disposables.Count);
-
+        // for (; i >= 0; i--)
         foreach (var d in disposables)
         {
             try
             {
-                var vt = TDisposer.DisposeAsync(d);
-                if(vt.IsCompleted == false)
-                    res.Add(vt);
+                //var d = disposables[i];
+//TODO: optimize:
+// begin async only on first task needs to await
+// see: https://github.com/dotnet/runtime/blob/c47c417f25dc3ddf0980179a7f8f3dbc479d60d2/src/libraries/Microsoft.Extensions.DependencyInjection/src/ServiceLookup/ServiceProviderEngineScope.cs#L193
+                await TDisposer.DisposeAsync(d);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                errorCtx.Add(e);
+                errorCtx.Add(ex);
             }
         }
-
-        return res;
+        errorCtx.RethrowIfAny();
     }
 
     // Rethrows nothing if no exceptions were handled.

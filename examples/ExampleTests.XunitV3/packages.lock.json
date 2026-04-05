@@ -20,23 +20,23 @@
       },
       "FEFF.TestFixtures.XunitV3": {
         "type": "Direct",
-        "requested": "[1.3.1, )",
-        "resolved": "1.3.1",
-        "contentHash": "xJ8jvJCpWrowSYhJv6XcTdTODDU3xOOLUpOr3LXqt2xVjATtuXVQCaSRsdzFr6vj9WYlVHvcI30UFK1fxsxufQ==",
+        "requested": "[1.3.2, )",
+        "resolved": "1.3.2",
+        "contentHash": "pT/HqzIDB585+1SCpFa1THpg5h4DP7zLGJsNf7b/gKdwiASQglxrKEJAofSDhgG3e2I+05wmuVAXlDGxLHsVrA==",
         "dependencies": {
-          "FEFF.TestFixtures": "1.3.1",
-          "FEFF.TestFixtures.Engine": "1.3.1",
+          "FEFF.TestFixtures": "1.3.2",
+          "FEFF.TestFixtures.Engine": "1.3.2",
           "xunit.v3.extensibility.core": "3.2.2"
         }
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
-        "requested": "[18.3.0, )",
-        "resolved": "18.3.0",
-        "contentHash": "xW3kXuWRQtgoxJp4J+gdhHSQyK+6Wb/AZDSd7lMvuMRYlZ1tnpkojyfZlWilB5G4dmZ0Y0ZxU/M23TlubndNkw==",
+        "requested": "[18.4.0, )",
+        "resolved": "18.4.0",
+        "contentHash": "w49iZdL4HL6V25l41NVQLXWQ+e71GvSkKVteMrOL02gP/PUkcnO/1yEb2s9FntU4wGmJWfKnyrRAhcMHd9ZZNA==",
         "dependencies": {
-          "Microsoft.CodeCoverage": "18.3.0",
-          "Microsoft.TestPlatform.TestHost": "18.3.0"
+          "Microsoft.CodeCoverage": "18.4.0",
+          "Microsoft.TestPlatform.TestHost": "18.4.0"
         }
       },
       "xunit.runner.visualstudio": {
@@ -56,27 +56,27 @@
       },
       "FEFF.TestFixtures": {
         "type": "Transitive",
-        "resolved": "1.3.1",
-        "contentHash": "o4T5Hh/3oVX8jpzGtY58OzvyOsoHbayB5P8DB/b/vhnVV2ufdl9U2PEPQVq6NiJOwF9rmy0m/X8IRzjKen2XIg==",
+        "resolved": "1.3.2",
+        "contentHash": "J/nd9YmxMDm2DiQcpEzKkvQVIP7+W2mKgBzXN+eX5zLzLqwq98znGFvCagg590wb57drtZh5uEOJY0N6XsqU1Q==",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "1.3.1",
+          "FEFF.TestFixtures.Abstractions": "1.3.2",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.5"
         }
       },
       "FEFF.TestFixtures.Abstractions": {
         "type": "Transitive",
-        "resolved": "1.3.1",
-        "contentHash": "RclqYTEmKlT2EiAZkrvcRo66EJwvirf9wekhUAuUNh3SwzPPLfPaVxDkZtVG5/BXZ2gD/o8nKkP8wIeznX6Hug==",
+        "resolved": "1.3.2",
+        "contentHash": "cmsxbC26hmz2/avkK/4Tm/3+je78zhqNxU/lIfCu/T4yg7OTDgeFAZe9wa3bH7Y94lVpMLRn29WIShvYTy74Ag==",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "10.0.5"
         }
       },
       "FEFF.TestFixtures.Engine": {
         "type": "Transitive",
-        "resolved": "1.3.1",
-        "contentHash": "8ZCWuAcOiXWFmvRxYNzYJxNjVtvznP3qRnhYWwnbYA4lDUzqAoxhk8vXRK6h1qB/sD0GCMsHqviuAj548suKTg==",
+        "resolved": "1.3.2",
+        "contentHash": "T15t3F8B02WVTEdeu/nScEOYEG1EC7cys3XFAOdtI3kAGsW5n1S7huD12XKzOWfJxxZa/mCliUYD5SOGe36Vbw==",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "1.3.1",
+          "FEFF.TestFixtures.Abstractions": "1.3.2",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "10.0.5",
           "Microsoft.Extensions.DependencyInjection": "10.0.5",
           "Microsoft.Extensions.Options": "10.0.5",
@@ -96,8 +96,8 @@
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
-        "resolved": "18.3.0",
-        "contentHash": "23BNy/vziREC20Wwhb50K7+kZe0m07KlLWDQv4qjJ9tt3QjpDpDIqJFrhYHmMEo9xDkuSp55U/8h4bMF7MiB+g=="
+        "resolved": "18.4.0",
+        "contentHash": "9O0BtCfzCWrkAmK187ugKdq72HHOXoOUjuWFDVc2LsZZ0pOnA9bTt+Sg9q4cF+MoAaUU+MuWtvBuFsnduviJow=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Transitive",
@@ -205,15 +205,15 @@
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
-        "resolved": "18.3.0",
-        "contentHash": "AEIEX2aWdPO9XbtR96eBaJxmXRD9vaI9uQ1T/JbPEKlTAZwYx0ZrMzKyULMdh/HH9Sg03kXCoN7LszQ90o6nPQ=="
+        "resolved": "18.4.0",
+        "contentHash": "4L6m2kS2pY5uJ9cpeRxzW22opr6ttScIRqsOpMDQpgENp/ZwxkkQCcmc6LRSURo2dFaaSW5KVflQZvroiJ7Wzg=="
       },
       "Microsoft.TestPlatform.TestHost": {
         "type": "Transitive",
-        "resolved": "18.3.0",
-        "contentHash": "twmsoelXnp1uWMU3VGip9f0Jr1mZ0PZqgJdF35CIrdYgYrkHIJMV1m8uKyhcdjLdsQDESHAgkR7KhS9i1qpJag==",
+        "resolved": "18.4.0",
+        "contentHash": "gZsCHI+zOmZCcKZieIL4Jg14qKD2OGZOmX5DehuIk1EA9BN6Crm0+taXQNEuajOH1G9CCyBxw8VWR4t5tumcng==",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.3.0",
+          "Microsoft.TestPlatform.ObjectModel": "18.4.0",
           "Newtonsoft.Json": "13.0.3"
         }
       },

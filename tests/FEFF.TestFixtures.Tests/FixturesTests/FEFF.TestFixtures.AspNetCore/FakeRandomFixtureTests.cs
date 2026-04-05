@@ -9,7 +9,7 @@ public class FakeRandomFixtureTests
     protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
     // FakeRandomFixture is injected into TestApplicationFixture.ApplicationBuilder
-    protected FakeRandomFixture FakeRandomFx = TestContext.Current.GetFeffFixture<FakeRandomFixture<Program>>();
+    protected FakeRandomFixture<Program> FakeRandomFx = TestContext.Current.GetFeffFixture<FakeRandomFixture<Program>>();
     protected FakeRandom FakeRandom => FakeRandomFx.Value;
 
     [Theory]
