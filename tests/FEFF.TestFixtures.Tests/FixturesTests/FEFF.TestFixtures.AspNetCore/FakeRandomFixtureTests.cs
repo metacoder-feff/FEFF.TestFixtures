@@ -15,7 +15,7 @@ public class FakeRandomFixtureTests
     [Theory]
     [InlineData(11)]
     [InlineData(22)]
-    public async Task FakeRandomFixture__should_make_api_to_respond_with(int randValue)
+    public async Task Fixture__should_make_api_to_respond__with(int randValue)
     {
         // FakeRandom singleton object can be updated at any moment of test
         FakeRandom.IntStrategy = FakeRandom.ConstStrategy(randValue);

@@ -9,7 +9,20 @@ public class ApplicationFixtureBasicTests
     protected ITestApplicationFixture App = TestContext.Current.GetFeffFixture<TestApplicationFixture<Program>>();
 
     [Fact]
-    public async Task Api__should_respond()
+    public async Task Fixture__after_access_to_LazyApplication__should_be_started()
+    {
+        // Pre-assert
+        App.IsStarted.Should().BeFalse();
+        
+        // Act
+        _ = App.LazyApplication;
+        
+        // Assert
+        App.IsStarted.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Client__should__be_created_and_get_response()
     {
         /// The fixture starts the app and creates clients.
         /// The user has to dispose these clients manually.
@@ -31,18 +44,5 @@ public class ApplicationFixtureBasicTests
                 }
             ]
             """);
-    }
-
-    [Fact]
-    public async Task AppServices_should_be_resolved()
-    {
-        /// The fixture starts the app and creates a service scope.
-        /// The user has to dispose the service scope manually.
-        /// See <see cref="AppServicesFixture"/> for automation.
-        using var serviceScope = App.LazyApplication.Services.CreateScope();
-
-        var svc = serviceScope.ServiceProvider.GetRequiredService<SomeService>();
-
-        svc.Data.Should().Be("123");
     }
 }

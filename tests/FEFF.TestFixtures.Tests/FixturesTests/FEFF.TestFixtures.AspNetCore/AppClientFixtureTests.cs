@@ -13,7 +13,7 @@ public class AppClientFixtureTests
     protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
     [Fact]
-    public async Task Api__should_respond()
+    public async Task Client__should__get_response()
     {
         var resp = await Client.LazyValue.GetAsync("/weatherforecast/const", TestContext.Current.CancellationToken);
         resp.StatusCode.Should().Be(HttpStatusCode.OK);

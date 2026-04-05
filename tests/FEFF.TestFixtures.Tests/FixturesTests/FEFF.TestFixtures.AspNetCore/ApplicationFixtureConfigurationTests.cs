@@ -1,5 +1,4 @@
 using System.Text.Json;
-using FEFF.Extensions.Testing.AspNetCore;
 using Newtonsoft.Json.Linq;
 using WebApiTestSubject;
 

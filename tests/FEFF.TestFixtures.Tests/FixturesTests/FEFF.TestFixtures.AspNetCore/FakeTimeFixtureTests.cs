@@ -15,7 +15,7 @@ public class FakeTimeFixtureTests
     [Theory]
     [InlineData("2006-01-05")]
     [InlineData("2150-11-15")]
-    public async Task FakeTimeFixture__should_make_api_to_respond_with(string date)
+    public async Task Fixture__should_make_api_to_respond__with(string date)
     {
         // FakeTime singleton object can be updated at any moment of test
         FakeTime.SetUtcNow(DateTimeOffset.Parse($"{date}T05:05:05Z"));

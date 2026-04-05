@@ -1,4 +1,4 @@
-namespace FEFF.Extensions.Testing.AspNetCore;
+namespace FEFF.TestFixtures.AspNetCore;
 
 public enum AspEnvironment { Development, Production };
 
