@@ -1,0 +1,13 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/metacoder-feff/FEFF.TestFixtures")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+namespace FEFF.TestFixtures.AspNetCore
+{
+    [FEFF.TestFixtures.Fixture]
+    public sealed class EnsureDbContextFixture<TEntryPoint, TContext> : System.IAsyncDisposable
+        where TEntryPoint :  class
+        where TContext : Microsoft.EntityFrameworkCore.DbContext
+    {
+        public EnsureDbContextFixture(FEFF.TestFixtures.AspNetCore.TestApplicationFixture<TEntryPoint> app, FEFF.TestFixtures.AspNetCore.AppServicesFixture<TEntryPoint> services) { }
+        public System.Threading.Tasks.ValueTask DisposeAsync() { }
+    }
+}

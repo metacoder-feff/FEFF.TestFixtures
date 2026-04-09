@@ -110,6 +110,16 @@ public class Program
             };
         });
 
+        app.MapPost("/user", async (ApplicationDbContext dbCtx) =>
+        {
+            dbCtx.Users.Add(new User()
+            {
+                Age = 100,
+                Name = "test",
+            });
+            await dbCtx.SaveChangesAsync();
+        });
+
         app.Run();
     }
 }

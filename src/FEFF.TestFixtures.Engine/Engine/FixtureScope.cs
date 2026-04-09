@@ -61,10 +61,13 @@ internal static class ScopeDisposeHack
     {
         var disposables = GetDisposables(scope);
 
+        // use default disposing method
         if (disposables == null || disposables.Count <= 0)
             return scope.DisposeAsync();
 
-        // use default disposing method
+        if(disposables.Count > 1)
+            disposables.Reverse();
+
         return DisposeHelper.DisposeAsync(disposables);
     }
 

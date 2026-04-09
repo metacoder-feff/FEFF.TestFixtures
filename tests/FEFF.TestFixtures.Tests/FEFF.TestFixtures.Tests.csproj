@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.4.0" />
     <PackageReference Include="xunit.v3" Version="3.2.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
   </ItemGroup>
@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../../src/FEFF.TestFixtures.AspNetCore.EF/FEFF.TestFixtures.AspNetCore.EF.csproj" />
     <ProjectReference Include="../../src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
     <ProjectReference Include="../../src/FEFF.TestFixtures.Engine/FEFF.TestFixtures.Engine.csproj" />
     <ProjectReference Include="../../src/FEFF.TestFixtures.AspNetCore/FEFF.TestFixtures.AspNetCore.csproj" />

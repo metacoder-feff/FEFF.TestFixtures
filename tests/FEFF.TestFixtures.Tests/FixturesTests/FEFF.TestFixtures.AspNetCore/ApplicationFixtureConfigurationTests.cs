@@ -82,7 +82,7 @@ public class ApplicationFixtureConfigurationTests
     [Fact]
     public void Configuration_attempt__after_app_is_built__should_throw()
     {
-        // Build an applixation
+        // Build an application
         _ = App.LazyApplication;
 
         var act = () => App.Configuration.UseAspEnvironment(AspEnvironment.Production);

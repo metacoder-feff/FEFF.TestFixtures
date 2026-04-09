@@ -3,11 +3,12 @@ using Microsoft.Extensions.Logging.Testing;
 namespace FEFF.TestFixtures.AspNetCore;
 
 [Fixture]
-public class FakeLoggerFixture : IDisposable, ITestApplicationExtension
+public class FakeLoggerFixture : IDisposable
 {
-    protected readonly FakeLoggerProvider _provider = new();
+    private readonly FakeLoggerProvider _provider = new();
 
     public FakeLogCollector Collector => _provider.Collector;
+    public ILoggerProvider LoggerProvider => _provider;
 
     public void Dispose()
     {
@@ -20,19 +21,6 @@ public class FakeLoggerFixture : IDisposable, ITestApplicationExtension
         if (disposing)
             _provider.Dispose();
     }
-
-    public void Configure(ITestApplicationFixture app)
-    {
-        app.Configuration.ConfigureServices(ReconfigureFactory);
-    }
-
-    private void ReconfigureFactory(IServiceCollection services)
-    {
-        services.AddLogging(b => b
-            // .ClearProviders()
-            .AddProvider(_provider)
-        );
-    }
 }
 
 /// <summary>
@@ -44,6 +32,6 @@ where TEntryPoint: class
 {
     public FakeLoggerFixture(TestApplicationFixture<TEntryPoint> app)
     {
-        Configure(app);
+        app.Configuration.UseLoggerProvider(LoggerProvider);
     }
 }

@@ -2,31 +2,21 @@ using FEFF.Extensions.Testing;
 
 namespace FEFF.TestFixtures.AspNetCore;
 
-[Fixture]
-public class FakeRandomFixture : ITestApplicationExtension
+public interface IFakeRandomFixture
 {
-    public FakeRandom Value { get; } = new();
-
-    public void Configure(ITestApplicationFixture app)
-    {
-        app.Configuration.ConfigureServices(ReconfigureFactory);
-    }
-
-    private void ReconfigureFactory(IServiceCollection services)
-    {
-        services.TryReplaceSingleton<Random>(Value);
-    }
+    FakeRandom Value { get; }
 }
 
 /// <summary>
 /// Replaces <see cref="Random"/> service with <see cref="FakeRandom"/> singleton in a tested application.
 /// </summary>
 [Fixture]
-public class FakeRandomFixture<TEntryPoint> : FakeRandomFixture
+public class FakeRandomFixture<TEntryPoint> : IFakeRandomFixture
 where TEntryPoint: class
 {
+    public FakeRandom Value { get; } = new();
     public FakeRandomFixture(TestApplicationFixture<TEntryPoint> app)
     {
-        Configure(app);
+        app.Configuration.UseRandom(Value);
     }
 }
