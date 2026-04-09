@@ -103,6 +103,7 @@ namespace FEFF.TestFixtures.AspNetCore
     }
     public interface ITestApplication
     {
+        Microsoft.AspNetCore.TestHost.TestServer Server { get; }
         System.IServiceProvider Services { get; }
         System.Net.Http.HttpClient CreateClient();
     }

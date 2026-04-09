@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 
 namespace FEFF.TestFixtures.AspNetCore;
 
@@ -10,7 +11,7 @@ internal interface IWebApplicationFactory : IAsyncDisposable
     HttpClient CreateClient();
 
     void StartServer();
-    // TestServer Server { get; }
+    TestServer Server { get; } // for signal-r
     // ...
 }
 

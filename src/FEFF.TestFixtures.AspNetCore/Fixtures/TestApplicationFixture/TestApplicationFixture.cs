@@ -1,9 +1,12 @@
 
+using Microsoft.AspNetCore.TestHost;
+
 namespace FEFF.TestFixtures.AspNetCore;
 
 public interface ITestApplication
 {
     IServiceProvider Services { get; }
+    TestServer Server { get; } // for signal-r
 
     HttpClient CreateClient();
 }
@@ -121,6 +124,8 @@ internal class StartedApplication : ITestApplication
     private readonly IWebApplicationFactory _factory;
 
     public IServiceProvider Services => _factory.Services;
+
+    public TestServer Server => _factory.Server;
 
     public StartedApplication(IWebApplicationFactory factory)
     {

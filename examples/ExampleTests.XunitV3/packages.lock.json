@@ -20,12 +20,12 @@
       },
       "FEFF.TestFixtures.XunitV3": {
         "type": "Direct",
-        "requested": "[1.3.2, )",
-        "resolved": "1.3.2",
-        "contentHash": "pT/HqzIDB585+1SCpFa1THpg5h4DP7zLGJsNf7b/gKdwiASQglxrKEJAofSDhgG3e2I+05wmuVAXlDGxLHsVrA==",
+        "requested": "[1.3.3, )",
+        "resolved": "1.3.3",
+        "contentHash": "H89AEYj/yPE5C/5laRTD+7SVEgFD/PhYZJLsEQce8Lmqm3oAcNOmuxHmJfeCD1KxfTr0YlbXQ4tR6H/xED5ZoA==",
         "dependencies": {
-          "FEFF.TestFixtures": "1.3.2",
-          "FEFF.TestFixtures.Engine": "1.3.2",
+          "FEFF.TestFixtures": "1.3.3",
+          "FEFF.TestFixtures.Engine": "1.3.3",
           "xunit.v3.extensibility.core": "3.2.2"
         }
       },
@@ -56,27 +56,27 @@
       },
       "FEFF.TestFixtures": {
         "type": "Transitive",
-        "resolved": "1.3.2",
-        "contentHash": "J/nd9YmxMDm2DiQcpEzKkvQVIP7+W2mKgBzXN+eX5zLzLqwq98znGFvCagg590wb57drtZh5uEOJY0N6XsqU1Q==",
+        "resolved": "1.3.3",
+        "contentHash": "VNWAl0JRankO2IJSC7Ak2GkcODStIzg471Ufi9wsnNh2ZqCjR9ofqEZzg/Xqy0glk2DwZXgeadUsdvIx7OKS+A==",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "1.3.2",
+          "FEFF.TestFixtures.Abstractions": "1.3.3",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.5"
         }
       },
       "FEFF.TestFixtures.Abstractions": {
         "type": "Transitive",
-        "resolved": "1.3.2",
-        "contentHash": "cmsxbC26hmz2/avkK/4Tm/3+je78zhqNxU/lIfCu/T4yg7OTDgeFAZe9wa3bH7Y94lVpMLRn29WIShvYTy74Ag==",
+        "resolved": "1.3.3",
+        "contentHash": "yHxKJ0LGITlc0x9juZrXxH8i+kSJwdiWURDSTHU7P3VkJmm4JMJnwiEnhWcM1c1m3EsZUw+hBWBAzhshVhy/pA==",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "10.0.5"
         }
       },
       "FEFF.TestFixtures.Engine": {
         "type": "Transitive",
-        "resolved": "1.3.2",
-        "contentHash": "T15t3F8B02WVTEdeu/nScEOYEG1EC7cys3XFAOdtI3kAGsW5n1S7huD12XKzOWfJxxZa/mCliUYD5SOGe36Vbw==",
+        "resolved": "1.3.3",
+        "contentHash": "Q/euUMolg3mXjhhYckNCbFUPsIHae9Wz0jjoK1U/oaWUafJGgJIvE453lC23zeR9LAQur4/WzHXpD3i8NxLrug==",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "1.3.2",
+          "FEFF.TestFixtures.Abstractions": "1.3.3",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "10.0.5",
           "Microsoft.Extensions.DependencyInjection": "10.0.5",
           "Microsoft.Extensions.Options": "10.0.5",
