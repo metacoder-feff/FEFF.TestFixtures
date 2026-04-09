@@ -1,6 +1,6 @@
 namespace FEFF.Extensions.Testing;
 
-public interface IRandomStrategy<T>
+public interface IFakeRandomStrategy<T>
 {
     T Next();
 }
@@ -19,10 +19,10 @@ public interface IRandomStrategy<T>
 /// </summary>
 public class FakeRandom : Random
 {
-    public IRandomStrategy<int>?    IntStrategy     { get; set; }
-    public IRandomStrategy<long>?   Int64Strategy   { get; set; }
-    public IRandomStrategy<float>?  SingleStrategy  { get; set; }
-    public IRandomStrategy<double>? DoubleStrategy  { get; set; }
+    public IFakeRandomStrategy<int>?    IntStrategy     { get; set; }
+    public IFakeRandomStrategy<long>?   Int64Strategy   { get; set; }
+    public IFakeRandomStrategy<float>?  SingleStrategy  { get; set; }
+    public IFakeRandomStrategy<double>? DoubleStrategy  { get; set; }
 
     public FakeRandom() : base(1)
     {
@@ -40,7 +40,7 @@ public class FakeRandom : Random
 
     public override int Next(int maxValue)
     {
-        //assert params
+        // Assert arguments
         _ = base.Next(maxValue);
 
         return this.Next() % maxValue;
@@ -48,7 +48,7 @@ public class FakeRandom : Random
 
     public override int Next(int minValue, int maxValue)
     {
-        //assert params
+        // Assert arguments
         _ = base.Next(minValue, maxValue);
 
         if (minValue == maxValue)
@@ -74,7 +74,7 @@ public class FakeRandom : Random
 
     public override long NextInt64(long maxValue)
     {
-        //assert params
+        // Assert arguments
         _ = base.NextInt64(maxValue);
 
         return this.NextInt64() % maxValue;
@@ -82,7 +82,7 @@ public class FakeRandom : Random
 
     public override long NextInt64(long minValue, long maxValue)
     {
-        //assert params
+        // Assert arguments
         _ = base.NextInt64(minValue, maxValue);
 
         if (minValue == maxValue)
@@ -122,14 +122,9 @@ public class FakeRandom : Random
     // public static IRandomStrategy<int>? DefaultIntStrategy => null;
     // public static IRandomStrategy<float>? DefaultSingleStrategy => null;
     // public static IRandomStrategy<double>? DefaultDoubleStrategy => null;
-
-    public static ConstRandomStrategy<T> ConstStrategy<T>(T value)
-    {
-        return new ConstRandomStrategy<T>(value);
-    }
 }
 
-public class ConstRandomStrategy<T> : IRandomStrategy<T>
+public class ConstRandomStrategy<T> : IFakeRandomStrategy<T>
 {
     private readonly T _value;
 
@@ -141,5 +136,13 @@ public class ConstRandomStrategy<T> : IRandomStrategy<T>
     public T Next()
     {
         return _value;
+    }
+}
+
+public static class ConstRandomStrategy
+{
+    public static ConstRandomStrategy<T> From<T>(T value)
+    {
+        return new ConstRandomStrategy<T>(value);
     }
 }

@@ -6,7 +6,7 @@ using Engine;
 public enum FixtureScopeType { TestCase, Class, Assembly, Session };
 
 // ctor/dispose not called without tests
-public static class GlobalHooksExtention
+public static class GlobalHooksExtension
 {
 //TODO: multiple sessions???
 // => scopeId
@@ -71,7 +71,7 @@ public static class GlobalHooksExtention
     private static ValueTask RemoveScope(FixtureManager? manager, string id)
     {
         if (manager == null)
-            return ValueTask.CompletedTask;;
+            return ValueTask.CompletedTask;
 
         return manager.RemoveScopeAsync(id);
     }

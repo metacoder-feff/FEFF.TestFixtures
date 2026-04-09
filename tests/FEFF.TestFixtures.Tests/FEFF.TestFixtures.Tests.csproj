@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/FEFF.TestFixtures.AspNetCore.EF/FEFF.TestFixtures.AspNetCore.EF.csproj" />
+    <ProjectReference Include="../../src/FEFF.TestFixtures.AspNetCore.SignalR/FEFF.TestFixtures.AspNetCore.SignalR.csproj" />
     <ProjectReference Include="../../src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
     <ProjectReference Include="../../src/FEFF.TestFixtures.Engine/FEFF.TestFixtures.Engine.csproj" />
     <ProjectReference Include="../../src/FEFF.TestFixtures.AspNetCore/FEFF.TestFixtures.AspNetCore.csproj" />

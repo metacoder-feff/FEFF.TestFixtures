@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
 
 namespace FEFF.Extensions.Tests;
@@ -107,14 +107,33 @@ public class DisposeHelperTests
     public async Task Many__mixed__should_be_disposed()
     {
         var dd = new IDisp[] { new Disp(), new ADisp0(), new ADisp1() };
-        dd.Should().AllSatisfy( x => 
+        dd.Should().AllSatisfy( x =>
             x.IsDisposed.Should().BeFalse()
         );
 
         await DisposeHelper.DisposeAsync(dd);
-        dd.Should().AllSatisfy( x => 
+        dd.Should().AllSatisfy( x =>
             x.IsDisposed.Should().BeTrue()
         );
+    }
+
+    [Fact]
+    public async Task Many__ADisp0__should_be_disposed_in_order()
+    {
+        var log = new ConcurrentQueue<string>();
+
+        var dd = new OrderADisp[] { new(1, log), new(2, log), new(3, log) };
+        await DisposeHelper.DisposeAsync(dd);
+
+        // next dispose should start only after previous dispose is finished
+        log.ToList().Should().BeEquivalentTo([
+            "DisposeAsync-starting: 1", 
+            "DisposeAsync-finished: 1", 
+            "DisposeAsync-starting: 2", 
+            "DisposeAsync-finished: 2", 
+            "DisposeAsync-starting: 3",
+            "DisposeAsync-finished: 3",
+        ]);
     }
     #endregion
 
@@ -307,5 +326,15 @@ internal sealed class ErrADisp1 : IAsyncDisposable, IDisp
     {
         await Task.Delay(1);
         throw new InvalidOperationException("test-err");
+    }
+}
+
+internal sealed class OrderADisp(int id, ConcurrentQueue<string> log) : IAsyncDisposable
+{
+    public async ValueTask DisposeAsync()
+    {
+        log.Enqueue($"DisposeAsync-starting: {id}");
+        await Task.Delay(500);
+        log.Enqueue($"DisposeAsync-finished: {id}");
     }
 }

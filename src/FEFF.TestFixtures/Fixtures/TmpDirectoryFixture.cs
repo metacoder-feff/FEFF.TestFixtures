@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace FEFF.TestFixtures;
-//TODO: lazy-CreateTempSubdirectory + _isDisposed + threadsafe ?
+//TODO: lazy-CreateTempSubdirectory + _isDisposed + thread-safe ?
 //TODO: DisposeType.Deferred
 
 /// <summary>

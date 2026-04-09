@@ -8,19 +8,12 @@ using WebApiTestSubject;
 
 namespace FEFF.TestFixtures.AspNetCore.Tests;
 
-//TODO: test additionalConnectionStringNames
-public class TmpDbNameFixtureTests
+public class TmpDatabaseNameFixtureTests
 {
     [Fixture]
-    internal class TestingFx
+    internal class TestingFxOptions : ITmpDatabaseNameFixtureOptions
     {
-        public TestingFx(
-            TestApplicationFixture<Program> appFx,
-            TmpScopeIdFixture scopeIdFx
-        )
-        {
-            appFx.Configuration.UseTmpDatabaseName(scopeIdFx, Program.ConnectionStringName/*, cs222*/);
-        }
+        public IReadOnlyCollection<string> ConnectionStringNames => [Program.ConnectionStringName/*, cs222*/];
     }
 
     [Theory]
@@ -31,7 +24,7 @@ public class TmpDbNameFixtureTests
         var client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
         if(replace == true)
-            _ = TestContext.Current.GetFeffFixture<TestingFx>();
+            _ = TestContext.Current.GetFeffFixture<TmpDatabaseNameFixture<Program, TestingFxOptions>>();
 
         var resp = await client.LazyValue.GetAsync("/db-info", TestContext.Current.CancellationToken);
         var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
@@ -63,8 +56,8 @@ public class TmpDbNameFixtureTests
         var s2 = fm.FixtureManager.GetScope("3");
 
         // name in s0 stays unchanged
-        _ = s1.GetFixture<TestingFx>();
-        _ = s2.GetFixture<TestingFx>();
+        _ = s1.GetFixture<TmpDatabaseNameFixture<Program, TestingFxOptions>>();
+        _ = s2.GetFixture<TmpDatabaseNameFixture<Program, TestingFxOptions>>();
 
         var name0 = GetDbName(s0);
         var name1 = GetDbName(s1);

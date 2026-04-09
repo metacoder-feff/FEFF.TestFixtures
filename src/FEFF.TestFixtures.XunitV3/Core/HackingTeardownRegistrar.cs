@@ -5,7 +5,7 @@ using Xunit.Sdk;
 
 namespace FEFF.TestFixtures.Xunit;
 
-internal class TestClassAdapter : IAsyncDisposable
+internal class ClassScopeAdapter : IAsyncDisposable
 {
     public ValueTask DisposeAsync()
     {
@@ -13,7 +13,7 @@ internal class TestClassAdapter : IAsyncDisposable
     }
 }
 
-internal class TestCollectionAdapter : IAsyncDisposable
+internal class CollectionScopeAdapter : IAsyncDisposable
 {
     public ValueTask DisposeAsync()
     {
@@ -21,13 +21,13 @@ internal class TestCollectionAdapter : IAsyncDisposable
     }
 }
 
-internal static class Hack
+internal static class HackingTeardownRegistrar
 {
-    internal static void RegisterAfterClassHandler(ITestContext ctx) => 
-        RegisterDisposable<TestClassAdapter>(ctx, "class");
+    internal static void RegisterAfterClassHandler(ITestContext ctx) =>
+        RegisterDisposable<ClassScopeAdapter>(ctx, "class");
 
-    internal static void RegisterAfterCollectionHandler(ITestContext ctx) => 
-        RegisterDisposable<TestCollectionAdapter>(ctx, "collection");
+    internal static void RegisterAfterCollectionHandler(ITestContext ctx) =>
+        RegisterDisposable<CollectionScopeAdapter>(ctx, "collection");
 
     private static void RegisterDisposable<T>(ITestContext ctx, string category)
     {
@@ -40,7 +40,7 @@ internal static class Hack
         if(mapping.LocalFixtureTypes.Contains(type))
             return;
 
-        // otherwize WaitSync() can deadlock
+        // otherwise WaitSync() can deadlock
         ThrowHelper.Assert(type.Implements(typeof(IAsyncLifetime)) == false);
         mapping.InitializeAsync(type).WaitSync();
     }
@@ -66,12 +66,12 @@ internal static class Hack
         return MappingOrParent(parent, category);
     }
 
-    private static FixtureMappingManager? GetParent(FixtureMappingManager obj) => 
-        obj.TryGetPrivateInstaceFieldValue<FixtureMappingManager>("parentMappingManager");
+    private static FixtureMappingManager? GetParent(FixtureMappingManager obj) =>
+        obj.TryGetPrivateInstanceFieldValue<FixtureMappingManager>("parentMappingManager");
 
-    private static FixtureMappingManager? GetFixtureMappingManager(ITestContext obj) => 
-        obj.TryGetPrivateInstaceFieldValue<FixtureMappingManager>("fixtures");
+    private static FixtureMappingManager? GetFixtureMappingManager(ITestContext obj) =>
+        obj.TryGetPrivateInstanceFieldValue<FixtureMappingManager>("fixtures");
 
-    private static string? GetFixtureCategory(FixtureMappingManager obj) => 
-        obj.TryGetPrivateInstaceFieldValue<string>("fixtureCategory");
+    private static string? GetFixtureCategory(FixtureMappingManager obj) =>
+        obj.TryGetPrivateInstanceFieldValue<string>("fixtureCategory");
 }

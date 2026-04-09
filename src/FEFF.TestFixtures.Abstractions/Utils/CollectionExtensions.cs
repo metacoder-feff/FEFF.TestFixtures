@@ -2,7 +2,7 @@
 
 namespace System.Collections.Generic;
 
-internal static class CollectionsExtensions
+internal static class CollectionExtensions
 {
     public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> sequence)
     where T : struct

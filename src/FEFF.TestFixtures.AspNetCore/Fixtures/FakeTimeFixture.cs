@@ -15,8 +15,8 @@ public class FakeTimeFixture<TEntryPoint> : IFakeTimeFixture
 where TEntryPoint: class
 {
     public FakeTimeProvider Value { get; } = new(new DateTimeOffset(2000, 1, 1, 0, 0, 0, 0, TimeSpan.Zero));
-    public FakeTimeFixture(TestApplicationFixture<TEntryPoint> app)
+    public FakeTimeFixture(AppManagerFixture<TEntryPoint> app)
     {
-        app.Configuration.UseTimeProvider(Value);
+        app.ConfigurationBuilder.UseTimeProvider(Value);
     }
 }

@@ -48,32 +48,6 @@
         "resolved": "2.23.0",
         "contentHash": "nWArUZTdU7iqZLycLKWe0TDms48KKGE6pONH2terYNa8REXiqixrMOkf1sk5DHGMaUTqONU2YkS4SAXBhLStgw=="
       },
-      "Microsoft.AspNetCore.Connections.Abstractions": {
-        "type": "Transitive",
-        "resolved": "10.0.5",
-        "contentHash": "ruD0Lb3Dy8Fn1KJlyILl5WxOwPdhUQzEAYpDEEe9MqMRusC6OqU7PtmwTXP4rqEKOw8yyFq8MjCnOLb1+24T6Q==",
-        "dependencies": {
-          "Microsoft.Extensions.Features": "10.0.5"
-        }
-      },
-      "Microsoft.AspNetCore.Http.Connections.Client": {
-        "type": "Transitive",
-        "resolved": "10.0.5",
-        "contentHash": "z4Iny9wOi2D3h/YVPELyb2aMakFQIwiAeCHl1T8giCoUHgql+HtvKKldGxQC6/g4niuLBipi7O6zQT34O9/Rcw==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Http.Connections.Common": "10.0.5",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.5",
-          "Microsoft.Extensions.Options": "10.0.5"
-        }
-      },
-      "Microsoft.AspNetCore.Http.Connections.Common": {
-        "type": "Transitive",
-        "resolved": "10.0.5",
-        "contentHash": "4zUdCDERnuMPhiKnxeu6aWUlXQFzfeswcCy8WEC+YkJkrHi8ZRHESBT50jR5HBCu4cyBJeDbuDjfh2wHTIczUw==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Connections.Abstractions": "10.0.5"
-        }
-      },
       "Microsoft.AspNetCore.Mvc.Testing": {
         "type": "Transitive",
         "resolved": "10.0.5",
@@ -82,43 +56,6 @@
           "Microsoft.AspNetCore.TestHost": "10.0.5",
           "Microsoft.Extensions.DependencyModel": "10.0.5",
           "Microsoft.Extensions.Hosting": "10.0.5"
-        }
-      },
-      "Microsoft.AspNetCore.SignalR.Client": {
-        "type": "Transitive",
-        "resolved": "10.0.5",
-        "contentHash": "2v+Qi63UGm8hu9RAAfWeim3H9ovnxDiPx2MyLQI8nsWrgP+76Z7oiKj+kpVCR1N5QU9bF94RV0lZ/7OJH1LXUA==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Http.Connections.Client": "10.0.5",
-          "Microsoft.AspNetCore.SignalR.Client.Core": "10.0.5"
-        }
-      },
-      "Microsoft.AspNetCore.SignalR.Client.Core": {
-        "type": "Transitive",
-        "resolved": "10.0.5",
-        "contentHash": "A2+sApRgxWSxzD0Q5eRqElPPzqIqOljYCzt/mtC/KIjlTNLvVWoQn2amNnX3o7BrbaSdI1yeFcyKVal7zVgcSw==",
-        "dependencies": {
-          "Microsoft.AspNetCore.SignalR.Common": "10.0.5",
-          "Microsoft.AspNetCore.SignalR.Protocols.Json": "10.0.5",
-          "Microsoft.Extensions.DependencyInjection": "10.0.5",
-          "Microsoft.Extensions.Logging": "10.0.5"
-        }
-      },
-      "Microsoft.AspNetCore.SignalR.Common": {
-        "type": "Transitive",
-        "resolved": "10.0.5",
-        "contentHash": "+aUsWJhnJlGzaSs8lipFVH6XuKYJwnJWdK200KO2NvbJFRQSauYynSLQhzhf3mpGGFoQ1U5Z7MVxJiC1ANCOYA==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Connections.Abstractions": "10.0.5",
-          "Microsoft.Extensions.Options": "10.0.5"
-        }
-      },
-      "Microsoft.AspNetCore.SignalR.Protocols.Json": {
-        "type": "Transitive",
-        "resolved": "10.0.5",
-        "contentHash": "bFLLtvuZ0ATBhuK5ZqbJW+pG9XWu+u+yh+sR90ra57uMgR2WEQtMAnQPK94/pQOzbQAzm1vNr4bP/JqMs+OftQ==",
-        "dependencies": {
-          "Microsoft.AspNetCore.SignalR.Common": "10.0.5"
         }
       },
       "Microsoft.AspNetCore.TestHost": {
@@ -321,11 +258,6 @@
           "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.4",
           "Microsoft.Extensions.Telemetry.Abstractions": "10.4.0"
         }
-      },
-      "Microsoft.Extensions.Features": {
-        "type": "Transitive",
-        "resolved": "10.0.5",
-        "contentHash": "yvfER/YMzYyQHbnLW+zGM3CNqG+4RpM6SIJzaHei0v+xPxMhigckqY4kvucmUBeOfs49HCZu+WxrgfXSbsDkgg=="
       },
       "Microsoft.Extensions.FileProviders.Abstractions": {
         "type": "Transitive",
@@ -695,13 +627,6 @@
           "Microsoft.EntityFrameworkCore": "[10.0.5, )"
         }
       },
-      "feff.testfixtures.aspnetcore.signalr": {
-        "type": "Project",
-        "dependencies": {
-          "FEFF.TestFixtures.AspNetCore": "[1.3.5, )",
-          "Microsoft.AspNetCore.SignalR.Client": "[10.0.5, )"
-        }
-      },
       "feff.testfixtures.engine": {
         "type": "Project",
         "dependencies": {
@@ -719,21 +644,6 @@
           "FEFF.TestFixtures": "[1.3.5, )",
           "FEFF.TestFixtures.Engine": "[1.3.5, )",
           "xunit.v3.extensibility.core": "[3.2.2, )"
-        }
-      },
-      "reffixtures": {
-        "type": "Project",
-        "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.3.5, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )",
-          "RefRefFixtures": "[1.0.0, )"
-        }
-      },
-      "refreffixtures": {
-        "type": "Project",
-        "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.3.5, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
         }
       },
       "webapitestsubject": {

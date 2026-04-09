@@ -8,7 +8,7 @@ public class FakeTimeFixtureTests
 {
     protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
-    // FakeTimeFixture is injected into TestApplicationFixture.ApplicationBuilder
+    // FakeTimeFixture is injected into AppManagerFixture.ConfigurationBuilder
     protected FakeTimeFixture<Program> FakeTimeFx = TestContext.Current.GetFeffFixture<FakeTimeFixture<Program>>();
     protected FakeTimeProvider FakeTime => FakeTimeFx.Value;
 

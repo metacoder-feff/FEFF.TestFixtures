@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/examples/">
+    <Project Path="examples/ExampleTests.AspNetCore/ExampleTests.AspNetCore.csproj" />
     <Project Path="examples/ExampleTests.TUnit/ExampleTests.TUnit.csproj" />
     <Project Path="examples/ExampleTests.XunitV3/ExampleTests.XunitV3.csproj" />
   </Folder>
@@ -7,6 +8,7 @@
     <Project Path="src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
     <Project Path="src/FEFF.TestFixtures.Abstractions/FEFF.TestFixtures.Abstractions.csproj" />
     <Project Path="src/FEFF.TestFixtures.AspNetCore.EF/FEFF.TestFixtures.AspNetCore.EF.csproj" />
+    <Project Path="src/FEFF.TestFixtures.AspNetCore.SignalR/FEFF.TestFixtures.AspNetCore.SignalR.csproj" />
     <Project Path="src/FEFF.TestFixtures.AspNetCore/FEFF.TestFixtures.AspNetCore.csproj" />
     <Project Path="src/FEFF.TestFixtures.Engine/FEFF.TestFixtures.Engine.csproj" />
     <Project Path="src/FEFF.TestFixtures.TUnit/FEFF.TestFixtures.TUnit.csproj" />

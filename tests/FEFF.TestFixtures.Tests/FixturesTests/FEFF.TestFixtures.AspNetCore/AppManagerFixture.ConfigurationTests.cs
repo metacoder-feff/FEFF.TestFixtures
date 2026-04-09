@@ -4,9 +4,9 @@ using WebApiTestSubject;
 
 namespace FEFF.TestFixtures.AspNetCore.Tests;
 
-public class ApplicationFixtureConfigurationTests
+public class AppManagerFixtureConfigurationTests
 {
-    protected ITestApplicationFixture App = TestContext.Current.GetFeffFixture<TestApplicationFixture<Program>>();
+    protected IAppManagerFixture App = TestContext.Current.GetFeffFixture<AppManagerFixture<Program>>();
     protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
     [Theory]
@@ -18,7 +18,7 @@ public class ApplicationFixtureConfigurationTests
     {
         // change TestApp before it starts
         if(envVarValue != null)
-            App.Configuration.UseSetting("summary", envVarValue);
+            App.ConfigurationBuilder.UseSetting("summary", envVarValue);
 
         var resp = await Client.LazyValue.GetAsync("/weatherforecast/env", TestContext.Current.CancellationToken);
         resp.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -47,7 +47,7 @@ public class ApplicationFixtureConfigurationTests
     {
         // change TestApp before it starts
         if(envVarValue != null)
-            App.Configuration.UseAspEnvironment(envVarValue.Value);
+            App.ConfigurationBuilder.UseAspEnvironment(envVarValue.Value);
 
         var resp = await Client.LazyValue.GetAsync("/asp-env", TestContext.Current.CancellationToken);
         resp.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -85,10 +85,10 @@ public class ApplicationFixtureConfigurationTests
         // Build an application
         _ = App.LazyApplication;
 
-        var act = () => App.Configuration.UseAspEnvironment(AspEnvironment.Production);
+        var act = () => App.ConfigurationBuilder.UseAspEnvironment(AspEnvironment.Production);
         act.Should()
             .ThrowExactly<InvalidOperationException>()
-            .WithMessage("Can't use 'IApplicationConfigurator' after application is created.")
+            .WithMessage("Can't use 'IAppConfigurator' after application is created.")
             ;
     }
 }
