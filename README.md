@@ -6,10 +6,12 @@ Integrations:
 Fixture libraries:
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=FEFF.TestFixtures)
 ![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore?label=FEFF.TestFixtures.AspNetCore)
+![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore.EF?label=FEFF.TestFixtures.AspNetCore.EF)
 
-✅ Replace setup/teardown methods and cumbersome "Disposable pattern" with reusable **Fixtures**.  
+✅ Replace setup/teardown methods and test-class "Disposable pattern" with reusable **Fixtures**.  
 ✅ Fixtures can depend on other fixtures.  
-✅ Fixtures can be configured via standard IServiceProvider.
+✅ Fixtures can be configured via standard IServiceProvider.  
+✅ Set of fixtures to simplify testing AspNetCore applications.  
 
 [Fixture list](#fixture-list)
 
@@ -18,11 +20,11 @@ Fixture libraries:
 A **fixture** is a reusable component used for testing purposes. Fixtures can be packaged into libraries and reused by any number of testing projects.
 The **fixture** is a class containing three optional parts:
 
-+ setup code in constructor;
++ setup code in the constructor;
 + state;
 + teardown code in Dispose() or DisposeAsync().
 
-A **scope** of fixtures defines the lifetime of those fixtures. Within a scope, each fixture is created only once (lazily on demand) and destroyed at the end of the scope. If the fixture has Dispose() or DisposeAsync(), it is called.
+A **scope** of fixtures defines the lifetime of those fixtures. Within a scope, each fixture is created only once (lazily on demand) and destroyed at the end of the scope. If the fixture implements Dispose() or DisposeAsync(), those methods are called.
 
 The available scopes are defined by the test framework used. For **Xunit Integration**, they are:
 
@@ -82,10 +84,10 @@ public class ExampleTests
 }
 ```
 
-In this example, a *TmpDir* is created once the fixture is requested in the test class constructor. The **scope** of the fixture in this example is 'test-case'.
+In this example, *TmpDir* is created once the fixture is requested in the test class constructor. The **scope** of the fixture in this example is 'test-case'.
 The *TmpDir* and its contents are automatically deleted after the test finishes.\
 This example uses [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions) for ```Should()```.\
-Have a look at [source code for this example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.XunitV3/ExampleTests.cs).
+See the [source code for this example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.XunitV3/ExampleTests.cs).
 
 ### Defining other scopes for a fixture
 
@@ -130,7 +132,7 @@ Where:
 |State              | 'Path' property           |
 |Teardown           | IDisposable               |
 
-### Fixture dependencies
+### Fixture Dependencies
 
 Fixtures can depend on other fixtures. Dependencies are injected via the constructor:
 
@@ -162,29 +164,29 @@ public class ExampleTests
 Note:
 
 + All fixture dependencies (```MyCustomFixture1``` and ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
-+ Fixtures can't have cyclic dependencies.
++ Fixtures cannot have cyclic dependencies.
 
 ## Advanced usage
 
-### Add/Get Fixture by interface
+### Add/Get Fixture by Interface
 
-Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/d4e7561bd6bf0a3882e6f2777f0012c4ef9c3aa9/tests/FEFF.TestFixtures.Tests/Core/FixtureInterfaceTests.cs#L6).
+Documentation is under development. [See examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/d4e7561bd6bf0a3882e6f2777f0012c4ef9c3aa9/tests/FEFF.TestFixtures.Tests/Core/FixtureInterfaceTests.cs#L6).
 
-### Fixture factory internals
+### Fixture Factory Internals
 
-Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/d4e7561bd6bf0a3882e6f2777f0012c4ef9c3aa9/src/FEFF.TestFixtures/Core/FixtureManager.cs#L14).
+Documentation is under development. [See examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/d4e7561bd6bf0a3882e6f2777f0012c4ef9c3aa9/src/FEFF.TestFixtures/Core/FixtureManager.cs#L14).
 
-### Advanced Fixture registration
+### Advanced Fixture Registration
 
-Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs#L18).
+Documentation is under development. [See examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs#L18).
 
 ### Configuring Fixtures
 
-Documentation is under development, [see examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs#L38).
+Documentation is under development. [See examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs#L38).
 
 ## Fixture List
 
-### Core Library
+### FEFF.TestFixtures Library
 
 + EnvironmentFixture
   + Snapshots the process environment and restores it after a test (the test scope)
@@ -192,27 +194,37 @@ Documentation is under development, [see examples](https://github.com/metacoder-
   + Creates a unique directory and removes it along with its contents after a test (the test scope)
   + Can optionally skip deletion
 + TmpScopeIdFixture
-  + Generates a string which is unique for each scope (e.g. for each test)
+  + Generates a string that is unique for each scope (e.g., for each test)
 
-### AspNetCore Fixture Library
+### FEFF.TestFixtures.AspNetCore Fixture Library
 
 + TestApplicationFixture
   + Starts and stops the application via TestHost
-  + Modifies Configuration/ServiceCollection before the application starts
+  + Allows modification of Configuration/ServiceCollection before the application starts
 + AppClientFixture
-  + Creates/Disposes an HttpClient for testing
+  + Creates and disposes an HttpClient for testing
 + AppServicesFixture
-  + Accesses the application's service provider in the test context
-+ FakeLoggerFixture (extension to TestApplicationFixture)
+  + Provides access to the application's service provider in the test context
++ FakeLoggerFixture
   + Replaces Logger<> with FakeLogger
-+ FakeTimeFixture (extension to TestApplicationFixture)
++ FakeTimeFixture
   + Replaces TimeProvider with FakeTimeProvider
-+ FakeRandomFixture (extension to TestApplicationFixture)
++ FakeRandomFixture
   + Replaces Random with FakeRandom
++ UseTmpDatabaseName
+  + (TestApplicationFixture.Configuration extension method)
+  + Updates connection strings to use a unique database name for test isolation
 
-### AspNetCore Fixture Library [work in progress]
+### FEFF.TestFixtures.AspNetCore.EF Fixture Library
 
-+ Generates a unique database name for test isolation
-+ Generates a unique Redis key prefix for test isolation
-+ Generates a unique S3 path prefix for test isolation
-+ Creates a SignalRClient for testing
++ EnsureDbFixture
+  + Creates the database on test application start (DbContext.EnsureCreated)
+  + Removes the database at the end of the fixture scope (e.g., after a test) (DbContext.EnsureDeleted)
+
+### [Development in Progress]
+
++ A unique Redis key prefix for test isolation
++ A unique S3 path prefix for test isolation
++ SignalRClient for testing
++ Authenticated HttpClient for testing
++ Fake outbound http connection to stub integrations with 3d-party APIs
