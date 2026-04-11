@@ -82,7 +82,7 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.3.3, )"
+          "FEFF.TestFixtures.Abstractions": "[1.4.1, )"
         }
       },
       "feff.testfixtures.abstractions": {
@@ -235,7 +235,7 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.3.3, )",
+          "FEFF.TestFixtures.Abstractions": "[1.4.1, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
         }
       },
@@ -392,7 +392,7 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.3.3, )",
+          "FEFF.TestFixtures.Abstractions": "[1.4.1, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
         }
       },

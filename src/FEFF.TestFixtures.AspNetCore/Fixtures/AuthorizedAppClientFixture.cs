@@ -1,11 +1,23 @@
 namespace FEFF.TestFixtures.AspNetCore.Preview;
 //TODO: add test
 
+/// <summary>
+/// Contract for configuration options for <see cref="AuthorizedAppClientFixture{TEntryPoint, TOptions}"/>.
+/// </summary>
 public interface IAuthorizedClientFixtureOptions
 {
+    /// <summary>
+    /// Returns a JWT token used to authenticate requests made by the authorized client.
+    /// </summary>
     string GetJwt();
 }
 
+/// <summary>
+/// A fixture that provides an <see cref="HttpClient"/> with a Bearer token pre-configured
+/// for authenticated requests to the application under test.
+/// </summary>
+/// <typeparam name="TEntryPoint">The application entry point type.</typeparam>
+/// <typeparam name="TOptions">The options type implementing <see cref="IAuthorizedClientFixtureOptions"/>.</typeparam>
 [Fixture]
 public sealed class AuthorizedAppClientFixture<TEntryPoint, TOptions> : IAsyncDisposable, IAppClientFixture
 where TEntryPoint : class
@@ -15,11 +27,14 @@ where TOptions : IAuthorizedClientFixtureOptions
     private readonly TOptions _opts;
     private readonly Lazy<HttpClient> _client;
 
-    /// <summary>
-    /// Runs AppFactory, creates, memoizes and returns Client.
-    /// </summary>
+    /// <inheritdoc/>
     public HttpClient LazyValue => _client.Value;
 
+    /// <summary>
+    /// Creates a new authorized app client fixture.
+    /// </summary>
+    /// <param name="app">The application manager fixture.</param>
+    /// <param name="opts">The authorization options.</param>
     public AuthorizedAppClientFixture(AppManagerFixture<TEntryPoint> app, TOptions opts)
     {
         _app = app;
@@ -40,11 +55,12 @@ where TOptions : IAuthorizedClientFixtureOptions
         return res;
     }
 
+    /// <inheritdoc/>
     public ValueTask DisposeAsync()
     {
         if(_client.IsValueCreated)
             _client.Value.Dispose();
-            
+
         return ValueTask.CompletedTask;
     }
 }

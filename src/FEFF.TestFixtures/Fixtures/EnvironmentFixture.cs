@@ -5,11 +5,13 @@ namespace FEFF.TestFixtures;
 using Env = FrozenDictionary<string, string>;
 
 /// <summary>
-/// Reverts the process environment changes after the test.
+/// Snapshotsthe process environment before a test and reverts changes after the test.
+/// </summary>
+/// <remarks>
 /// These tests should not be run in parallel; otherwise, an exception will be thrown.
 /// xUnit: Consider using the [Collection] attribute on all test classes that will be part of a collection.
 /// Tests within the same collection run sequentially.
-/// </summary>
+/// </remarks>
 [Fixture]
 public sealed class EnvironmentFixture : IDisposable
 {
@@ -22,8 +24,18 @@ public sealed class EnvironmentFixture : IDisposable
     // Disallow parallel environment variable saving or restoring process-wide
     private static volatile Env? __oldEnv;
 
+    /// <summary>
+    /// Gets a snapshot of the environment variables as they were when this fixture was constructed.
+    /// </summary>
     public Env InitialSnapshot { get; }
 
+    /// <summary>
+    /// Initializes a new instance of <see cref="EnvironmentFixture"/> and captures the current
+    /// environment variables.
+    /// </summary>
+    /// <remarks>
+    /// Throws if another instance is already active in the process.
+    /// </remarks>
     public  EnvironmentFixture()
     {
         lock(__lockObj)
@@ -41,6 +53,9 @@ public sealed class EnvironmentFixture : IDisposable
     /// Same as <see cref="Environment.SetEnvironmentVariable(string, string?)"/>.<br/>
     /// This method is used not to forget to instantiate <see cref="EnvironmentFixture"/>.
     /// </summary>
+    /// <remarks>
+    /// Underling <see cref="Environment.SetEnvironmentVariable(string, string?)"/> can be also be used instad of this.
+    /// </remarks>
 #pragma warning disable CA1822 // Mark members as static
     public void SetEnvironmentVariable(string variable, string? value)
     {
@@ -48,6 +63,9 @@ public sealed class EnvironmentFixture : IDisposable
     }
 #pragma warning restore CA1822 // Mark members as static
 
+    /// <summary>
+    /// Restores all process environment variables to their original state captured during construction.
+    /// </summary>
     public void Dispose()
     {
         lock(__lockObj)

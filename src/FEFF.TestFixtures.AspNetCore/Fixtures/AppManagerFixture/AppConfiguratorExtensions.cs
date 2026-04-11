@@ -2,10 +2,32 @@ using System.Data.Common;
 
 namespace FEFF.TestFixtures.AspNetCore;
 
-public enum AspEnvironment { Development, Production };
+/// <summary>
+/// Specifies the ASP.NET Core environment for the test application.
+/// </summary>
+public enum AspEnvironment
+{
+    /// <summary>
+    /// Development environment. Enables developer exception pages and verbose logging.
+    /// </summary>
+    Development,
+    /// <summary>
+    /// Production environment. Optimized for performance with minimal diagnostic output.
+    /// </summary>
+    Production
+};
 
+/// <summary>
+/// Extension methods for <see cref="IAppConfigurator"/> to simplify test application configuration.
+/// </summary>
 public static class AppConfiguratorExtensions
 {
+    /// <summary>
+    /// Sets a configuration setting on the web host.
+    /// </summary>
+    /// <param name="builder">The app configurator.</param>
+    /// <param name="key">The configuration key.</param>
+    /// <param name="value">The configuration value.</param>
     public static void UseSetting(this IAppConfigurator builder, string key, string? value)
     {
         builder.ConfigureWebHost(
@@ -13,6 +35,11 @@ public static class AppConfiguratorExtensions
         );
     }
 
+    /// <summary>
+    /// Sets the ASP.NET Core environment for the web host.
+    /// </summary>
+    /// <param name="builder">The app configurator.</param>
+    /// <param name="env">The environment to use.</param>
     public static void UseAspEnvironment(this IAppConfigurator builder, AspEnvironment env)
     {
         builder.ConfigureWebHost(
@@ -20,6 +47,11 @@ public static class AppConfiguratorExtensions
         );
     }
 
+    /// <summary>
+    /// Adds a delegate for configuring the <see cref="IServiceCollection"/> on the web host.
+    /// </summary>
+    /// <param name="builder">The app configurator.</param>
+    /// <param name="configureServices">A delegate for configuring services.</param>
     public static void ConfigureServices(this IAppConfigurator builder, Action<IServiceCollection> configureServices)
     {
         builder.ConfigureWebHost(
@@ -27,6 +59,12 @@ public static class AppConfiguratorExtensions
         );
     }
 
+    /// <summary>
+    /// Adds a delegate for configuring the <see cref="IServiceCollection"/> on the web host
+    /// with access to the <see cref="WebHostBuilderContext"/>.
+    /// </summary>
+    /// <param name="builder">The app configurator.</param>
+    /// <param name="configureServices">A delegate for configuring services.</param>
     public static void ConfigureServices(this IAppConfigurator builder, Action<WebHostBuilderContext, IServiceCollection> configureServices)
     {
         builder.ConfigureWebHost(
@@ -34,6 +72,11 @@ public static class AppConfiguratorExtensions
         );
     }
 
+    /// <summary>
+    /// Replaces the application's <see cref="TimeProvider"/> with a custom instance.
+    /// </summary>
+    /// <param name="builder">The app configurator.</param>
+    /// <param name="timeProvider">The <see cref="TimeProvider"/> instance to use.</param>
     public static void UseTimeProvider(this IAppConfigurator builder, TimeProvider timeProvider)
     {
         builder.ConfigureServices(services =>
@@ -41,6 +84,11 @@ public static class AppConfiguratorExtensions
         );
     }
 
+    /// <summary>
+    /// Replaces the application's <see cref="Random"/> with a custom instance.
+    /// </summary>
+    /// <param name="builder">The app configurator.</param>
+    /// <param name="random">The <see cref="Random"/> instance to use.</param>
     public static void UseRandom(this IAppConfigurator builder, Random random)
     {
         builder.ConfigureServices(services =>
@@ -48,6 +96,11 @@ public static class AppConfiguratorExtensions
         );
     }
 
+    /// <summary>
+    /// Adds a custom <see cref="ILoggerProvider"/> to the application's logging pipeline.
+    /// </summary>
+    /// <param name="builder">The app configurator.</param>
+    /// <param name="loggerProvider">The logger provider to add.</param>
     public static void UseLoggerProvider(this IAppConfigurator builder, ILoggerProvider loggerProvider)
     {
         builder.ConfigureServices(services =>
@@ -57,7 +110,14 @@ public static class AppConfiguratorExtensions
             )
         );
     }
-    
+
+    /// <summary>
+    /// Appends a suffix to the database name in the specified connection strings.
+    /// Useful for creating isolated databases per test.
+    /// </summary>
+    /// <param name="builder">The app configurator.</param>
+    /// <param name="suffix">The suffix to append to the database name.</param>
+    /// <param name="connectionStringNames">The names of the connection strings to modify.</param>
     public static void UseDatabaseNamePostfix(this IAppConfigurator builder, string suffix, IReadOnlyCollection<string> connectionStringNames)
     {
         ThrowHelper.Argument.ThrowIfNullOrEmpty(connectionStringNames);
@@ -69,7 +129,7 @@ public static class AppConfiguratorExtensions
             }
         });
     }
-    
+
     internal static void AddSuffixToConnectionString(this IConfiguration config, string connectionStringName, string suffix)
     {
         var key = "ConnectionStrings:" + connectionStringName;

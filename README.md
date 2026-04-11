@@ -199,6 +199,8 @@ Documentation is currently under development. [See examples](https://github.com/
 
 ### FEFF.TestFixtures.AspNetCore Fixture Library
 
+[See usage examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs)
+
 + AppManagerFixture
   + Starts and stops the application via TestHost
   + Allows modification of Configuration/ServiceCollection before the application starts
@@ -218,7 +220,7 @@ Documentation is currently under development. [See examples](https://github.com/
 
 ### FEFF.TestFixtures.AspNetCore.EF Fixture Library
 
-+ EnsureDbFixture
++ DatabaseLifecycleFixture
   + Creates the database on test application start (DbContext.EnsureCreated)
   + Removes the database at the end of the fixture scope (e.g., after a test) (DbContext.EnsureDeleted)
 

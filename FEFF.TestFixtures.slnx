@@ -6,6 +6,7 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
+    <File Path="src/Directory.Build.props" />
     <Project Path="src/FEFF.TestFixtures.Abstractions/FEFF.TestFixtures.Abstractions.csproj" />
     <Project Path="src/FEFF.TestFixtures.AspNetCore.EF/FEFF.TestFixtures.AspNetCore.EF.csproj" />
     <Project Path="src/FEFF.TestFixtures.AspNetCore.SignalR/FEFF.TestFixtures.AspNetCore.SignalR.csproj" />

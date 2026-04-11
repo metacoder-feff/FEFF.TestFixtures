@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <!-- MAIN -->
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <LangVersion>14.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     
@@ -12,11 +13,11 @@
 
     <!-- XmlDoc + NUGET -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591</NoWarn> <!-- Missing XML comment ... -->
+    <!-- <NoWarn>$(NoWarn);1591</NoWarn> --><!-- Missing XML comment ... -->
 
     <!-- NUGET -->
     <IsPackable>false</IsPackable> <!-- need override in each lib -->
-    <VersionPrefix>1.3.5</VersionPrefix>
+    <VersionPrefix>1.4.1</VersionPrefix>
     <Authors>metacoder-feff</Authors>
     <Copyright>Copyright (c) Metacoder-feff 2026</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

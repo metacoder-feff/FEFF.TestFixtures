@@ -1,8 +1,9 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
+//TODO: nuget
 
 namespace Microsoft.Extensions.DependencyInjection;
 
-public static class DependencyInjectionExtensions
+internal static class DependencyInjectionExtensions
 {
     public static IServiceCollection TryReplaceSingleton<TService>(this IServiceCollection services, TService instance)
         where TService : class

@@ -1,24 +1,59 @@
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 
 namespace FEFF.TestFixtures.AspNetCore;
 
+/// <summary>
+/// Represents a test application running via <see cref="WebApplicationFactory{TEntryPoint}"/>.
+/// </summary>
 public interface ITestApplication
 {
+    /// <summary>
+    /// Gets the service provider for the test application.
+    /// </summary>
     IServiceProvider    Services    { get; }
+    /// <summary>
+    /// Gets the <see cref="TestServer"/> for the test application. Useful for SignalR testing.
+    /// </summary>
     TestServer          Server      { get; } // for signal-r
 
+    /// <summary>
+    /// Creates an <see cref="HttpClient"/> configured to communicate with the test application.
+    /// </summary>
     HttpClient CreateClient();
 }
 
+/// <summary>
+/// Provides a way to configure the test application's web host before it starts.
+/// </summary>
 public interface IAppConfigurator
 {
+    /// <summary>
+    /// Adds a configuration action to be applied to the <see cref="IWebHostBuilder"/>.
+    /// </summary>
+    /// <param name="action">The configuration action.</param>
     void ConfigureWebHost(Action<IWebHostBuilder> action);
 }
 
+/// <summary>
+/// Provides access to the application configuration and lifecycle state.
+/// </summary>
 public interface IAppManagerFixture
 {
+    /// <summary>
+    /// Gets the configurator used to customize the web host before startup.
+    /// </summary>
     IAppConfigurator    ConfigurationBuilder    { get; }
+    /// <summary>
+    /// Gets the lazily-started test application.
+    /// </summary>
+    /// <remarks>
+    /// Starts the application under test on first request.
+    /// </remarks>
     ITestApplication    LazyApplication         { get; }
+    /// <summary>
+    /// Gets a value indicating whether the application has been started.
+    /// </summary>
     bool                IsStarted               { get; }
 
 //TODO: IsStartRequested property (may not be finished)
@@ -26,7 +61,7 @@ public interface IAppManagerFixture
 }
 
 /// <summary>
-/// Allows to configure and start the tested application via <see cref="Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory{TEntryPoint}"/>
+/// Allows to configure and start the tested application via <see cref="WebApplicationFactory{TEntryPoint}"/>.
 /// </summary>
 /// <typeparam name="TEntryPoint">
 /// A type in the entry point assembly of the application. Typically the Startup or Program classes can be used.
@@ -40,17 +75,19 @@ where TEntryPoint: class
     private readonly Lazy<ITestApplication> _app;
     private readonly OneTimeAppBuilder<TEntryPoint> _builder = new();
 
+    /// <inheritdoc/>
     public IAppConfigurator ConfigurationBuilder => _builder;
     private bool _isDisposed;
 
+    /// <inheritdoc/>
     public bool IsStarted => _app.IsValueCreated;
 
-    /// <summary>
-    /// Creates, memoizes and returns App.<br/>
-    /// Access to <see cref="LazyApplication"/> finishes app building and starts App.
-    /// </summary>
+    /// <inheritdoc/>
     public ITestApplication LazyApplication => _app.Value;
 
+    /// <summary>
+    /// Creates a new instance of <see cref="AppManagerFixture{TEntryPoint}"/>.
+    /// </summary>
     public AppManagerFixture()
     {
         // factory is created only when _app is creating
@@ -61,7 +98,7 @@ where TEntryPoint: class
     private ITestApplication GetStartedApp()
     {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
-        
+
         // OnStarting?.Invoke();
 
         // build factory
@@ -70,13 +107,14 @@ where TEntryPoint: class
         //start
         res.StartServer();
         return res;
-        
+
         // OnStarted?.Invoke();
         // event handler wants to use the 'LazyApplication' property
         // therefore we have to fire an event after '_app' field finishes initialization
         // see 'LazyApplication' property
     }
 
+    /// <inheritdoc/>
     public ValueTask DisposeAsync()
     {
         _isDisposed = true;

@@ -14,8 +14,7 @@ using Xunit.v3;
 // Register the FEFF TestFixtures extension with xUnit v3
 [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
 
-//TODO: link nuget, not projects
-//TODO: AuthorizedAppClientFixture
+//TODO: add example of AuthorizedAppClientFixture
 
 namespace ExampleTests.AspNetCore;
 
@@ -96,7 +95,7 @@ public class ApiTests
     
     /// <summary>
     /// Allows configuration of the test application before it starts.
-    /// Can be used to set environment variables, configuration values, etc.
+    /// Can be used to set environment variables, update DI container, etc.
     /// </summary>
     protected IAppConfigurator AppConfigurationBuilder => FixtureSet.AppManagerFx.ConfigurationBuilder;
     
@@ -291,7 +290,7 @@ public class ApiTests
     /// 2. Database query to verify the user was actually persisted
     ///
     /// Key concepts demonstrated:
-    /// - EnsureDbContextFixture.EnsureCreatedAsync(): Creates (and fast migrates) the database before the test
+    /// - EnsureDbFx.EnsureCreatedAsync(): Creates (and fast migrates) the database before the test
     /// - Direct DbContext access for database-level assertions
     /// - POST request testing (currently sends null body, which the API handles by creating a default user)
     /// </summary>
