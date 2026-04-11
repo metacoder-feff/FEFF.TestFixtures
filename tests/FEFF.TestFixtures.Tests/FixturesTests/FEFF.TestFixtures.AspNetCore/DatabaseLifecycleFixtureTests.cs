@@ -1,14 +1,12 @@
 using FEFF.TestFixtures.Tests;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApiTestSubject;
 
 namespace FEFF.TestFixtures.AspNetCore.Tests;
 
-public class EnsureDbFixtureTests
+public class DatabaseLifecycleFixtureTests
 {
-
     [Fact]
     public async Task EnsureDeleted__if_not_started__should_not_be_invoked()
     {
@@ -48,7 +46,7 @@ public class EnsureDbFixtureTests
         var assertContext = GetAssertContext(helper, connectionStringSuffix);
 
         // use first scope for 'Assert'
-        // Assert: db not extists
+        // Assert: db does not exist
         (await assertContext.DatabaseExistsAsync())
             .Should().BeFalse();
 
@@ -56,7 +54,7 @@ public class EnsureDbFixtureTests
         {
             await RunFixture(useFixture, startApp, helper, connectionStringSuffix, assertContext);
 
-            // Assert: db not extists
+            // Assert: db does not exist
             (await assertContext.DatabaseExistsAsync())
                 .Should().BeFalse();
         }
@@ -68,36 +66,52 @@ public class EnsureDbFixtureTests
         }
     }
 
+    [Fact]
+    public async Task Fixture_init_should_not_hang()
+    {
+        var app = TestContext.Current.GetFeffFixture<AppManagerFixture<Program>>();
+        app.ConfigurationBuilder.UseDatabaseNamePostfix("123", [Program.ConnectionStringName]);
+
+        var f1 = TestContext.Current.GetFeffFixture<DatabaseLifecycleFixture<Program, ApplicationDbContext>>();
+        var f2 = TestContext.Current.GetFeffFixture<AppServicesFixture<Program>>();
+
+        var act  = () => Task.Run(
+            () => f2.LazyServiceProvider
+        );
+        await act.Should().CompleteWithinAsync(TimeSpan.FromSeconds(1));
+    }
+
     private static async Task RunFixture(bool useFixture, bool startApp, FixtureHelper helper, string connectionStringSuffix, ApplicationDbContext assertContext)
     {
         // use second scope for 'Act'
         // also scope allows to test Dispose()
         var scopeId = "1";
         var scope = helper.FixtureManager.GetScope(scopeId);
-        var app = scope.GetFixture<TestApplicationFixture<Program>>();
-        app.Configuration.UseDatabaseNamePostfix(connectionStringSuffix, Program.ConnectionStringName);
+        var app = scope.GetFixture<AppManagerFixture<Program>>();
+        app.ConfigurationBuilder.UseDatabaseNamePostfix(connectionStringSuffix, [Program.ConnectionStringName]);
 
         var initialExist = await assertContext.DatabaseExistsAsync();
 
         if (useFixture)
-            _ = scope.GetFixture<EnsureDbContextFixture<Program, ApplicationDbContext>>();
+        {
+            var f = scope.GetFixture<DatabaseLifecycleFixture<Program, ApplicationDbContext>>();
 
-        if (startApp)
-            // just start
-            _ = app.LazyApplication.Services.GetRequiredService<IConfiguration>();
+            if (startApp)
+                await f.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+        }
 
 //TODO: return bool??
-        // Assert: db extists if useFixture && startApp
+        // Assert: db exists if useFixture && startApp
         (await assertContext.DatabaseExistsAsync())
             .Should().Be((useFixture && startApp) || initialExist);
 
         await helper.FixtureManager.RemoveScopeAsync(scopeId);
     }
 
-    private static ApplicationDbContext GetAssertContext(FixtureHelper fm, string connectioStringSuffix)
+    private static ApplicationDbContext GetAssertContext(FixtureHelper fm, string connectionStringSuffix)
     {
-        var app = fm.GetFixture<TestApplicationFixture<Program>>();
-        app.Configuration.UseDatabaseNamePostfix(connectioStringSuffix, Program.ConnectionStringName);
+        var app = fm.GetFixture<AppManagerFixture<Program>>();
+        app.ConfigurationBuilder.UseDatabaseNamePostfix(connectionStringSuffix, [Program.ConnectionStringName]);
 
         return fm
             .GetFixture<AppServicesFixture<Program>>()

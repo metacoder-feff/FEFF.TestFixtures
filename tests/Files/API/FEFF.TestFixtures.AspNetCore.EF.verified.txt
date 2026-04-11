@@ -3,11 +3,16 @@
 namespace FEFF.TestFixtures.AspNetCore
 {
     [FEFF.TestFixtures.Fixture]
-    public sealed class EnsureDbContextFixture<TEntryPoint, TContext> : System.IAsyncDisposable
+    public sealed class DatabaseLifecycleFixture<TEntryPoint, TContext> : FEFF.TestFixtures.AspNetCore.IDatabaseLifecycleFixture, System.IAsyncDisposable
         where TEntryPoint :  class
         where TContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public EnsureDbContextFixture(FEFF.TestFixtures.AspNetCore.TestApplicationFixture<TEntryPoint> app, FEFF.TestFixtures.AspNetCore.AppServicesFixture<TEntryPoint> services) { }
+        public DatabaseLifecycleFixture(FEFF.TestFixtures.AspNetCore.AppManagerFixture<TEntryPoint> app, FEFF.TestFixtures.AspNetCore.AppServicesFixture<TEntryPoint> services) { }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
+        public System.Threading.Tasks.Task EnsureCreatedAsync(System.Threading.CancellationToken token) { }
+    }
+    public interface IDatabaseLifecycleFixture
+    {
+        System.Threading.Tasks.Task EnsureCreatedAsync(System.Threading.CancellationToken token);
     }
 }

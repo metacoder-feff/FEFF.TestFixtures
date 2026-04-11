@@ -8,7 +8,7 @@ using Microsoft.Extensions.Time.Testing;
 using Npgsql;
 using WebApiTestSubject;
 
-namespace FEFF.TestFixtures.AspNetCore.Tests;
+namespace FEFF.TestFixtures.AspNetCore.Preview.Tests;
 
 // removes postgres-Db without EfCore.DbContext
 internal class PgDbRemover : IAsyncDisposable
@@ -106,11 +106,11 @@ public class AspPipelineTests
         var rand = new FakeRandom();
         using var logP = new FakeLoggerProvider();
 
-        var appBuilder = new TestApplicationBuilder<Program>();
+        var appBuilder = new ApplicationBuilder<Program>();
         appBuilder.UseTimeProvider(time);
         appBuilder.UseRandom(rand);
         appBuilder.UseLoggerProvider(logP);
-        appBuilder.UseTmpDatabaseName(scopeIdFx, Program.ConnectionStringName/*, cs222*/);
+        appBuilder.UseDatabaseNamePostfix($"tmp-{scopeIdFx.Value}", [Program.ConnectionStringName/*, cs222*/]);
 
         await using var app = appBuilder.Build();
         app.StartServer();
@@ -138,7 +138,7 @@ public class AspPipelineTests
     public async Task With_disposables()
     {
         var scopeIdFx = TestContext.Current.GetFeffFixture<TmpScopeIdFixture>();
-        var appBuilder = new TestApplicationBuilder<Program>();
+        var appBuilder = new ApplicationBuilder<Program>();
 
         var disposables = new List<object>();
         var dispTesting = new DisposableFixture();
@@ -155,7 +155,7 @@ public class AspPipelineTests
         disposables.Add(logP);
         appBuilder.UseLoggerProvider(logP);
 
-        appBuilder.UseTmpDatabaseName(scopeIdFx, Program.ConnectionStringName/*, cs222*/);
+        appBuilder.UseDatabaseNamePostfix($"tmp-{scopeIdFx.Value}", [Program.ConnectionStringName/*, cs222*/]);
 
         var app = appBuilder.Build();
         disposables.Add(app);

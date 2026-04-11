@@ -20,8 +20,8 @@ internal sealed class FixtureScope : IAsyncDisposable, IFixtureScope
 
         _isDisposed = true;
 
-//TODO: remove in version 11+        
-        return ScopeDisposeHack.DisposeAsync(_serviceScope);
+//TODO: remove in version 11+
+        return ScopeDisposeWorkaround.DisposeAsync(_serviceScope);
         //return _serviceScope.DisposeAsync();
     }
 
@@ -33,9 +33,9 @@ internal sealed class FixtureScope : IAsyncDisposable, IFixtureScope
 }
 
 //ServiceProviderEngineScope should aggregate exceptions in Dispose rather than throwing on the first
-//[MERGED to main (dotnet-11-preview)] 
+//[MERGED to main (dotnet-11-preview)]
 //https://github.com/dotnet/runtime/pull/123342
-internal static class ScopeDisposeHack
+internal static class ScopeDisposeWorkaround
 {
 #if NET11_0_OR_GREATER
     public static ValueTask DisposeAsync(AsyncServiceScope scope)
@@ -78,8 +78,8 @@ internal static class ScopeDisposeHack
             return null;
 
         return scope
-            .TryGetPrivateInstaceFieldValue<IServiceScope>("_serviceScope")
-            ?.TryGetPrivateInstacePropertyValue<List<object>>("Disposables");
+            .TryGetPrivateInstanceFieldValue<IServiceScope>("_serviceScope")
+            ?.TryGetPrivateInstancePropertyValue<List<object>>("Disposables");
     }
 #endif
 }

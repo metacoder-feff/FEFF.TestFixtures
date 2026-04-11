@@ -26,9 +26,9 @@ public static class TestContextExtensions
     where T : notnull
     {
         if (scopeType == FixtureScopeType.Class)
-            Hack.RegisterAfterClassHandler(ctx);
+            HackingTeardownRegistrar.RegisterAfterClassHandler(ctx);
         else if (scopeType == FixtureScopeType.Collection)
-            Hack.RegisterAfterCollectionHandler(ctx);
+            HackingTeardownRegistrar.RegisterAfterCollectionHandler(ctx);
 
         var scopeId = ScopeIdHelper.GetScopeId(ctx, scopeType);
 

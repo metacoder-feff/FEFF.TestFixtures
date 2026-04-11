@@ -9,7 +9,7 @@ public interface IAppServicesFixture
 }
 
 /// <summary>
-/// This fixture allows to get services from an application being tested including scoped services.
+/// This fixture allows to get services from the application under test, including scoped services.
 /// </summary>
 [Fixture]
 public sealed class AppServicesFixture<TEntryPoint> : IAsyncDisposable, IAppServicesFixture
@@ -20,7 +20,7 @@ where TEntryPoint: class
     /// <inheritdoc/>
     public IServiceProvider LazyServiceProvider => _appServiceScope.Value.ServiceProvider;
 
-    public AppServicesFixture(TestApplicationFixture<TEntryPoint> app)
+    public AppServicesFixture(AppManagerFixture<TEntryPoint> app)
     {
         // cannot remove lambda expression because access to 'app.LazyTestApplication' finishes app building
         // but we only need to register callback

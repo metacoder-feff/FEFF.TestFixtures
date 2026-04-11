@@ -39,7 +39,7 @@ internal static class ReflectiveFixtureCollector
     {
         var services = new ServiceCollection();
 
-        var aa = AssemblyDiscoverer.GetAssemblies();
+        var aa = AssemblyDiscoveryService.GetAssemblies();
         foreach(var a in aa)
         {
             foreach(var t in a.GetTypes())

@@ -6,7 +6,7 @@ namespace FEFF.Extensions.Reflection;
 
 internal static class ReflectionExtensions
 {
-    public static T? TryGetPrivateInstaceFieldValue<T>(this object obj, string fieldName)
+    public static T? TryGetPrivateInstanceFieldValue<T>(this object obj, string fieldName)
     where T : class
     {
         return obj
@@ -16,7 +16,7 @@ internal static class ReflectionExtensions
             as T;
     }
 
-    public static T? TryGetPrivateInstacePropertyValue<T>(this object obj, string fieldName)
+    public static T? TryGetPrivateInstancePropertyValue<T>(this object obj, string fieldName)
     where T : class
     {
         return obj

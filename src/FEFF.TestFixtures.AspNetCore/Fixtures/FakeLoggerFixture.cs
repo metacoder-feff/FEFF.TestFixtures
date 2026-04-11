@@ -30,8 +30,8 @@ public class FakeLoggerFixture : IDisposable
 public class FakeLoggerFixture<TEntryPoint> : FakeLoggerFixture
 where TEntryPoint: class
 {
-    public FakeLoggerFixture(TestApplicationFixture<TEntryPoint> app)
+    public FakeLoggerFixture(AppManagerFixture<TEntryPoint> app)
     {
-        app.Configuration.UseLoggerProvider(LoggerProvider);
+        app.ConfigurationBuilder.UseLoggerProvider(LoggerProvider);
     }
 }

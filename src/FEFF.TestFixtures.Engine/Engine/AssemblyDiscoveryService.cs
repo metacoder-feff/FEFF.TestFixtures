@@ -5,10 +5,10 @@ using System.Runtime.Loader;
 
 namespace FEFF.TestFixtures.Engine;
 
-internal class AssemblyDiscoverer
+internal class AssemblyDiscoveryService
 {
-    public static List<Assembly> GetAssemblies() => 
-        new AssemblyDiscoverer().GetAssembliesInt();
+    public static List<Assembly> GetAssemblies() =>
+        new AssemblyDiscoveryService().DiscoverAssemblies();
 
     //---------------------------
     // encapsulate state
@@ -19,7 +19,7 @@ internal class AssemblyDiscoverer
     private readonly string _mainFixtureAssemblyName;
     private readonly ImmutableArray<string> _defaultAssemblyFiles;
 
-    private AssemblyDiscoverer()
+    private AssemblyDiscoveryService()
     {
         var mainFixtureAssembly = typeof(FixtureAttribute).Assembly;
         _mainFixtureAssemblyName = ThrowHelper.EnsureNotNull(
@@ -63,7 +63,7 @@ internal class AssemblyDiscoverer
         .Contains(_mainFixtureAssemblyName)
         ;
 
-    private List<Assembly> GetAssembliesInt()
+    private List<Assembly> DiscoverAssemblies()
     {
         var allLoaded = AppDomain.CurrentDomain
             .GetAssemblies()

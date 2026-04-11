@@ -5,108 +5,128 @@ using Microsoft.Extensions.Time.Testing;
 using Newtonsoft.Json.Linq;
 using WebApiTestSubject;
 
-namespace FEFF.TestFixtures.AspNetCore.Tests;
+namespace FEFF.TestFixtures.AspNetCore.Preview.Tests;
 
-internal static class Exxx
+[Fixture]
+internal class FixtureOptions : ITmpDatabaseNameFixtureOptions
 {
+    public IReadOnlyCollection<string> ConnectionStringNames => [Program.ConnectionStringName/*, cs222*/];
 }
 
 internal interface IAppFixture
 {
     FakeTimeProvider Time { get; }
     FakeRandom Random { get; }
-    IApplicationConfigurator Config { get; }
+    IAppConfigurator Config { get; }
     HttpClient LazyClient { get; }
     IServiceProvider LazyServices { get; }
     ApplicationDbContext LazyDbCtx  { get; }
+    IDatabaseLifecycleFixture EnsureFx { get; }
 }
 
 [Fixture]
 internal class AppTestFixtureV1 : IAppFixture
 {
-    private readonly TestApplicationFixture<Program> appFx;
+    private readonly AppManagerFixture<Program> appFx;
     private readonly AppClientFixture<Program> clientFx;
-    private readonly AppServicesFixture<Program> servicessFx;
+    private readonly AppServicesFixture<Program> servicesFx;
     private readonly FakeTimeFixture<Program> timeFx;
     private readonly FakeRandomFixture<Program> randomFx;
 
+    public IDatabaseLifecycleFixture EnsureFx { get; }
+
     public AppTestFixtureV1(
-        TestApplicationFixture<Program> appFx,
+        AppManagerFixture<Program> appFx,
         AppClientFixture<Program> clientFx,
-        AppServicesFixture<Program> servicessFx,
+        AppServicesFixture<Program> servicesFx,
         FakeTimeFixture<Program> timeFx,
         FakeRandomFixture<Program> randomFx,
-        TmpScopeIdFixture scopeIdFx,
+        DatabaseLifecycleFixture<Program, ApplicationDbContext> ensureCtxFx,
         // this fixture is not directly used
         // it only auto attaches itself to 'appFx' when it is constructed
-        EnsureDbContextFixture<Program, ApplicationDbContext> ensureCtxFx
+        TmpDatabaseNameFixture<Program, FixtureOptions> tmpDb
 )
     {
         this.appFx = appFx;
         this.clientFx = clientFx;
-        this.servicessFx = servicessFx;
+        this.servicesFx = servicesFx;
         this.timeFx = timeFx;
         this.randomFx = randomFx;
-        appFx.Configuration.UseTmpDatabaseName(scopeIdFx, Program.ConnectionStringName/*, cs222*/);
+        EnsureFx = ensureCtxFx;
     }
 
     public FakeRandom Random => randomFx.Value;
     public FakeTimeProvider Time => timeFx.Value;
-    public IApplicationConfigurator Config => appFx.Configuration;
+    public IAppConfigurator Config => appFx.ConfigurationBuilder;
     public HttpClient LazyClient => clientFx.LazyValue;
-    public IServiceProvider LazyServices => servicessFx.LazyServiceProvider;
-    public ApplicationDbContext LazyDbCtx => servicessFx.LazyServiceProvider.GetRequiredService<ApplicationDbContext>();
+    public IServiceProvider LazyServices => servicesFx.LazyServiceProvider;
+    public ApplicationDbContext LazyDbCtx => servicesFx.LazyServiceProvider.GetRequiredService<ApplicationDbContext>();
 }
 
 [Fixture]
-internal class AppTestFixtureV2: IAppFixture
-{
-    public FakeTimeProvider Time { get; } = new();
-    public FakeRandom Random { get; } = new();
-    public IApplicationConfigurator Config => appFx.Configuration;
-    public HttpClient LazyClient => clientFx.LazyValue;
-    public IServiceProvider LazyServices => servicessFx.LazyServiceProvider;
-    public ApplicationDbContext LazyDbCtx => servicessFx.LazyServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-    private readonly TestApplicationFixture<Program> appFx;
-    private readonly AppClientFixture<Program> clientFx;
-    private readonly AppServicesFixture<Program> servicessFx;
-
-    public AppTestFixtureV2(
-        TestApplicationFixture<Program> appFx,
-        AppClientFixture<Program> clientFx,
-        AppServicesFixture<Program> servicessFx,
-        TmpScopeIdFixture scopeIdFx,
+internal record AppTestFixtureV2(
+        AppManagerFixture<Program> AppFx,
+        AppClientFixture<Program> ClientFx,
+        AppServicesFixture<Program> ServicesFx,
+        FakeTimeFixture<Program> TimeFx,
+        FakeRandomFixture<Program> RandomFx,
+        DatabaseLifecycleFixture<Program, ApplicationDbContext> EnsureFx,
         // this fixture is not directly used
         // it only auto attaches itself to 'appFx' when it is constructed
-        EnsureDbContextFixture<Program, ApplicationDbContext> ensureCtxFx
-    )
-    {
-        this.appFx = appFx;
-        this.clientFx = clientFx;
-        this.servicessFx = servicessFx;
-        
-        appFx.Configuration.UseRandom(Random);
-        appFx.Configuration.UseTimeProvider(Time);
-        appFx.Configuration.UseTmpDatabaseName(scopeIdFx, Program.ConnectionStringName/*, cs222*/);
-    }
+        TmpDatabaseNameFixture<Program, FixtureOptions> TmpDb
+) : IAppFixture
+{
+    public FakeRandom Random => RandomFx.Value;
+    public FakeTimeProvider Time => TimeFx.Value;
+    public IAppConfigurator Config => AppFx.ConfigurationBuilder;
+    public HttpClient LazyClient => ClientFx.LazyValue;
+    public IServiceProvider LazyServices => ServicesFx.LazyServiceProvider;
+    public ApplicationDbContext LazyDbCtx => ServicesFx.LazyServiceProvider.GetRequiredService<ApplicationDbContext>();
+    IDatabaseLifecycleFixture IAppFixture.EnsureFx => EnsureFx;
+}
+
+
+[Fixture]
+internal class AppTestFixtureV3(
+        AppManagerFixture<Program> appFx,
+        AppClientFixture<Program> clientFx,
+        AppServicesFixture<Program> servicesFx,
+        FakeTimeFixture<Program> timeFx,
+        FakeRandomFixture<Program> randomFx,
+        DatabaseLifecycleFixture<Program, ApplicationDbContext> ensureFx,
+#pragma warning disable CS9113
+        // this fixture is not directly used
+        // it only auto attaches itself to 'appFx' when it is constructed
+        TmpDatabaseNameFixture<Program, FixtureOptions> tmpDb
+#pragma warning restore CS9113
+) : IAppFixture
+{
+    public FakeRandom Random => randomFx.Value;
+    public FakeTimeProvider Time => timeFx.Value;
+    public IAppConfigurator Config => appFx.ConfigurationBuilder;
+    public HttpClient LazyClient => clientFx.LazyValue;
+    public IServiceProvider LazyServices => servicesFx.LazyServiceProvider;
+    public ApplicationDbContext LazyDbCtx => servicesFx.LazyServiceProvider.GetRequiredService<ApplicationDbContext>();
+    public IDatabaseLifecycleFixture EnsureFx => ensureFx;
 }
 
 public class FullExampleTests
 {
-    // internal AppTestFixtureV1 AppFx { get; } = TestContext.Current.GetFeffFixture<AppTestFixtureV1>();
-
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
+    [InlineData(3)]
     public async Task User__should_be_created(int arg)
     {
         var AppFx = arg switch
         {
             1 =>  (IAppFixture) TestContext.Current.GetFeffFixture<AppTestFixtureV1>(),
             2 =>  (IAppFixture) TestContext.Current.GetFeffFixture<AppTestFixtureV2>(),
+            3 =>  (IAppFixture) TestContext.Current.GetFeffFixture<AppTestFixtureV3>(),
             _ => throw new InvalidOperationException(),
         };
+
+        await AppFx.EnsureFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
         var resp = await AppFx.LazyClient.PostAsync("/user", null, TestContext.Current.CancellationToken);
         var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);

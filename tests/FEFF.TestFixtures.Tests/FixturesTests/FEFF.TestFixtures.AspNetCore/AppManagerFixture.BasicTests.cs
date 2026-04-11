@@ -3,9 +3,9 @@ using WebApiTestSubject;
 
 namespace FEFF.TestFixtures.AspNetCore.Tests;
 
-public class ApplicationFixtureBasicTests
+public class AppManagerFixtureBasicTests
 {
-    protected ITestApplicationFixture App = TestContext.Current.GetFeffFixture<TestApplicationFixture<Program>>();
+    protected IAppManagerFixture App = TestContext.Current.GetFeffFixture<AppManagerFixture<Program>>();
 
     [Fact]
     public async Task Fixture__after_access_to_LazyApplication__should_be_started()

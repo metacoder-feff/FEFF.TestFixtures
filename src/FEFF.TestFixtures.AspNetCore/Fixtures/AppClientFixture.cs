@@ -20,7 +20,7 @@ where TEntryPoint: class
     /// <inheritdoc/>
     public HttpClient LazyValue => _client.Value;
 
-    public AppClientFixture(TestApplicationFixture<TEntryPoint> app)
+    public AppClientFixture(AppManagerFixture<TEntryPoint> app)
     {
         // cannot remove lambda expression because access to 'app.LazyTestApplication' finishes app building
         // but we only need to register callback

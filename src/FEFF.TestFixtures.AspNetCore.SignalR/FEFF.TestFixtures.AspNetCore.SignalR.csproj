@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+
+    <!-- NUGET -->
+    <IsPackable>true</IsPackable>
+    <VersionSuffix>alpha</VersionSuffix>
+    <Description>A library of fixtures used to test AspNetCore appications with SignalR-Client.</Description>
+    <PackageTags>testing;fixtures;AspNetCore;SignalR;FEFF;</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+     <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../FEFF.TestFixtures.AspNetCore/FEFF.TestFixtures.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

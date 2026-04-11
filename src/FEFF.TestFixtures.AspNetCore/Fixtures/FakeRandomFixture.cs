@@ -15,8 +15,8 @@ public class FakeRandomFixture<TEntryPoint> : IFakeRandomFixture
 where TEntryPoint: class
 {
     public FakeRandom Value { get; } = new();
-    public FakeRandomFixture(TestApplicationFixture<TEntryPoint> app)
+    public FakeRandomFixture(AppManagerFixture<TEntryPoint> app)
     {
-        app.Configuration.UseRandom(Value);
+        app.ConfigurationBuilder.UseRandom(Value);
     }
 }

@@ -9,7 +9,7 @@ namespace FEFF.TestFixtures.TUnit
         Assembly = 2,
         Session = 3,
     }
-    public static class GlobalHooksExtention
+    public static class GlobalHooksExtension
     {
         [TUnit.Core.AfterEvery(TUnit.Core.HookType.Assembly, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 93)]
         public static System.Threading.Tasks.Task AfterA(TUnit.Core.AssemblyHookContext ctx) { }

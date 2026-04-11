@@ -27,7 +27,7 @@ public class FakeRandomTests
     [InlineData(15)]
     public void Int_Const(int value)
     {
-        Rand.IntStrategy = FakeRandom.ConstStrategy(value);
+        Rand.IntStrategy = ConstRandomStrategy.From(value);
         Rand.Next()
             .Should().Be(value);
         Rand.Next()
@@ -40,7 +40,7 @@ public class FakeRandomTests
     [InlineData(150, 50)]
     public void Int_Const_max(int value, int res)
     {
-        Rand.IntStrategy = FakeRandom.ConstStrategy(value);
+        Rand.IntStrategy = ConstRandomStrategy.From(value);
         Rand.Next(100)
             .Should().Be(res);
         Rand.Next(100)
@@ -54,7 +54,7 @@ public class FakeRandomTests
     [InlineData(150, 70)]
     public void Int_Const_min_max(int value, int res)
     {
-        Rand.IntStrategy = FakeRandom.ConstStrategy(value);
+        Rand.IntStrategy = ConstRandomStrategy.From(value);
         Rand.Next(10, 100)
             .Should().Be(res);
         Rand.Next(10, 100)
@@ -66,7 +66,7 @@ public class FakeRandomTests
     [InlineData(15)]
     public void Int_Const_min_eq_max(int value)
     {
-        Rand.IntStrategy = FakeRandom.ConstStrategy(value);
+        Rand.IntStrategy = ConstRandomStrategy.From(value);
         Rand.Next(value, value)
             .Should().Be(value);
     }
@@ -94,7 +94,7 @@ public class FakeRandomTests
     [InlineData(15)]
     public void Int64_Const(long value)
     {
-        Rand.Int64Strategy = FakeRandom.ConstStrategy(value);
+        Rand.Int64Strategy = ConstRandomStrategy.From(value);
         Rand.NextInt64()
             .Should().Be(value);
         Rand.NextInt64()
@@ -107,7 +107,7 @@ public class FakeRandomTests
     [InlineData(150, 50)]
     public void Int64_Const_max(long value, long res)
     {
-        Rand.Int64Strategy = FakeRandom.ConstStrategy(value);
+        Rand.Int64Strategy = ConstRandomStrategy.From(value);
         Rand.NextInt64(100)
             .Should().Be(res);
         Rand.NextInt64(100)
@@ -121,7 +121,7 @@ public class FakeRandomTests
     [InlineData(150, 70)]
     public void Int64_Const_min_max(long value, long res)
     {
-        Rand.Int64Strategy = FakeRandom.ConstStrategy(value);
+        Rand.Int64Strategy = ConstRandomStrategy.From(value);
         Rand.NextInt64(10, 100)
             .Should().Be(res);
         Rand.NextInt64(10, 100)
@@ -133,7 +133,7 @@ public class FakeRandomTests
     [InlineData(15)]
     public void Int64_Const_min_eq_max(long value)
     {
-        Rand.Int64Strategy = FakeRandom.ConstStrategy(value);
+        Rand.Int64Strategy = ConstRandomStrategy.From(value);
         Rand.NextInt64(value, value)
             .Should().Be(value);
     }
@@ -161,7 +161,7 @@ public class FakeRandomTests
     [InlineData(0.6)]
     public void Single_Const(float value)
     {
-        Rand.SingleStrategy = FakeRandom.ConstStrategy(value);
+        Rand.SingleStrategy = ConstRandomStrategy.From(value);
         Rand.NextSingle()
             .Should().Be(value);
         Rand.NextSingle()
@@ -191,7 +191,7 @@ public class FakeRandomTests
     [InlineData(0.6)]
     public void Double_Const(double value)
     {
-        Rand.DoubleStrategy = FakeRandom.ConstStrategy(value);
+        Rand.DoubleStrategy = ConstRandomStrategy.From(value);
         Rand.NextDouble()
             .Should().Be(value);
         Rand.NextDouble()

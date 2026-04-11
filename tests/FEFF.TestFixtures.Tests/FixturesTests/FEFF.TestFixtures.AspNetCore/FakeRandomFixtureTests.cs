@@ -8,7 +8,7 @@ public class FakeRandomFixtureTests
 {
     protected IAppClientFixture Client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
-    // FakeRandomFixture is injected into TestApplicationFixture.ApplicationBuilder
+    // FakeRandomFixture is injected into AppManagerFixture.ConfigurationBuilder
     protected FakeRandomFixture<Program> FakeRandomFx = TestContext.Current.GetFeffFixture<FakeRandomFixture<Program>>();
     protected FakeRandom FakeRandom => FakeRandomFx.Value;
 
@@ -18,7 +18,7 @@ public class FakeRandomFixtureTests
     public async Task Fixture__should_make_api_to_respond__with(int randValue)
     {
         // FakeRandom singleton object can be updated at any moment of test
-        FakeRandom.IntStrategy = FakeRandom.ConstStrategy(randValue);
+        FakeRandom.IntStrategy = ConstRandomStrategy.From(randValue);
 
         var resp = await Client.LazyValue.GetAsync("/weatherforecast/random", TestContext.Current.CancellationToken);
         resp.StatusCode.Should().Be(HttpStatusCode.OK);

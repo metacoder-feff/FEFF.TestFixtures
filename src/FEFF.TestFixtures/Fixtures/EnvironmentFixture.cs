@@ -5,7 +5,7 @@ namespace FEFF.TestFixtures;
 using Env = FrozenDictionary<string, string>;
 
 /// <summary>
-/// Reverts process environment changes after the test.
+/// Reverts the process environment changes after the test.
 /// These tests should not be run in parallel; otherwise, an exception will be thrown.
 /// xUnit: Consider using the [Collection] attribute on all test classes that will be part of a collection.
 /// Tests within the same collection run sequentially.
@@ -19,7 +19,7 @@ public sealed class EnvironmentFixture : IDisposable
     private static readonly Object __lockObj = new(); 
 #endif
 
-    //Disallow parallel env saving or restoring Process-wide
+    // Disallow parallel environment variable saving or restoring process-wide
     private static volatile Env? __oldEnv;
 
     public Env InitialSnapshot { get; }

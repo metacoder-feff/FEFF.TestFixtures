@@ -38,7 +38,7 @@ internal sealed class AssemblyTestTracker : IAsyncDisposable
         if (key is not null)
             ctx.KeyValueStorage.TryRemove(key, out _);
 
-        // dispose both: contaner & assemblyFxteScope
+        // dispose both: container & assemblyFixtureScope
         return Container.DisposeAsync();
     }
 

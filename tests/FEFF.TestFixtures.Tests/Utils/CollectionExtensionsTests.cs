@@ -1,6 +1,6 @@
 namespace FEFF.Extensions.Tests;
 
-public class CollectionsExtensionsTests
+public class CollectionExtensionsTests
 {
     [Fact]
     public void WhereNotNull_struct()

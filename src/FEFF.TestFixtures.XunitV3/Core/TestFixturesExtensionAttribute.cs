@@ -7,7 +7,7 @@ namespace FEFF.TestFixtures.Xunit;
 
 /// <summary>
 /// Manages <see cref="Engine.FixtureManager"/> for Xunit tests. <br/>
-/// Allows use of <see cref="TestContextExtensions.GetFeffFixture"/>.
+/// Enables the use of <see cref="TestContextExtensions.GetFeffFixture"/>.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]
 public class TestFixturesExtensionAttribute : Attribute, IBeforeAfterTestAttribute, IAssemblyFixtureAttribute
