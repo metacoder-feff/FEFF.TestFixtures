@@ -41,7 +41,7 @@ public sealed class EnvironmentFixture : IDisposable
         lock(__lockObj)
         {
             if (__oldEnv != null)
-                throw new InvalidOperationException($"Cannot use {nameof(EnvironmentFixture)} in parallel tests. For xUnit, consider using the [Collection] attribute on all test classes that will be part of a collection. Tests within the same collection run sequentially.");
+                throw new InvalidOperationException($"'{nameof(EnvironmentFixture)}' mutates process environment and cannot be used in parallel. Ensure tests using this fixture run sequentially. For xUnit, consider using the [Collection] attribute on all test classes that will be part of a collection. Tests within the same collection run sequentially.");
                 
             InitialSnapshot = EnvironmentHelper.GetEnvironmentVariables();
 

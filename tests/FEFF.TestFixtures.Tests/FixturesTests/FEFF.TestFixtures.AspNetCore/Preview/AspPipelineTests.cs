@@ -1,4 +1,4 @@
-using FEFF.Extensions.Testing;
+using FEFF.TestFixtures.AspNetCore.Randomness;
 using FEFF.TestFixtures.Engine.Tests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.AspNetCore.TestHost;
 
-namespace FEFF.TestFixtures.AspNetCore.Preview;
+namespace FEFF.TestFixtures.AspNetCore.SignalR;
 
 /// <summary>
 /// Extension methods for <see cref="TestServer"/> to create SignalR test clients.

@@ -3,12 +3,14 @@ using Microsoft.Extensions.Logging.Testing;
 namespace FEFF.TestFixtures.AspNetCore;
 
 /// <summary>
+/// Replaces the <see cref="ILoggerProvider"/> service with a <see cref="FakeLoggerProvider"/> 
+/// singleton in the application under test.
 /// Provides a <see cref="FakeLoggerProvider"/> for capturing log output in tests.
-/// Use the generic version <see cref="FakeLoggerFixture{TEntryPoint}"/> to automatically
-/// register the provider with the application under test.
 /// </summary>
+/// <typeparam name="TEntryPoint">The application entry point type.</typeparam>
 [Fixture]
-public class FakeLoggerFixture : IDisposable
+public class FakeLoggerFixture<TEntryPoint> : IDisposable
+where TEntryPoint: class
 {
     private readonly FakeLoggerProvider _provider = new();
 
@@ -20,6 +22,16 @@ public class FakeLoggerFixture : IDisposable
     /// Gets the <see cref="FakeLoggerProvider"/> as an <see cref="ILoggerProvider"/>.
     /// </summary>
     public ILoggerProvider LoggerProvider => _provider;
+
+    /// <summary>
+    /// Creates a new <see cref="FakeLoggerFixture{TEntryPoint}"/> and registers the fake logger provider
+    /// with the application under test.
+    /// </summary>
+    /// <param name="app">The application manager fixture.</param>
+    public FakeLoggerFixture(AppManagerFixture<TEntryPoint> app)
+    {
+        app.ConfigurationBuilder.UseLoggerProvider(LoggerProvider);
+    }
 
     /// <inheritdoc/>
     public void Dispose()
@@ -36,25 +48,5 @@ public class FakeLoggerFixture : IDisposable
     {
         if (disposing)
             _provider.Dispose();
-    }
-}
-
-/// <summary>
-/// Replaces the <see cref="ILoggerProvider"/> service with a <see cref="FakeLoggerProvider"/> singleton
-/// in the application under test.
-/// </summary>
-/// <typeparam name="TEntryPoint">The application entry point type.</typeparam>
-[Fixture]
-public class FakeLoggerFixture<TEntryPoint> : FakeLoggerFixture
-where TEntryPoint: class
-{
-    /// <summary>
-    /// Creates a new <see cref="FakeLoggerFixture{TEntryPoint}"/> and registers the fake logger provider
-    /// with the application under test.
-    /// </summary>
-    /// <param name="app">The application manager fixture.</param>
-    public FakeLoggerFixture(AppManagerFixture<TEntryPoint> app)
-    {
-        app.ConfigurationBuilder.UseLoggerProvider(LoggerProvider);
     }
 }

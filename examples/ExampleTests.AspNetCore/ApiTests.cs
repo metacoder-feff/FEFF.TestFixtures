@@ -1,4 +1,16 @@
-﻿using System.Net;
+﻿// ============================================================================
+// Packages to be installed
+// ============================================================================
+/*
+    dotnet add package AwesomeAssertions
+    dotnet add package AwesomeAssertions.Json
+
+    dotnet add package FEFF.TestFixtures.Xunit
+    dotnet add package FEFF.TestFixtures
+    dotnet add package FEFF.TestFixtures.AspNetCore
+*/
+
+using System.Net;
 using AwesomeAssertions;
 using AwesomeAssertions.Json; // Required for proper JSON assertions
 using FEFF.Extensions.Testing;
@@ -15,6 +27,8 @@ using Xunit.v3;
 [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
 
 //TODO: add example of AuthorizedAppClientFixture
+//TODO: add example of FakeLoggerFixture
+//TODO: add example of SignalrClientFixture + dotnet add package
 
 namespace ExampleTests.AspNetCore;
 

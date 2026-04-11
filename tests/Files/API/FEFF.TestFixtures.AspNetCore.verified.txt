@@ -1,37 +1,5 @@
 ﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/metacoder-feff/FEFF.TestFixtures")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
-namespace FEFF.Extensions.Testing
-{
-    public static class ConstRandomStrategy
-    {
-        public static FEFF.Extensions.Testing.ConstRandomStrategy<T> From<T>(T value) { }
-    }
-    public class ConstRandomStrategy<T> : FEFF.Extensions.Testing.IFakeRandomStrategy<T>
-    {
-        public ConstRandomStrategy(T value) { }
-        public T Next() { }
-    }
-    public class FakeRandom : System.Random
-    {
-        public FakeRandom() { }
-        public FEFF.Extensions.Testing.IFakeRandomStrategy<double>? DoubleStrategy { get; set; }
-        public FEFF.Extensions.Testing.IFakeRandomStrategy<long>? Int64Strategy { get; set; }
-        public FEFF.Extensions.Testing.IFakeRandomStrategy<int>? IntStrategy { get; set; }
-        public FEFF.Extensions.Testing.IFakeRandomStrategy<float>? SingleStrategy { get; set; }
-        public override int Next() { }
-        public override int Next(int maxValue) { }
-        public override int Next(int minValue, int maxValue) { }
-        public override double NextDouble() { }
-        public override long NextInt64() { }
-        public override long NextInt64(long maxValue) { }
-        public override long NextInt64(long minValue, long maxValue) { }
-        public override float NextSingle() { }
-    }
-    public interface IFakeRandomStrategy<T>
-    {
-        T Next();
-    }
-}
 namespace FEFF.TestFixtures.AspNetCore
 {
     [FEFF.TestFixtures.Fixture]
@@ -77,26 +45,21 @@ namespace FEFF.TestFixtures.AspNetCore
         Production = 1,
     }
     [FEFF.TestFixtures.Fixture]
-    public class FakeLoggerFixture : System.IDisposable
+    public class FakeLoggerFixture<TEntryPoint> : System.IDisposable
+        where TEntryPoint :  class
     {
-        public FakeLoggerFixture() { }
+        public FakeLoggerFixture(FEFF.TestFixtures.AspNetCore.AppManagerFixture<TEntryPoint> app) { }
         public Microsoft.Extensions.Logging.Testing.FakeLogCollector Collector { get; }
         public Microsoft.Extensions.Logging.ILoggerProvider LoggerProvider { get; }
         public void Dispose() { }
         protected virtual void Dispose(bool disposing) { }
     }
     [FEFF.TestFixtures.Fixture]
-    public class FakeLoggerFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.FakeLoggerFixture
-        where TEntryPoint :  class
-    {
-        public FakeLoggerFixture(FEFF.TestFixtures.AspNetCore.AppManagerFixture<TEntryPoint> app) { }
-    }
-    [FEFF.TestFixtures.Fixture]
     public class FakeRandomFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.IFakeRandomFixture
         where TEntryPoint :  class
     {
         public FakeRandomFixture(FEFF.TestFixtures.AspNetCore.AppManagerFixture<TEntryPoint> app) { }
-        public FEFF.Extensions.Testing.FakeRandom Value { get; }
+        public FEFF.TestFixtures.AspNetCore.Randomness.FakeRandom Value { get; }
     }
     [FEFF.TestFixtures.Fixture]
     public class FakeTimeFixture<TEntryPoint> : FEFF.TestFixtures.AspNetCore.IFakeTimeFixture
@@ -125,7 +88,7 @@ namespace FEFF.TestFixtures.AspNetCore
     }
     public interface IFakeRandomFixture
     {
-        FEFF.Extensions.Testing.FakeRandom Value { get; }
+        FEFF.TestFixtures.AspNetCore.Randomness.FakeRandom Value { get; }
     }
     public interface IFakeTimeFixture
     {
@@ -152,16 +115,76 @@ namespace FEFF.TestFixtures.AspNetCore
 namespace FEFF.TestFixtures.AspNetCore.Preview
 {
     [FEFF.TestFixtures.Fixture]
-    public sealed class AuthorizedAppClientFixture<TEntryPoint, TOptions> : FEFF.TestFixtures.AspNetCore.IAppClientFixture, System.IAsyncDisposable
+    public sealed class AuthorizedAppClientFixture<TEntryPoint, TOptions> : FEFF.TestFixtures.AspNetCore.IAppClientFixture, System.IDisposable
         where TEntryPoint :  class
         where TOptions : FEFF.TestFixtures.AspNetCore.Preview.IAuthorizedClientFixtureOptions
     {
         public AuthorizedAppClientFixture(FEFF.TestFixtures.AspNetCore.AppManagerFixture<TEntryPoint> app, TOptions opts) { }
         public System.Net.Http.HttpClient LazyValue { get; }
-        public System.Threading.Tasks.ValueTask DisposeAsync() { }
+        public void Dispose() { }
     }
     public interface IAuthorizedClientFixtureOptions
     {
         string GetJwt();
+    }
+}
+namespace FEFF.TestFixtures.AspNetCore.Randomness
+{
+    public class FakeRandom : System.Random
+    {
+        public FakeRandom() { }
+        public FEFF.TestFixtures.AspNetCore.Randomness.INextStrategy<byte>? ByteNext { get; set; }
+        public FEFF.TestFixtures.AspNetCore.Randomness.INextStrategy<double>? DoubleNext { get; set; }
+        public FEFF.TestFixtures.AspNetCore.Randomness.INextStrategy<int>? Int32Next { get; set; }
+        public FEFF.TestFixtures.AspNetCore.Randomness.INextStrategy<long>? Int64Next { get; set; }
+        public FEFF.TestFixtures.AspNetCore.Randomness.INormalizationStrategy NormalizationStrategy { get; set; }
+        public FEFF.TestFixtures.AspNetCore.Randomness.INextStrategy<float>? SingleNext { get; set; }
+        public override int Next() { }
+        public override int Next(int maxValue) { }
+        public override int Next(int minValue, int maxValue) { }
+        public override void NextBytes(System.Span<byte> buffer) { }
+        public override void NextBytes(byte[] buffer) { }
+        public override double NextDouble() { }
+        public override long NextInt64() { }
+        public override long NextInt64(long maxValue) { }
+        public override long NextInt64(long minValue, long maxValue) { }
+        public override float NextSingle() { }
+    }
+    public static class FixedNextStrategy
+    {
+        public static FEFF.TestFixtures.AspNetCore.Randomness.FixedNextStrategy<T> From<T>(T value) { }
+    }
+    public class FixedNextStrategy<T> : FEFF.TestFixtures.AspNetCore.Randomness.INextStrategy<T>
+    {
+        public FixedNextStrategy(T value) { }
+        public T Value { get; set; }
+        public T Next() { }
+    }
+    public interface INextStrategy<T>
+    {
+        T Next();
+    }
+    public interface INormalizationStrategy
+    {
+        double NormalizeDouble(double next);
+        int NormalizeI32(int next, int min, int max);
+        long NormalizeI64(long next, long min, long max);
+        float NormalizeSingle(float next);
+    }
+    public class ReturnAsIsNormalization : FEFF.TestFixtures.AspNetCore.Randomness.INormalizationStrategy
+    {
+        public ReturnAsIsNormalization() { }
+        public double NormalizeDouble(double next) { }
+        public int NormalizeI32(int next, int min, int max) { }
+        public long NormalizeI64(long next, long min, long max) { }
+        public float NormalizeSingle(float next) { }
+    }
+    public class ThrowNormalization : FEFF.TestFixtures.AspNetCore.Randomness.INormalizationStrategy
+    {
+        public ThrowNormalization() { }
+        public double NormalizeDouble(double next) { }
+        public int NormalizeI32(int next, int min, int max) { }
+        public long NormalizeI64(long next, long min, long max) { }
+        public float NormalizeSingle(float next) { }
     }
 }
