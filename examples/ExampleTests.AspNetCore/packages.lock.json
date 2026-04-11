@@ -18,6 +18,39 @@
           "Newtonsoft.Json": "13.0.1"
         }
       },
+      "FEFF.TestFixtures.AspNetCore": {
+        "type": "Direct",
+        "requested": "[1.3.5, )",
+        "resolved": "1.3.5",
+        "contentHash": "4CxMtWWFueQ++2G9wZh58fbius/OduaAcr9etFXVJEfq6iVmrHcZXGXeNsrm4QCh3xDxxyKn6jwZ8qSQht9A+g==",
+        "dependencies": {
+          "FEFF.TestFixtures": "1.3.5",
+          "Microsoft.AspNetCore.Mvc.Testing": "10.0.5",
+          "Microsoft.Extensions.Diagnostics.Testing": "10.4.0",
+          "Microsoft.Extensions.TimeProvider.Testing": "10.4.0"
+        }
+      },
+      "FEFF.TestFixtures.AspNetCore.EF": {
+        "type": "Direct",
+        "requested": "[1.3.5, )",
+        "resolved": "1.3.5",
+        "contentHash": "+GRB6g4W4qW5xBS8OiNdgqk90qd9dsI2tCA+BGaprdRz5HT4r20RDzLPPNn3VqmIquphyvaQ+xxMeLCrjKT2tw==",
+        "dependencies": {
+          "FEFF.TestFixtures.AspNetCore": "1.3.5",
+          "Microsoft.EntityFrameworkCore": "10.0.5"
+        }
+      },
+      "FEFF.TestFixtures.XunitV3": {
+        "type": "Direct",
+        "requested": "[1.3.5, )",
+        "resolved": "1.3.5",
+        "contentHash": "ZCRbWa8JX+gymVmBlTp9HtdtHbcMUUPnKeQacTE5n7R+tt1rBieP59v0Oqyh8HYmaxFOtwrCXihfKdm5r1KcXQ==",
+        "dependencies": {
+          "FEFF.TestFixtures": "1.3.5",
+          "FEFF.TestFixtures.Engine": "1.3.5",
+          "xunit.v3.extensibility.core": "3.2.2"
+        }
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[18.4.0, )",
@@ -41,6 +74,36 @@
         "contentHash": "L+4/4y0Uqcg8/d6hfnxhnwh4j9FaeULvefTwrk30rr1o4n/vdPfyUQ8k0yzH8VJx7bmFEkDdcRfbtbjEHlaYcA==",
         "dependencies": {
           "xunit.v3.mtp-v1": "[3.2.2]"
+        }
+      },
+      "FEFF.TestFixtures": {
+        "type": "Transitive",
+        "resolved": "1.3.5",
+        "contentHash": "OuQtX9KB8Uvu9Cj/J4BEGlE9KV/jxbuR3tMqm5EG5TiokuKG6zhzanmFPNU/gkchQmLjo3NZcQ4nfgBmYMrJjw==",
+        "dependencies": {
+          "FEFF.TestFixtures.Abstractions": "1.3.5",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.5"
+        }
+      },
+      "FEFF.TestFixtures.Abstractions": {
+        "type": "Transitive",
+        "resolved": "1.3.5",
+        "contentHash": "8Ty4+MAd8hWp9Ue6zItWr6da8yGBtgRdG/tqh4eC00zVdmAhcyDAyShkIKspSc/mFEehjxf39KVyx8UhcAkyaQ==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "10.0.5"
+        }
+      },
+      "FEFF.TestFixtures.Engine": {
+        "type": "Transitive",
+        "resolved": "1.3.5",
+        "contentHash": "Msw6BvCqY6zwLrRXfazcSIyua393gf4F1oHOOEchFzpnJfy2ThOUitHaj568O+O40orG3kUMwuq6+1r4qqd1PA==",
+        "dependencies": {
+          "FEFF.TestFixtures.Abstractions": "1.3.5",
+          "Microsoft.Extensions.Configuration.EnvironmentVariables": "10.0.5",
+          "Microsoft.Extensions.DependencyInjection": "10.0.5",
+          "Microsoft.Extensions.Options": "10.0.5",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.5",
+          "System.Reflection.MetadataLoadContext": "10.0.5"
         }
       },
       "Microsoft.ApplicationInsights": {
@@ -596,54 +659,6 @@
         "dependencies": {
           "xunit.v3.extensibility.core": "[3.2.2]",
           "xunit.v3.runner.common": "[3.2.2]"
-        }
-      },
-      "feff.testfixtures": {
-        "type": "Project",
-        "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.3.5, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
-        }
-      },
-      "feff.testfixtures.abstractions": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection": "[10.0.5, )"
-        }
-      },
-      "feff.testfixtures.aspnetcore": {
-        "type": "Project",
-        "dependencies": {
-          "FEFF.TestFixtures": "[1.3.5, )",
-          "Microsoft.AspNetCore.Mvc.Testing": "[10.0.5, )",
-          "Microsoft.Extensions.Diagnostics.Testing": "[10.4.0, )",
-          "Microsoft.Extensions.TimeProvider.Testing": "[10.4.0, )"
-        }
-      },
-      "feff.testfixtures.aspnetcore.ef": {
-        "type": "Project",
-        "dependencies": {
-          "FEFF.TestFixtures.AspNetCore": "[1.3.5, )",
-          "Microsoft.EntityFrameworkCore": "[10.0.5, )"
-        }
-      },
-      "feff.testfixtures.engine": {
-        "type": "Project",
-        "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.3.5, )",
-          "Microsoft.Extensions.Configuration.EnvironmentVariables": "[10.0.5, )",
-          "Microsoft.Extensions.DependencyInjection": "[10.0.5, )",
-          "Microsoft.Extensions.Options": "[10.0.5, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )",
-          "System.Reflection.MetadataLoadContext": "[10.0.5, )"
-        }
-      },
-      "feff.testfixtures.xunitv3": {
-        "type": "Project",
-        "dependencies": {
-          "FEFF.TestFixtures": "[1.3.5, )",
-          "FEFF.TestFixtures.Engine": "[1.3.5, )",
-          "xunit.v3.extensibility.core": "[3.2.2, )"
         }
       },
       "webapitestsubject": {

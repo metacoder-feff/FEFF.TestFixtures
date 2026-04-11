@@ -31,6 +31,9 @@ internal sealed class AssemblyTestTracker : IAsyncDisposable
             throw new InvalidOperationException("Another value exists in 'TestContext.KeyValueStorage'.");
     }
 
+    /// <summary>
+    /// Disposes the fixture manager and removes it from the test context storage.
+    /// </summary>
     public ValueTask DisposeAsync()
     {
         var ctx = TestContext.Current;
@@ -42,6 +45,11 @@ internal sealed class AssemblyTestTracker : IAsyncDisposable
         return Container.DisposeAsync();
     }
 
+    /// <summary>
+    /// Gets or creates a scoped fixture container for the specified identifier.
+    /// </summary>
+    /// <param name="id">A unique identifier for the scope.</param>
+    /// <returns>An <see cref="IFixtureScope"/> for the given scope.</returns>
     public IFixtureScope GetScope(string id)
     {
         return Container.GetScope(id);

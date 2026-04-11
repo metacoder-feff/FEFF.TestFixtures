@@ -11,13 +11,13 @@ namespace FEFF.TestFixtures.TUnit
     }
     public static class GlobalHooksExtension
     {
-        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Assembly, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 93)]
+        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Assembly, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 133)]
         public static System.Threading.Tasks.Task AfterA(TUnit.Core.AssemblyHookContext ctx) { }
-        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Class, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 86)]
+        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Class, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 123)]
         public static System.Threading.Tasks.Task AfterC(TUnit.Core.ClassHookContext ctx) { }
-        [TUnit.Core.After(TUnit.Core.HookType.TestSession, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 101)]
+        [TUnit.Core.After(TUnit.Core.HookType.TestSession, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 144)]
         public static System.Threading.Tasks.Task AfterS(TUnit.Core.TestSessionContext ctx) { }
-        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Test, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 79)]
+        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Test, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 113)]
         public static System.Threading.Tasks.Task AfterT(TUnit.Core.TestContext ctx) { }
         public static T GetFeffFixture<T>(this TUnit.Core.TestContext ctx, FEFF.TestFixtures.TUnit.FixtureScopeType scopeType = 0)
             where T :  notnull { }

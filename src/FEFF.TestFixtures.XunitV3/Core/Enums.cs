@@ -1,3 +1,24 @@
 namespace FEFF.TestFixtures.Xunit;
 
-public enum FixtureScopeType { TestCase, Class, Collection, Assembly };
+/// <summary>
+/// Defines the lifetime scope for a fixture in xUnit v3 tests.
+/// </summary>
+public enum FixtureScopeType
+{
+    /// <summary>
+    /// The fixture is scoped to an individual test case.
+    /// </summary>
+    TestCase,
+    /// <summary>
+    /// The fixture is scoped to a test class.
+    /// </summary>
+    Class,
+    /// <summary>
+    /// The fixture is scoped to a test collection.
+    /// </summary>
+    Collection,
+    /// <summary>
+    /// The fixture is scoped to the entire test assembly.
+    /// </summary>
+    Assembly
+};

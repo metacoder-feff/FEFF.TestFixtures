@@ -2,8 +2,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Engine;
 
+/// <summary>
+/// Provides access to fixtures within a specific scope.
+/// </summary>
 public interface IFixtureScope
 {
+    /// <summary>
+    /// Resolves the fixture of type <typeparamref name="T"/> from the current scope.
+    /// </summary>
+    /// <typeparam name="T">The type of fixture to resolve.</typeparam>
+    /// <returns>The resolved fixture instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no fixture of type <typeparamref name="T"/> is registered.</exception>
     T GetFixture<T>() where T : notnull;
 }
 
@@ -40,6 +49,13 @@ public sealed class FixtureManager : IAsyncDisposable
         _provider = options.BuildServiceProvider();
     }
 
+    /// <summary>
+    /// Gets or creates a scoped fixture container for the specified identifier.
+    /// </summary>
+    /// <param name="id">A unique identifier for the scope.</param>
+    /// <returns>An <see cref="IFixtureScope"/> for the given scope.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is null or empty.</exception>
+    /// <exception cref="ObjectDisposedException">Thrown when the manager has been disposed.</exception>
     public IFixtureScope GetScope(string id)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
@@ -65,6 +81,9 @@ public sealed class FixtureManager : IAsyncDisposable
         return new FixtureScope(_provider);
     }
 
+    /// <summary>
+    /// Disposes the manager and all cached fixture scopes asynchronously.
+    /// </summary>
     public ValueTask DisposeAsync()
     {
         List<IAsyncDisposable> disposables;
@@ -80,6 +99,11 @@ public sealed class FixtureManager : IAsyncDisposable
         return DisposeHelper.DisposeAsync(disposables);
     }
 
+    /// <summary>
+    /// Disposes and removes a specific fixture scope by its identifier.
+    /// </summary>
+    /// <param name="scopeId">The identifier of the scope to remove.</param>
+    /// <returns>A <see cref="ValueTask"/> representing the asynchronous disposal operation.</returns>
     public ValueTask RemoveScopeAsync(string scopeId)
     {
         FixtureScope scope;

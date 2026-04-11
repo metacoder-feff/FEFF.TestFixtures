@@ -9,5 +9,8 @@ namespace FEFF.TestFixtures;
 [Fixture]
 public class TmpScopeIdFixture
 {
+    /// <summary>
+    /// Gets the unique identifier string for this fixture instance.
+    /// </summary>
     public string Value { get; } = Guid.NewGuid().ToString();
 }

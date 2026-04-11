@@ -3,9 +3,33 @@ using FEFF.Extensions;
 namespace FEFF.TestFixtures.TUnit;
 using Engine;
 
-public enum FixtureScopeType { TestCase, Class, Assembly, Session };
+/// <summary>
+/// Defines the lifetime scope for a fixture in TUnit tests.
+/// </summary>
+public enum FixtureScopeType
+{
+    /// <summary>
+    /// The fixture is scoped to an individual test case.
+    /// </summary>
+    TestCase,
+    /// <summary>
+    /// The fixture is scoped to a test class.
+    /// </summary>
+    Class,
+    /// <summary>
+    /// The fixture is scoped to a test assembly.
+    /// </summary>
+    Assembly,
+    /// <summary>
+    /// The fixture is scoped to the entire test session.
+    /// </summary>
+    Session
+};
 
-// ctor/dispose not called without tests
+/// <summary>
+/// Provides TUnit integration hooks for the FEFF.TestFixtures framework.
+/// Automatically manages fixture lifecycles across test, class, assembly, and session scopes.
+/// </summary>
 public static class GlobalHooksExtension
 {
 //TODO: multiple sessions???
@@ -19,6 +43,13 @@ public static class GlobalHooksExtension
 #endif
     private static volatile FixtureManager? _manager;
 
+    /// <summary>
+    /// Resolves a fixture from the specified scope within the test context.
+    /// </summary>
+    /// <typeparam name="T">The type of fixture to resolve.</typeparam>
+    /// <param name="ctx">The current TUnit test context.</param>
+    /// <param name="scopeType">The lifetime scope for the fixture. Defaults to <see cref="FixtureScopeType.TestCase"/>.</param>
+    /// <returns>The resolved fixture instance.</returns>
     public static T GetFeffFixture<T>(this TestContext ctx, FixtureScopeType scopeType = FixtureScopeType.TestCase)
     where T : notnull
     {
@@ -76,6 +107,9 @@ public static class GlobalHooksExtension
         return manager.RemoveScopeAsync(id);
     }
 
+    /// <summary>
+    /// TUnit hook executed after every test case. Disposes the test-case-scoped fixtures.
+    /// </summary>
     [AfterEvery(Test)]
     public async static Task AfterT(TestContext ctx)
     {
@@ -83,6 +117,9 @@ public static class GlobalHooksExtension
         await RemoveScope(_manager, id).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// TUnit hook executed after every test class. Disposes the class-scoped fixtures.
+    /// </summary>
     [AfterEvery(Class)]
     public async static Task AfterC(ClassHookContext ctx)
     {
@@ -90,6 +127,9 @@ public static class GlobalHooksExtension
         await RemoveScope(_manager, id).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// TUnit hook executed after every test assembly. Disposes the assembly-scoped fixtures.
+    /// </summary>
     [AfterEvery(Assembly)]
     public async static Task AfterA(AssemblyHookContext ctx)
     {
@@ -97,7 +137,10 @@ public static class GlobalHooksExtension
         await RemoveScope(_manager, id).ConfigureAwait(false);
     }
 
-    // Dispose _manager here.
+    /// <summary>
+    /// TUnit hook executed after the test session. Disposes the session-scoped fixture
+    /// and the underlying <see cref="FixtureManager"/>.
+    /// </summary>
     [After(TestSession)]
     public async static Task AfterS(TestSessionContext ctx)
     {
