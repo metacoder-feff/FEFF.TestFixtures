@@ -1,29 +1,29 @@
 ﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/metacoder-feff/FEFF.TestFixtures")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
-namespace FEFF.TestFixtures.AspNetCore.Preview
+namespace FEFF.TestFixtures.AspNetCore.SignalR
 {
     public interface ISignalrClientFixture
     {
-        FEFF.TestFixtures.AspNetCore.Preview.SignalrTestClient LazyValue { get; }
+        FEFF.TestFixtures.AspNetCore.SignalR.SignalrTestClient LazyValue { get; }
     }
     public interface ISignalrClientFixtureOptions
     {
         string SignalrApiPath { get; }
         string? GetJwt();
     }
-    public class ServerEvent : System.IEquatable<FEFF.TestFixtures.AspNetCore.Preview.ServerEvent>
+    public class ServerEvent : System.IEquatable<FEFF.TestFixtures.AspNetCore.SignalR.ServerEvent>
     {
         public ServerEvent(string? Method, object?[] Args) { }
         public object?[] Args { get; init; }
         public string? Method { get; init; }
     }
     [FEFF.TestFixtures.Fixture]
-    public sealed class SignalrClientFixture<TEntryPoint, TOptions> : FEFF.TestFixtures.AspNetCore.Preview.ISignalrClientFixture, System.IAsyncDisposable
+    public sealed class SignalrClientFixture<TEntryPoint, TOptions> : FEFF.TestFixtures.AspNetCore.SignalR.ISignalrClientFixture, System.IAsyncDisposable
         where TEntryPoint :  class
-        where TOptions : FEFF.TestFixtures.AspNetCore.Preview.ISignalrClientFixtureOptions
+        where TOptions : FEFF.TestFixtures.AspNetCore.SignalR.ISignalrClientFixtureOptions
     {
         public SignalrClientFixture(FEFF.TestFixtures.AspNetCore.AppManagerFixture<TEntryPoint> app, TOptions opts) { }
-        public FEFF.TestFixtures.AspNetCore.Preview.SignalrTestClient LazyValue { get; }
+        public FEFF.TestFixtures.AspNetCore.SignalR.SignalrTestClient LazyValue { get; }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
     }
     public sealed class SignalrTestClient : System.IAsyncDisposable
@@ -31,10 +31,10 @@ namespace FEFF.TestFixtures.AspNetCore.Preview
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
         public System.Threading.Tasks.Task StartAsync() { }
         public void Subscribe(string expectedMethodName, int expectedArgsCount) { }
-        public System.Threading.Tasks.Task<FEFF.TestFixtures.AspNetCore.Preview.ServerEvent?> WaitForEvent(System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken) { }
+        public System.Threading.Tasks.Task<FEFF.TestFixtures.AspNetCore.SignalR.ServerEvent?> WaitForEvent(System.TimeSpan timeout, System.Threading.CancellationToken cancellationToken) { }
     }
     public static class TestServerExtensions
     {
-        public static FEFF.TestFixtures.AspNetCore.Preview.SignalrTestClient CreateSignalRClient(this Microsoft.AspNetCore.TestHost.TestServer server, string url, string? token = null) { }
+        public static FEFF.TestFixtures.AspNetCore.SignalR.SignalrTestClient CreateSignalRClient(this Microsoft.AspNetCore.TestHost.TestServer server, string url, string? token = null) { }
     }
 }

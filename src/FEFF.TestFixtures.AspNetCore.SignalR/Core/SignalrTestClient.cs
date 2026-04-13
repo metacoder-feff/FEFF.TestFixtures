@@ -1,34 +1,8 @@
 ﻿using System.Threading.Channels;
+using FEFF.Extensions.Threading;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace FEFF.TestFixtures.AspNetCore.Preview;
-//TODO FEFF.Extensions.Threading;
-
-internal static class ChannelExtensions
-{
-    public static async Task<T?> TryReadAsync<T>(this ChannelReader<T> src, TimeSpan timeout, CancellationToken cancellationToken)
-    where T : notnull
-    {
-        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(timeout);
-
-        var timeoutToken = timeoutCts.Token;
-        
-        try
-        {
-            return await src.ReadAsync(timeoutToken);
-        }
-        catch (OperationCanceledException e) 
-        when (e.CancellationToken == timeoutToken 
-            && timeoutCts.IsCancellationRequested == true
-            && cancellationToken.IsCancellationRequested == false)
-        {
-            return default;
-        }
-    }
-}
-
-//TODO FEFF.Extensions.Testing.SignalR;
+namespace FEFF.TestFixtures.AspNetCore.SignalR;
 
 /// <summary>
 /// A test client for SignalR hubs that captures server-sent events for verification.

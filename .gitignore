@@ -2,6 +2,9 @@
 # 0. Customizations
 ###########################################################################
 
+.qwen/settings.json
+.qwen/settings.json.orig
+
 **/tmp/
 *[Ss]ecrets.json
 *[Ss]ecrets.env

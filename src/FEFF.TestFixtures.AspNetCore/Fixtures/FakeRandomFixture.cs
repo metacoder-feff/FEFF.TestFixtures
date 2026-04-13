@@ -1,4 +1,4 @@
-using FEFF.Extensions.Testing;
+using FEFF.TestFixtures.AspNetCore.Randomness;
 
 namespace FEFF.TestFixtures.AspNetCore;
 

@@ -1,5 +1,6 @@
 namespace FEFF.TestFixtures.AspNetCore.Preview;
 //TODO: add test
+//TODO: subtype of AppClientFixture??
 
 /// <summary>
 /// Contract for configuration options for <see cref="AuthorizedAppClientFixture{TEntryPoint, TOptions}"/>.
@@ -19,7 +20,7 @@ public interface IAuthorizedClientFixtureOptions
 /// <typeparam name="TEntryPoint">The application entry point type.</typeparam>
 /// <typeparam name="TOptions">The options type implementing <see cref="IAuthorizedClientFixtureOptions"/>.</typeparam>
 [Fixture]
-public sealed class AuthorizedAppClientFixture<TEntryPoint, TOptions> : IAsyncDisposable, IAppClientFixture
+public sealed class AuthorizedAppClientFixture<TEntryPoint, TOptions> : IDisposable, IAppClientFixture
 where TEntryPoint : class
 where TOptions : IAuthorizedClientFixtureOptions
 {
@@ -56,11 +57,9 @@ where TOptions : IAuthorizedClientFixtureOptions
     }
 
     /// <inheritdoc/>
-    public ValueTask DisposeAsync()
+    public void Dispose()
     {
         if(_client.IsValueCreated)
             _client.Value.Dispose();
-
-        return ValueTask.CompletedTask;
     }
 }

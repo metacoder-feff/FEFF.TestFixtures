@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FEFF.TestFixtures.AspNetCore;
+namespace FEFF.TestFixtures.AspNetCore.EF;
 
 /// <summary>
 /// Defines the contract for managing database lifecycle during tests.

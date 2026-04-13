@@ -1,4 +1,4 @@
-using FEFF.Extensions.Testing;
+using FEFF.TestFixtures.AspNetCore.Randomness;
 using Newtonsoft.Json.Linq;
 using WebApiTestSubject;
 
@@ -18,7 +18,7 @@ public class FakeRandomFixtureTests
     public async Task Fixture__should_make_api_to_respond__with(int randValue)
     {
         // FakeRandom singleton object can be updated at any moment of test
-        FakeRandom.IntStrategy = ConstRandomStrategy.From(randValue);
+        FakeRandom.Int32Next = FixedNextStrategy.From(randValue);
 
         var resp = await Client.LazyValue.GetAsync("/weatherforecast/random", TestContext.Current.CancellationToken);
         resp.StatusCode.Should().Be(HttpStatusCode.OK);

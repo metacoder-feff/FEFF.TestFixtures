@@ -1,9 +1,9 @@
 ﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/metacoder-feff/FEFF.TestFixtures")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
-namespace FEFF.TestFixtures.AspNetCore
+namespace FEFF.TestFixtures.AspNetCore.EF
 {
     [FEFF.TestFixtures.Fixture]
-    public sealed class DatabaseLifecycleFixture<TEntryPoint, TContext> : FEFF.TestFixtures.AspNetCore.IDatabaseLifecycleFixture, System.IAsyncDisposable
+    public sealed class DatabaseLifecycleFixture<TEntryPoint, TContext> : FEFF.TestFixtures.AspNetCore.EF.IDatabaseLifecycleFixture, System.IAsyncDisposable
         where TEntryPoint :  class
         where TContext : Microsoft.EntityFrameworkCore.DbContext
     {

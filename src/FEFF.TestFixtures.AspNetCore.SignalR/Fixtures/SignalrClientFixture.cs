@@ -1,4 +1,4 @@
-namespace FEFF.TestFixtures.AspNetCore.Preview;
+namespace FEFF.TestFixtures.AspNetCore.SignalR;
 
 /// <summary>
 /// Contract for configuration options for <see cref="SignalrClientFixture{TEntryPoint, TOptions}"/>.

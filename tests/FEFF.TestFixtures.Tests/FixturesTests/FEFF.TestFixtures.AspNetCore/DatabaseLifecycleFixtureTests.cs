@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebApiTestSubject;
 
-namespace FEFF.TestFixtures.AspNetCore.Tests;
+namespace FEFF.TestFixtures.AspNetCore.EF.Tests;
 
 public class DatabaseLifecycleFixtureTests
 {
