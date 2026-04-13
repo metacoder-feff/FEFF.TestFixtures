@@ -44,7 +44,7 @@ namespace ExampleTests.AspNetCore;
 /// be redirected to temporary databases.
 /// </summary>
 [Fixture]
-public class OptionsFixture: ITmpDatabaseNameFixtureOptions
+public class OptionsFixture : ITmpDatabaseNameFixtureOptions
 {
     public IReadOnlyCollection<string> ConnectionStringNames => [Program.ConnectionStringName];
 }
@@ -93,7 +93,7 @@ public class ApiTests
     // These properties provide quick access to commonly-used fixture components,
     // reducing verbosity in test methods.
     // ============================================================================
-    
+
     /// <summary>
     /// Provides a FakeRandom instance that replaces the application's Random service.
     /// Allows configuration of random strategies (e.g., ConstRandomStrategy) to produce
@@ -101,31 +101,31 @@ public class ApiTests
     /// Useful for testing code that depends on random number generation.
     /// </summary>
     protected FakeRandom AppRandom => FixtureSet.FakeRandomFx.Value;
-    
+
     /// <summary>
     /// Provides a fake time provider that can be manipulated to return a specific instant
     /// to the tested application.
     /// </summary>
     protected FakeTimeProvider AppTime => FixtureSet.FakeTimeFx.Value;
-    
+
     /// <summary>
     /// Allows configuration of the test application before it starts.
     /// Can be used to set environment variables, update DI container, etc.
     /// </summary>
     protected IAppConfigurator AppConfigurationBuilder => FixtureSet.AppManagerFx.ConfigurationBuilder;
-    
+
     /// <summary>
     /// Interface for ensuring the database is created.
     /// Call EnsureCreatedAsync() before or during tests that require a fresh database.
     /// The database would be deleted automatically after the test.
     /// </summary>
     protected IDatabaseLifecycleFixture EnsureDbFx => FixtureSet.EnsureDbFx;
-    
+
     /// <summary>
     /// HTTP client for making requests to the test application's API endpoints.
     /// </summary>
     protected HttpClient Client => FixtureSet.ClientFx.LazyValue;
-    
+
     /// <summary>
     /// Direct access to the application's DbContext for database assertions/manipulations.
     /// </summary>
@@ -189,7 +189,7 @@ public class ApiTests
         // Change TestApp configuration before it starts
         // UseSetting modifies the appsettings configuration with the specified key-value pair
         // UseSetting is an extension method
-        if(envVarValue != null)
+        if (envVarValue != null)
             AppConfigurationBuilder.UseSetting("summary", envVarValue);
 
         // Making the first request builds and starts the application

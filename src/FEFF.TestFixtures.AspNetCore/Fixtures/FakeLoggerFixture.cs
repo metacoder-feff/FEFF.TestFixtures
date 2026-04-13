@@ -5,12 +5,12 @@ namespace FEFF.TestFixtures.AspNetCore;
 /// <summary>
 /// Replaces the <see cref="ILoggerProvider"/> service with a <see cref="FakeLoggerProvider"/> 
 /// singleton in the application under test.
-/// Provides a <see cref="FakeLoggerProvider"/> for capturing log output in tests.
+/// Provides a <see cref="FakeLogCollector"/> for exploring captured application log output in tests.
 /// </summary>
 /// <typeparam name="TEntryPoint">The application entry point type.</typeparam>
 [Fixture]
 public class FakeLoggerFixture<TEntryPoint> : IDisposable
-where TEntryPoint: class
+where TEntryPoint : class
 {
     private readonly FakeLoggerProvider _provider = new();
 
@@ -18,6 +18,7 @@ where TEntryPoint: class
     /// Gets the collector for retrieving captured log entries.
     /// </summary>
     public FakeLogCollector Collector => _provider.Collector;
+
     /// <summary>
     /// Gets the <see cref="FakeLoggerProvider"/> as an <see cref="ILoggerProvider"/>.
     /// </summary>
@@ -43,7 +44,7 @@ where TEntryPoint: class
     /// <summary>
     /// Releases the resources used by the fixture.
     /// </summary>
-    /// <param name="disposing"><c>true</c> if disposing managed resources.</param>
+    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
     protected virtual void Dispose(bool disposing)
     {
         if (disposing)

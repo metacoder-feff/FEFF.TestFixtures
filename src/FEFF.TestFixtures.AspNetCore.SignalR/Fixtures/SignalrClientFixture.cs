@@ -1,7 +1,7 @@
 namespace FEFF.TestFixtures.AspNetCore.SignalR;
 
 /// <summary>
-/// Contract for configuration options for <see cref="SignalrClientFixture{TEntryPoint, TOptions}"/>.
+/// Defines the contract for configuration options for <see cref="SignalrClientFixture{TEntryPoint, TOptions}"/>.
 /// </summary>
 public interface ISignalrClientFixtureOptions
 {
@@ -9,9 +9,11 @@ public interface ISignalrClientFixtureOptions
     /// Gets the SignalR hub endpoint path (e.g., "/hub/chat").
     /// </summary>
     string SignalrApiPath { get; }
+
     /// <summary>
     /// Returns a JWT token for authenticating the SignalR connection, or <c>null</c> for anonymous access.
     /// </summary>
+    /// <returns>The JWT token string, or <c>null</c> for anonymous access.</returns>
     string? GetJwt();
 }
 
@@ -24,7 +26,7 @@ public interface ISignalrClientFixture
     /// Gets the lazily-created SignalR test client.
     /// </summary>
     /// <remarks>
-    /// Starts the application being tested.
+    /// Starting the application being tested occurs on first access to <see cref="AppManagerFixture{TEntryPoint}.LazyApplication"/>.
     /// </remarks>
     SignalrTestClient LazyValue { get; }
 }

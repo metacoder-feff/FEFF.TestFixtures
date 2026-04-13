@@ -4,7 +4,7 @@ public class ReturnAsIsNormalizationOutOfBoundsTests
 {
     protected FakeRandom Rand { get; } = new()
     {
-        NormalizationStrategy = new ReturnAsIsNormalization(),  
+        NormalizationStrategy = new ReturnAsIsNormalization(),
     };
 
     #region int-32

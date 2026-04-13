@@ -12,10 +12,10 @@ public class AppManagerFixtureBasicTests
     {
         // Pre-assert
         App.IsStarted.Should().BeFalse();
-        
+
         // Act
         _ = App.LazyApplication;
-        
+
         // Assert
         App.IsStarted.Should().BeTrue();
     }

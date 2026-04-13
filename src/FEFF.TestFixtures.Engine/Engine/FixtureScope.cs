@@ -15,12 +15,12 @@ internal sealed class FixtureScope : IAsyncDisposable, IFixtureScope
 
     public ValueTask DisposeAsync()
     {
-        if(_isDisposed)
+        if (_isDisposed)
             return ValueTask.CompletedTask;
 
         _isDisposed = true;
 
-//TODO: remove in version 11+
+        //TODO: remove in version 11+
         return ScopeDisposeWorkaround.DisposeAsync(_serviceScope);
         //return _serviceScope.DisposeAsync();
     }
@@ -43,15 +43,15 @@ internal static class ScopeDisposeWorkaround
         return scope.DisposeAsync();
     }
 #else
-    private static readonly Lazy<bool> __isVersion11OrGreater = new ( () =>
-    {   
+    private static readonly Lazy<bool> __isVersion11OrGreater = new(() =>
+    {
         var assembly = AppDomain.CurrentDomain
             .GetAssemblies()
             .SingleOrDefault(x => x.GetName().Name == "Microsoft.Extensions.DependencyInjection")
             ;
 
         var ver = assembly?.GetName().Version;
-        if(ver == null)
+        if (ver == null)
             return false;
 
         return ver.Major >= 11;
@@ -65,7 +65,7 @@ internal static class ScopeDisposeWorkaround
         if (disposables == null || disposables.Count <= 0)
             return scope.DisposeAsync();
 
-        if(disposables.Count > 1)
+        if (disposables.Count > 1)
             disposables.Reverse();
 
         return DisposeHelper.DisposeAsync(disposables);
@@ -74,7 +74,7 @@ internal static class ScopeDisposeWorkaround
     private static List<object>? GetDisposables(AsyncServiceScope scope)
     {
         // if version >= 11 do not override disposing method
-        if(__isVersion11OrGreater.Value)
+        if (__isVersion11OrGreater.Value)
             return null;
 
         return scope

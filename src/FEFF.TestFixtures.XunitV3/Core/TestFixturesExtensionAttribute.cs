@@ -11,7 +11,7 @@ namespace FEFF.TestFixtures.Xunit;
 /// </summary>
 /// <remarks>
 /// Apply this attribute at the assembly level in an <c>AssemblyInfo.cs</c> or any source file:
-/// <c>[assembly: TestFixturesExtension]</c>
+/// <code>[assembly: TestFixturesExtension]</code>
 /// </remarks>
 [AttributeUsage(AttributeTargets.Assembly)]
 public class TestFixturesExtensionAttribute : Attribute, IBeforeAfterTestAttribute, IAssemblyFixtureAttribute
@@ -21,7 +21,7 @@ public class TestFixturesExtensionAttribute : Attribute, IBeforeAfterTestAttribu
 
     /// <inheritdoc/>
     /// <remarks>
-    /// 'Before' is called after TestClass ctor
+    /// Called after the test class constructor.
     /// </remarks>
     public void Before(MethodInfo methodUnderTest, IXunitTest test)
     {

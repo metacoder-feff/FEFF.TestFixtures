@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FEFF.TestFixtures.Tests;
+
 using Engine;
 
 [Fixture]

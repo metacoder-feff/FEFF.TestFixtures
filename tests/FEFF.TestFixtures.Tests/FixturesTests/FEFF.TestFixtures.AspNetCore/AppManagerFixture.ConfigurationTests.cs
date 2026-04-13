@@ -17,7 +17,7 @@ public class AppManagerFixtureConfigurationTests
     public async Task SetEnvVar__should_make_api_to_respond_with(string? envVarValue)
     {
         // change TestApp before it starts
-        if(envVarValue != null)
+        if (envVarValue != null)
             App.ConfigurationBuilder.UseSetting("summary", envVarValue);
 
         var resp = await Client.LazyValue.GetAsync("/weatherforecast/env", TestContext.Current.CancellationToken);
@@ -46,14 +46,14 @@ public class AppManagerFixtureConfigurationTests
     public async Task SetAspEnv__should_make_api_to_respond_with(AspEnvironment? envVarValue)
     {
         // change TestApp before it starts
-        if(envVarValue != null)
+        if (envVarValue != null)
             App.ConfigurationBuilder.UseAspEnvironment(envVarValue.Value);
 
         var resp = await Client.LazyValue.GetAsync("/asp-env", TestContext.Current.CancellationToken);
         resp.StatusCode.Should().Be(HttpStatusCode.OK);
         var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
 
-        if(envVarValue == AspEnvironment.Production)
+        if (envVarValue == AspEnvironment.Production)
         {
             JToken.Parse(body)
                 .Should().BeEquivalentTo(

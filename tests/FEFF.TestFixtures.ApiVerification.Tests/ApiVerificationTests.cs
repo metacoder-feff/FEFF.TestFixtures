@@ -7,7 +7,7 @@ namespace FEFF.TestFixtures.Tests;
 public class ApiVerificationTests
 {
     static ApiVerificationTests() => VerifyDiffPlex.Initialize(OutputType.Minimal);
-    
+
     [Fact]
     public Task VerifyXunit_checks_should_be_positive() => VerifyChecks.Run();
 
@@ -36,7 +36,7 @@ public class ApiVerificationTests
 
         //.UseDirectory(Path.Combine("../../../Files/ApprovedApi", libName))
         var dir = Path.GetFullPath($"../../../../Files/API");
-        if(Directory.Exists(dir) == false)
+        if (Directory.Exists(dir) == false)
             Directory.CreateDirectory(dir);
 
         var filePrefix = assemblyName;
@@ -44,6 +44,8 @@ public class ApiVerificationTests
         var t = Verifier
             .Verify(publicApi)
             .ScrubLinesContaining("InternalsVisibleTo(\"FEFF.TestFixtures.Tests\")")
+            .ScrubLinesContaining("/GlobalHooksExtension.cs")
+            .ScrubLinesWithReplace(CleanAfterAttribute)
             .UseDirectory(dir)
             .UseFileName(filePrefix)
             //.DisableDiff()
@@ -53,19 +55,39 @@ public class ApiVerificationTests
 
         return t;
     }
-    
+
+    // remove souces from
+    //[TUnit.Core.AfterEvery(TUnit.Core.HookType.Assembly, "{SolutionDirectory}src/FEFF.TestFixtures.TUnit/GlobalHooksExtension.cs", 141)]
+    private string? CleanAfterAttribute(string arg)
+    {
+        return ClearAttr(arg, "[TUnit.Core.After(TUnit.Core.HookType.")
+            ?? ClearAttr(arg, "[TUnit.Core.AfterEvery(TUnit.Core.HookType.")
+            ?? arg;
+    }
+
+    private static string? ClearAttr(string arg, string patten)
+    {
+        if (arg.Contains(patten) == false)
+            return null;
+
+        var idx = arg.IndexOf(",", StringComparison.InvariantCultureIgnoreCase);
+        if (idx < 0)
+            return null;
+
+        return arg.Substring(0, idx) + ")]";
+    }
 }
 
 //TODO: utils
 internal static class VerifyExtensions
 {
     public static bool IsCI() => BuildServerDetector.IsGitLab || BuildServerDetector.IsGithubAction;
-    
+
     public static bool IsLocalDev()
     {
 //TODO: other env
         var e = Environment.GetEnvironmentVariable("REMOTE_CONTAINERS");
-        if(e == null)
+        if (e == null)
             return false;
         return e.Equals("true", StringComparison.InvariantCultureIgnoreCase);
     }
@@ -83,7 +105,7 @@ internal static class VerifyExtensions
 
     internal static SettingsTask AutoVerifyWhenLocalDevelopment(this SettingsTask src)
     {
-        if(IsLocalDev() == false)
+        if (IsLocalDev() == false)
             return src;
 
         return src.AutoVerify();

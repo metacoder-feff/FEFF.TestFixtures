@@ -27,9 +27,9 @@ internal static class CollectionExtensions
             yield return item;
         }
     }
-    
+
     // returns 'null' only when not found. Only allowed when 'TVal : notnull'.
-    public static TVal? TryGetOrNull<TKey, TVal>(this IDictionary<TKey, TVal>src, TKey key)
+    public static TVal? TryGetOrNull<TKey, TVal>(this IDictionary<TKey, TVal> src, TKey key)
     where TVal : notnull
     {
         var b = src.TryGetValue(key, out var value);

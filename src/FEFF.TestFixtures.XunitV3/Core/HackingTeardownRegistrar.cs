@@ -33,14 +33,14 @@ internal static class HackingTeardownRegistrar
     {
         var mapping = GetFixtureMappingManager(ctx, category);
 
-        if(mapping == null)
+        if (mapping == null)
             throw new NotSupportedException($"Current version of extension does not support teardown of '{category}' scope.");
 
         var type = typeof(T);
-        if(mapping.LocalFixtureTypes.Contains(type))
+        if (mapping.LocalFixtureTypes.Contains(type))
             return;
 
-        // otherwise WaitSync() can deadlock
+        // IAsyncLifetime introduces additional async complexity
         ThrowHelper.Assert(type.Implements(typeof(IAsyncLifetime)) == false);
         mapping.InitializeAsync(type).WaitSync();
     }
@@ -54,11 +54,11 @@ internal static class HackingTeardownRegistrar
 
     private static FixtureMappingManager? MappingOrParent(FixtureMappingManager? mapping, string category)
     {
-        if(mapping == null)
+        if (mapping == null)
             return null;
 
         var cat = GetFixtureCategory(mapping);
-        if(cat != null && cat.Equals(category, StringComparison.InvariantCultureIgnoreCase))
+        if (cat != null && cat.Equals(category, StringComparison.InvariantCultureIgnoreCase))
             return mapping;
 
         var parent = GetParent(mapping);

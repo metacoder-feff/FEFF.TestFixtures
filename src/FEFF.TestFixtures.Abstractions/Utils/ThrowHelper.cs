@@ -45,11 +45,11 @@ internal static class ThrowHelper
     /// </remarks>
     /// <exception cref="InvalidOperationException"></exception>
     public static T EnsureNotNull<T>(
-        [NotNull] T? argument, 
+        [NotNull] T? argument,
         [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : notnull
     {
-        return argument 
+        return argument
             ?? throw new InvalidOperationException($"Value cannot be null. (Expression '{paramName}')");
     }
 
@@ -66,7 +66,7 @@ internal static class ThrowHelper
         {
             ArgumentNullException.ThrowIfNull(argument, paramName);
 
-            if(argument.Any() == false)
+            if (argument.Any() == false)
                 throw new ArgumentException("The value cannot be an empty collection.", paramName);
         }
 
@@ -81,65 +81,65 @@ internal static class ThrowHelper
         }
     }
 
-/* Better Alternative  'extensible' way:
-        private static void Example1()
-        {
-            ThrowHelper.Throw<ArgumentException, ArgExFactory>("123");
-        }
-
-        [DoesNotReturn]
-        public static void Throw<TException, TFactory>(string? msg)
-        where TException : Exception
-        where TFactory : IExceptionFactory<TException>
-        {
-            throw TFactory.Create(msg);
-        }
-
-        public interface IExceptionFactory<T>
-        where T : Exception
-        {
-            public static abstract T Create(string? msg);
-        }
-
-        class ArgExFactory : IExceptionFactory<ArgumentException>
-        {
-            public static ArgumentException Create(string? msg) => new(msg);
-        }
-//*/
-
-/* Alternative  'extensible' way
-        private static void Example2()
-        {
-            ThrowHelper.Argument2.ThrowIfNullOrEmpty("");
-        }
-
-        public interface IArgumentExceptionFactory
-        {
-            [DoesNotReturn]
-            void Throw(string? message, string? paramName);
-        }
-
-        public class ArgumentExceptionFactory : IArgumentExceptionFactory
-        {
-            [DoesNotReturn]
-            public void Throw(string? message, string? paramName)
+    /* Better Alternative  'extensible' way:
+            private static void Example1()
             {
-                throw new ArgumentException(message, paramName);
+                ThrowHelper.Throw<ArgumentException, ArgExFactory>("123");
             }
-        }
 
-        public static readonly ArgumentExceptionFactory Argument2 = new ();
+            [DoesNotReturn]
+            public static void Throw<TException, TFactory>(string? msg)
+            where TException : Exception
+            where TFactory : IExceptionFactory<TException>
+            {
+                throw TFactory.Create(msg);
+            }
 
-        public static void ThrowIfNullOrEmpty<T>(this IArgumentExceptionFactory src,
-            [NotNull]
-                IEnumerable<T>? argument,
-            [CallerArgumentExpression(nameof(argument))]
-                string? paramName = null)
-        {
-            ArgumentNullException.ThrowIfNull(argument, paramName);
+            public interface IExceptionFactory<T>
+            where T : Exception
+            {
+                public static abstract T Create(string? msg);
+            }
 
-            if(argument.Any() == false)
-                src.Throw("The value cannot be an empty collection.", paramName);
-        }
-//*/
+            class ArgExFactory : IExceptionFactory<ArgumentException>
+            {
+                public static ArgumentException Create(string? msg) => new(msg);
+            }
+    //*/
+
+    /* Alternative  'extensible' way
+            private static void Example2()
+            {
+                ThrowHelper.Argument2.ThrowIfNullOrEmpty("");
+            }
+
+            public interface IArgumentExceptionFactory
+            {
+                [DoesNotReturn]
+                void Throw(string? message, string? paramName);
+            }
+
+            public class ArgumentExceptionFactory : IArgumentExceptionFactory
+            {
+                [DoesNotReturn]
+                public void Throw(string? message, string? paramName)
+                {
+                    throw new ArgumentException(message, paramName);
+                }
+            }
+
+            public static readonly ArgumentExceptionFactory Argument2 = new ();
+
+            public static void ThrowIfNullOrEmpty<T>(this IArgumentExceptionFactory src,
+                [NotNull]
+                    IEnumerable<T>? argument,
+                [CallerArgumentExpression(nameof(argument))]
+                    string? paramName = null)
+            {
+                ArgumentNullException.ThrowIfNull(argument, paramName);
+
+                if(argument.Any() == false)
+                    src.Throw("The value cannot be an empty collection.", paramName);
+            }
+    //*/
 }

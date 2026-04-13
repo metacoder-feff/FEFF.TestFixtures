@@ -29,12 +29,12 @@ public sealed class SignalrTestClient : IAsyncDisposable
         ArgumentOutOfRangeException.ThrowIfLessThan(expectedArgsCount, 0);
 
         var types = Type.EmptyTypes;
-        if(expectedArgsCount > 0)
+        if (expectedArgsCount > 0)
             types = Enumerable.Repeat(typeof(object), expectedArgsCount).ToArray();
 
         _ = _connection.On(expectedMethodName, types, SignalRHandler, expectedMethodName);
 
-//TODO: handle all args?
+        //TODO: handle all args?
         // only one mapping per 'methodName' works
         // https://github.com/dotnet/aspnetcore/blob/main/src/SignalR/common/Protocols.Json/src/Protocol/JsonHubProtocol.cs#L867
         // throw new InvalidDataException($"Invocation provides {paramIndex} argument(s) but target expects {paramCount}.");

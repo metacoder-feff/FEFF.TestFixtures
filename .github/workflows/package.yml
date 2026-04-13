@@ -1,0 +1,72 @@
+name: Create NuGet Package Workflow
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+
+jobs:
+  pack:
+    name: Create NuGet Package
+    runs-on: ubuntu-latest
+
+    env:
+      NUGET_DIR: "./nupkgs"
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          TAG=${{ github.ref_name }}
+          VERSION=${TAG#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Restore dependencies
+        run: dotnet restore --use-lock-file
+
+      - name: Build
+        run: |
+          dotnet build \
+            --no-restore \
+            --configuration Release \
+            -p:ContinuousIntegrationBuild=true \
+            -p:VersionPrefix="${{ steps.version.outputs.version }}"
+
+      - name: Pack
+        run: |
+          dotnet pack                         \
+            --no-build                          \
+            --output "$NUGET_DIR"               \
+            --configuration Release             \
+            -p:ContinuousIntegrationBuild=true  \
+            -p:VersionPrefix="${{ steps.version.outputs.version }}" \
+            --version-suffix alpha
+
+      - name: Upload JOB artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: ${{ env.NUGET_DIR }}/*
+          retention-days: 14
+
+      - name: Validate
+        run: |
+          dotnet tool install --global dotnet-validate --version 0.0.1-preview.582 || echo returned non-zero
+          dotnet-validate package local "$NUGET_DIR/*"
+
+      - name: Publish to NuGet
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          dotnet nuget push "$NUGET_DIR/*.nupkg"          \
+            --api-key ${{ secrets.NUGET_API_KEY }}        \
+            --source https://api.nuget.org/v3/index.json  \
+            --skip-duplicate

@@ -1,6 +1,7 @@
 using FEFF.TestFixtures.Tests;
 
 namespace FEFF.TestFixtures.Engine.Tests;
+
 using Subjects;
 
 public class FixtureDependenciesTests : FixtureTestBase

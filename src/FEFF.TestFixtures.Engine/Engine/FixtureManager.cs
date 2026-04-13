@@ -18,11 +18,11 @@ public interface IFixtureScope
 
 internal interface IFixtureManagerOptions
 {
-    ServiceProvider BuildServiceProvider();    
+    ServiceProvider BuildServiceProvider();
 }
 
 /// <summary>
-/// This class creates, memoizes and disposes <see cref="IFixtureScope"/>.<br/>
+/// This class creates, memoizes, and disposes <see cref="IFixtureScope"/>.<br/>
 /// A user can destroy <see cref="IFixtureScope"/> either by calling <see cref="RemoveScopeAsync"/> or by <see cref="DisposeAsync"/> that disposes all resources including all cached fixture-scopes.
 /// </summary>
 /// <remarks>
@@ -36,11 +36,11 @@ public sealed class FixtureManager : IAsyncDisposable
 #if NET9_0_OR_GREATER
     private readonly Lock _lock = new(); 
 #else
-    private readonly Object _lock = new(); 
+    private readonly Object _lock = new();
 #endif
     private bool _isDisposed;
 
-//TODO: public ctor
+    //TODO: public ctor
     /// <remarks>
     /// Use <see cref="FixtureManagerBuilder"/> for instance construction.
     /// </remarks>
@@ -62,17 +62,17 @@ public sealed class FixtureManager : IAsyncDisposable
 
         // double-check: optimization
         ObjectDisposedException.ThrowIf(_isDisposed, this);
-        lock(_lock)
+        lock (_lock)
         {
             // double-check: guard
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            if(_scopes.ContainsKey(id))
+            if (_scopes.ContainsKey(id))
                 return _scopes[id];
 
             var res = CreateScope();
             _scopes[id] = res;
-            return res; 
+            return res;
         }
     }
 
@@ -107,12 +107,12 @@ public sealed class FixtureManager : IAsyncDisposable
     public ValueTask RemoveScopeAsync(string scopeId)
     {
         FixtureScope scope;
-        lock(_lock)
+        lock (_lock)
         {
-//TODO: optimize
-            if(_scopes.ContainsKey(scopeId) == false)
+            //TODO: optimize
+            if (_scopes.ContainsKey(scopeId) == false)
                 return ValueTask.CompletedTask;
-                
+
             scope = _scopes[scopeId];
             _scopes.Remove(scopeId);
         }

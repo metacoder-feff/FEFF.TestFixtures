@@ -32,6 +32,7 @@ public static class TestContextExtensions
     /// <param name="ctx">The current xUnit test context.</param>
     /// <param name="scopeType">The lifetime scope for the fixture. Defaults to <see cref="FixtureScopeType.TestCase"/>.</param>
     /// <returns>The resolved fixture instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the extension is not properly registered.</exception>
     public static T GetFeffFixture<T>(this ITestContext ctx, FixtureScopeType scopeType = FixtureScopeType.TestCase)
     where T : notnull
     {

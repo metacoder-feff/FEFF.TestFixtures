@@ -11,7 +11,7 @@ public class Infrastructure
 
     public static void Add(string s)
     {
-        _result.AddOrUpdate(s, 1, (_, prev) => prev +1);
+        _result.AddOrUpdate(s, 1, (_, prev) => prev + 1);
     }
 
     // Dispose _manager here.

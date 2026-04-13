@@ -23,10 +23,10 @@ internal static class EnvironmentHelper
 
     private static KeyValuePair<TKey, TVal>? TryMakeTyped<TKey, TVal>(DictionaryEntry src)
     {
-        if(src.Key is TKey k == false)
+        if (src.Key is TKey k == false)
             return null;
 
-        if(src.Value is TVal v == false)
+        if (src.Value is TVal v == false)
             return null;
 
         return new KeyValuePair<TKey, TVal>(k, v);

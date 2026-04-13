@@ -21,7 +21,7 @@ public class TUnitIntegrationTests
         var testSubject = $"{d}/TUnit.TestSubject.dll";
         // testSubject creates a file in its dir
         var resultFile = $"{d}/test-subject-result.json";
-        
+
         TryDelete(resultFile);
         File.Exists(resultFile).Should().BeFalse();
 
@@ -33,7 +33,7 @@ public class TUnitIntegrationTests
         var p = Process.Start(pi);
         p.Should().NotBeNull();
 
-        using(p)
+        using (p)
         {
             await p.WaitForExitAsync();
             p.HasExited.Should().BeTrue();

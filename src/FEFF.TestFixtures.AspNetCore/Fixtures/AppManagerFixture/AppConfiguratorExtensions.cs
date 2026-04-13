@@ -11,11 +11,12 @@ public enum AspEnvironment
     /// Development environment. Enables developer exception pages and verbose logging.
     /// </summary>
     Development,
+
     /// <summary>
     /// Production environment. Optimized for performance with minimal diagnostic output.
     /// </summary>
     Production
-};
+}
 
 /// <summary>
 /// Extension methods for <see cref="IAppConfigurator"/> to simplify test application configuration.
@@ -118,10 +119,11 @@ public static class AppConfiguratorExtensions
     /// <param name="builder">The app configurator.</param>
     /// <param name="suffix">The suffix to append to the database name.</param>
     /// <param name="connectionStringNames">The names of the connection strings to modify.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="connectionStringNames"/> is null or empty.</exception>
     public static void UseDatabaseNamePostfix(this IAppConfigurator builder, string suffix, IReadOnlyCollection<string> connectionStringNames)
     {
         ThrowHelper.Argument.ThrowIfNullOrEmpty(connectionStringNames);
-        builder.ConfigureServices( (ctx, _) =>
+        builder.ConfigureServices((ctx, _) =>
         {
             foreach (string item in connectionStringNames)
             {

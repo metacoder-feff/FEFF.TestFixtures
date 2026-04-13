@@ -65,12 +65,12 @@ public class DisposeHelperTests
     public void Many__Disp__should_be_disposed()
     {
         var dd = new Disp[] { new(), new() };
-        dd.Should().AllSatisfy( x => 
+        dd.Should().AllSatisfy(x =>
             x.IsDisposed.Should().BeFalse()
         );
 
         DisposeHelper.Dispose(dd);
-        dd.Should().AllSatisfy( x => 
+        dd.Should().AllSatisfy(x =>
             x.IsDisposed.Should().BeTrue()
         );
     }
@@ -79,12 +79,12 @@ public class DisposeHelperTests
     public async Task Many__ADisp0__should_be_disposed()
     {
         var dd = new ADisp0[] { new(), new() };
-        dd.Should().AllSatisfy( x => 
+        dd.Should().AllSatisfy(x =>
             x.IsDisposed.Should().BeFalse()
         );
 
         await DisposeHelper.DisposeAsync(dd);
-        dd.Should().AllSatisfy( x => 
+        dd.Should().AllSatisfy(x =>
             x.IsDisposed.Should().BeTrue()
         );
     }
@@ -93,12 +93,12 @@ public class DisposeHelperTests
     public async Task Many__ADisp1__should_be_disposed()
     {
         var dd = new ADisp1[] { new(), new() };
-        dd.Should().AllSatisfy( x => 
+        dd.Should().AllSatisfy(x =>
             x.IsDisposed.Should().BeFalse()
         );
 
         await DisposeHelper.DisposeAsync(dd);
-        dd.Should().AllSatisfy( x => 
+        dd.Should().AllSatisfy(x =>
             x.IsDisposed.Should().BeTrue()
         );
     }
@@ -107,12 +107,12 @@ public class DisposeHelperTests
     public async Task Many__mixed__should_be_disposed()
     {
         var dd = new IDisp[] { new Disp(), new ADisp0(), new ADisp1() };
-        dd.Should().AllSatisfy( x =>
+        dd.Should().AllSatisfy(x =>
             x.IsDisposed.Should().BeFalse()
         );
 
         await DisposeHelper.DisposeAsync(dd);
-        dd.Should().AllSatisfy( x =>
+        dd.Should().AllSatisfy(x =>
             x.IsDisposed.Should().BeTrue()
         );
     }
@@ -127,10 +127,10 @@ public class DisposeHelperTests
 
         // next dispose should start only after previous dispose is finished
         log.ToList().Should().BeEquivalentTo([
-            "DisposeAsync-starting: 1", 
-            "DisposeAsync-finished: 1", 
-            "DisposeAsync-starting: 2", 
-            "DisposeAsync-finished: 2", 
+            "DisposeAsync-starting: 1",
+            "DisposeAsync-finished: 1",
+            "DisposeAsync-starting: 2",
+            "DisposeAsync-finished: 2",
             "DisposeAsync-starting: 3",
             "DisposeAsync-finished: 3",
         ]);
@@ -159,7 +159,7 @@ public class DisposeHelperTests
     [InlineData(null             , Label = "Mixed")]
     public async Task Many_should_throw__AggregateException(Type? t)
     {
-        if(t != null)
+        if (t != null)
         {
             var d1 = (IDisp)Activator.CreateInstance(t)!;
             var d2 = (IDisp)Activator.CreateInstance(t)!;
@@ -191,7 +191,7 @@ public class DisposeHelperTests
     [Fact]
     public async Task Many_SYNC__with_single_error__should_be_disposed_and_throw_and_InvalidOperationException()
     {
-        var input = new IDisp[] {new Disp(), new ErrDisp(), new Disp()};
+        var input = new IDisp[] { new Disp(), new ErrDisp(), new Disp() };
         var disposables = input.Cast<IDisposable>().ToList();
 
         JToken.FromObject(input.Select(x => x.IsDisposed))
@@ -207,7 +207,7 @@ public class DisposeHelperTests
         act.Should()
             .ThrowExactly<InvalidOperationException>()
             .WithMessage("test-err");
-        
+
         JToken.FromObject(input.Select(x => x.IsDisposed))
         .Should().BeEquivalentTo("""
         [
@@ -219,7 +219,7 @@ public class DisposeHelperTests
     }
 
     [Theory]
-    [InlineData(typeof(ErrDisp)  , Label = nameof(ErrDisp))]
+    [InlineData(typeof(ErrDisp), Label = nameof(ErrDisp))]
     [InlineData(typeof(ErrADisp0), Label = nameof(ErrADisp0))]
     [InlineData(typeof(ErrADisp1), Label = nameof(ErrADisp1))]
     //[InlineData(null             , Label = "Mixed")]
@@ -228,10 +228,10 @@ public class DisposeHelperTests
         var d = (IDisp)Activator.CreateInstance(t)!;
         List<IDisp> input = d switch
         {
-           ErrDisp   => [new Disp()  , d, new Disp()  ],
-           ErrADisp0 => [new ADisp0(), d, new ADisp0()],
-           ErrADisp1 => [new ADisp1(), d, new ADisp1()],
-           _ => throw new InvalidOperationException("match error"),
+            ErrDisp   => [new Disp()  , d, new Disp()  ],
+            ErrADisp0 => [new ADisp0(), d, new ADisp0()],
+            ErrADisp1 => [new ADisp1(), d, new ADisp1()],
+            _ => throw new InvalidOperationException("match error"),
         };
 
         JToken.FromObject(input.Select(x => x.IsDisposed))
@@ -247,7 +247,7 @@ public class DisposeHelperTests
         await act.Should()
             .ThrowExactlyAsync<InvalidOperationException>()
             .WithMessage("test-err");
-        
+
         JToken.FromObject(input.Select(x => x.IsDisposed))
         .Should().BeEquivalentTo("""
         [

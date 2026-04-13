@@ -22,7 +22,7 @@ public class FixtureInterfaceTests : FixtureTestBase
     [Fact]
     public void GetFixture__with_error_interface__should_throw()
     {
-        var act = () => _= Helper.GetFixture<IDataAttribute>();
+        var act = () => _ = Helper.GetFixture<IDataAttribute>();
 
         act.Should().ThrowExactly<InvalidCastException>();
     }
@@ -34,7 +34,7 @@ internal interface ICustomFixtureInterface
 }
 
 [Fixture(RegisterWithType = typeof(ICustomFixtureInterface))]
-internal class CustomFixtureWithInterface: ICustomFixtureInterface
+internal class CustomFixtureWithInterface : ICustomFixtureInterface
 {
     public string Value { get; } = "world";
 }
