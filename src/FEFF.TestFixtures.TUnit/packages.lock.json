@@ -15,9 +15,9 @@
       },
       "TUnit.Core": {
         "type": "Direct",
-        "requested": "[1.30.0, )",
-        "resolved": "1.30.0",
-        "contentHash": "WPbefiXTg9oXqhMDTLj1m3etI4fyhQMjWSimZgUNj5dVXHbgp8Bk5sN0OdOasYn7Hhb3jg/BEzkzAtBNvF2zXw=="
+        "requested": "[1.33.0, )",
+        "resolved": "1.33.0",
+        "contentHash": "m8wxehfDvUqLtcRdKKzh+hnbtukSLd5A8/LfhDojzB03cEEJjcA1/NCUUEhikp0HTRHDIccB9wldbFSq0PUWlA=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
@@ -119,7 +119,7 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.4.1, )",
+          "FEFF.TestFixtures.Abstractions": "[1.4.3, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
         }
       },
@@ -132,7 +132,7 @@
       "feff.testfixtures.engine": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.4.1, )",
+          "FEFF.TestFixtures.Abstractions": "[1.4.3, )",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "[10.0.5, )",
           "Microsoft.Extensions.DependencyInjection": "[10.0.5, )",
           "Microsoft.Extensions.Options": "[10.0.5, )",
@@ -155,9 +155,9 @@
       },
       "TUnit.Core": {
         "type": "Direct",
-        "requested": "[1.30.0, )",
-        "resolved": "1.30.0",
-        "contentHash": "WPbefiXTg9oXqhMDTLj1m3etI4fyhQMjWSimZgUNj5dVXHbgp8Bk5sN0OdOasYn7Hhb3jg/BEzkzAtBNvF2zXw=="
+        "requested": "[1.33.0, )",
+        "resolved": "1.33.0",
+        "contentHash": "m8wxehfDvUqLtcRdKKzh+hnbtukSLd5A8/LfhDojzB03cEEJjcA1/NCUUEhikp0HTRHDIccB9wldbFSq0PUWlA=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
@@ -276,7 +276,7 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.4.1, )",
+          "FEFF.TestFixtures.Abstractions": "[1.4.3, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.5, )"
         }
       },
@@ -289,7 +289,7 @@
       "feff.testfixtures.engine": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.4.1, )",
+          "FEFF.TestFixtures.Abstractions": "[1.4.3, )",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "[10.0.5, )",
           "Microsoft.Extensions.DependencyInjection": "[10.0.5, )",
           "Microsoft.Extensions.Options": "[10.0.5, )",
