@@ -26,9 +26,9 @@
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
     <PackageReference Include="AwesomeAssertions.Json" Version="9.0.0" />
-    <PackageReference Include="FEFF.TestFixtures.XunitV3" Version="1.3.5" />
-    <PackageReference Include="FEFF.TestFixtures.AspNetCore" Version="1.3.5" />
-    <PackageReference Include="FEFF.TestFixtures.AspNetCore.EF" Version="1.3.5" />
+    <PackageReference Include="FEFF.TestFixtures.XunitV3" Version="1.4.2" />
+    <PackageReference Include="FEFF.TestFixtures.AspNetCore" Version="1.4.2" />
+    <PackageReference Include="FEFF.TestFixtures.AspNetCore.EF" Version="1.4.2" />
   </ItemGroup>
 
   <ItemGroup> 

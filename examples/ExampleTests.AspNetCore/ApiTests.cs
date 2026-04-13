@@ -13,9 +13,10 @@
 using System.Net;
 using AwesomeAssertions;
 using AwesomeAssertions.Json; // Required for proper JSON assertions
-using FEFF.Extensions.Testing;
 using FEFF.TestFixtures;
 using FEFF.TestFixtures.AspNetCore;
+using FEFF.TestFixtures.AspNetCore.Randomness;
+using FEFF.TestFixtures.AspNetCore.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
@@ -275,7 +276,7 @@ public class ApiTests
     {
         // Configure the fake random number generator to always return the specified temperature
         // This makes Random.Next() return this value throughout the test
-        AppRandom.IntStrategy = ConstRandomStrategy.From(temperature);
+        AppRandom.Int32Next = FixedNextStrategy.From(temperature);
 
         // Making the first request builds and starts the application
         var resp = await Client.GetAsync("/weatherforecast/random", TestContext.Current.CancellationToken);
