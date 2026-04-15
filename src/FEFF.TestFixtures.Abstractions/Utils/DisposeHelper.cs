@@ -12,10 +12,10 @@ internal static class DisposeHelper
     {
         ArgumentNullException.ThrowIfNull(disposables);
 
-        if(disposables.Count <= 0)
+        if (disposables.Count <= 0)
             return;
 
-        if(disposables.Count == 1)
+        if (disposables.Count == 1)
         {
             disposables[0].Dispose();
             return;
@@ -53,7 +53,7 @@ internal static class DisposeHelper
     /// DRY and optimization:
     /// Polymorphic over 'T' algorithm. The <see cref="Disposer"/> class provides an abstraction over non-polymorphic static methods.
     /// </remarks>
-    private static ValueTask InternalDisposeAsync<TDisposer,T>(IReadOnlyList<T> disposables)
+    private static ValueTask InternalDisposeAsync<TDisposer, T>(IReadOnlyList<T> disposables)
     where TDisposer : IDisposer<T>
     {
         // see also (optimizations)
@@ -81,9 +81,9 @@ internal static class DisposeHelper
             try
             {
                 //var d = disposables[i];
-//TODO: optimize:
-// begin async only on first task needs to await
-// see: https://github.com/dotnet/runtime/blob/c47c417f25dc3ddf0980179a7f8f3dbc479d60d2/src/libraries/Microsoft.Extensions.DependencyInjection/src/ServiceLookup/ServiceProviderEngineScope.cs#L193
+                //TODO: optimize:
+                // begin async only on first task needs to await
+                // see: https://github.com/dotnet/runtime/blob/c47c417f25dc3ddf0980179a7f8f3dbc479d60d2/src/libraries/Microsoft.Extensions.DependencyInjection/src/ServiceLookup/ServiceProviderEngineScope.cs#L193
                 await TDisposer.DisposeAsync(d);
             }
             catch (Exception ex)
@@ -144,10 +144,10 @@ internal static class DisposeHelper
     {
         static ValueTask IDisposer<object>.DisposeAsync(object disposable)
         {
-            if(disposable is IAsyncDisposable ad)
+            if (disposable is IAsyncDisposable ad)
                 return ad.DisposeAsync();
 
-            else if(disposable is IDisposable d)
+            else if (disposable is IDisposable d)
                 d.Dispose();
 
             return ValueTask.CompletedTask;

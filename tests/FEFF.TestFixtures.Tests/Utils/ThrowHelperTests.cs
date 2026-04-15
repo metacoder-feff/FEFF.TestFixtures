@@ -40,7 +40,7 @@ public class ThrowHelperTests
         ThrowHelper.Assert(a < 8);
     }
     #endregion
-    
+
     #region ThrowHelper.Argument.ThrowIfNullOrEmpty(string?)
     private static Action ThrowIfNullOrEmptyString(string? str)
     {
@@ -62,7 +62,7 @@ public class ThrowHelperTests
             .Throw<ArgumentException>()
             .WithMessage("The value cannot be an empty string. (Parameter 'str')");
     }
-    
+
     [Fact]
     public void Argument_String_ThrowIfNullOrEmpty__null()
     {
@@ -86,7 +86,7 @@ public class ThrowHelperTests
             .Should()
             .NotThrow();
     }
-    
+
     [Fact]
     public void Argument_Enumerable_ThrowIfNullOrEmpty__null()
     {
@@ -105,7 +105,7 @@ public class ThrowHelperTests
             .WithMessage("The value cannot be an empty collection. (Parameter 'list')");
     }
     #endregion
-    
+
     #region ThrowHelper.EnsureNotNull()
     private static string? ToNullable(string? s) => s;
 

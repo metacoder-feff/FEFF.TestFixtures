@@ -64,7 +64,7 @@ internal class PgDbRemover : IAsyncDisposable
 
 // removes Db using DbContext.Database.EnsureDeleted()
 internal sealed class CtxDbRemover<T> : IAsyncDisposable
-where T: DbContext
+where T : DbContext
 {
     private readonly T _ctx;
 
@@ -83,11 +83,11 @@ public class AspPipelineTests
 {
     // Fixtures should provide data/services and behaviour for tests:
     internal record FixtureData(
-        FakeTimeProvider Time, 
-        FakeRandom Rand, 
-        FakeLogCollector Collector, 
-        IServiceProvider Sp, 
-        ApplicationDbContext Ctx, 
+        FakeTimeProvider Time,
+        FakeRandom Rand,
+        FakeLogCollector Collector,
+        IServiceProvider Sp,
+        ApplicationDbContext Ctx,
         HttpClient Client
     );
     // Fixtures should provide only behaviour (no-data) for tests:
@@ -129,9 +129,6 @@ public class AspPipelineTests
 
         var fd = new FixtureData(time, rand, logP.Collector, sp, ctx, client);
         await RunTest(fd);
-
-//TODO: add ability to 
-// reconfigure appBuilder at start of test
     }
 
     [Fact]
@@ -192,9 +189,6 @@ public class AspPipelineTests
         }
 
         dispTesting.IsDisposed.Should().BeTrue();
-
-//TODO: add ability to 
-// reconfigure appBuilder at start of test
     }
 
     private async Task SeedDBAsync(CancellationToken cancellationToken)

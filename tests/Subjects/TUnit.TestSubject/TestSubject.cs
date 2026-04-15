@@ -13,13 +13,13 @@ internal class BaseFix : IDisposable
 }
 
 [Fixture]
-class TestFix : BaseFix {}
+class TestFix : BaseFix { }
 [Fixture]
-class ClassFix : BaseFix {}
+class ClassFix : BaseFix { }
 [Fixture]
-class AssemblyFix : BaseFix {}
+class AssemblyFix : BaseFix { }
 [Fixture]
-class SessionFix : BaseFix {}
+class SessionFix : BaseFix { }
 
 class SingletonFix : BaseFix, IFixtureRegistrar
 {
@@ -30,7 +30,7 @@ class SingletonFix : BaseFix, IFixtureRegistrar
 }
 
 public class TestSubject
-{   
+{
     protected static T GetFixture<T>(FixtureScopeType scopeType = FixtureScopeType.TestCase)
     where T : notnull
     {
@@ -44,7 +44,7 @@ public class TestSubject
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
         var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
         var f5 = GetFixture<SessionFix>(FixtureScopeType.Session);
-        var s  = GetFixture<SingletonFix>();
+        var s = GetFixture<SingletonFix>();
 
         f1.Should().BeOfType<TestFix>();
         f2.Should().BeOfType<ClassFix>();
@@ -60,15 +60,15 @@ public class TestSubject
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
         var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
         var f5 = GetFixture<SessionFix>(FixtureScopeType.Session);
-        var s  = GetFixture<SingletonFix>();
+        var s0 = GetFixture<SingletonFix>();
 
         f1.Should().BeOfType<TestFix>();
         f2.Should().BeOfType<ClassFix>();
         f4.Should().BeOfType<AssemblyFix>();
         f5.Should().BeOfType<SessionFix>();
-        s.Should().BeOfType<SingletonFix>();
+        s0.Should().BeOfType<SingletonFix>();
     }
 }
 
 [InheritsTests]
-public class SecondTestSubject : TestSubject {}
+public class SecondTestSubject : TestSubject { }

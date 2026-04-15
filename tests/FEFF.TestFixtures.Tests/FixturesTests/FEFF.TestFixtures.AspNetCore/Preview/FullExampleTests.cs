@@ -21,7 +21,7 @@ internal interface IAppFixture
     IAppConfigurator Config { get; }
     HttpClient LazyClient { get; }
     IServiceProvider LazyServices { get; }
-    ApplicationDbContext LazyDbCtx  { get; }
+    ApplicationDbContext LazyDbCtx { get; }
     IDatabaseLifecycleFixture EnsureFx { get; }
 }
 
@@ -121,9 +121,9 @@ public class FullExampleTests
     {
         var AppFx = arg switch
         {
-            1 =>  (IAppFixture) TestContext.Current.GetFeffFixture<AppTestFixtureV1>(),
-            2 =>  (IAppFixture) TestContext.Current.GetFeffFixture<AppTestFixtureV2>(),
-            3 =>  (IAppFixture) TestContext.Current.GetFeffFixture<AppTestFixtureV3>(),
+            1 => (IAppFixture)TestContext.Current.GetFeffFixture<AppTestFixtureV1>(),
+            2 => (IAppFixture)TestContext.Current.GetFeffFixture<AppTestFixtureV2>(),
+            3 => (IAppFixture)TestContext.Current.GetFeffFixture<AppTestFixtureV3>(),
             _ => throw new InvalidOperationException(),
         };
 

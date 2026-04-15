@@ -38,7 +38,7 @@ internal class AssemblyDiscoveryService
 
     private static bool AssemblyNameFilter(AssemblyName an)
     {
-        if(an.Name == null)
+        if (an.Name == null)
             return false;
 
         var name = an.Name;
@@ -90,7 +90,7 @@ internal class AssemblyDiscoveryService
             .ToList()
             ;
 
-        return res;    
+        return res;
     }
 
     /*
@@ -123,10 +123,10 @@ internal class AssemblyDiscoveryService
             return referencedRealAssms;
 
         // discover recursively refs of refs
-        var recursiveAssemblies =  DiscoverAndLoadReferencedAssemblies(referencedRealAssms);
+        var recursiveAssemblies = DiscoverAndLoadReferencedAssemblies(referencedRealAssms);
         return referencedRealAssms.Concat(recursiveAssemblies);
 
-//TODO: discover recursively all refs, not only Ref_Filtered_AssemblyName?
+        //TODO: discover recursively all refs, not only Ref_Filtered_AssemblyName?
     }
 
     // FORCE
@@ -137,9 +137,9 @@ internal class AssemblyDiscoveryService
     private static Assembly[] LoadRefs(List<AssemblyName> refsToLoad)
     {
         var res = new Assembly[refsToLoad.Count];
-        for(var i = 0; i < refsToLoad.Count; i++)
+        for (var i = 0; i < refsToLoad.Count; i++)
             res[i] = Assembly.Load(refsToLoad[i]);
-        
+
         return res;
     }
 
@@ -152,11 +152,11 @@ internal class AssemblyDiscoveryService
             .Where(AssemblyNameFilter)
             ;
 
-        foreach(var r in refs)
+        foreach (var r in refs)
         {
-            if(r.Name == null)
+            if (r.Name == null)
                 continue; //TODO:??
-            if(_visitedNames.Contains(r.Name))
+            if (_visitedNames.Contains(r.Name))
                 continue;
 
             // AppendVisited
@@ -165,16 +165,16 @@ internal class AssemblyDiscoveryService
             // get referenced Assembly Location based on "deps.json"
             // which is located near or embedded into the source Assembly
             var loc = resolver.ResolveAssemblyToPath(r);
-            if(loc == null)
+            if (loc == null)
                 continue; //TODO: deps.json not found??
 
-                // e.g.:
-                // "Microsoft.AspNetCore"
-                // "Microsoft.AspNetCore.Routing"
-                // "Microsoft.Win32.Registry"
-                // "Microsoft.AspNetCore.Hosting.Abstractions"
-                // "Microsoft.Extensions.Logging"
-                // "Microsoft.Extensions.Logging.Abstractions"
+            // e.g.:
+            // "Microsoft.AspNetCore"
+            // "Microsoft.AspNetCore.Routing"
+            // "Microsoft.Win32.Registry"
+            // "Microsoft.AspNetCore.Hosting.Abstractions"
+            // "Microsoft.Extensions.Logging"
+            // "Microsoft.Extensions.Logging.Abstractions"
 
             yield return loc;
         }
@@ -185,7 +185,7 @@ internal class AssemblyDiscoveryService
     // returns Assembly refs
     private List<AssemblyName> GetRefsToLoad(IEnumerable<string> referencedNonLoadedAssemblyPaths)
     {
-//TODO: filter referencedMetaAssms by containing types (attribute & interface)
+        //TODO: filter referencedMetaAssms by containing types (attribute & interface)
 
         var paths = _defaultAssemblyFiles
             .Concat(referencedNonLoadedAssemblyPaths)

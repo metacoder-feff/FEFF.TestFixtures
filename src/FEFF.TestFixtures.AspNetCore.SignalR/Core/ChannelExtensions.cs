@@ -13,13 +13,13 @@ internal static class ChannelExtensions
         timeoutCts.CancelAfter(timeout);
 
         var timeoutToken = timeoutCts.Token;
-        
+
         try
         {
             return await src.ReadAsync(timeoutToken);
         }
-        catch (OperationCanceledException e) 
-        when (e.CancellationToken == timeoutToken 
+        catch (OperationCanceledException e)
+        when (e.CancellationToken == timeoutToken
             && timeoutCts.IsCancellationRequested == true
             && cancellationToken.IsCancellationRequested == false)
         {

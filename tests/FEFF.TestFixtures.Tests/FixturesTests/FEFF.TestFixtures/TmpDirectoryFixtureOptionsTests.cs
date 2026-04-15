@@ -10,7 +10,7 @@ public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
         // Arrange
         var prefix = "prefix-";
 
-        if(prefixExpected)
+        if (prefixExpected)
             Helper.UseSettingEnv("TmpDirectoryFixture__Prefix", prefix);
         else
             Helper.UseSettingEnv("TmpDirectoryFixture__Prefix", null);
@@ -20,7 +20,7 @@ public class TmpDirectoryFixtureOptionsTests : FixtureTestBase
 
         // Assert
         var di = new DirectoryInfo(f.Path);
-        if(prefixExpected)
+        if (prefixExpected)
             di.Name.Should().StartWith(prefix);
         else
             di.Name.Should().NotStartWith(prefix);

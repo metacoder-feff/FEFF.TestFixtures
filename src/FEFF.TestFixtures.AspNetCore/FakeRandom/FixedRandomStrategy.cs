@@ -9,7 +9,7 @@ public class FixedNextStrategy<T> : INextStrategy<T>
     /// <summary>
     /// Gets or sets the fixed value to return.
     /// </summary>
-    public T Value { get;set; }
+    public T Value { get; set; }
 
     /// <summary>
     /// Creates a new <see cref="FixedNextStrategy{T}"/> that always returns the specified value.

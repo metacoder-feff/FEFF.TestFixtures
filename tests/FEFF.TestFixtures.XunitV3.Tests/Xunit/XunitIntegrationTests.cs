@@ -6,7 +6,7 @@ using Xunit.Sdk;
 namespace FEFF.TestFixtures.Tests;
 
 public class XunitIntegrationTests
-{   
+{
     [Fact]
     public async ValueTask Fixtures__after_their_scopes_end__should_be_disposed()
     {
@@ -155,81 +155,81 @@ public class XunitIntegrationTests
         return new(tcs.Task);
     }
 
-	public static ITestFrameworkDiscoveryOptions TestFrameworkDiscoveryOptions(
-		string? culture = null,
-		bool? diagnosticMessages = null,
-		bool? includeSourceInformation = null,
-		bool? internalDiagnosticMessages = null,
-		TestMethodDisplay? methodDisplay = null,
-		TestMethodDisplayOptions? methodDisplayOptions = null,
-		bool? preEnumerateTheories = null,
-		int? printMaxEnumerableLength = null,
-		int? printMaxObjectDepth = null,
-		int? printMaxObjectMemberCount = null,
-		int? printMaxStringLength = null,
-		bool? synchronousMessageReporting = null)
-	{
-		ITestFrameworkDiscoveryOptions result = TestFrameworkOptions.Empty();
+    public static ITestFrameworkDiscoveryOptions TestFrameworkDiscoveryOptions(
+        string? culture = null,
+        bool? diagnosticMessages = null,
+        bool? includeSourceInformation = null,
+        bool? internalDiagnosticMessages = null,
+        TestMethodDisplay? methodDisplay = null,
+        TestMethodDisplayOptions? methodDisplayOptions = null,
+        bool? preEnumerateTheories = null,
+        int? printMaxEnumerableLength = null,
+        int? printMaxObjectDepth = null,
+        int? printMaxObjectMemberCount = null,
+        int? printMaxStringLength = null,
+        bool? synchronousMessageReporting = null)
+    {
+        ITestFrameworkDiscoveryOptions result = TestFrameworkOptions.Empty();
 
-		result.SetCulture(culture);
-		result.SetDiagnosticMessages(diagnosticMessages);
-		result.SetIncludeSourceInformation(includeSourceInformation);
-		result.SetInternalDiagnosticMessages(internalDiagnosticMessages);
-		result.SetMethodDisplay(methodDisplay);
-		result.SetMethodDisplayOptions(methodDisplayOptions);
-		result.SetPreEnumerateTheories(preEnumerateTheories);
-		result.SetPrintMaxEnumerableLength(printMaxEnumerableLength);
-		result.SetPrintMaxObjectDepth(printMaxObjectDepth);
-		result.SetPrintMaxObjectMemberCount(printMaxObjectMemberCount);
-		result.SetPrintMaxStringLength(printMaxStringLength);
-		result.SetSynchronousMessageReporting(synchronousMessageReporting);
+        result.SetCulture(culture);
+        result.SetDiagnosticMessages(diagnosticMessages);
+        result.SetIncludeSourceInformation(includeSourceInformation);
+        result.SetInternalDiagnosticMessages(internalDiagnosticMessages);
+        result.SetMethodDisplay(methodDisplay);
+        result.SetMethodDisplayOptions(methodDisplayOptions);
+        result.SetPreEnumerateTheories(preEnumerateTheories);
+        result.SetPrintMaxEnumerableLength(printMaxEnumerableLength);
+        result.SetPrintMaxObjectDepth(printMaxObjectDepth);
+        result.SetPrintMaxObjectMemberCount(printMaxObjectMemberCount);
+        result.SetPrintMaxStringLength(printMaxStringLength);
+        result.SetSynchronousMessageReporting(synchronousMessageReporting);
 
-		return result;
-	}
+        return result;
+    }
 
-	public static ITestFrameworkExecutionOptions TestFrameworkExecutionOptions(
-		int? assertEquivalentMaxDepth = null,
-		string? culture = null,
-		bool? diagnosticMessages = null,
-		bool? disableParallelization = null,
-		ExplicitOption? explicitOption = null,
-		bool? failSkips = null,
-		bool? failTestsWithWarnings = null,
-		bool? internalDiagnosticMessages = null,
-		int? maxParallelThreads = null,
-		ParallelAlgorithm? parallelAlgorithm = null,
-		int? printMaxEnumerableLength = null,
-		int? printMaxObjectDepth = null,
-		int? printMaxObjectMemberCount = null,
-		int? printMaxStringLength = null,
-		int? seed = null,
-		bool? showLiveOutput = null,
-		bool? stopOnFail = null,
-		bool? synchronousMessageReporting = null)
-	{
-		ITestFrameworkExecutionOptions result = TestFrameworkOptions.Empty();
+    public static ITestFrameworkExecutionOptions TestFrameworkExecutionOptions(
+        int? assertEquivalentMaxDepth = null,
+        string? culture = null,
+        bool? diagnosticMessages = null,
+        bool? disableParallelization = null,
+        ExplicitOption? explicitOption = null,
+        bool? failSkips = null,
+        bool? failTestsWithWarnings = null,
+        bool? internalDiagnosticMessages = null,
+        int? maxParallelThreads = null,
+        ParallelAlgorithm? parallelAlgorithm = null,
+        int? printMaxEnumerableLength = null,
+        int? printMaxObjectDepth = null,
+        int? printMaxObjectMemberCount = null,
+        int? printMaxStringLength = null,
+        int? seed = null,
+        bool? showLiveOutput = null,
+        bool? stopOnFail = null,
+        bool? synchronousMessageReporting = null)
+    {
+        ITestFrameworkExecutionOptions result = TestFrameworkOptions.Empty();
 
-		result.SetAssertEquivalentMaxDepth(assertEquivalentMaxDepth);
-		result.SetCulture(culture);
-		result.SetDiagnosticMessages(diagnosticMessages);
-		result.SetDisableParallelization(disableParallelization);
-		result.SetExplicitOption(explicitOption);
-		result.SetFailSkips(failSkips);
-		result.SetFailTestsWithWarnings(failTestsWithWarnings);
-		result.SetInternalDiagnosticMessages(internalDiagnosticMessages);
-		result.SetMaxParallelThreads(maxParallelThreads);
-		result.SetParallelAlgorithm(parallelAlgorithm);
-		result.SetPrintMaxEnumerableLength(printMaxEnumerableLength);
-		result.SetPrintMaxObjectDepth(printMaxObjectDepth);
-		result.SetPrintMaxObjectMemberCount(printMaxObjectMemberCount);
-		result.SetPrintMaxStringLength(printMaxStringLength);
-		result.SetSeed(seed);
-		result.SetShowLiveOutput(showLiveOutput);
-		result.SetStopOnTestFail(stopOnFail);
-		result.SetSynchronousMessageReporting(synchronousMessageReporting);
+        result.SetAssertEquivalentMaxDepth(assertEquivalentMaxDepth);
+        result.SetCulture(culture);
+        result.SetDiagnosticMessages(diagnosticMessages);
+        result.SetDisableParallelization(disableParallelization);
+        result.SetExplicitOption(explicitOption);
+        result.SetFailSkips(failSkips);
+        result.SetFailTestsWithWarnings(failTestsWithWarnings);
+        result.SetInternalDiagnosticMessages(internalDiagnosticMessages);
+        result.SetMaxParallelThreads(maxParallelThreads);
+        result.SetParallelAlgorithm(parallelAlgorithm);
+        result.SetPrintMaxEnumerableLength(printMaxEnumerableLength);
+        result.SetPrintMaxObjectDepth(printMaxObjectDepth);
+        result.SetPrintMaxObjectMemberCount(printMaxObjectMemberCount);
+        result.SetPrintMaxStringLength(printMaxStringLength);
+        result.SetSeed(seed);
+        result.SetShowLiveOutput(showLiveOutput);
+        result.SetStopOnTestFail(stopOnFail);
+        result.SetSynchronousMessageReporting(synchronousMessageReporting);
 
-		return result;
-	}
+        return result;
+    }
 }
 
 public class SpyMessageSink : IMessageSink
@@ -239,11 +239,11 @@ public class SpyMessageSink : IMessageSink
 
     public virtual bool OnMessage(IMessageSinkMessage message)
     {
-        lock(_lockObj)
-        {  
+        lock (_lockObj)
+        {
             Messages.Add(message);
         }
 
-        return  true;
+        return true;
     }
 }

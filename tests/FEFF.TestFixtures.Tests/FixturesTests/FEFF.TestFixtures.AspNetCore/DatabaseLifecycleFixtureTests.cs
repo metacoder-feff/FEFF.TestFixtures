@@ -75,7 +75,7 @@ public class DatabaseLifecycleFixtureTests
         var f1 = TestContext.Current.GetFeffFixture<DatabaseLifecycleFixture<Program, ApplicationDbContext>>();
         var f2 = TestContext.Current.GetFeffFixture<AppServicesFixture<Program>>();
 
-        var act  = () => Task.Run(
+        var act = () => Task.Run(
             () => f2.LazyServiceProvider
         );
         await act.Should().CompleteWithinAsync(TimeSpan.FromSeconds(1));
@@ -125,5 +125,5 @@ internal static class DbCheckExt
     public static async Task<bool> DatabaseExistsAsync(this DbContext src) =>
         //DbContextHealthCheck
         await src.Database.CanConnectAsync(TestContext.Current.CancellationToken);
-        // src.Database.GetService<IRelationalDatabaseCreator>().Exists();
+    // src.Database.GetService<IRelationalDatabaseCreator>().Exists();
 }

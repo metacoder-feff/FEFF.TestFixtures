@@ -3,13 +3,14 @@ namespace FEFF.TestFixtures.AspNetCore.Preview;
 //TODO: subtype of AppClientFixture??
 
 /// <summary>
-/// Contract for configuration options for <see cref="AuthorizedAppClientFixture{TEntryPoint, TOptions}"/>.
+/// Defines the contract for configuration options for <see cref="AuthorizedAppClientFixture{TEntryPoint, TOptions}"/>.
 /// </summary>
 public interface IAuthorizedClientFixtureOptions
 {
     /// <summary>
     /// Returns a JWT token used to authenticate requests made by the authorized client.
     /// </summary>
+    /// <returns>The JWT token string.</returns>
     string GetJwt();
 }
 
@@ -59,7 +60,7 @@ where TOptions : IAuthorizedClientFixtureOptions
     /// <inheritdoc/>
     public void Dispose()
     {
-        if(_client.IsValueCreated)
+        if (_client.IsValueCreated)
             _client.Value.Dispose();
     }
 }

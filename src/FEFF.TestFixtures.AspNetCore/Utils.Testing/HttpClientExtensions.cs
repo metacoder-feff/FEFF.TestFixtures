@@ -10,7 +10,7 @@ internal static class HttpClientExtensions
     public static void AddBearerHeader(this HttpClient client, string accessToken)
     {
         ArgumentException.ThrowIfNullOrEmpty(accessToken);
-        
+
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(BearerAuthHeader, accessToken);
     }
 }

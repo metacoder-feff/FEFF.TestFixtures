@@ -2,53 +2,68 @@ namespace FEFF.TestFixtures.AspNetCore.Randomness;
 
 /// <summary>
 /// A configurable random number generator for testing.
-/// <para>
+/// </summary>
+/// <remarks>
 /// The default behavior uses a constant seed. Additional strategies such as
 /// fixed values can be applied via <see cref="Int32Next"/>, <see cref="Int64Next"/>,
 /// <see cref="SingleNext"/>, and <see cref="DoubleNext"/>.
+/// <para>
+/// Additional 'Next' strategies include:
 /// </para>
-/// </summary>
-/// <remarks>
-/// Additional 'Next' strategies are:  <br/>
-/// - Fixed                     <br/>
-/// - AutoIncrement     (TODO)  <br/>
-/// - ListRoundRobin    (TODO)  <br/>
-/// For types:                  <br/>
-/// - int                       <br/>
-/// - long                      <br/>
-/// - float (single)            <br/>
-/// - double                    <br/>
-/// - byte[]
-/// When 'Next' strategy returns value that is out of bounds of a defined method contract (e.g. Next(min,max))
-/// 'NormalizationStrategy' can fix this.
-/// The default strategy 'NormalizationStrategy' throws InvalidOperationException.<br/>
-/// Available 'NormalizationStrategy' implementations:<br/>
-/// - <see cref="ThrowNormalization"/> — throws on out-of-range values<br/>
-/// - <see cref="ReturnAsIsNormalization"/> — returns the value unchanged<br/>
-/// - AutoFitNormalization (TODO)
+/// <list type="bullet">
+/// <item>Fixed</item>
+/// <item>AutoIncrement (TODO)</item>
+/// <item>ListRoundRobin (TODO)</item>
+/// </list>
+/// <para>
+/// Supported types:
+/// </para>
+/// <list type="bullet">
+/// <item><see cref="int"/></item>
+/// <item><see cref="long"/></item>
+/// <item><see cref="float"/> (single)</item>
+/// <item><see cref="double"/></item>
+/// <item><see cref="byte"/>[]</item>
+/// </list>
+/// <para>
+/// When a 'Next' strategy returns a value that is out of bounds of a defined method contract (e.g., Next(min,max)),
+/// a 'NormalizationStrategy' can handle this. The default strategy throws <see cref="InvalidOperationException"/>.
+/// </para>
+/// <para>
+/// Available 'NormalizationStrategy' implementations:
+/// </para>
+/// <list type="bullet">
+/// <item><see cref="ThrowNormalization"/> — throws on out-of-range values</item>
+/// <item><see cref="ReturnAsIsNormalization"/> — returns the value unchanged</item>
+/// <item>AutoFitNormalization (TODO)</item>
+/// </list>
 /// </remarks>
 public class FakeRandom : Random
 {
     /// <summary>
     /// Gets or sets the strategy for generating <see cref="int"/> values, or <c>null</c> to use the default.
     /// </summary>
-    public INextStrategy<int>?    Int32Next     { get; set; }
+    public INextStrategy<int>? Int32Next { get; set; }
+
     /// <summary>
     /// Gets or sets the strategy for generating <see cref="long"/> values, or <c>null</c> to use the default.
     /// </summary>
-    public INextStrategy<long>?   Int64Next   { get; set; }
+    public INextStrategy<long>? Int64Next { get; set; }
+
     /// <summary>
     /// Gets or sets the strategy for generating <see cref="float"/> values, or <c>null</c> to use the default.
     /// </summary>
-    public INextStrategy<float>?  SingleNext  { get; set; }
+    public INextStrategy<float>? SingleNext { get; set; }
+
     /// <summary>
     /// Gets or sets the strategy for generating <see cref="double"/> values, or <c>null</c> to use the default.
     /// </summary>
-    public INextStrategy<double>? DoubleNext  { get; set; }
+    public INextStrategy<double>? DoubleNext { get; set; }
+
     /// <summary>
     /// Gets or sets the strategy for generating <see cref="byte"/> values, or <c>null</c> to use the default.
     /// </summary>
-    public INextStrategy<byte>? ByteNext  { get; set; }
+    public INextStrategy<byte>? ByteNext { get; set; }
 
     private INormalizationStrategy _normalizationStrategy = new ThrowNormalization();
 
@@ -79,12 +94,12 @@ public class FakeRandom : Random
     // int32Next is not null here
     private int NextI32Internal(INextStrategy<int> int32Next, int min, int max)
     {
-        if(min == max)
+        if (min == max)
             return min;
 
         var next = int32Next.Next();
 
-        if(next >= min && next < max)
+        if (next >= min && next < max)
             return next;
 
         return NormalizationStrategy.NormalizeI32(next, min, max);
@@ -137,12 +152,12 @@ public class FakeRandom : Random
     // int64Next is not null here
     private long NextI64Internal(INextStrategy<long> int64Next, long min, long max)
     {
-        if(min == max)
+        if (min == max)
             return min;
 
         var next = int64Next.Next();
 
-        if(next >= min && next < max)
+        if (next >= min && next < max)
             return next;
 
         return NormalizationStrategy.NormalizeI64(next, min, max);
@@ -191,7 +206,7 @@ public class FakeRandom : Random
     {
         var next = singleNext.Next();
 
-        if(next >= 0f && next < 1f)
+        if (next >= 0f && next < 1f)
             return next;
 
         return NormalizationStrategy.NormalizeSingle(next);
@@ -213,7 +228,7 @@ public class FakeRandom : Random
     {
         var next = doubleNext.Next();
 
-        if(next >= 0.0 && next < 1.0)
+        if (next >= 0.0 && next < 1.0)
             return next;
 
         return NormalizationStrategy.NormalizeDouble(next);
@@ -236,7 +251,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override void NextBytes(byte[] buffer)
     {
-        this.NextBytes((Span<byte>) buffer);
+        this.NextBytes((Span<byte>)buffer);
     }
 
     /// <inheritdoc/>
@@ -246,9 +261,9 @@ public class FakeRandom : Random
         base.NextBytes(buffer);
 
         var strategy = ByteNext;
-        if(strategy != null)
+        if (strategy != null)
         {
-            for(int i = 0; i < buffer.Length; i++)
+            for (int i = 0; i < buffer.Length; i++)
             {
                 buffer[i] = strategy.Next();
             }
@@ -256,7 +271,7 @@ public class FakeRandom : Random
     }
     #endregion
 
-// TODO: methods to override ??
+    // TODO: methods to override ??
     // protected override double Sample() => throw new NotSupportedException();
 
     // public static IRandomStrategy<int>? DefaultIntStrategy => null;

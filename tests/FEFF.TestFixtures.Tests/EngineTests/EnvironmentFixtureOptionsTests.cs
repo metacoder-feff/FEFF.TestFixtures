@@ -9,7 +9,7 @@ public class EnvironmentFixtureOptionsTests : FixtureTestBase
 {
     // Auto restore ENV after test
     // Use regular fixture integration for EnvironmentFixture used here as a helper
-    protected EnvironmentFixture Env {get;} = TestContext.Current.GetFeffFixture<EnvironmentFixture>();
+    protected EnvironmentFixture Env { get; } = TestContext.Current.GetFeffFixture<EnvironmentFixture>();
 
     [Theory]
     [InlineData(null)]

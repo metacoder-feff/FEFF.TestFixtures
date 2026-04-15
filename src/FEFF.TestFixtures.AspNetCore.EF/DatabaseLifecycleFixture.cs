@@ -12,13 +12,12 @@ public interface IDatabaseLifecycleFixture
     /// Ensures that the database for the context exists and is created.
     /// </summary>
     /// <param name="token">A token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     Task EnsureCreatedAsync(CancellationToken token);
 }
 
 //TODO: skip options/properties + tests
 //TODO: doc/rethrow: EnsureDeleted cannot remove an admin database. Consider using TmpDbNameFixture
-// Drop
-//preview
 
 /// <summary>
 /// A fixture that manages Entity Framework Core database creation and deletion

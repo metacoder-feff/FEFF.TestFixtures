@@ -9,8 +9,8 @@ internal interface IWebApplicationFactory : ITestApplication, IAsyncDisposable
     // ...
 }
 
-internal class ApplicationBuilder<TEntryPoint>: IAppConfigurator
-where TEntryPoint: class
+internal class ApplicationBuilder<TEntryPoint> : IAppConfigurator
+where TEntryPoint : class
 {
     private readonly List<Action<IWebHostBuilder>> _builderOverrides = [];
 
@@ -26,7 +26,7 @@ where TEntryPoint: class
 }
 
 internal class OverriddenWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint>, IWebApplicationFactory
-where TEntryPoint: class
+where TEntryPoint : class
 {
     private readonly IEnumerable<Action<IWebHostBuilder>> _builderOverrides;
 
@@ -39,7 +39,7 @@ where TEntryPoint: class
     {
         base.ConfigureWebHost(builder);
 
-        foreach(var configureAction in _builderOverrides)
+        foreach (var configureAction in _builderOverrides)
             configureAction(builder);
     }
 

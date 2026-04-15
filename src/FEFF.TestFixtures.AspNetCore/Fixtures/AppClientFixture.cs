@@ -9,7 +9,7 @@ public interface IAppClientFixture
     /// Gets the lazily-created <see cref="HttpClient"/>.
     /// </summary>
     /// <remarks>
-    /// Starts the application under test if not already running.
+    /// Starts the application under test on first access if not already running.
     /// </remarks>
     HttpClient LazyValue { get; }
 }
@@ -20,7 +20,7 @@ public interface IAppClientFixture
 /// <typeparam name="TEntryPoint">The application entry point type.</typeparam>
 [Fixture]
 public sealed class AppClientFixture<TEntryPoint> : IDisposable, IAppClientFixture
-where TEntryPoint: class
+where TEntryPoint : class
 {
     private readonly Lazy<HttpClient> _client;
 
@@ -42,7 +42,7 @@ where TEntryPoint: class
     /// <inheritdoc/>
     public void Dispose()
     {
-        if(_client.IsValueCreated)
+        if (_client.IsValueCreated)
             _client.Value.Dispose();
     }
 }

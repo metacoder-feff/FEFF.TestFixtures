@@ -18,7 +18,7 @@ public class DisposableFixtureTests : FixtureTestBase
 
         // Act
         await DisposeScopeAsync();
-        
+
         // Assert
         f1.IsDisposed.Should().BeTrue();
     }
@@ -32,7 +32,7 @@ public class DisposableFixtureTests : FixtureTestBase
 
         // Act
         await DisposeScopeAsync();
-        
+
         // Assert
         f1.IsDisposed.Should().BeTrue();
     }
@@ -46,7 +46,7 @@ public class DisposableFixtureTests : FixtureTestBase
 
         // Act
         await DisposeScopeAsync();
-        
+
         // Assert
         f1.IsDisposed.Should().BeTrue();
     }
@@ -61,7 +61,7 @@ public class DisposableFixtureTests : FixtureTestBase
 
         // Act
         await DisposeScopeAsync();
-        
+
         // Assert
         f1.IsDisposedSync.Should().BeFalse();       // Only DisposeAsync has been called
         f1.IsDisposedAsync.Should().BeTrue();
@@ -75,7 +75,7 @@ public class DisposableFixtureTests : FixtureTestBase
         var act = () => DisposeScopeAsync().AsTask();
         await act.Should().ThrowExactlyAsync<InvalidOperationException>();
     }
-    
+
     [Fact]
     public async Task Dispose__with_exception__should_not_prevent_other_fixtures_from_being_disposed()
     {
@@ -100,7 +100,7 @@ public class DisposableFixtureTests : FixtureTestBase
 [Fixture]
 internal class DisposableFixture : IDisposable
 {
-    public bool IsDisposed { get; private set;}
+    public bool IsDisposed { get; private set; }
 
     public void Dispose() => IsDisposed = true;
 }
@@ -108,7 +108,7 @@ internal class DisposableFixture : IDisposable
 [Fixture]
 internal sealed class CompletedAsyncDisposableFixture : IAsyncDisposable
 {
-    public bool IsDisposed { get; private set;}
+    public bool IsDisposed { get; private set; }
 
     public ValueTask DisposeAsync()
     {
@@ -120,8 +120,8 @@ internal sealed class CompletedAsyncDisposableFixture : IAsyncDisposable
 [Fixture]
 internal sealed class BothDisposableFixture : IAsyncDisposable, IDisposable
 {
-    public bool IsDisposedSync { get; private set;}
-    public bool IsDisposedAsync { get; private set;}
+    public bool IsDisposedSync { get; private set; }
+    public bool IsDisposedAsync { get; private set; }
 
     public void Dispose() => IsDisposedSync = true;
 
@@ -141,7 +141,7 @@ internal class ErrorDisposableFixture : IDisposable
 [Fixture]
 internal sealed class AsyncDisposableFixture : IAsyncDisposable
 {
-    public bool IsDisposed { get; private set;}
+    public bool IsDisposed { get; private set; }
 
     public async ValueTask DisposeAsync()
     {

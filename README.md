@@ -1,5 +1,7 @@
 # FEFF.TestFixtures
 
+[![Test](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml)
+
 Integrations:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV3)
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=FEFF.TestFixtures.TUnit)](https://www.nuget.org/packages/FEFF.TestFixtures.TUnit)  
@@ -38,23 +40,29 @@ The available scopes are defined by the test framework used. For **Xunit Integra
 
 Every request for the same fixture within the same scope returns the same fixture instance. Therefore, class-, collection-, and assembly-level **fixtures can share state** between all tests within the same scope.
 
+## Prerequisites
+
++ .NET 8.0 or later
++ Test framework: xUnit v3 **or** TUnit
++ For ASP.NET Core fixtures: ASP.NET Core 8.0 or later
+
 ## Getting started (Xunit.V3)
 
 Add a library reference to a test project:
 
-``` bash
+```bash
 dotnet add package FEFF.TestFixtures.XunitV3
 ```
 
 Add an assembly-level attribute to initialize the extension:
 
-``` csharp
+```csharp
 [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
 ```
 
-Use the ```TestContext.Current.GetFeffFixture<T>()``` extension method to get the required fixture instance at any point during a test:
+Use the `TestContext.Current.GetFeffFixture<T>()` extension method to get the required fixture instance at any point during a test:
 
-``` csharp
+```csharp
 public class SystemUnderTest
 {
     public static void Write(string filePath) =>
@@ -85,16 +93,16 @@ public class ExampleTests
 }
 ```
 
-In this example, *TmpDir* is created when the fixture is first requested in the test class constructor. The **scope** of the fixture in this example is 'test-case'.
-The *TmpDir* and its contents are automatically deleted after the test finishes.\
-This example uses [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions) for the ```Should()``` assertion DSL.\
+In this example, `TmpDir` is created when the fixture is first requested in the test class constructor. The **scope** of the fixture in this example is `test-case`.
+The `TmpDir` and its contents are automatically deleted after the test finishes.\
+This example uses [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions) for the `Should()` assertion DSL.\
 See the [source code for this example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.XunitV3/ExampleTests.cs).
 
 ### Defining other scopes for a fixture
 
 The scope of a fixture is defined by the test creator using an overloaded method:
 
-``` csharp
+```csharp
 TestContext.Current.GetFeffFixture<T>(FixtureScopeType scopeType)
 ```
 
@@ -102,10 +110,10 @@ Also note that multiple instances of the fixture can exist in different scopes i
 
 ### Creating a fixture
 
-Just create a class with the ```FixtureAttribute```.  
-Let's examine the source code for the ```TmpDirectoryFixture``` we used above.
+Just create a class with the `FixtureAttribute`.
+Let's examine the source code for the `TmpDirectoryFixture` we used above.
 
-``` csharp
+```csharp
 [Fixture]
 public sealed class TmpDirectoryFixture : IDisposable
 {
@@ -137,7 +145,7 @@ Where:
 
 Fixtures can depend on other fixtures. Dependencies are injected via the constructor:
 
-``` csharp
+```csharp
 [Fixture]
 public class MyCustomFixture1
 {
@@ -164,8 +172,8 @@ public class ExampleTests
 
 Note:
 
-+ All fixture dependencies (```MyCustomFixture1``` and ```MyCustomFixture2```) exist in the same scope as the dependent fixture (```MyFixtureSet``` in the example above).
-+ Fixtures cannot have cyclic dependencies.
+- All fixture dependencies (`MyCustomFixture1` and `MyCustomFixture2`) exist in the same scope as the dependent fixture (`MyFixtureSet` in the example above).
+- Fixtures cannot have cyclic dependencies.
 
 ## Advanced usage
 
@@ -235,8 +243,39 @@ Documentation is currently under development. [See examples](https://github.com/
   + The user must provide a path to the SignalR Hub within the tested API
   + The user can optionally provide a JWT to authenticate the SignalR client
 
-### [Development in Progress]
+### Development in Progress
+
+The following fixtures are planned but not yet implemented:
 
 + A unique Redis key prefix for test isolation
 + A unique S3 path prefix for test isolation
 + Fake outbound HTTP connection to stub integrations with third-party APIs
+
+## Troubleshooting & FAQ
+
+### Which package should I use?
+
++ For **xUnit v3** projects: Install `FEFF.TestFixtures.XunitV3`
++ For **TUnit** projects: Install `FEFF.TestFixtures.TUnit`
++ For **ASP.NET Core** integration tests: Also install `FEFF.TestFixtures.AspNetCore`
+
+### Why can't I resolve a fixture?
+
+Ensure you've added the assembly-level attribute (xUnit v3 only):
+
+```csharp
+[assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
+```
+
+### Can fixtures share state across tests?
+
+Yes. Class-, collection-, and assembly-scoped fixtures are singleton within their scope. All tests within that scope receive the same instance.
+
+### How do I clean up resources in a fixture?
+
+Implement `IDisposable` or `IAsyncDisposable` on your fixture class. The engine will call `Dispose()` or `DisposeAsync()` at the end of the fixture's scope.
+
+### Where do I report issues or ask questions?
+
++ [GitHub Issues](https://github.com/metacoder-feff/FEFF.TestFixtures/issues)
++ [Discussions](https://github.com/metacoder-feff/FEFF.TestFixtures/discussions)

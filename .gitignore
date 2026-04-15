@@ -4,6 +4,7 @@
 
 .qwen/settings.json
 .qwen/settings.json.orig
+KODA.md
 
 **/tmp/
 *[Ss]ecrets.json
@@ -11,6 +12,11 @@
 
 #*.received.*
 tests/Files/API/*.received.*
+
+# GitHub Actions
+.github/workflows/*.md
+.nupkg/
+nupkg/
 
 ###########################################################################
 # Multiple sources ...

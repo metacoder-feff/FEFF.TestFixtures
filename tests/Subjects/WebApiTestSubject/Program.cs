@@ -74,7 +74,7 @@ public class Program
             {
                 c.ApplicationName,
                 c.EnvironmentName,
-                IsDevelopment   = c.IsDevelopment(),
+                IsDevelopment = c.IsDevelopment(),
             };
         });
 
@@ -105,8 +105,9 @@ public class Program
         app.MapGet("/db-info", async (ApplicationDbContext dbCtx) =>
         {
             await dbCtx.Database.EnsureCreatedAsync();
-            return new { 
-                Name = dbCtx.Database.GetDbConnection().Database 
+            return new
+            {
+                Name = dbCtx.Database.GetDbConnection().Database
             };
         });
 

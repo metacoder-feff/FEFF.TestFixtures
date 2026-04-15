@@ -3,7 +3,7 @@ using FEFF.TestFixtures.AspNetCore.Randomness;
 namespace FEFF.TestFixtures.AspNetCore;
 
 /// <summary>
-/// Exposes a <see cref="FakeRandom"/> instance for controlling randomness in tests.
+/// Defines the contract for exposing a <see cref="FakeRandom"/> instance for controlling randomness in tests.
 /// </summary>
 public interface IFakeRandomFixture
 {
@@ -20,13 +20,13 @@ public interface IFakeRandomFixture
 /// <typeparam name="TEntryPoint">The application entry point type.</typeparam>
 [Fixture]
 public class FakeRandomFixture<TEntryPoint> : IFakeRandomFixture
-where TEntryPoint: class
+where TEntryPoint : class
 {
     /// <inheritdoc/>
     public FakeRandom Value { get; } = new();
 
     /// <summary>
-    /// Creates a new <see cref="FakeRandomFixture{TEntryPoint}"/> and registers the fake random
+    /// Initializes a new instance of <see cref="FakeRandomFixture{TEntryPoint}"/> and registers the fake random
     /// service with the application under test.
     /// </summary>
     /// <param name="app">The application manager fixture.</param>

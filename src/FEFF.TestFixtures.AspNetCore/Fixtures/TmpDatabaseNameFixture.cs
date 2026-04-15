@@ -1,13 +1,14 @@
 namespace FEFF.TestFixtures.AspNetCore;
 
 /// <summary>
-/// Contract for configuration options for <see cref="TmpDatabaseNameFixture{TEntryPoint, TOptionsFixture}"/>.
+/// Defines the contract for configuration options for <see cref="TmpDatabaseNameFixture{TEntryPoint, TOptionsFixture}"/>.
 /// </summary>
 public interface ITmpDatabaseNameFixtureOptions
 {
     /// <summary>
     /// Gets the names of connection strings that should be patched with unique database names.
     /// </summary>
+    /// <returns>A read-only collection of connection string names.</returns>
     IReadOnlyCollection<string> ConnectionStringNames { get; }
 }
 

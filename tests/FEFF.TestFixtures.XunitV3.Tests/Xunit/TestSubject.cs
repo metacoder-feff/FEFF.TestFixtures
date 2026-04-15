@@ -20,13 +20,13 @@ internal class BaseFix : IAsyncDisposable
 }
 
 [Fixture]
-class TestFix : BaseFix {}
+class TestFix : BaseFix { }
 [Fixture]
-class ClassFix : BaseFix {}
+class ClassFix : BaseFix { }
 [Fixture]
-class CollectionFix : BaseFix {}
+class CollectionFix : BaseFix { }
 [Fixture]
-class AssemblyFix : BaseFix {}
+class AssemblyFix : BaseFix { }
 
 class SingletonTester : IFixtureRegistrar, IDisposable
 {
@@ -44,7 +44,7 @@ class SingletonTester : IFixtureRegistrar, IDisposable
 }
 
 public class TestSubject
-{   
+{
     protected static T GetFixture<T>(FixtureScopeType scopeType = FixtureScopeType.TestCase)
     where T : notnull
     {
@@ -58,13 +58,13 @@ public class TestSubject
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
         var f3 = GetFixture<CollectionFix>(FixtureScopeType.Collection);
         var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
-        var s  = GetFixture<SingletonTester>();
+        var s0 = GetFixture<SingletonTester>();
 
         f1.Should().BeOfType<TestFix>();
         f2.Should().BeOfType<ClassFix>();
         f3.Should().BeOfType<CollectionFix>();
         f4.Should().BeOfType<AssemblyFix>();
-        s.Should().BeOfType<SingletonTester>();
+        s0.Should().BeOfType<SingletonTester>();
     }
 
     [Fact]
@@ -83,6 +83,6 @@ public class TestSubject
 }
 
 [Collection("collecion-a")]
-public class SecondTestSubject : TestSubject {}
+public class SecondTestSubject : TestSubject { }
 [Collection("collecion-a")]
-public class ThirdTestSubject : TestSubject {}
+public class ThirdTestSubject : TestSubject { }

@@ -2,8 +2,8 @@ namespace FEFF.Extensions.Tests;
 
 public class EnumMatchExceptionTests
 {
-    enum A {a1=1, a2=2};
-    enum B : byte {b1};
+    enum A { a1 = 1, a2 = 2 };
+    enum B : byte { b1 };
 
     [Fact]
     public void Create__default()

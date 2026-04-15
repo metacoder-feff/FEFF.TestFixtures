@@ -11,11 +11,11 @@ public interface ITestApplication
     /// <summary>
     /// Gets the service provider for the test application.
     /// </summary>
-    IServiceProvider    Services    { get; }
+    IServiceProvider Services { get; }
     /// <summary>
     /// Gets the <see cref="TestServer"/> for the test application. Useful for SignalR testing.
     /// </summary>
-    TestServer          Server      { get; } // for signal-r
+    TestServer Server { get; } // for signal-r
 
     /// <summary>
     /// Creates an <see cref="HttpClient"/> configured to communicate with the test application.
@@ -43,32 +43,31 @@ public interface IAppManagerFixture
     /// <summary>
     /// Gets the configurator used to customize the web host before startup.
     /// </summary>
-    IAppConfigurator    ConfigurationBuilder    { get; }
+    IAppConfigurator ConfigurationBuilder { get; }
+
     /// <summary>
     /// Gets the lazily-started test application.
     /// </summary>
     /// <remarks>
-    /// Starts the application under test on first request.
+    /// Starts the application under test on first access.
     /// </remarks>
-    ITestApplication    LazyApplication         { get; }
+    ITestApplication LazyApplication { get; }
+
     /// <summary>
     /// Gets a value indicating whether the application has been started.
     /// </summary>
-    bool                IsStarted               { get; }
-
-//TODO: IsStartRequested property (may not be finished)
-//TODO: StartAsync & throw at LazyApplication property
+    bool IsStarted { get; }
 }
 
 /// <summary>
-/// Allows to configure and start the tested application via <see cref="WebApplicationFactory{TEntryPoint}"/>.
+/// Allows configuring and starting the tested application via <see cref="WebApplicationFactory{TEntryPoint}"/>.
 /// </summary>
 /// <typeparam name="TEntryPoint">
 /// A type in the entry point assembly of the application. Typically the Startup or Program classes can be used.
 /// </typeparam>
 [Fixture]
 public sealed class AppManagerFixture<TEntryPoint> : IAsyncDisposable, IAppManagerFixture
-where TEntryPoint: class
+where TEntryPoint : class
 {
     // 'Start()' may throw, therefore store _factory for disposing.
     private readonly Lazy<IWebApplicationFactory> _factory;
@@ -86,13 +85,13 @@ where TEntryPoint: class
     public ITestApplication LazyApplication => _app.Value;
 
     /// <summary>
-    /// Creates a new instance of <see cref="AppManagerFixture{TEntryPoint}"/>.
+    /// Initializes a new instance of <see cref="AppManagerFixture{TEntryPoint}"/>.
     /// </summary>
     public AppManagerFixture()
     {
         // factory is created only when _app is creating
-        _factory = new (_builder.Build, LazyThreadSafetyMode.None);
-        _app = new (GetStartedApp);
+        _factory = new(_builder.Build, LazyThreadSafetyMode.None);
+        _app = new(GetStartedApp);
     }
 
     private ITestApplication GetStartedApp()
@@ -126,8 +125,8 @@ where TEntryPoint: class
     }
 }
 
-internal class OneTimeAppBuilder<TEntryPoint>: IAppConfigurator
-where TEntryPoint: class
+internal class OneTimeAppBuilder<TEntryPoint> : IAppConfigurator
+where TEntryPoint : class
 {
     private readonly ApplicationBuilder<TEntryPoint> _builder = new();
     private IWebApplicationFactory? _instance;
@@ -135,7 +134,7 @@ where TEntryPoint: class
 
     public void ConfigureWebHost(Action<IWebHostBuilder> action)
     {
-        if(IsBuilt)
+        if (IsBuilt)
             throw new InvalidOperationException($"Can't use '{nameof(IAppConfigurator)}' after application is created.");
 
         _builder.ConfigureWebHost(action);

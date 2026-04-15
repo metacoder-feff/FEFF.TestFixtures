@@ -19,11 +19,13 @@ public sealed class TmpDirectoryFixture : IDisposable, IFixtureRegistrar
     /// <summary>
     /// Specifies the behavior when the fixture is disposed.
     /// </summary>
-    public enum DisposeType {
+    public enum DisposeType
+    {
         /// <summary>
         /// Deletes the temporary directory and its contents on disposal.
         /// </summary>
         Delete,
+
         /// <summary>
         /// Skips deletion of the temporary directory on disposal.
         /// </summary>
@@ -31,7 +33,8 @@ public sealed class TmpDirectoryFixture : IDisposable, IFixtureRegistrar
         /// Can be used for optimization in CI environments.
         /// </remarks>
         Skip
-    };
+    }
+
     /// <summary>
     /// Configuration options for <see cref="TmpDirectoryFixture"/>.
     /// </summary>
@@ -42,6 +45,7 @@ public sealed class TmpDirectoryFixture : IDisposable, IFixtureRegistrar
         /// Defaults to <see cref="DisposeType.Delete"/>.
         /// </summary>
         public DisposeType DisposeType { get; set; } = DisposeType.Delete;
+
         /// <summary>
         /// Gets or sets the prefix for the temporary directory name.
         /// </summary>
@@ -84,7 +88,7 @@ public sealed class TmpDirectoryFixture : IDisposable, IFixtureRegistrar
     /// </summary>
     public void Dispose()
     {
-        if(_opts.DisposeType != DisposeType.Delete)
+        if (_opts.DisposeType != DisposeType.Delete)
             return;
 
         // double dispose guard

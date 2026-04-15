@@ -33,6 +33,7 @@ public class FixtureManagerOptions : IFixtureManagerOptions
     /// <summary>
     /// Builds the <see cref="ServiceProvider"/> with all configured fixtures and services.
     /// </summary>
+    /// <returns>The built <see cref="ServiceProvider"/>.</returns>
     public ServiceProvider BuildServiceProvider()
     {
         var services = new ServiceCollection()
@@ -63,6 +64,7 @@ public class FixtureManagerBuilder
     /// <summary>
     /// Builds and returns a new <see cref="FixtureManager"/> instance.
     /// </summary>
+    /// <returns>A new <see cref="FixtureManager"/> instance.</returns>
     public FixtureManager Build()
     {
         return new(Options);

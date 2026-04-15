@@ -23,7 +23,7 @@ public class TmpDatabaseNameFixtureTests
     {
         var client = TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
-        if(replace == true)
+        if (replace == true)
             _ = TestContext.Current.GetFeffFixture<TmpDatabaseNameFixture<Program, TestingFxOptions>>();
 
         var resp = await client.LazyValue.GetAsync("/db-info", TestContext.Current.CancellationToken);
@@ -34,7 +34,7 @@ public class TmpDatabaseNameFixtureTests
         // }
         var name = JToken.Parse(body)["name"]?.Value<string>();
 
-        if(replace == false)
+        if (replace == false)
             name.Should().Be("postgres");
         else
         {

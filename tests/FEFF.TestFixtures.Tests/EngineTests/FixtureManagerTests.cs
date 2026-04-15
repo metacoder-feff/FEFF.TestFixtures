@@ -4,14 +4,14 @@ namespace FEFF.TestFixtures.Engine.Tests;
 /// Do not use TestFixtures to test <see cref="FixtureManager"/> here 
 /// because error in <see cref="FixtureManager"/> or integration would fail everything
 /// <remarks/>
-public sealed class FixtureManagerTests : IAsyncDisposable 
+public sealed class FixtureManagerTests : IAsyncDisposable
 {
     private readonly FixtureManager manager = new FixtureManagerBuilder().Build();
     public ValueTask DisposeAsync()
     {
         return manager.DisposeAsync();
     }
-    
+
     [Fact]
     public void Fixture__should_be_registered_and_returned()
     {
@@ -76,7 +76,7 @@ public sealed class FixtureManagerTests : IAsyncDisposable
         // Expected: this should throw an error
         //var f2 = sc1.GetFixture<DisposableFixture>();
     }
-    
+
     [Fact]
     public async Task Dispose__with_exception__should_not_prevent_other_scopes_from_being_disposed()
     {
@@ -92,7 +92,7 @@ public sealed class FixtureManagerTests : IAsyncDisposable
         f1.IsDisposed.Should().BeTrue();
         f2.IsDisposed.Should().BeTrue();
     }
-    
+
     [Fact]
     public async Task Dispose__with_MULTIPLE_exceptions__should_throw_AggregateException()
     {
@@ -102,14 +102,14 @@ public sealed class FixtureManagerTests : IAsyncDisposable
         var act = () => manager.DisposeAsync().AsTask();
         var err = await act.Should().ThrowExactlyAsync<AggregateException>();
 
-        err.Which.InnerExceptions.Should().AllSatisfy( inner =>
+        err.Which.InnerExceptions.Should().AllSatisfy(inner =>
             inner.Should()
                 .BeOfType<InvalidOperationException>()
                 .Which.Message.Should()
                     .Be("test exception")
         );
     }
-    
+
     [Fact]
     public async Task Dispose__with_SINGLE_exception__should_throw_InvalidOperationException()
     {

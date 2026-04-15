@@ -17,13 +17,13 @@ public static class TestServerExtensions
     /// <returns>A new <see cref="SignalrTestClient"/> ready for testing.</returns>
     public static SignalrTestClient CreateSignalRClient(this TestServer server, string url, string? token = null)
     {
-        var c =  new HubConnectionBuilder()
+        var c = new HubConnectionBuilder()
         .WithUrl(
             url,
             o =>
             {
                 o.HttpMessageHandlerFactory = _ => server.CreateHandler();
-                if(token != null)
+                if (token != null)
                     o.AccessTokenProvider = () => Task.FromResult(token)!;
             }
         )
