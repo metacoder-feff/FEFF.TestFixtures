@@ -1,4 +1,4 @@
-name: Create NuGet Package Workflow
+name: Create NuGet Packages Workflow
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   pack:
-    name: Create NuGet Package
+    name: Create and push NuGet packages
     runs-on: ubuntu-latest
 
     env:
@@ -48,8 +48,7 @@ jobs:
             --output "$NUGET_DIR"               \
             --configuration Release             \
             -p:ContinuousIntegrationBuild=true  \
-            -p:VersionPrefix="${{ steps.version.outputs.version }}" \
-            --version-suffix alpha
+            -p:VersionPrefix="${{ steps.version.outputs.version }}"
 
       - name: Upload JOB artifacts
         uses: actions/upload-artifact@v7
