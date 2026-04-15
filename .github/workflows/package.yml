@@ -2,13 +2,13 @@ name: Create NuGet Packages Workflow
 
 on:
   push:
-    branches: [ main ]
     tags: [ 'v*' ]
 
 jobs:
   pack:
     name: Create and push NuGet packages
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
     env:
       NUGET_DIR: "./nupkgs"
@@ -43,7 +43,7 @@ jobs:
 
       - name: Pack
         run: |
-          dotnet pack                         \
+          dotnet pack                           \
             --no-build                          \
             --output "$NUGET_DIR"               \
             --configuration Release             \
