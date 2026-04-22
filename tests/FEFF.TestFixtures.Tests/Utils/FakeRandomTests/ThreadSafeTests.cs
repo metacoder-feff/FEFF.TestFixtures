@@ -59,13 +59,13 @@ public class ThreadSafeTests
     public void Next__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int32Next = CreateRaceStrategyFrom(1, 2);
-        var results = new ConcurrentQueue<int>();
+        var results = new ConcurrentList<int>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             _barrier.SignalAndWait();
             var value = Rand.Next();
-            results.Enqueue(value);
+            results.Add(value);
         });
 
         results.ToList()
