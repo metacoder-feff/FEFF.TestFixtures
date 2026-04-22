@@ -1,7 +1,8 @@
 namespace FEFF.TestFixtures.AspNetCore.Randomness;
 
 /// <summary>
-/// A configurable random number generator for testing.
+/// A configurable random number generator for testing.<br/>
+/// All public methods ARE threadsafe via <c>lock()</c>.
 /// </summary>
 /// <remarks>
 /// The default behavior uses a constant seed. Additional strategies such as
@@ -40,6 +41,16 @@ namespace FEFF.TestFixtures.AspNetCore.Randomness;
 /// </remarks>
 public class FakeRandom : Random
 {
+
+    #if NET9_0_OR_GREATER
+        private readonly Lock _lock = new(); 
+    #else
+        private readonly Object _lock = new();
+    #endif
+    private INormalizationStrategy _normalizationStrategy = new ThrowNormalization();
+
+    #region INextStrategy options
+
     /// <summary>
     /// Gets or sets the strategy for generating <see cref="int"/> values, or <c>null</c> to use the default.
     /// </summary>
@@ -64,8 +75,7 @@ public class FakeRandom : Random
     /// Gets or sets the strategy for generating <see cref="byte"/> values, or <c>null</c> to use the default.
     /// </summary>
     public INextStrategy<byte>? ByteNext { get; set; }
-
-    private INormalizationStrategy _normalizationStrategy = new ThrowNormalization();
+    #endregion
 
     /// <summary>
     /// Gets or sets the normalization strategy used when a generated value falls outside the valid
@@ -108,42 +118,51 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override int Next()
     {
-        // just do as other "Assert arguments" pattern
-        var def = base.Next();
+        lock(_lock)
+        {
+            // just do as other "Assert arguments" pattern
+            var def = base.Next();
 
-        // avoid race condition
-        var strategy = Int32Next;
+            // avoid race condition
+            var strategy = Int32Next;
 
-        if (strategy == null)
-            return def;
+            if (strategy == null)
+                return def;
 
-        // int32Next is not null here
-        return NextI32Internal(strategy, 0, int.MaxValue);
+            // int32Next is not null here
+            return NextI32Internal(strategy, 0, int.MaxValue);
+        }
     }
 
     /// <inheritdoc/>
     public override int Next(int maxValue)
     {
-        // Assert arguments
-        var def = base.Next(maxValue);
+        lock(_lock)
+        {
+            // Assert arguments
+            var def = base.Next(maxValue);
 
-        var strategy = Int32Next;
-        if (strategy == null)
-            return def;
+            var strategy = Int32Next;
+            if (strategy == null)
+                return def;
 
-        return NextI32Internal(strategy, 0, maxValue);
+            return NextI32Internal(strategy, 0, maxValue);
+        }
     }
 
     /// <inheritdoc/>
     public override int Next(int minValue, int maxValue)
     {
-        // Assert arguments
-        var def = base.Next(minValue, maxValue);
-        var strategy = Int32Next;
-        if (strategy == null)
-            return def;
+        lock(_lock)
+        {
+            // Assert arguments
+            var def = base.Next(minValue, maxValue);
+            var strategy = Int32Next;
+            if (strategy == null)
+                return def;
 
-        return NextI32Internal(strategy, minValue, maxValue);
+            return NextI32Internal(strategy, minValue, maxValue);
+        }
     }
     #endregion
 
@@ -166,36 +185,45 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override long NextInt64()
     {
-        var def = base.NextInt64();
-        var strategy = Int64Next;
-        if (strategy == null)
-            return def;
+        lock(_lock)
+        {
+            var def = base.NextInt64();
+            var strategy = Int64Next;
+            if (strategy == null)
+                return def;
 
-        return NextI64Internal(strategy, 0, long.MaxValue);
+            return NextI64Internal(strategy, 0, long.MaxValue);
+        }
     }
 
     /// <inheritdoc/>
     public override long NextInt64(long maxValue)
     {
-        // Assert arguments
-        var def = base.NextInt64(maxValue);
-        var strategy = Int64Next;
-        if (strategy == null)
-            return def;
+        lock(_lock)
+        {
+            // Assert arguments
+            var def = base.NextInt64(maxValue);
+            var strategy = Int64Next;
+            if (strategy == null)
+                return def;
 
-        return NextI64Internal(strategy, 0, maxValue);
+            return NextI64Internal(strategy, 0, maxValue);
+        }
     }
 
     /// <inheritdoc/>
     public override long NextInt64(long minValue, long maxValue)
     {
-        // Assert arguments
-        var def = base.NextInt64(minValue, maxValue);
-        var strategy = Int64Next;
-        if (strategy == null)
-            return def;
+        lock(_lock)
+        {
+            // Assert arguments
+            var def = base.NextInt64(minValue, maxValue);
+            var strategy = Int64Next;
+            if (strategy == null)
+                return def;
 
-        return NextI64Internal(strategy, minValue, maxValue);
+            return NextI64Internal(strategy, minValue, maxValue);
+        }
     }
     #endregion
 
@@ -215,12 +243,15 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override float NextSingle()
     {
-        var def = base.NextSingle();
-        var strategy = SingleNext;
-        if (strategy == null)
-            return def;
+        lock(_lock)
+        {
+            var def = base.NextSingle();
+            var strategy = SingleNext;
+            if (strategy == null)
+                return def;
 
-        return NextSingleInternal(strategy);
+            return NextSingleInternal(strategy);
+        }
     }
 
     // doubleNext is not null here
@@ -237,12 +268,15 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override double NextDouble()
     {
-        var def = base.NextDouble();
-        var strategy = DoubleNext;
-        if (strategy == null)
-            return def;
+        lock(_lock)
+        {
+            var def = base.NextDouble();
+            var strategy = DoubleNext;
+            if (strategy == null)
+                return def;
 
-        return NextDoubleInternal(strategy);
+            return NextDoubleInternal(strategy);
+        }
     }
     #endregion
 
@@ -257,15 +291,18 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override void NextBytes(Span<byte> buffer)
     {
-        // Assert arguments
-        base.NextBytes(buffer);
-
-        var strategy = ByteNext;
-        if (strategy != null)
+        lock(_lock)
         {
-            for (int i = 0; i < buffer.Length; i++)
+            // Assert arguments
+            base.NextBytes(buffer);
+
+            var strategy = ByteNext;
+            if (strategy != null)
             {
-                buffer[i] = strategy.Next();
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    buffer[i] = strategy.Next();
+                }
             }
         }
     }

@@ -1,7 +1,7 @@
 # FEFF.TestFixtures
 
 [![Test](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml)
-[![Build](https://img.shields.io/github/actions/workflow/status/metacoder-feff/FEFF.TestFixtures/package.yml?label=Build)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/package.yml)
+[![CI Build](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml)
 
 
 Integrations:
