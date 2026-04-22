@@ -18,6 +18,9 @@ tests/Files/API/*.received.*
 .nupkg/
 nupkg/
 
+docs/_site/
+docs/api/
+
 ###########################################################################
 # Multiple sources ...
 # 1. FROM: gitlab .Net template

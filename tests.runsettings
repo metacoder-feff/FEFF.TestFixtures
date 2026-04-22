@@ -17,9 +17,12 @@ https://gist.github.com/osmyn/affc8841111283dc8b3ca1a95ace0dc2
             <Sources>
               <Exclude>
               <!-- <Source>\.generated\.cs$</Source> -->
+                <Source>/obj/.*\.generated\.cs$</Source>
+                <Source>/obj/.*\.g\.cs$</Source>
 
-              <!-- Exclude all integration test projects -->
-                <Source>/tests/</Source>
+                <!-- Exclude all test projects -->
+                <Source>^/tests/</Source>
+                <Source>^/examples/</Source>
               </Exclude>
             </Sources>
            

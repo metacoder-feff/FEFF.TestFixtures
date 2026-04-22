@@ -1,6 +1,8 @@
 # FEFF.TestFixtures
 
 [![Test](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/metacoder-feff/FEFF.TestFixtures/package.yml?label=Build)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/package.yml)
+
 
 Integrations:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV3)
@@ -18,27 +20,7 @@ Fixture libraries:
 
 [Fixture list](#fixture-list)
 
-## Terminology and Goals
-
-A **fixture** is a reusable component used for testing purposes. Fixtures can be packaged into libraries and reused by any number of testing projects.
-The **fixture** is a class containing three optional parts:
-
-+ Setup code in the constructor;
-+ State;
-+ Teardown code in Dispose() or DisposeAsync().
-
-The **scope** of a fixture defines its lifetime. Within a scope, each fixture is created only once (lazily on demand) and destroyed at the end of the scope. If the fixture implements Dispose() or DisposeAsync(), those methods are called.
-
-The available scopes are defined by the test framework used. For **Xunit Integration**, they are:
-
-| Scope name | Description |
-| --- | -- |
-| test-case | Fixtures are created and destroyed for each test case |
-| class | Fixtures are created and destroyed once for each test class |
-| collection | Fixtures are created and destroyed once for each [test collection](https://xunit.net/docs/running-tests-in-parallel#test-collections) |
-| assembly | Fixtures are created and destroyed once for a test assembly |
-
-Every request for the same fixture within the same scope returns the same fixture instance. Therefore, class-, collection-, and assembly-level **fixtures can share state** between all tests within the same scope.
+[Full Documentation](https://metacoder-feff.github.io/FEFF.TestFixtures/)
 
 ## Prerequisites
 
@@ -133,14 +115,6 @@ public sealed class TmpDirectoryFixture : IDisposable
 }
 ```
 
-Where:
-
-| Fixture function  | Implementation            |
-|---                | ---                       |
-|Setup              | Constructor               |
-|State              | 'Path' property           |
-|Teardown           | IDisposable               |
-
 ### Fixture Dependencies
 
 Fixtures can depend on other fixtures. Dependencies are injected via the constructor:
@@ -174,24 +148,6 @@ Note:
 
 - All fixture dependencies (`MyCustomFixture1` and `MyCustomFixture2`) exist in the same scope as the dependent fixture (`MyFixtureSet` in the example above).
 - Fixtures cannot have cyclic dependencies.
-
-## Advanced usage
-
-### Add/Get Fixture by Interface
-
-Documentation is currently under development. [See examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/d4e7561bd6bf0a3882e6f2777f0012c4ef9c3aa9/tests/FEFF.TestFixtures.Tests/Core/FixtureInterfaceTests.cs#L6).
-
-### Fixture Factory Internals
-
-Documentation is currently under development. [See examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/d4e7561bd6bf0a3882e6f2777f0012c4ef9c3aa9/src/FEFF.TestFixtures/Core/FixtureManager.cs#L14).
-
-### Advanced Fixture Registration
-
-Documentation is currently under development. [See examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs#L18).
-
-### Configuring Fixtures
-
-Documentation is currently under development. [See examples](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/ecb983deb9af95dea222037e237e8fc08a4e9c1a/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs#L38).
 
 ## Fixture List
 
@@ -251,31 +207,4 @@ The following fixtures are planned but not yet implemented:
 + A unique S3 path prefix for test isolation
 + Fake outbound HTTP connection to stub integrations with third-party APIs
 
-## Troubleshooting & FAQ
-
-### Which package should I use?
-
-+ For **xUnit v3** projects: Install `FEFF.TestFixtures.XunitV3`
-+ For **TUnit** projects: Install `FEFF.TestFixtures.TUnit`
-+ For **ASP.NET Core** integration tests: Also install `FEFF.TestFixtures.AspNetCore`
-
-### Why can't I resolve a fixture?
-
-Ensure you've added the assembly-level attribute (xUnit v3 only):
-
-```csharp
-[assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
-```
-
-### Can fixtures share state across tests?
-
-Yes. Class-, collection-, and assembly-scoped fixtures are singleton within their scope. All tests within that scope receive the same instance.
-
-### How do I clean up resources in a fixture?
-
-Implement `IDisposable` or `IAsyncDisposable` on your fixture class. The engine will call `Dispose()` or `DisposeAsync()` at the end of the fixture's scope.
-
-### Where do I report issues or ask questions?
-
-+ [GitHub Issues](https://github.com/metacoder-feff/FEFF.TestFixtures/issues)
-+ [Discussions](https://github.com/metacoder-feff/FEFF.TestFixtures/discussions)
+[Full Documentation](https://metacoder-feff.github.io/FEFF.TestFixtures/)
