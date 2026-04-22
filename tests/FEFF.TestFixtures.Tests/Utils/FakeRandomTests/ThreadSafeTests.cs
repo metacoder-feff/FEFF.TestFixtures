@@ -19,6 +19,31 @@ public class ThreadSafeTests
         }
     }
 
+    // fast set by index by counter
+    private class ConcurrentList<T>(int capacity)
+    {
+        private readonly T[] _list = new T[capacity];
+        private volatile int _nextIdx = -1;
+
+        public void Add(T item)
+        {
+            var current = Interlocked.Increment(ref _nextIdx);
+
+            if(current >= capacity)
+               throw new InvalidOperationException("List is full");
+               
+            _list[current] = item;
+        }
+
+        internal List<T> ToList()
+        {
+            var n = _nextIdx;
+            if(n < 0)
+                return [];
+            return _list.Take(n + 1).ToList();
+        }       
+    }
+
     private static RaceStrategy<T> CreateRaceStrategyFrom<T>(T a, T b) => new(a,b);
 
     private const int ThreadCount = 2;
@@ -53,12 +78,12 @@ public class ThreadSafeTests
     public void Next_max__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int32Next = CreateRaceStrategyFrom(10, 20);
-        var results = new ConcurrentQueue<int>();
+        var results = new ConcurrentList<int>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             var value = Rand.Next(100);
-            results.Enqueue(value);
+            results.Add(value);
         });
 
         results.ToList()
@@ -72,12 +97,12 @@ public class ThreadSafeTests
     public void Next_min_max__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int32Next = CreateRaceStrategyFrom(100, 200);
-        var results = new ConcurrentQueue<int>();
+        var results = new ConcurrentList<int>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             var value = Rand.Next(50, 300);
-            results.Enqueue(value);
+            results.Add(value);
         });
 
         results.ToList()
@@ -94,12 +119,12 @@ public class ThreadSafeTests
     public void Next64__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int64Next = CreateRaceStrategyFrom(1L, 2L);
-        var results = new ConcurrentQueue<long>();
+        var results = new ConcurrentList<long>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             var value = Rand.NextInt64();
-            results.Enqueue(value);
+            results.Add(value);
         });
 
         results.ToList()
@@ -113,12 +138,12 @@ public class ThreadSafeTests
     public void Next64_max__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int64Next = CreateRaceStrategyFrom(10L, 20L);
-        var results = new ConcurrentQueue<long>();
+        var results = new ConcurrentList<long>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             var value = Rand.NextInt64(100L);
-            results.Enqueue(value);
+            results.Add(value);
         });
 
         results.ToList()
@@ -132,12 +157,12 @@ public class ThreadSafeTests
     public void Next64_min_max__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int64Next = CreateRaceStrategyFrom(100L, 200L);
-        var results = new ConcurrentQueue<long>();
+        var results = new ConcurrentList<long>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             var value = Rand.NextInt64(50L, 300L);
-            results.Enqueue(value);
+            results.Add(value);
         });
 
         results.ToList()
@@ -154,12 +179,12 @@ public class ThreadSafeTests
     public void NextSingle__when_multi_threaded__should_not_mix_values()
     {
         Rand.SingleNext = CreateRaceStrategyFrom(0.1f, 0.2f);
-        var results = new ConcurrentQueue<float>();
+        var results = new ConcurrentList<float>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             var value = Rand.NextSingle();
-            results.Enqueue(value);
+            results.Add(value);
         });
 
         results.ToList()
@@ -173,12 +198,12 @@ public class ThreadSafeTests
     public void NextDouble__when_multi_threaded__should_not_mix_values()
     {
         Rand.DoubleNext = CreateRaceStrategyFrom(0.1, 0.2);
-        var results = new ConcurrentQueue<double>();
+        var results = new ConcurrentList<double>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             var value = Rand.NextDouble();
-            results.Enqueue(value);
+            results.Add(value);
         });
 
         results.ToList()
@@ -195,13 +220,13 @@ public class ThreadSafeTests
     public void NextBytes__when_multi_threaded__should_not_mix_values()
     {
         Rand.ByteNext = CreateRaceStrategyFrom((byte)1, (byte)2);
-        var results = new ConcurrentQueue<byte>();
+        var results = new ConcurrentList<byte>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             var buffer = new byte[1];
             Rand.NextBytes(buffer);
-            results.Enqueue(buffer[0]);
+            results.Add(buffer[0]);
         });
         results.ToList()
             .Should().BeEquivalentTo(
@@ -214,13 +239,13 @@ public class ThreadSafeTests
     public void NextBytes_span__when_multi_threaded__should_not_mix_values()
     {
         Rand.ByteNext = CreateRaceStrategyFrom((byte)1, (byte)2);
-        var results = new ConcurrentQueue<byte>();
+        var results = new ConcurrentList<byte>(ThreadCount);
 
         Parallel.For(0, ThreadCount, _ =>
         {
             Span<byte> buffer = new byte[1];
             Rand.NextBytes(buffer);
-            results.Enqueue(buffer[0]);
+            results.Add(buffer[0]);
         });
         results.ToList()
             .Should().BeEquivalentTo(
