@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 
 namespace FEFF.TestFixtures.AspNetCore.Randomness.Tests;
 
@@ -25,13 +26,14 @@ public class ThreadSafeTests
         private readonly T[] _list = new T[capacity];
         private volatile int _nextIdx = -1;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Add(T item)
         {
             var current = Interlocked.Increment(ref _nextIdx);
 
             if(current >= capacity)
                throw new InvalidOperationException("List is full");
-               
+
             _list[current] = item;
         }
 
@@ -47,6 +49,7 @@ public class ThreadSafeTests
     private static RaceStrategy<T> CreateRaceStrategyFrom<T>(T a, T b) => new(a,b);
 
     private const int ThreadCount = 2;
+    private readonly Barrier _barrier = new(ThreadCount);
 
     protected FakeRandom Rand { get; } = new();
 
@@ -60,6 +63,7 @@ public class ThreadSafeTests
 
         Parallel.For(0, ThreadCount, _ =>
         {
+            _barrier.SignalAndWait();
             var value = Rand.Next();
             results.Enqueue(value);
         });
@@ -82,6 +86,7 @@ public class ThreadSafeTests
 
         Parallel.For(0, ThreadCount, _ =>
         {
+            _barrier.SignalAndWait();
             var value = Rand.Next(100);
             results.Add(value);
         });
@@ -101,6 +106,7 @@ public class ThreadSafeTests
 
         Parallel.For(0, ThreadCount, _ =>
         {
+            _barrier.SignalAndWait();
             var value = Rand.Next(50, 300);
             results.Add(value);
         });
@@ -123,6 +129,7 @@ public class ThreadSafeTests
 
         Parallel.For(0, ThreadCount, _ =>
         {
+            _barrier.SignalAndWait();
             var value = Rand.NextInt64();
             results.Add(value);
         });
@@ -142,6 +149,7 @@ public class ThreadSafeTests
 
         Parallel.For(0, ThreadCount, _ =>
         {
+            _barrier.SignalAndWait();
             var value = Rand.NextInt64(100L);
             results.Add(value);
         });
@@ -161,6 +169,7 @@ public class ThreadSafeTests
 
         Parallel.For(0, ThreadCount, _ =>
         {
+            _barrier.SignalAndWait();
             var value = Rand.NextInt64(50L, 300L);
             results.Add(value);
         });
@@ -183,6 +192,7 @@ public class ThreadSafeTests
 
         Parallel.For(0, ThreadCount, _ =>
         {
+            _barrier.SignalAndWait();
             var value = Rand.NextSingle();
             results.Add(value);
         });
@@ -202,6 +212,7 @@ public class ThreadSafeTests
 
         Parallel.For(0, ThreadCount, _ =>
         {
+            _barrier.SignalAndWait();
             var value = Rand.NextDouble();
             results.Add(value);
         });
@@ -225,6 +236,7 @@ public class ThreadSafeTests
         Parallel.For(0, ThreadCount, _ =>
         {
             var buffer = new byte[1];
+            _barrier.SignalAndWait();
             Rand.NextBytes(buffer);
             results.Add(buffer[0]);
         });
@@ -244,6 +256,7 @@ public class ThreadSafeTests
         Parallel.For(0, ThreadCount, _ =>
         {
             Span<byte> buffer = new byte[1];
+            _barrier.SignalAndWait();
             Rand.NextBytes(buffer);
             results.Add(buffer[0]);
         });
