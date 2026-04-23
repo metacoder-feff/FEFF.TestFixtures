@@ -1,7 +1,7 @@
 # FEFF.TestFixtures
 
 [![Test](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml)
-[![Build](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml)
+[![Release](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml)
 
 Integrations:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV3)
