@@ -26,9 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FEFF.TestFixtures.XunitV3" Version="1.4.2" />
-    <PackageReference Include="FEFF.TestFixtures.AspNetCore" Version="1.4.2" />
-    <PackageReference Include="FEFF.TestFixtures.AspNetCore.EF" Version="1.4.2" />
+    <PackageReference Include="FEFF.TestFixtures.XunitV3" Version="1.4.5" />
+    <PackageReference Include="FEFF.TestFixtures.AspNetCore" Version="1.4.5" />
+    <PackageReference Include="FEFF.TestFixtures.AspNetCore.EF" Version="1.4.5" />
   </ItemGroup>
 
   <ItemGroup> 
