@@ -5,11 +5,11 @@ on:
     tags: [ 'v*' ]
 
 permissions:
-	  contents: read
+  contents: read
 
 jobs:
   pack:
-    name: Create and push NuGet packages
+    name: Create, validate and push NuGet packages
     runs-on: ubuntu-latest
     #TODO: test
     if: github.event.base_ref == 'refs/heads/main'
