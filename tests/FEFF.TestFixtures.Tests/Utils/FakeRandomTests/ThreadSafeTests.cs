@@ -1,10 +1,16 @@
-using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 
 namespace FEFF.TestFixtures.AspNetCore.Randomness.Tests;
 
 public class ThreadSafeTests
 {
+    // Delays are : (1000, 500)
+    // 1: 1000 - if lock is NOT implemented:
+    //      creates a race condition in Next()
+    // 2: 500  - if lock is implemented 
+    //      we need to add a little delay after first lock is released
+    //      to avoid another race condition during test 
+    //      when adding result to list
     private class RaceStrategy<T>(T a, T b) : INextStrategy<T>
     {
         private volatile int _counter = 0;
@@ -13,14 +19,16 @@ public class ThreadSafeTests
             var current = Interlocked.Increment(ref _counter);
             if(current == 1)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(1000); // ensure order: (b,a) if NOT locked
                 return a;
             }
+
+            Thread.Sleep(500); // ensure order: (a,b) if locked
             return b;
         }
     }
 
-    // fast set by index by counter
+    // Add: fast set by index by counter
     private class ConcurrentList<T>(int capacity)
     {
         private readonly T[] _list = new T[capacity];
