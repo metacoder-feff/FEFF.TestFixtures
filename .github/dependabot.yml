@@ -23,14 +23,15 @@ updates:
         patterns:
           - "*" # Groups all .NET updates into a single PR
 
-  - package-ecosystem: "dotnet-sdk"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    groups:
-      dotnet:
-        patterns:
-          - "*"
+  # Update the .NET SDK version specified in global.json file
+  # - package-ecosystem: "dotnet-sdk"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   groups:
+  #     dotnet:
+  #       patterns:
+  #         - "*"
 
 
   # - package-ecosystem: "github-actions"
