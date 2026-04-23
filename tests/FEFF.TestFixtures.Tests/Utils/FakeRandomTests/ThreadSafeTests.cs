@@ -1,10 +1,16 @@
-using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 
 namespace FEFF.TestFixtures.AspNetCore.Randomness.Tests;
 
 public class ThreadSafeTests
 {
+    // Delays are : (1000, 500)
+    // 1: 1000 - if lock is NOT implemented:
+    //      creates a race condition in Next()
+    // 2: 500  - if lock is implemented 
+    //      we need to add a little delay after first lock is released
+    //      to avoid another race condition during test 
+    //      when adding result to list
     private class RaceStrategy<T>(T a, T b) : INextStrategy<T>
     {
         private volatile int _counter = 0;
@@ -13,14 +19,16 @@ public class ThreadSafeTests
             var current = Interlocked.Increment(ref _counter);
             if(current == 1)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(1000); // ensure order: (b,a) if NOT locked
                 return a;
             }
+
+            Thread.Sleep(500); // ensure order: (a,b) if locked
             return b;
         }
     }
 
-    // fast set by index by counter
+    // Add: fast set by index by counter
     private class ConcurrentList<T>(int capacity)
     {
         private readonly T[] _list = new T[capacity];
@@ -46,12 +54,28 @@ public class ThreadSafeTests
         }       
     }
 
-    private static RaceStrategy<T> CreateRaceStrategyFrom<T>(T a, T b) => new(a,b);
-
     private const int ThreadCount = 2;
     private readonly Barrier _barrier = new(ThreadCount);
-
     protected FakeRandom Rand { get; } = new();
+
+    #region helper methods
+
+    private static RaceStrategy<T> CreateRaceStrategyFrom<T>(T a, T b) => new(a,b);
+
+    private List<T> RunParallel<T>(Func<T> func)
+    {
+        var results = new ConcurrentList<T>(ThreadCount);
+
+        Parallel.For(0, ThreadCount, _ =>
+        {
+            _barrier.SignalAndWait();
+            var value = func();
+            results.Add(value);
+        });
+
+        return results.ToList();
+    }
+    #endregion
 
     #region int-32
     
@@ -59,39 +83,31 @@ public class ThreadSafeTests
     public void Next__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int32Next = CreateRaceStrategyFrom(1, 2);
-        var results = new ConcurrentQueue<int>();
 
-        Parallel.For(0, ThreadCount, _ =>
-        {
-            _barrier.SignalAndWait();
-            var value = Rand.Next();
-            results.Enqueue(value);
-        });
+        var results = RunParallel(() => 
+            Rand.Next()
+        );
 
-        results.ToList()
+        results
             .Should().BeEquivalentTo(
             [ 1, 2 ],
             options => options.WithStrictOrdering()
         );
 
         // without lock it would be: [2, 1]
-        // because '1' has a delay
+        // because '1' has bigger delay
     }
 
     [Fact]
     public void Next_max__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int32Next = CreateRaceStrategyFrom(10, 20);
-        var results = new ConcurrentList<int>(ThreadCount);
 
-        Parallel.For(0, ThreadCount, _ =>
-        {
-            _barrier.SignalAndWait();
-            var value = Rand.Next(100);
-            results.Add(value);
-        });
+        var results = RunParallel(() => 
+            Rand.Next(100)
+        );
 
-        results.ToList()
+        results
             .Should().BeEquivalentTo(
             [ 10, 20 ],
             options => options.WithStrictOrdering()
@@ -102,16 +118,12 @@ public class ThreadSafeTests
     public void Next_min_max__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int32Next = CreateRaceStrategyFrom(100, 200);
-        var results = new ConcurrentList<int>(ThreadCount);
+        
+        var results = RunParallel(() => 
+            Rand.Next(50, 300)
+        );
 
-        Parallel.For(0, ThreadCount, _ =>
-        {
-            _barrier.SignalAndWait();
-            var value = Rand.Next(50, 300);
-            results.Add(value);
-        });
-
-        results.ToList()
+        results
             .Should().BeEquivalentTo(
             [ 100, 200 ],
             options => options.WithStrictOrdering()
@@ -125,16 +137,12 @@ public class ThreadSafeTests
     public void Next64__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int64Next = CreateRaceStrategyFrom(1L, 2L);
-        var results = new ConcurrentList<long>(ThreadCount);
+        
+        var results = RunParallel(() => 
+            Rand.NextInt64()
+        );
 
-        Parallel.For(0, ThreadCount, _ =>
-        {
-            _barrier.SignalAndWait();
-            var value = Rand.NextInt64();
-            results.Add(value);
-        });
-
-        results.ToList()
+        results
             .Should().BeEquivalentTo(
             [ 1L, 2L ],
             options => options.WithStrictOrdering()
@@ -145,16 +153,12 @@ public class ThreadSafeTests
     public void Next64_max__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int64Next = CreateRaceStrategyFrom(10L, 20L);
-        var results = new ConcurrentList<long>(ThreadCount);
+        
+        var results = RunParallel(() => 
+            Rand.NextInt64(100L)
+        );
 
-        Parallel.For(0, ThreadCount, _ =>
-        {
-            _barrier.SignalAndWait();
-            var value = Rand.NextInt64(100L);
-            results.Add(value);
-        });
-
-        results.ToList()
+        results
             .Should().BeEquivalentTo(
             [ 10L, 20L ],
             options => options.WithStrictOrdering()
@@ -165,16 +169,12 @@ public class ThreadSafeTests
     public void Next64_min_max__when_multi_threaded__should_not_mix_values()
     {
         Rand.Int64Next = CreateRaceStrategyFrom(100L, 200L);
-        var results = new ConcurrentList<long>(ThreadCount);
+        
+        var results = RunParallel(() => 
+            Rand.NextInt64(50L, 300L)
+        );
 
-        Parallel.For(0, ThreadCount, _ =>
-        {
-            _barrier.SignalAndWait();
-            var value = Rand.NextInt64(50L, 300L);
-            results.Add(value);
-        });
-
-        results.ToList()
+        results
             .Should().BeEquivalentTo(
             [ 100L, 200L ],
             options => options.WithStrictOrdering()
@@ -188,16 +188,12 @@ public class ThreadSafeTests
     public void NextSingle__when_multi_threaded__should_not_mix_values()
     {
         Rand.SingleNext = CreateRaceStrategyFrom(0.1f, 0.2f);
-        var results = new ConcurrentList<float>(ThreadCount);
+        
+        var results = RunParallel(() => 
+            Rand.NextSingle()
+        );
 
-        Parallel.For(0, ThreadCount, _ =>
-        {
-            _barrier.SignalAndWait();
-            var value = Rand.NextSingle();
-            results.Add(value);
-        });
-
-        results.ToList()
+        results
             .Should().BeEquivalentTo(
             [ 0.1f, 0.2f ],
             options => options.WithStrictOrdering()
@@ -208,16 +204,12 @@ public class ThreadSafeTests
     public void NextDouble__when_multi_threaded__should_not_mix_values()
     {
         Rand.DoubleNext = CreateRaceStrategyFrom(0.1, 0.2);
-        var results = new ConcurrentList<double>(ThreadCount);
+        
+        var results = RunParallel(() => 
+            Rand.NextDouble()
+        );
 
-        Parallel.For(0, ThreadCount, _ =>
-        {
-            _barrier.SignalAndWait();
-            var value = Rand.NextDouble();
-            results.Add(value);
-        });
-
-        results.ToList()
+        results
             .Should().BeEquivalentTo(
             [ 0.1, 0.2 ],
             options => options.WithStrictOrdering()
@@ -236,7 +228,8 @@ public class ThreadSafeTests
         Parallel.For(0, ThreadCount, _ =>
         {
             var buffer = new byte[1];
-            _barrier.SignalAndWait();
+            _barrier.SignalAndWait(); // barrier strictly before Next()
+
             Rand.NextBytes(buffer);
             results.Add(buffer[0]);
         });
@@ -256,7 +249,8 @@ public class ThreadSafeTests
         Parallel.For(0, ThreadCount, _ =>
         {
             Span<byte> buffer = new byte[1];
-            _barrier.SignalAndWait();
+            _barrier.SignalAndWait(); // barrier strictly before Next()
+
             Rand.NextBytes(buffer);
             results.Add(buffer[0]);
         });

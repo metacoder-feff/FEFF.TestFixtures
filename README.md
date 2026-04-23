@@ -1,8 +1,7 @@
 # FEFF.TestFixtures
 
 [![Test](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml)
-[![CI Build](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml)
-
+[![Release](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/build.yml)
 
 Integrations:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV3)
@@ -146,8 +145,8 @@ public class ExampleTests
 
 Note:
 
-- All fixture dependencies (`MyCustomFixture1` and `MyCustomFixture2`) exist in the same scope as the dependent fixture (`MyFixtureSet` in the example above).
-- Fixtures cannot have cyclic dependencies.
++ All fixture dependencies (`MyCustomFixture1` and `MyCustomFixture2`) exist in the same scope as the dependent fixture (`MyFixtureSet` in the example above).
++ Fixtures cannot have cyclic dependencies.
 
 ## Fixture List
 
@@ -174,19 +173,22 @@ Note:
   + Provides access to the application's service provider in the test context
   + Creates and disposes ServiceScope
 + FakeLoggerFixture
-  + Replaces Logger<> with FakeLogger
+  + Adds FakeLoggerProvider to the application under test
+  + Provides access to the application's logs in the test context
 + FakeTimeFixture
   + Replaces TimeProvider with FakeTimeProvider
+  + Provides an ablility to manipulate application's time
 + FakeRandomFixture
   + Replaces Random with FakeRandom
+  + Provides an ablility to manipulate random values that apllication receives
 + TmpDatabaseNameFixture
   + Updates connection strings to use a unique database name for test isolation
 
 ### FEFF.TestFixtures.AspNetCore.EF Fixture Library
 
 + DatabaseLifecycleFixture
-  + Creates the database on test application start (DbContext.EnsureCreated)
   + Removes the database at the end of the fixture scope (e.g., after a test) (DbContext.EnsureDeleted)
+  + Can optionally create database at any time of the test (DbContext.EnsureCreated)
 
 ### [FEFF.TestFixtures.AspNetCore-Preview]
 
