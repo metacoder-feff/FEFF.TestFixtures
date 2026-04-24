@@ -4,7 +4,7 @@
   href: 01.getting-started/toc.yml
 - name: Advanced Usage
   href: 02.advanced/toc.yml
-# - name: Fixtures
-#   href: 03.fixtures/toc.yml
+- name: Fixtures
+  href: fixtures/toc.yml
 - name: Troubleshooting & FAQ
   href: troubleshooting-faq.md

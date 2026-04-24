@@ -1,8 +1,9 @@
-# Built-in Fixtures
+# List of Fixtures
 
 FEFF.TestFixtures provides a set of ready-to-use fixtures for common testing scenarios. These fixtures are managed by the framework and automatically cleaned up after use.
 
-## Core Fixtures (`FEFF.TestFixtures`)
+## Built-in Fixtures 
+`FEFF.TestFixtures.dll`
 
 | Fixture | Description |
 |---------|-------------|
@@ -10,7 +11,8 @@ FEFF.TestFixtures provides a set of ready-to-use fixtures for common testing sce
 | `EnvironmentFixture` | Snapshots process environment, restores after test |
 | `TmpScopeIdFixture` | Generates unique ID per scope (for test isolation) |
 
-## ASP.NET Core Fixtures (`FEFF.TestFixtures.AspNetCore`)
+## ASP.NET Core Fixtures
+`FEFF.TestFixtures.AspNetCore.dll`
 
 | Fixture | Description |
 |---------|-------------|
@@ -22,7 +24,8 @@ FEFF.TestFixtures provides a set of ready-to-use fixtures for common testing sce
 | `FakeLoggerFixture` | Captures logs for assertions |
 | `TmpDatabaseNameFixture` | Creates unique database name per test |
 
-## EF Core Integration (`FEFF.TestFixtures.AspNetCore.EF`)
+## ASP.NET Core + Entity Framework Core Extension
+`FEFF.TestFixtures.AspNetCore.EF.dll`
 
 | Fixture | Description |
 |---------|-------------|
@@ -31,14 +34,16 @@ FEFF.TestFixtures provides a set of ready-to-use fixtures for common testing sce
 ## Preview Fixtures
 Fixtures that are implemented but not fully tested.
 
-### ASP.NET Core Fixtures (`FEFF.TestFixtures.AspNetCore`)
+### ASP.NET Core Fixtures
+`FEFF.TestFixtures.AspNetCore.dll`
 
 | Fixture | Description |
 |---------|-------------|
 | `AuthorizedAppClientFixture` | Provides authenticated `HttpClient` with Bearer token for testing protected APIs |
 
 
-### SignalR Integration (`FEFF.TestFixtures.AspNetCore.SignalR`)
+### ASP.NET Core + SignalR Extension
+`FEFF.TestFixtures.AspNetCore.SignalR.dll`
 
 | Fixture | Description |
 |---------|-------------|
