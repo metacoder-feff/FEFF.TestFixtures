@@ -32,9 +32,8 @@ This package provides fixtures for testing **ASP.NET Core** applications using `
 | Fixture | Description |
 |---------|-------------|
 | `AppManagerFixture<TEntryPoint>` | Starts/stops the application via `WebApplicationFactory`; allows configuration and service collection modification before startup |
-| `AppServicesFixture<TEntryPoint>` | Resolves services from the application's `IServiceProvider` with scoped lifetime support |
 | `AppClientFixture<TEntryPoint>` | Creates an `HttpClient` connected to the test application |
-| `AuthorizedAppClientFixture<TEntryPoint>` | Creates an authenticated `HttpClient` with a Bearer token |
+| `AppServicesFixture<TEntryPoint>` | Resolves services from the application's `IServiceProvider` with scoped lifetime support |
 | `FakeTimeFixture<TEntryPoint>` | Replaces `TimeProvider` with a controllable `FakeTimeProvider` |
 | `FakeLoggerFixture<TEntryPoint>` | Replaces `ILoggerProvider` with a `FakeLoggerProvider` for assertion on log output |
 | `FakeRandomFixture<TEntryPoint>` | Replaces `Random.Shared` with a deterministic `FakeRandom` |
@@ -43,6 +42,10 @@ This package provides fixtures for testing **ASP.NET Core** applications using `
 ### Preview Features
 
 Preview fixtures (subject to change) are shipped under the `FEFF.TestFixtures.AspNetCore.Preview` namespace.
+
+| Fixture | Description |
+|---------|-------------|
+| `AuthorizedAppClientFixture<TEntryPoint>` | Creates an authenticated `HttpClient` with a Bearer token |
 
 ## Examples
 
