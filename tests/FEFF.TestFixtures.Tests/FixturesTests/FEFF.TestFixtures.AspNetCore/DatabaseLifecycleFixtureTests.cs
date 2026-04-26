@@ -97,7 +97,11 @@ public class DatabaseLifecycleFixtureTests
             var f = scope.GetFixture<DatabaseLifecycleFixture<Program, ApplicationDbContext>>();
 
             if (startApp)
+            {
                 await f.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+                // request to LazyDbContext starts application if it is not started
+                f.LazyDbContext.Should().NotBeNull();
+            }
         }
 
 //TODO: return bool??

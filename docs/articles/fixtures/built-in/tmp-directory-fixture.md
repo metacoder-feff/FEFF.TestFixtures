@@ -86,6 +86,7 @@ export TmpDirectoryFixture__Prefix=mytest_
 
 | Resource | Description |
 |----------|-------------|
+| [API: TmpDirectoryFixture](xref:FEFF.TestFixtures.TmpDirectoryFixture) | API reference |
 | [Basic Tests](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures/TmpDirectoryFixtureTests.cs) | Core functionality test coverage |
 | [Options Tests](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures/TmpDirectoryFixtureOptionsTests.cs) | Configuration and options test coverage |
 | [xUnit Example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.XunitV3/ExampleTests.cs) | Working example with xUnit v3 |

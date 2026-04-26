@@ -94,5 +94,6 @@ using var client = AppManagerFx.LazyApplication.CreateClient();
 
 | Link | Description |
 |------|-------------|
+| [API: AppClientFixture](xref:FEFF.TestFixtures.AspNetCore.AppClientFixture`1) | API reference |
 | [AppClientFixtureTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures.AspNetCore/AppClientFixtureTests.cs) | Unit tests for `AppClientFixture` |
 | [API Integration Example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs) | Integration test examples using `AppClientFixture` |

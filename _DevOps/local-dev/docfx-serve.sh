@@ -11,4 +11,4 @@ OUT_DIR=${DOC_DIR}/_site
 
 rm -rf "${OUT_DIR}"
 
-docfx "${DOC_DIR}/docfx.json" --warningsAsErrors --serve
+docfx "${DOC_DIR}/docfx.json" --warningsAsErrors --serve -m noRestore=true

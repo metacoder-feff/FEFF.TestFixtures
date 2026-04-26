@@ -156,6 +156,7 @@ public class ConfigurationTests
 
 | Resource | Description |
 |----------|-------------|
+| [API: AppManagerFixture](xref:FEFF.TestFixtures.AspNetCore.AppManagerFixture`1) | API reference |
 | @FEFF.TestFixtures.AspNetCore.AppConfiguratorExtensions | Extension methods for `IAppConfigurator` |
 | [Basic Tests](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures.AspNetCore/AppManagerFixture.BasicTests.cs) | Core functionality test coverage |
 | [Configuration Tests](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures.AspNetCore/AppManagerFixture.ConfigurationTests.cs) | Configuration options test coverage |

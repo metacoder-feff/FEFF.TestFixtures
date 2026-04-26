@@ -11,9 +11,10 @@ NUGET_DIR=$ROOT_DIR/nupkgs
 mkdir -p "$NUGET_DIR"
 rm -rf "$NUGET_DIR"/*
 
-dotnet pack \
+dotnet pack                          \
+  --no-restore                       \
   -p:ContinuousIntegrationBuild=true \
-  --output "$NUGET_DIR" \
+  --output "$NUGET_DIR"              \
   --configuration Release #\
   #-p:PackageVersion="1.0.4"
 

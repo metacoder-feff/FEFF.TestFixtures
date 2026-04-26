@@ -128,4 +128,5 @@ Tests within the same collection run sequentially.
 
 | Resource | Description |
 |----------|-------------|
+| [API: EnvironmentFixture](xref:FEFF.TestFixtures.EnvironmentFixture) | API reference |
 | [Unit Tests](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures/EnvironmentFixtureTest.cs) | Core functionality test coverage |

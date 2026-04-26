@@ -4,7 +4,11 @@
   href: AppClientFixture.md
 - name: AppServicesFixture
   href: AppServicesFixture.md
-- name: FakeTimeFixture
-  href: FakeTimeFixture.md
+- name: FakeLoggerFixture
+  href: FakeLoggerFixture.md
 - name: FakeRandomFixture
   href: FakeRandomFixture.md
+- name: FakeTimeFixture
+  href: FakeTimeFixture.md
+- name: TmpDatabaseNameFixture
+  href: TmpDatabaseNameFixture.md

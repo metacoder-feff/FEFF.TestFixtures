@@ -140,15 +140,12 @@ The fixture factory leverages `Microsoft.Extensions.DependencyInjection`:
 
 ## See Also
 
-### Sources
-
-- [FixtureManager.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.Engine/Engine/FixtureManager.cs)
-- [FixtureScope.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.Engine/Engine/FixtureScope.cs)
-- [FixtureManagerBuilder.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.Engine/Engine/FixtureManagerBuilder.cs)
-- [AssemblyDiscoveryService.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.Engine/Engine/AssemblyDiscoveryService.cs)
-
-### Tests
-
-- [FixtureManagerTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/FixtureManagerTests.cs)
-- [FixtureScopeTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/FixtureScopeTests.cs)
-- [ConcurrentAccessTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/ConcurrentAccessTests.cs)
+| Link | Description |
+|------|-------------|
+| [FixtureManager.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.Engine/Engine/FixtureManager.cs) | Core manager class for orchestrating fixture lifecycle |
+| [FixtureScope.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.Engine/Engine/FixtureScope.cs) | Isolated fixture container with DI scope |
+| [FixtureManagerBuilder.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.Engine/Engine/FixtureManagerBuilder.cs) | Builder for configuring FixtureManager |
+| [AssemblyDiscoveryService.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.Engine/Engine/AssemblyDiscoveryService.cs) | Service for discovering fixtures via reflection |
+| [FixtureManagerTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/FixtureManagerTests.cs) | Unit tests for FixtureManager |
+| [FixtureScopeTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/FixtureScopeTests.cs) | Unit tests for FixtureScope |
+| [ConcurrentAccessTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/ConcurrentAccessTests.cs) | Tests for thread-safe concurrent access |

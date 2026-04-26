@@ -2,5 +2,7 @@
   href: list.md
 - name: Built-in
   href: built-in/toc.yml
-- name: ASP.NET Core Fixtures
+- name: ASP.NET Core
   href: asp-net-core/toc.yml
+- name: ASP.NET Core with Entity Framework
+  href: asp-net-core-ef/toc.yml
