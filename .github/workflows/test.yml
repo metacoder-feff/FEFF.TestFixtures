@@ -56,9 +56,6 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore --use-lock-file
 
-      - name: Build
-        run: dotnet build --no-restore
-
       - name: Run tests
         run: ./_DevOps/test-cov.sh
 

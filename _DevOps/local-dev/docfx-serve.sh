@@ -2,6 +2,7 @@
 set -ex
 
 # dotnet tool update -g docfx
+# dotnet restore --use-lock-file
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 ROOT_DIR=$(realpath "${SCRIPT_DIR}/../..")

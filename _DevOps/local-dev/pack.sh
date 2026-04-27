@@ -3,6 +3,9 @@ set -ex
 
 # dotnet tool install --global dotnet-validate --version 0.0.1-preview.582
 
+# dotnet tool update -g --prerelease dotnet-validate
+# dotnet restore --use-lock-file
+
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 ROOT_DIR=$(realpath "${SCRIPT_DIR}/../..")
 

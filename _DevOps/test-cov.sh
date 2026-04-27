@@ -2,6 +2,7 @@
 set -ex
 
 # dotnet tool install --global dotnet-reportgenerator-globaltool
+# dotnet restore --use-lock-file
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 ROOT_DIR=$(realpath "${SCRIPT_DIR}/..")
@@ -14,7 +15,7 @@ HTML_DIR=${OUT_DIR}/coverage/html
 rm -rf ${OUT_DIR}/* || echo ok
 
 dotnet test   \
-  --no-build  \
+  --no-restore \
   --solution "${ROOT_DIR}/FEFF.TestFixtures.slnx" \
   --results-directory "${RAW_DIR}" \
   --coverage  \
