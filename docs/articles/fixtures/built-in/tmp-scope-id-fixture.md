@@ -76,5 +76,6 @@ public void Database__should_use_unique_schema()
 
 | Resource | Description |
 |----------|-------------|
+| [API: TmpScopeIdFixture](xref:FEFF.TestFixtures.TmpScopeIdFixture) | API reference |
 | [Tests](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures/TmpScopeIdFixtureTests.cs) | Core functionality and scope isolation tests |
 | [TmpDatabaseNameFixture](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.AspNetCore/Fixtures/TmpDatabaseNameFixture.cs) | Example of using `TmpScopeIdFixture` in ASP.NET Core |

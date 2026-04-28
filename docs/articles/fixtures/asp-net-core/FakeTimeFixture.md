@@ -7,7 +7,7 @@
 ## Overview
 
 The `FakeTimeFixture` is an extension to [`AppManagerFixture`](AppManagerFixture.md).   
-It replaces the `TimeProvider` service with a `FakeTimeProvider` singleton in the application under test, providing deterministic control over time-dependent behavior in your tests.
+It replaces the `TimeProvider` service with a `Microsoft.Extensions.Time.Testing.FakeTimeProvider` singleton in the application under test, providing deterministic control over time-dependent behavior in your tests.
 
 ### Key Features
 
@@ -97,7 +97,7 @@ public class TimeTests
 
 ## Time Control Methods
 
-The `FakeTimeProvider` provides several methods to control time:
+The `Microsoft.Extensions.Time.Testing.FakeTimeProvider` provides several methods to control time:
 
 | Method | Description |
 |--------|-------------|
@@ -112,6 +112,7 @@ The `FakeTimeProvider` provides several methods to control time:
 
 | Link | Description |
 |------|-------------|
+| [API: FakeTimeFixture](xref:FEFF.TestFixtures.AspNetCore.FakeTimeFixture`1) | API reference |
 | [FakeTimeFixtureTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures.AspNetCore/FakeTimeFixtureTests.cs) | Unit tests for `FakeTimeFixture` |
 | [API Integration Example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs) | Integration test examples using `FakeTimeFixture` |
 | [Microsoft.Extensions.Time.Testing Documentation](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.time.testing.faketimeprovider) | Official documentation for `FakeTimeProvider` |

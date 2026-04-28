@@ -80,5 +80,6 @@ var svc = scope.ServiceProvider.GetRequiredService<SomeService>();
 
 | Link | Description |
 |------|-------------|
+| [API: AppServicesFixture](xref:FEFF.TestFixtures.AspNetCore.AppServicesFixture`1) | API reference |
 | [AppServicesFixtureTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures.AspNetCore/AppServicesFixtureTests.cs) | Unit tests for `AppServicesFixture` |
 | [API Integration Example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs) | Integration test examples using `AppServicesFixture` |

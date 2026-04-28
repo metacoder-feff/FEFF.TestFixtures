@@ -21,26 +21,31 @@ concurrency:
   
 jobs:
   publish-docs:
+    name: Build docfx and deploy to github.pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v6
-    - name: Dotnet Setup
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: 10.x
+      - name: Checkout
+        uses: actions/checkout@v6
 
-    - run: dotnet tool update -g docfx
-    - run: docfx docs/docfx.json
+      - name: Dotnet Setup
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.x
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v5
-      with:
-        # Upload entire repository
-        path: 'docs/_site'
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v5
+      - name: Restore dependencies with lock
+        run: dotnet restore --use-lock-file
+
+      - run: dotnet tool update -g docfx
+      - run: docfx docs/docfx.json -m noRestore=true
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          # Upload entire repository
+          path: 'docs/_site'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -7,29 +7,29 @@ FEFF.TestFixtures provides a set of ready-to-use fixtures for common testing sce
 
 | Fixture | Description |
 |---------|-------------|
-| `TmpDirectoryFixture` | Creates a unique temp directory, auto-deletes after test |
-| `EnvironmentFixture` | Snapshots process environment, restores after test |
-| `TmpScopeIdFixture` | Generates unique ID per scope (for test isolation) |
+| [`TmpDirectoryFixture`](built-in/tmp-directory-fixture.md) | Creates a unique temp directory, auto-deletes after test |
+| [`EnvironmentFixture`](built-in/environment-fixture.md) | Snapshots process environment, restores after test |
+| [`TmpScopeIdFixture`](built-in/tmp-scope-id-fixture.md) | Generates unique ID per scope (for test isolation) |
 
 ## ASP.NET Core Fixtures
 `FEFF.TestFixtures.AspNetCore.dll`
 
 | Fixture | Description |
 |---------|-------------|
-| `AppManagerFixture` | Manages test host lifecycle for web apps |
-| `AppClientFixture` | Provides `HttpClient` for API testing |
-| `AppServicesFixture` | Access to application's service provider |
-| `FakeTimeFixture` | Replaces `TimeProvider` with controllable fake |
-| `FakeRandomFixture` | Replaces `Random` with deterministic fake |
-| `FakeLoggerFixture` | Captures logs for assertions |
-| `TmpDatabaseNameFixture` | Creates unique database name per test |
+| [`AppManagerFixture`](asp-net-core/AppManagerFixture.md) | Manages test host lifecycle for web apps |
+| [`AppClientFixture`](asp-net-core/AppClientFixture.md) | Provides `HttpClient` for API testing |
+| [`AppServicesFixture`](asp-net-core/AppServicesFixture.md) | Access to application's service provider |
+| [`FakeTimeFixture`](asp-net-core/FakeTimeFixture.md) | Replaces `TimeProvider` with controllable fake |
+| [`FakeRandomFixture`](asp-net-core/FakeRandomFixture.md) | Replaces `Random` with deterministic fake |
+| [`FakeLoggerFixture`](asp-net-core/FakeLoggerFixture.md) | Captures logs for assertions |
+| [`TmpDatabaseNameFixture`](asp-net-core/TmpDatabaseNameFixture.md) | Creates unique database name per test |
 
 ## ASP.NET Core + Entity Framework Core Extension
 `FEFF.TestFixtures.AspNetCore.EF.dll`
 
 | Fixture | Description |
 |---------|-------------|
-| `DatabaseLifecycleFixture` | Creates/deletes database automatically |
+| [`DatabaseLifecycleFixture`](asp-net-core-ef/DatabaseLifecycleFixture.md) | Creates/deletes database automatically |
 
 ## Preview Fixtures
 Fixtures that are implemented but not fully tested.

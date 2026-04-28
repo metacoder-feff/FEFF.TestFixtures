@@ -9,6 +9,8 @@ on:
 permissions:
   contents: read
 
+#TODO: DRY steps: Checkout & Setup & Restore
+
 jobs:
   test:
     name: Test .NET
@@ -54,9 +56,6 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore --use-lock-file
 
-      - name: Build
-        run: dotnet build --no-restore
-
       - name: Run tests
         run: ./_DevOps/test-cov.sh
 
@@ -67,3 +66,64 @@ jobs:
           name: TestResults
           path: ./TestResults
           retention-days: 14
+# endof: test
+
+#TODO: DRY release-nuget.yml
+  validate-nuget:
+    name: Validate NuGet packages
+    runs-on: ubuntu-latest
+
+    env:
+      NUGET_DIR: "./nupkgs"
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies with lock
+        run: dotnet restore --use-lock-file
+
+      - name: Build and Pack
+        run: |
+          dotnet pack                           \
+            --no-restore                        \
+            --output "$NUGET_DIR"               \
+            --configuration Release             \
+            -p:ContinuousIntegrationBuild=true  \
+            -p:VersionPrefix="0.0.1"
+
+      # - name: Upload JOB artifacts
+      #   uses: actions/upload-artifact@v7
+      #   with:
+      #     name: nuget-packages
+      #     path: ${{ env.NUGET_DIR }}/*
+      #     retention-days: 14
+
+      - run: dotnet tool update -g --prerelease dotnet-validate
+      - run: dotnet-validate package local "$NUGET_DIR/*"
+# endof: validate-nuget
+
+#TODO: DRY deploy-docfx.yml
+  validate-docs:
+    name: Validate docfx
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Dotnet Setup
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.x
+
+      - name: Restore dependencies with lock
+        run: dotnet restore --use-lock-file
+
+      - run: dotnet tool update -g docfx
+      - run: docfx docs/docfx.json --warningsAsErrors -m noRestore=true
+# endof: validate-docs

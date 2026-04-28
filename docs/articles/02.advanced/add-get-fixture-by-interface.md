@@ -59,4 +59,6 @@ internal class MultiInterfaceFixture : IFixtureA, IFixtureB
 
 ## See Also
 
-- [FixtureInterfaceTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/FixtureInterfaceTests.cs)
+| Link | Description |
+|------|-------------|
+| [FixtureInterfaceTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/FixtureInterfaceTests.cs) | Unit tests for fixture interface registration |
