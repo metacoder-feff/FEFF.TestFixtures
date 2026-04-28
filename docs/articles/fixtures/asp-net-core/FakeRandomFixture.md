@@ -56,10 +56,10 @@ using FEFF.TestFixtures.AspNetCore.Randomness;
 
 public class RandomTests
 {
-    protected IAppClientFixture Client = 
+    protected IAppClientFixture Client { get; } = 
         TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
-    protected FakeRandomFixture<Program> FakeRandomFx = 
+    protected FakeRandomFixture<Program> FakeRandomFx { get; } = 
         TestContext.Current.GetFeffFixture<FakeRandomFixture<Program>>();
 
     protected FakeRandom FakeRandom => FakeRandomFx.Value;
@@ -260,4 +260,4 @@ FakeRandom.Int32Next = FixedNextStrategy.From(150);
 | [API: FakeRandomFixture](xref:FEFF.TestFixtures.AspNetCore.FakeRandomFixture`1) | API reference |
 | [FakeRandomFixtureTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures.AspNetCore/FakeRandomFixtureTests.cs) | Unit tests for `FakeRandomFixture` |
 | [FakeRandomTests](https://github.com/metacoder-feff/FEFF.TestFixtures/tree/main/tests/FEFF.TestFixtures.Tests/Utils/FakeRandomTests) | Unit tests for `FakeRandom` |
-| [API Integration Example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs) | Integration test examples using `FakeTimeFixture` |
+| [API Integration Example](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs) | Integration test examples using `FakeRandomFixture` |

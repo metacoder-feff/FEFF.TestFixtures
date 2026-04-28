@@ -49,7 +49,7 @@ using FEFF.TestFixtures.AspNetCore;
 
 public class ServicesTests
 {
-    protected IAppServicesFixture ServicesFx = 
+    protected IAppServicesFixture ServicesFx { get; } = 
         TestContext.Current.GetFeffFixture<AppServicesFixture<Program>>();
 
     [Fact]

@@ -50,11 +50,11 @@ using Microsoft.Extensions.Logging.Testing;
 
 public class LoggingTests
 {
-    protected IAppClientFixture Client = 
+    protected IAppClientFixture Client { get; } = 
         TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
     // FakeLoggerFixture is automatically integrated with AppManagerFixture
-    protected FakeLoggerFixture<Program> FakeLoggerFx = 
+    protected FakeLoggerFixture<Program> FakeLoggerFx { get; } = 
         TestContext.Current.GetFeffFixture<FakeLoggerFixture<Program>>();
 
     [Fact]
