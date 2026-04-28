@@ -16,8 +16,8 @@
     <!-- <NoWarn>$(NoWarn);1591</NoWarn> --><!-- Missing XML comment ... -->
 
     <!-- NUGET -->
+    <VersionPrefix>0.0.1</VersionPrefix>
     <IsPackable>false</IsPackable> <!-- need override in each lib -->
-    <VersionPrefix>1.4.3</VersionPrefix>
     <Authors>metacoder-feff</Authors>
     <Copyright>Copyright (c) Metacoder-feff 2026</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
