@@ -39,9 +39,9 @@ internal sealed class FixtureScope : IAsyncDisposable, IFixtureScope
 ```
 
 **Key Responsibilities:**
-- Wraps `AsyncServiceScope` from Microsoft.Extensions.DependencyInjection
 - Resolves fixtures through dependency injection
 - Handles async disposal of scoped services
+- Fixes [ServiceProviderEngineScope should aggregate exceptions in Dispose rather than throwing on the first](https://github.com/dotnet/runtime/pull/123342/changes) when `Microsoft.Extensions.DependencyInjection.dll` has version prior to 11
 
 ## Usage Patterns
 
