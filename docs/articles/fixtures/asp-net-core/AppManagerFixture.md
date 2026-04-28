@@ -48,7 +48,7 @@ using FEFF.TestFixtures.AspNetCore;
 
 public class ApiTests
 {
-    protected FixtureSet AppManagerFx { get; } = 
+    protected AppManagerFixture<Program> AppManagerFx { get; } = 
         TestContext.Current.GetFeffFixture<AppManagerFixture<Program>>();
 
     [Fact]
@@ -117,7 +117,7 @@ using FEFF.TestFixtures.AspNetCore;
 
 public class ConfigurationTests
 {
-    protected FixtureSet AppManagerFx { get; } = 
+    protected AppManagerFixture<Program> AppManagerFx { get; } = 
         TestContext.Current.GetFeffFixture<AppManagerFixture<Program>>();
 
     [Theory]

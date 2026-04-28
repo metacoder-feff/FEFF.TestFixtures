@@ -16,7 +16,7 @@ Add the xUnit v3 integration package to your test project:
 dotnet add package FEFF.TestFixtures.XunitV3
 ```
 
-## Initilize extension
+## Initialize extension
 
 Add the assembly-level attribute to initialize the test fixtures extension in any file in your test project:
 

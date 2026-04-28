@@ -10,7 +10,7 @@
 `EnvironmentFixture` captures a snapshot of all environment variables when instantiated and reverts any changes when disposed. This ensures tests don't interfere with each other through environment variable modifications.
 
 > [!IMPORTANT]
-> Environment variable manipulation is process-wide. Tests using this fixture must run sequentially, not in parallel. Attempt to run in parallel would throw `InvailidOperationException`
+> Environment variable manipulation is process-wide. Tests using this fixture must run sequentially, not in parallel. Attempt to run in parallel would throw `InvalidOperationException`
 
 > [!TIP]
 > For xUnit, use the `[Collection]` attribute to ensure tests run sequentially.
@@ -24,7 +24,7 @@ using FEFF.TestFixtures;
 
 public class SystemUnderTest
 {
-    public static? string GetValue() => Environment.GetEnvironmentVariable("TEST_VAR");
+    public static string? GetValue() => Environment.GetEnvironmentVariable("TEST_VAR");
 }
 
 public class EnvironmentTests

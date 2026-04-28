@@ -97,12 +97,12 @@ using Microsoft.EntityFrameworkCore;
 
 public class DatabaseTests
 {
-    protected IAppClientFixture ClientFx = 
+    protected IAppClientFixture ClientFx { get; } = 
         TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
     // Fixture instance is not used explicitly in tests:
     // Database name is patched during fixture construction
-    protected TmpDatabaseNameFixture<Program, OptionsFixture> TmpDbNameFx = 
+    protected TmpDatabaseNameFixture<Program, OptionsFixture> TmpDbNameFx { get; } = 
         TestContext.Current.GetFeffFixture<TmpDatabaseNameFixture<Program, OptionsFixture>>();
 
     [Fact]

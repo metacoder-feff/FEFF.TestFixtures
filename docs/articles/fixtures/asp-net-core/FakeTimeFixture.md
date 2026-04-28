@@ -55,10 +55,10 @@ using Microsoft.Extensions.Time.Testing;
 
 public class TimeTests
 {
-    protected IAppClientFixture Client = 
+    protected IAppClientFixture Client { get; } = 
         TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
-    protected FakeTimeFixture<Program> FakeTimeFx = 
+    protected FakeTimeFixture<Program> FakeTimeFx { get; } = 
         TestContext.Current.GetFeffFixture<FakeTimeFixture<Program>>();
 
     protected FakeTimeProvider FakeTime => FakeTimeFx.Value;

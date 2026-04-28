@@ -41,7 +41,7 @@ where TOptionsFixture : ITmpDatabaseNameFixtureOptions
         TOptionsFixture opts)
     {
         app.ConfigurationBuilder.UseDatabaseNamePostfix(
-            $"test-{Guid.New()}", 
+            $"test-{Guid.NewGuid()}", 
             opts.ConnectionStringNames);
     }
 }
@@ -72,7 +72,7 @@ The options fixture can:
 
 ### Step 4: Use the Parameterized Fixture
 
-Create the fuxture instance:
+Create the fixture instance:
 
 ```csharp
 var fixtureInstance = TestContext.Current.GetFeffFixture<TmpDatabaseNameFixture<OptionsFixture>>();

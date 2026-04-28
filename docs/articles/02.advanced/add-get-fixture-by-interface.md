@@ -27,10 +27,10 @@ When a fixture is registered with `RegisterWithType`, it becomes accessible thro
 
 ```csharp
 // Retrieve by implementation type
-MyFixture fixture1 = Helper.GetFixture<MyFixture>();
+MyFixture fixture1 = TestContext.Current.GetFeffFixture<MyFixture>();
 
 // Retrieve by interface type
-IMyFixture fixture2 = Helper.GetFixture<IMyFixture>();
+IMyFixture fixture2 = TestContext.Current.GetFeffFixture<IMyFixture>();
 
 // Both references point to the same instance
 Assert.Same(fixture1, fixture2);

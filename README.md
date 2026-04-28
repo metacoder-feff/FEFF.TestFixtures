@@ -177,10 +177,10 @@ Note:
   + Provides access to the application's logs in the test context
 + FakeTimeFixture
   + Replaces TimeProvider with FakeTimeProvider
-  + Provides an ablility to manipulate application's time
+  + Provides an ability to manipulate application's time
 + FakeRandomFixture
   + Replaces Random with FakeRandom
-  + Provides an ablility to manipulate random values that apllication receives
+  + Provides an ability to manipulate random values that application receives
 + TmpDatabaseNameFixture
   + Updates connection strings to use a unique database name for test isolation
 

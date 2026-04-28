@@ -13,7 +13,7 @@ It automates the creation and disposal of an `HttpClient` connected to the test 
 
 - **Lazy Initialization**: The application starts only when `LazyValue` is first accessed
 - **Automatic `HttpClient` Lifecycle Management**: `AppClientFixture` leverages the fixture disposal mechanism
-- **Can be used instead of `AppManagerFixture`**: `AppClientFixture` internally requests `AppManagerFixture` as a dependency to access the test application
+- **Can be used instead of `AppManagerFixture`**: `AppClientFixture` internally requests `AppManagerFixture` as a dependency to access the test application, providing a higher-level abstraction with a ready-to-use `HttpClient`
 
 ## Basic Usage
 

@@ -62,18 +62,21 @@ using Microsoft.EntityFrameworkCore;
 
 public class DatabaseTests
 {
-    // Request the fixture
-    protected DatabaseLifecycleFixture<Program, ApplicationDbContext> EnsureDbFx => 
-        FixtureSet.EnsureDbFx;
+    // Request the fixtures
+    protected DatabaseLifecycleFixture<Program, ApplicationDbContext> DbFx { get; } = 
+        TestContext.Current.GetFeffFixture<DatabaseLifecycleFixture<Program, ApplicationDbContext>>();
+    protected IAppClientFixture ClientFx { get; } = 
+        TestContext.Current.GetFeffFixture<AppClientFixture<Program>>();
 
-    // Property for convenient access
-    protected ApplicationDbContext AppDbCtx => EnsureDbFx.LazyDbContext;
+    // Properties for convenient access
+    protected ApplicationDbContext AppDbCtx => DbFx.LazyDbContext;
+    protected HttpClient Client => ClientFx.LazyValue;
 
     [Fact]
     public async Task Create_User__should_persist_to_database()
     {
         // Ensure the database is created and migrations are applied
-        await EnsureDbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+        await DbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
         // Perform database operations
         // Send a POST request to the /user endpoint to create a new user

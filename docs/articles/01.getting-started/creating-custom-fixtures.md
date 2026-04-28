@@ -7,7 +7,7 @@ A fixture consists of three optional parts:
 | Part | Location | Purpose |
 |------|----------|---------|
 | **Setup** | Constructor | Initialize resources |
-| **State** | Properties/Fields | Expose data to tests |
+| **State** | Properties/Methods | Expose data to tests |
 | **Teardown** | `Dispose()` / `DisposeAsync()` | Clean up resources |
 
 ## Example: Building TmpDirectoryFixture
@@ -100,9 +100,7 @@ public class TmpDirectoryFixture : IDisposable
 }
 ```
 
-## Reference: TmpDirectoryFixture Source and Tests
-
-For a complete working example, see the production implementation and tests:
+## See Also
 
 | Resource | Description |
 |----------|-------------|

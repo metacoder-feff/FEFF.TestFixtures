@@ -147,3 +147,9 @@ public class SharedStateTests
 1. **Same Scope**: Dependencies are created in the same scope as the parent fixture
 2. **No Cyclic Dependencies**: Fixtures cannot depend on each other cyclically (A → B → A)
 3. **Lazy Initialization**: Fixtures are created only when first requested
+
+## See Also
+
+| Link | Description |
+|------|-------------|
+| [FixtureDependenciesTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/FixtureDependenciesTests.cs) | Core tests for fixture dependency registration and resolution |
