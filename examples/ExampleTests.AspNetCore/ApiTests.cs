@@ -18,7 +18,6 @@ using FEFF.TestFixtures.AspNetCore;
 using FEFF.TestFixtures.AspNetCore.Randomness;
 using FEFF.TestFixtures.AspNetCore.EF;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using Newtonsoft.Json.Linq;
 using WebApiTestSubject;
@@ -28,8 +27,8 @@ using Xunit.v3;
 [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
 
 //TODO: add example of AuthorizedAppClientFixture
-//TODO: add example of FakeLoggerFixture
-//TODO: add example of SignalrClientFixture + dotnet add package
+//TODO: add example of FakeLoggerFixture (extended example)
+//TODO: add example of SignalrClientFixture + dotnet add package (extended example)
 
 namespace ExampleTests.AspNetCore;
 
@@ -59,19 +58,17 @@ public class OptionsFixture : ITmpDatabaseNameFixtureOptions
 /// - FakeRandomFixture: Provides deterministic random number generation for reproducible tests
 /// - FakeTimeFixture: Allows control over time-dependent behavior
 /// - AppClientFixture: Provides an HttpClient for making requests to the test application
-/// - AppServicesFixture: Gives access to the application's dependency injection container
 /// - DatabaseLifecycleFixture: Ensures the database is deleted after tests, can optionally create the DB during/before the tests
 /// - TmpDatabaseNameFixture: Sets unique temporary database names for test isolation
 /// </summary>
 [Fixture]
 public record FixtureSet(
-    AppManagerFixture<Program> AppManagerFx,                 // Manages the test web application
+    AppManagerFixture<Program> AppManagerFx,                 // Allows to configure the test web application before start
     FakeRandomFixture<Program> FakeRandomFx,                 // Deterministic randomness
     FakeTimeFixture<Program> FakeTimeFx,                     // Controllable time provider
     AppClientFixture<Program> ClientFx,                      // HTTP client for API requests
-    AppServicesFixture<Program> ServiceFx,                   // Service provider access
-    DatabaseLifecycleFixture<Program, ApplicationDbContext> EnsureDbFx,  // Database EnsureCreated/EnsureDeleted using EfCore.DbContext
-    TmpDatabaseNameFixture<Program, OptionsFixture> TmpDbNameFx          // Temp database naming
+    DatabaseLifecycleFixture<Program, ApplicationDbContext> DbFx,  // Database EnsureCreated/EnsureDeleted using EfCore.DbContext
+    TmpDatabaseNameFixture<Program, OptionsFixture> TmpDbNameFx    // Temp database naming
 );
 
 /// <summary>
@@ -119,7 +116,7 @@ public class ApiTests
     /// Call EnsureCreatedAsync() before or during tests that require a fresh database.
     /// The database would be deleted automatically after the test.
     /// </summary>
-    protected IDatabaseLifecycleFixture EnsureDbFx => FixtureSet.EnsureDbFx;
+    protected IDatabaseLifecycleFixture DbFx => FixtureSet.DbFx;
 
     /// <summary>
     /// HTTP client for making requests to the test application's API endpoints.
@@ -129,7 +126,7 @@ public class ApiTests
     /// <summary>
     /// Direct access to the application's DbContext for database assertions/manipulations.
     /// </summary>
-    protected ApplicationDbContext AppDbCtx => FixtureSet.ServiceFx.LazyServiceProvider.GetRequiredService<ApplicationDbContext>();
+    protected ApplicationDbContext AppDbCtx => FixtureSet.DbFx.LazyDbContext;
     #endregion
 
     /// <summary>
@@ -315,7 +312,7 @@ public class ApiTests
         // Ensure the database is created and all migrations are applied
         // This gives us a clean database state for the test
         // Note that we work with a unique database due to the TmpDatabaseNameFixture
-        await EnsureDbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+        await DbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
         // Send a POST request to the /user endpoint to create a new user
         // The API creates a default user when the request body is null
