@@ -1,9 +1,8 @@
 # Fixture Factory Internals
 
-The `FixtureManager` is the core component responsible for creating, caching, and managing the lifecycle of fixture scopes. It acts as a factory and coordinator for all fixture instances within the test execution pipeline.
+The components described in this article are not intended to be used by end users, but they are used by test-framework integration modules (xUnit or TUnit).
 
 ## Core Components
-
 ### FixtureManager
 
 The central manager class that orchestrates fixture lifecycle:
@@ -42,6 +41,39 @@ internal sealed class FixtureScope : IAsyncDisposable, IFixtureScope
 - Resolves fixtures through dependency injection
 - Handles async disposal of scoped services
 - Fixes [ServiceProviderEngineScope should aggregate exceptions in Dispose rather than throwing on the first](https://github.com/dotnet/runtime/pull/123342/changes) when `Microsoft.Extensions.DependencyInjection.dll` has version prior to 11
+
+### FixtureManagerBuilder
+
+The only way to create a `FixtureManager` instance is to use the builder pattern via `FixtureManagerBuilder`:
+
+```csharp
+public class FixtureManagerBuilder
+{
+    public FixtureManagerOptions Options { get; set; } = new();
+
+    public FixtureManager Build();
+}
+```
+
+Where **FixtureManagerOptions** provides configuration for the fixture manager:
+
+```csharp
+public class FixtureManagerOptions
+{
+    public Action<IServiceCollection> DiscoverFixturesAction { get; set; }
+    public void ConfigureServices(Action<IServiceCollection> action);
+}
+```
+
+**Key Features:**
+- **DiscoverFixturesAction**: Defines how fixtures are discovered. Defaults to scanning assemblies via reflection for types marked with `[Fixture]` attribute or implementing `IFixtureRegistrar`. This is a mandatory configuration point.
+- **ConfigureServices**: Allows adding custom service registrations to the DI container. Supports multiple calls to register additional services.
+
+**Configuration Flow:**
+
+1. Set `DiscoverFixturesAction` if you want to customize fixture discovery
+2. Call `ConfigureServices()` one or more times to add custom services to the DI container
+3. Call `Build()` to create the `FixtureManager`
 
 ## Usage Patterns
 
@@ -94,13 +126,13 @@ Before scopes can be created, fixtures must be discovered and registered with th
 1. Framework scans assemblies for types marked with `[Fixture]` or types that implement `IFixtureRegistrar`
 2. Registers fixtures in the `ServiceCollection`
 3. Builds the root `ServiceProvider` for scope creation
-4. `ServiceProvider` is used by `FixtureManager` to resolve fixures
+4. `ServiceProvider` is used by `FixtureManager` to resolve fixtures
 
 ### Scope Creation Flow
 
 1. User calls `GetScope(id)`
-2. Manager checks if scope exists (thread-safe)
-3. If not exists, creates new `FixtureScope` with DI container
+2. Manager checks whether the scope exists (thread-safe)
+3. If it doesn't exist, creates a new `FixtureScope` with DI container
 4. Caches scope by identifier
 5. Returns scope instance
 
@@ -127,7 +159,7 @@ The fixture factory leverages `Microsoft.Extensions.DependencyInjection`:
 
 - Root `ServiceProvider` is created from configured services
 - Each scope creates child `AsyncServiceScope`
-- Fixtures are created within one of scopes
+- Fixtures are created within one of the scopes
 - Fixtures are resolved via `AsyncServiceScope.ServiceProvider.GetRequiredService<T>()`
 - Fixtures are disposed on scope cleanup
 
