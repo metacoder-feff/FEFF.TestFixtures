@@ -2,7 +2,7 @@ namespace FEFF.TestFixtures.AspNetCore.Randomness;
 
 /// <summary>
 /// A configurable random number generator for testing.<br/>
-/// All public methods ARE threadsafe via <c>lock()</c>.
+/// All public methods are thread-safe via <c>lock()</c>.
 /// </summary>
 /// <remarks>
 /// The default behavior uses a constant seed. Additional strategies such as
@@ -118,7 +118,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override int Next()
     {
-        lock(_lock)
+        lock (_lock)
         {
             // just do as other "Assert arguments" pattern
             var def = base.Next();
@@ -137,7 +137,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override int Next(int maxValue)
     {
-        lock(_lock)
+        lock (_lock)
         {
             // Assert arguments
             var def = base.Next(maxValue);
@@ -153,7 +153,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override int Next(int minValue, int maxValue)
     {
-        lock(_lock)
+        lock (_lock)
         {
             // Assert arguments
             var def = base.Next(minValue, maxValue);
@@ -185,7 +185,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override long NextInt64()
     {
-        lock(_lock)
+        lock (_lock)
         {
             var def = base.NextInt64();
             var strategy = Int64Next;
@@ -199,7 +199,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override long NextInt64(long maxValue)
     {
-        lock(_lock)
+        lock (_lock)
         {
             // Assert arguments
             var def = base.NextInt64(maxValue);
@@ -214,7 +214,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override long NextInt64(long minValue, long maxValue)
     {
-        lock(_lock)
+        lock (_lock)
         {
             // Assert arguments
             var def = base.NextInt64(minValue, maxValue);
@@ -243,7 +243,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override float NextSingle()
     {
-        lock(_lock)
+        lock (_lock)
         {
             var def = base.NextSingle();
             var strategy = SingleNext;
@@ -268,7 +268,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override double NextDouble()
     {
-        lock(_lock)
+        lock (_lock)
         {
             var def = base.NextDouble();
             var strategy = DoubleNext;
@@ -291,7 +291,7 @@ public class FakeRandom : Random
     /// <inheritdoc/>
     public override void NextBytes(Span<byte> buffer)
     {
-        lock(_lock)
+        lock (_lock)
         {
             // Assert arguments
             base.NextBytes(buffer);

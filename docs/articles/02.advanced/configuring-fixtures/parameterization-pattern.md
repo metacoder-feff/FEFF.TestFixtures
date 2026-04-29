@@ -1,16 +1,20 @@
-# Fixture Parameterization
-
-Fixture parameterization allows you to create fixture instances with concrete argument values by defining options types that supply configuration data. This pattern is essential when you need the same fixture to behave differently across tests based on custom parameters.
+# Generic Parameterization Pattern
 
 ## Overview
 
-While standard fixtures are created with default behavior, parameterized fixtures accept configuration through a dedicated options type. This options type is itself a fixture, enabling dependency injection and test isolation.
+Fixture parameterization lets you pass values to a fixture that are required but not known when the fixture is created. Instead of hardcoding configuration inside the fixture, you supply it from the outside.
 
-The pattern consists of three components:
+This is useful when:
 
-1. **Options Interface** - Defines the contract for configuration data
-2. **Options Fixture** - Implements the interface with concrete values
-3. **Parameterized Fixture** - Consumes the options fixture via constructor injection of generic type parameter
+- Different tests need the same fixture to behave differently
+- Configuration values (connection strings, endpoints, flags) are decided at test time, not when the fixture is written
+- The same fixture is reused across test suites with different settings
+
+The pattern uses three pieces:
+
+1. **Options Interface** — defines what values the fixture needs
+2. **Options Fixture** — provides the actual values
+3. **Parameterized Fixture** — receives the values through its constructor
 
 ## Example: TmpDatabaseNameFixture
 
@@ -66,8 +70,8 @@ public class OptionsFixture : ITmpDatabaseNameFixtureOptions
 ```
 
 The options fixture can:
-- Return hardcoded values
-- Read from environment variables
+
+- Return hardcoded or calculated values
 - Depend on other fixtures for dynamic configuration
 
 ### Step 4: Use the Parameterized Fixture
@@ -82,7 +86,7 @@ var fixtureInstance = TestContext.Current.GetFeffFixture<TmpDatabaseNameFixture<
 The generic type parameter `OptionsFixture` tells `TmpDatabaseNameFixture` which options to use.
 
 > [!TIP]
-> Single `OptionsFixture` class can implement multiple different interfaces to parameterize multiple fixtures used in a test suite.
+> A single `OptionsFixture` class can implement multiple different interfaces to parameterize multiple fixtures used in a test suite.
 
 ## Benefits of Fixture Parameterization
 
@@ -95,8 +99,8 @@ The generic type parameter `OptionsFixture` tells `TmpDatabaseNameFixture` which
 
 | Resource | Description |
 |----------|-------------|
-| [TmpDatabaseNameFixture.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.AspNetCore/Fixtures/TmpDatabaseNameFixture.cs) | Parameterized fixture implementation |
-| [ITmpDatabaseNameFixtureOptions.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.AspNetCore/Fixtures/TmpDatabaseNameFixture.cs) | Options interface definition |
+| [TmpDatabaseNameFixture.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.AspNetCore/Fixtures/TmpDatabaseNameFixture.cs) | Parameterized fixture and options interface |
 | [ApiTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs) | Example usage in API tests |
 | [TmpDatabaseNameFixtureTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures.AspNetCore/TmpDatabaseNameFixtureTests.cs) | Unit tests for parameterization |
-| [Configuring Fixtures](configuring-fixtures.md) | Alternative configuration via environment variables |
+| [Options Pattern](options-pattern.md) | Alternative configuration via environment variables |
+| [Selecting Configuration Method](selecting-configuration-method.md) | Comparison with Options Pattern |

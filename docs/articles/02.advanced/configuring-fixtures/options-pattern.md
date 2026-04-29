@@ -1,4 +1,4 @@
-# Configuring Fixtures
+# Options Pattern
 
 Fixtures that implement `IFixtureRegistrar` can expose configuration options through the standard `Microsoft.Extensions.Options` pattern. This article demonstrates how to add configuration support to a fixture using `TmpDirectoryFixture` as an example.
 
@@ -18,41 +18,41 @@ The `TmpDirectoryFixture` provides a unique temporary directory for each test sc
 Create an `Options` class and any supporting enums:
 
 ```csharp
+/// <summary>
+/// Specifies the behavior when the fixture is disposed.
+/// </summary>
+public enum DisposeType
+{
     /// <summary>
-    /// Specifies the behavior when the fixture is disposed.
+    /// Deletes the temporary directory and its contents on disposal.
     /// </summary>
-    public enum DisposeType
-    {
-        /// <summary>
-        /// Deletes the temporary directory and its contents on disposal.
-        /// </summary>
-        Delete,
-
-        /// <summary>
-        /// Skips deletion of the temporary directory on disposal.
-        /// </summary>
-        /// <remarks>
-        /// Can be used for optimization in CI environments.
-        /// </remarks>
-        Skip
-    }
+    Delete,
 
     /// <summary>
-    /// Configuration options for TmpDirectoryFixture.
+    /// Skips deletion of the temporary directory on disposal.
     /// </summary>
-    public class Options
-    {
-        /// <summary>
-        /// Gets or sets whether the temporary directory should be deleted on disposal.
-        /// Defaults to DisposeType.Delete.
-        /// </summary>
-        public DisposeType DisposeType { get; set; } = DisposeType.Delete;
+    /// <remarks>
+    /// Can be used for optimization in CI environments.
+    /// </remarks>
+    Skip
+}
 
-        /// <summary>
-        /// Gets or sets the prefix for the temporary directory name.
-        /// </summary>
-        public string? Prefix { get; set; }
-    }
+/// <summary>
+/// Configuration options for TmpDirectoryFixture.
+/// </summary>
+public class Options
+{
+    /// <summary>
+    /// Gets or sets whether the temporary directory should be deleted on disposal.
+    /// Defaults to DisposeType.Delete.
+    /// </summary>
+    public DisposeType DisposeType { get; set; } = DisposeType.Delete;
+
+    /// <summary>
+    /// Gets or sets the prefix for the temporary directory name.
+    /// </summary>
+    public string? Prefix { get; set; }
+}
 ```
 
 ### Step 2: Register Options with DI
@@ -89,27 +89,26 @@ This enables:
 Inject `IOptions<Options>` into the fixture constructor:
 
 ```csharp
-    private readonly Options _opts;
-    public string Path { get; }
+private readonly Options _opts;
+public string Path { get; }
 
-    public TmpDirectoryFixture(IOptions<Options> opts)
+public TmpDirectoryFixture(IOptions<Options> opts)
+{
+    _opts = opts.Value;
+    Path = Directory.CreateTempSubdirectory(_opts.Prefix).FullName;
+}
+
+public void Dispose()
+{
+    if (_opts.DisposeType != DisposeType.Delete)
+        return;
+
+    try
     {
-        _opts = opts.Value;
-        Path = Directory.CreateTempSubdirectory(_opts.Prefix).FullName;
+        Directory.Delete(Path, true);
     }
-
-    public void Dispose()
+    catch (DirectoryNotFoundException)
     {
-        if (_opts.DisposeType != DisposeType.Delete)
-            return;
-
-        try
-        {
-            Directory.Delete(Path, true);
-        }
-        catch (DirectoryNotFoundException)
-        {
-        }
     }
 }
 ```
@@ -162,3 +161,5 @@ var manager = new FixtureManagerBuilder()
 | [TmpDirectoryFixture.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs) | Complete source code example |
 | [TmpDirectoryFixtureTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/Fixtures/TmpDirectoryFixtureTests.cs) | Unit tests for TmpDirectoryFixture |
 | [OptionsConfigurationTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/OptionsConfigurationTests.cs) | Tests for options configuration patterns |
+| [Parameterization Pattern](parameterization-pattern.md) | Alternative generic type-based configuration |
+| [Selecting Configuration Method](selecting-configuration-method.md) | Comparison of configuration approaches |

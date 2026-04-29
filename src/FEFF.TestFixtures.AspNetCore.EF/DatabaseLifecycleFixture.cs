@@ -27,7 +27,7 @@ where TContext : DbContext
     /// Gets the <typeparamref name="TContext" /> instance resolved from the service provider.
     /// </summary>
     /// <remarks>
-    /// Starts the application under test if not already running.
+    /// Accessing this property starts the application under test if not already running.
     /// </remarks>
     TContext LazyDbContext { get; }
 }
@@ -39,8 +39,11 @@ where TContext : DbContext
 /// A fixture that manages Entity Framework Core database creation and deletion
 /// for the lifetime of a test scope. The database is deleted on <see cref="DisposeAsync"/>.
 /// </summary>
+/// <remarks>
+/// Note: EnsureDeleted may fail for admin databases. Consider using TmpDbNameFixture for such cases.
+/// </remarks>
 /// <typeparam name="TEntryPoint">The application entry point type.</typeparam>
-/// <typeparam name="TContext">The <see cref="LazyDbContext"/> type to manage.</typeparam>
+/// <typeparam name="TContext">The <see cref="DbContext"/> type to manage.</typeparam>
 [Fixture]
 public sealed class DatabaseLifecycleFixture<TEntryPoint, TContext> : IAsyncDisposable, IDatabaseLifecycleFixture<TContext>
 where TEntryPoint : class
@@ -70,6 +73,10 @@ where TContext : DbContext
             return;
 
         await LazyDbContext.Database.EnsureDeletedAsync().ConfigureAwait(false);
+// TODO:
+            // Log warning but do not throw to prevent test failures during cleanup
+            // This can happen when database is locked or inaccessible
+            // System.Console.Error.WriteLine($"[DatabaseLifecycleFixture] Warning: Failed to delete database: {ex.Message}");
     }
 
     /// <inheritdoc/>
