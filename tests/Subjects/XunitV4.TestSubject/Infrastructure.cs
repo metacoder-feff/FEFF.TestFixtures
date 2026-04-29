@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
 
-namespace FEFF.TestFixtures.XunitV4.Tests;
+namespace FEFF.TestFixtures.XunitV4.TestSubjects;
 
 public class Infrastructure
 {

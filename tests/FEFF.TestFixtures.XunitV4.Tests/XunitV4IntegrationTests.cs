@@ -3,15 +3,14 @@ using System.Text;
 using AwesomeAssertions;
 using AwesomeAssertions.Json;
 using Newtonsoft.Json.Linq;
+using Xunit;
 
 namespace FEFF.TestFixtures.XunitV4.Tests;
 
-//TODO: test event order: https://tunit.dev/docs/writing-tests/event-subscribing/ 
-
-public class TUnitIntegrationTests
+public class XunitV4IntegrationTests
 {
     // Fixture creating is tested inside TestSubject
-    [Test]
+    [Fact]
     public async Task Fixtures__should_be_disposed()
     {
         // Arrange
@@ -35,7 +34,7 @@ public class TUnitIntegrationTests
 
         using (p)
         {
-            await p.WaitForExitAsync();
+            await p.WaitForExitAsync(TestContext.Current.CancellationToken);
             p.HasExited.Should().BeTrue();
             p.ExitCode.Should().Be(0);
         }

@@ -13,11 +13,19 @@
           "System.IO.Hashing": "10.0.7"
         }
       },
-      "TUnit.Core": {
+      "xunit.v3.extensibility.core": {
         "type": "Direct",
-        "requested": "[1.40.10, )",
-        "resolved": "1.40.10",
-        "contentHash": "e09Mumq7XAnm2olh4/YzgrijNbJN5V0qMahFiyxblSrbibBv6uJFrEdaOZSn9wtds3zsE8mmcpTzCCm6MXEeXQ=="
+        "requested": "[4.0.0-pre.103, )",
+        "resolved": "4.0.0-pre.103",
+        "contentHash": "WVO4mpv2HErpqe5yqYXUXeVZz+Hx7E3JYrVdOMtVuirrXk3ls3i1zRoyGrhQY+thzY5K3beww/8h8B9Qis0S/Q==",
+        "dependencies": {
+          "xunit.v3.common": "[4.0.0-pre.103]"
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces": {
+        "type": "Transitive",
+        "resolved": "6.0.0",
+        "contentHash": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
@@ -116,6 +124,14 @@
         "resolved": "10.0.7",
         "contentHash": "XDkKntYPUaANhLVdo7AHbrJ+QbUAY5u/T7lG5rHSx5kLxeHceoc3JcIMVAc/vZT+3rbwFYlrdnikxdi6G+2nvA=="
       },
+      "xunit.v3.common": {
+        "type": "Transitive",
+        "resolved": "4.0.0-pre.103",
+        "contentHash": "9d6oYJqTNLG0/a2n2sR7i5ChJx9xV9DH287u1SqiFZ8imx+Cua7bMuObNANOlvEd5EpTXQjCOC+p9JoULdzF1w==",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
+        }
+      },
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
@@ -153,11 +169,19 @@
           "System.IO.Hashing": "10.0.7"
         }
       },
-      "TUnit.Core": {
+      "xunit.v3.extensibility.core": {
         "type": "Direct",
-        "requested": "[1.40.10, )",
-        "resolved": "1.40.10",
-        "contentHash": "e09Mumq7XAnm2olh4/YzgrijNbJN5V0qMahFiyxblSrbibBv6uJFrEdaOZSn9wtds3zsE8mmcpTzCCm6MXEeXQ=="
+        "requested": "[4.0.0-pre.103, )",
+        "resolved": "4.0.0-pre.103",
+        "contentHash": "WVO4mpv2HErpqe5yqYXUXeVZz+Hx7E3JYrVdOMtVuirrXk3ls3i1zRoyGrhQY+thzY5K3beww/8h8B9Qis0S/Q==",
+        "dependencies": {
+          "xunit.v3.common": "[4.0.0-pre.103]"
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces": {
+        "type": "Transitive",
+        "resolved": "6.0.0",
+        "contentHash": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
@@ -271,6 +295,14 @@
         "dependencies": {
           "System.Collections.Immutable": "10.0.7",
           "System.Reflection.Metadata": "10.0.7"
+        }
+      },
+      "xunit.v3.common": {
+        "type": "Transitive",
+        "resolved": "4.0.0-pre.103",
+        "contentHash": "9d6oYJqTNLG0/a2n2sR7i5ChJx9xV9DH287u1SqiFZ8imx+Cua7bMuObNANOlvEd5EpTXQjCOC+p9JoULdzF1w==",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
         }
       },
       "feff.testfixtures": {
