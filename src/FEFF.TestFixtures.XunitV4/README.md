@@ -17,13 +17,13 @@ This package integrates the fixture engine with **Xunit v4**, enabling fixture r
 1. Add the package to your test project:
 
    ```bash
-   dotnet add package FEFF.TestFixtures.XunitV3
+   dotnet add package FEFF.TestFixtures.XunitV4 --prerelease
    ```
 
 2. Enable the extension at the assembly level:
 
    ```csharp
-   [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
+   [assembly: FEFF.TestFixtures.Xunit.V4.TestFixturesExtension]
    ```
 
 3. Resolve fixtures in your tests:
