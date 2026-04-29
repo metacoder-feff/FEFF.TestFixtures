@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <!-- NUGET -->
+    <IsPackable>true</IsPackable>
+    <Description>xUnit v4 extension, adds 'FEFF.TestFixtures'.</Description>
+    <PackageTags>testing;fixtures;xUnit;xUnitV4;FEFF;</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+     <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TUnit.Core" Version="1.40.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../FEFF.TestFixtures/FEFF.TestFixtures.csproj" />
+    <ProjectReference Include="../FEFF.TestFixtures.Engine/FEFF.TestFixtures.Engine.csproj" />
+  </ItemGroup>
+
+</Project>

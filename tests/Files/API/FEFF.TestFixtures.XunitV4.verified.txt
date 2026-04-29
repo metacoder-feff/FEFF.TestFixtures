@@ -1,0 +1,29 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/metacoder-feff/FEFF.TestFixtures")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+namespace FEFF.TestFixtures.XunitV4
+{
+    public enum FixtureScopeType
+    {
+        TestCase = 0,
+        Class = 1,
+        Assembly = 2,
+        Session = 3,
+    }
+    public static class GlobalHooksExtension
+    {
+        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Assembly)]
+            "cs", 141)]
+        public static System.Threading.Tasks.Task AfterA(TUnit.Core.AssemblyHookContext ctx) { }
+        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Class)]
+            "cs", 130)]
+        public static System.Threading.Tasks.Task AfterC(TUnit.Core.ClassHookContext ctx) { }
+        [TUnit.Core.After(TUnit.Core.HookType.TestSession)]
+            "cs", 153)]
+        public static System.Threading.Tasks.Task AfterS(TUnit.Core.TestSessionContext ctx) { }
+        [TUnit.Core.AfterEvery(TUnit.Core.HookType.Test)]
+            "cs", 119)]
+        public static System.Threading.Tasks.Task AfterT(TUnit.Core.TestContext ctx) { }
+        public static T GetFeffFixture<T>(this TUnit.Core.TestContext ctx, FEFF.TestFixtures.XunitV4.FixtureScopeType scopeType = 0)
+            where T :  notnull { }
+    }
+}

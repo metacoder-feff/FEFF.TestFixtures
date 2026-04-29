@@ -20,6 +20,7 @@ public class ApiVerificationTests
     [InlineData("FEFF.TestFixtures.AspNetCore.EF")]
     [InlineData("FEFF.TestFixtures.AspNetCore.SignalR")]
     [InlineData("FEFF.TestFixtures.XunitV3")]
+    [InlineData("FEFF.TestFixtures.XunitV4")]
     [InlineData("FEFF.TestFixtures.TUnit")]
     public Task API_should_not_change(string assemblyName)
     {

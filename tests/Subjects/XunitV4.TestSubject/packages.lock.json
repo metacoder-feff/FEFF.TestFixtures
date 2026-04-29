@@ -216,7 +216,7 @@
           "System.Reflection.MetadataLoadContext": "[10.0.7, )"
         }
       },
-      "feff.testfixtures.tunit": {
+      "feff.testfixtures.xunitv4": {
         "type": "Project",
         "dependencies": {
           "FEFF.TestFixtures": "[0.0.1, )",
