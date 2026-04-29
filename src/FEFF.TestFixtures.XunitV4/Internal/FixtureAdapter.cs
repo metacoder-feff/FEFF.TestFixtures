@@ -5,6 +5,11 @@ using Xunit.v3;
 
 namespace FEFF.TestFixtures.Xunit.Internal;
 
+/// <summary>
+/// Adapter that integrates FEFF.TestFixtures with xUnit v4 lifecycle events.
+/// Manages the FixtureManager and handles scope creation/cleanup for test assemblies,
+/// collections, classes, and test cases.
+/// </summary>
 internal class FixtureAdapter 
     : INotifyTestAssemblyLifecycleAsync
     , INotifyTestCollectionLifecycleAsync
@@ -20,11 +25,13 @@ internal class FixtureAdapter
         SetCurrent(TestContext.Current, this);
     }
 
+    /// <inheritdoc/>
     public ValueTask DisposeAsync()
     {
         return _fixtureManager.DisposeAsync();
     }
 
+    /// <inheritdoc/>
     public ValueTask OnTestAssemblyFinishedAsync(IXunitTestAssembly testAssembly)
     {
         ArgumentNullException.ThrowIfNull(testAssembly);
@@ -32,7 +39,8 @@ internal class FixtureAdapter
         return _fixtureManager.RemoveScopeAsync(id);
     }
 
-    # region EventHanlers
+    #region EventHandlers
+    /// <inheritdoc/>
     public ValueTask OnTestCollectionFinishedAsync(IXunitTestCollection testCollection)
     {
         ArgumentNullException.ThrowIfNull(testCollection);
@@ -40,6 +48,7 @@ internal class FixtureAdapter
         return _fixtureManager.RemoveScopeAsync(id);
     }
 
+    /// <inheritdoc/>
     public ValueTask OnTestClassFinishedAsync(IXunitTestClass testClass)
     {
         ArgumentNullException.ThrowIfNull(testClass);
@@ -47,6 +56,7 @@ internal class FixtureAdapter
         return _fixtureManager.RemoveScopeAsync(id);
     }
 
+    /// <inheritdoc/>
     public ValueTask OnTestCaseFinishedAsync(IXunitTestCase testCase)
     {
         ArgumentNullException.ThrowIfNull(testCase);
@@ -54,11 +64,18 @@ internal class FixtureAdapter
         return _fixtureManager.RemoveScopeAsync(id);
     }
 
+    /// <inheritdoc/>
     public ValueTask OnTestAssemblyStartingAsync(IXunitTestAssembly testAssembly) => ValueTask.CompletedTask;
+    
+    /// <inheritdoc/>
     public ValueTask OnTestCaseStartingAsync(IXunitTestCase testCase) => ValueTask.CompletedTask;
+    
+    /// <inheritdoc/>
     public ValueTask OnTestClassStartingAsync(IXunitTestClass testClass) => ValueTask.CompletedTask;
+    
+    /// <inheritdoc/>
     public ValueTask OnTestCollectionStartingAsync(IXunitTestCollection testCollection) => ValueTask.CompletedTask;
-    # endregion
+    #endregion
 
     internal IFixtureScope GetScope(string scopeId)
     {

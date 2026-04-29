@@ -18,8 +18,8 @@ namespace FEFF.TestFixtures.Xunit;
 // [AttributeUsage(AttributeTargets.Assembly)]
 public class TestFixturesExtensionAttribute : AssemblyFixtureAttribute
 {
-//TODO: add comment
     /// <summary>
+    /// Initializes a new instance of the <see cref="TestFixturesExtensionAttribute"/> class.
     /// </summary>
     public TestFixturesExtensionAttribute() : base(typeof(FixtureAdapter))
     {
