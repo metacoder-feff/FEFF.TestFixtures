@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AwesomeAssertions;
 using FEFF.TestFixtures.Xunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,10 +13,61 @@ namespace FEFF.TestFixtures.XunitV4.TestSubjects;
 
 internal class BaseFix : IDisposable
 {
+    private readonly string? _testName;
+    private readonly JsonSerializerOptions _options = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        WriteIndented = false,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
+
+    public BaseFix()
+    {
+        // for simplier test
+        if(GetType() == typeof(AssemblyFix) || GetType() == typeof(SingletonTester))
+        {
+            _testName = "{}";
+            return;
+        }
+
+        var tst = TestContext.Current.TestMethod?.MethodName;
+        var cls = TestContext.Current.TestClass?.TestClassName;
+        var col = TestContext.Current.TestCollection?.TestCollectionDisplayName;
+
+        // for simplier test
+        if(cls != null)
+            cls = cls.Replace("FEFF.TestFixtures.XunitV4.TestSubjects.", "");
+
+        // remove default collection name for simplier test
+        if (col != null && col.StartsWith("Test collection for "))
+            col = "";
+
+        // first tst/cls may vary beacuse of parallel execution
+        if(GetType() == typeof(ClassFix))
+            tst = null;
+        if(GetType() == typeof(CollectionFix))
+        {
+            tst = null;
+            cls = null;
+        }
+
+        _testName = JsonSerializer.Serialize(
+            options: _options,
+            value: new
+            {
+                Test = tst,
+                Collection = col,
+                Class = cls,
+            })
+            .Replace("\"", "'") // for test convenience
+            ;
+
+    }
+
     public void Dispose()
     {
         var name = this.GetType().Name;
-        Infrastructure.Add(name);
+        Infrastructure.Add($"{name}:{_testName}");
     }
 }
 
@@ -46,7 +99,8 @@ public class TestSubject
     }
 
     [Fact]
-    public void Fixtures__should_be_registered_and_materialized()
+    //public void Fixtures__should_be_registered_and_materialized()
+    public void TestMethod_1()
     {
         var f1 = GetFixture<TestFix>();
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
@@ -62,7 +116,9 @@ public class TestSubject
     }
 
     [Fact]
-    public void Second_test_method()
+    // public void Second_test_method()
+    public void TestMethod_2()
+
     {
         var f1 = GetFixture<TestFix>();
         var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);

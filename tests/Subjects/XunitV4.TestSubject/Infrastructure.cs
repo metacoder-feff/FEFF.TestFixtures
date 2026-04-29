@@ -1,26 +1,26 @@
-using System.Collections.Concurrent;
 using System.Text;
-using System.Text.Json;
 
 namespace FEFF.TestFixtures.XunitV4.TestSubjects;
 
-public class Infrastructure
+public static class Infrastructure
 {
-    private static ConcurrentDictionary<string, int> _result = [];
+    public static string ResultName { get; } = GetFileName();
+    public static string AssemblyName => System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+    private static readonly Lock _lock = new();
+
+    private static string GetFileName()
+    {
+        var fi = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        var d = fi.Directory!.FullName;
+        return Path.Combine(d, "test-subject-result.txt");
+    }
 
     public static void Add(string s)
     {
-        _result.AddOrUpdate(s, 1, (_, prev) => prev + 1);
-    }
-
-    // Dispose _manager here.
-    [After(TestSession)]
-    public async static Task AfterS(TestSessionContext ctx)
-    {
-        var s = JsonSerializer.Serialize(_result);
-
-        var fi = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        var d = fi.Directory!.FullName;
-        File.WriteAllText($"{d}/test-subject-result.json", s, Encoding.UTF8);
+        lock(_lock)
+        {
+            File.AppendAllLines(ResultName, [s], Encoding.UTF8);
+        }
     }
 }

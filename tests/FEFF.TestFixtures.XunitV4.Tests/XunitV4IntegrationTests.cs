@@ -2,7 +2,6 @@
 using System.Text;
 using AwesomeAssertions;
 using AwesomeAssertions.Json;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace FEFF.TestFixtures.XunitV4.Tests;
@@ -14,12 +13,8 @@ public class XunitV4IntegrationTests
     public async Task Fixtures__should_be_disposed()
     {
         // Arrange
-        var fi = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        var d = fi.Directory!.FullName;
-        // testSubject is referenced by this project, therefore it is built and copied here
-        var testSubject = $"{d}/XunitV4.TestSubject.dll";
-        // testSubject creates a file in its dir
-        var resultFile = $"{d}/test-subject-result.json";
+        var resultFile = TestSubjects.Infrastructure.ResultName;
+        var testSubject = TestSubjects.Infrastructure.AssemblyName;
 
         TryDelete(resultFile);
         File.Exists(resultFile).Should().BeFalse();
@@ -41,20 +36,39 @@ public class XunitV4IntegrationTests
 
         // Assert
         File.Exists(resultFile).Should().BeTrue();
+        var res = File.ReadAllLines(resultFile, Encoding.UTF8);
 
-        // resultFile contains dispose calls per fixture counters
-        var res = File.ReadAllText(resultFile, Encoding.UTF8);
-        JToken.Parse(res)
-            .Should().BeEquivalentTo(
-        """
-        {
-            "TestFix":4,
-            "ClassFix":2,
-            "AssemblyFix":1,
-            "SessionFix":1,
-            "SingletonFix":1,
-        }
-        """);
+        // Assert that all fixures are disposed (and created)
+        // order may varry because tests run in parallel
+        res.Should().BeEquivalentTo(
+        [
+            "TestFix:{'test':'TestMethod_1','collection':'','class':'TestSubject'}", 
+            "TestFix:{'test':'TestMethod_1','collection':'collecion-a','class':'SecondTestSubject'}", 
+            "TestFix:{'test':'TestMethod_2','collection':'','class':'TestSubject'}", 
+            "TestFix:{'test':'TestMethod_2','collection':'collecion-a','class':'SecondTestSubject'}", 
+            "ClassFix:{'collection':'','class':'TestSubject'}", 
+            "ClassFix:{'collection':'collecion-a','class':'SecondTestSubject'}", 
+            "CollectionFix:{'collection':''}", // default collection for 'TestSubject'
+            "TestFix:{'test':'TestMethod_2','collection':'collecion-a','class':'ThirdTestSubject'}", 
+            "TestFix:{'test':'TestMethod_1','collection':'collecion-a','class':'ThirdTestSubject'}", 
+            "ClassFix:{'collection':'collecion-a','class':'ThirdTestSubject'}", 
+            "CollectionFix:{'collection':'collecion-a'}", 
+            "AssemblyFix:{}", 
+            "SingletonTester:{}",
+        ]);
+
+        // Assert that fixture disposal order depends on FixtureScope
+        // strict order checking
+        res.Should().ContainInOrder(
+        [
+            "TestFix:{'test':'TestMethod_1','collection':'collecion-a','class':'ThirdTestSubject'}", 
+            "ClassFix:{'collection':'collecion-a','class':'ThirdTestSubject'}", 
+            "CollectionFix:{'collection':'collecion-a'}", 
+            "AssemblyFix:{}", 
+            "SingletonTester:{}",
+        ]);
+
+
     }
 
     private static void TryDelete(string f)

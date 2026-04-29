@@ -4,6 +4,7 @@
 
     <!-- NUGET -->
     <IsPackable>true</IsPackable>
+    <VersionSuffix>preview</VersionSuffix> <!-- until xUnitV4 stable release -->
     <Description>xUnit v4 extension, adds 'FEFF.TestFixtures'.</Description>
     <PackageTags>testing;fixtures;xUnit;xUnitV4;FEFF;</PackageTags>
   </PropertyGroup>

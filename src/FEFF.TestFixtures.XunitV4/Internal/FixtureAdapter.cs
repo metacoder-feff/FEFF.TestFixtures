@@ -27,26 +27,30 @@ internal class FixtureAdapter
 
     public ValueTask OnTestAssemblyFinishedAsync(IXunitTestAssembly testAssembly)
     {
-        // TODO: use arg
-        var id = ScopeIdHelper.GetScopeId(TestContext.Current, FixtureScopeType.Assembly);
+        ArgumentNullException.ThrowIfNull(testAssembly);
+        var id = ScopeIdHelper.GetScopeId(testAssembly);
         return _fixtureManager.RemoveScopeAsync(id);
     }
+
+    # region EventHanlers
     public ValueTask OnTestCollectionFinishedAsync(IXunitTestCollection testCollection)
     {
-        // TODO: use arg
-        var id = ScopeIdHelper.GetScopeId(TestContext.Current, FixtureScopeType.Collection);
+        ArgumentNullException.ThrowIfNull(testCollection);
+        var id = ScopeIdHelper.GetScopeId(testCollection);
         return _fixtureManager.RemoveScopeAsync(id);
     }
+
     public ValueTask OnTestClassFinishedAsync(IXunitTestClass testClass)
     {
-        // TODO: use arg
-        var id = ScopeIdHelper.GetScopeId(TestContext.Current, FixtureScopeType.Class);
+        ArgumentNullException.ThrowIfNull(testClass);
+        var id = ScopeIdHelper.GetScopeId(testClass);
         return _fixtureManager.RemoveScopeAsync(id);
     }
+
     public ValueTask OnTestCaseFinishedAsync(IXunitTestCase testCase)
     {
-        // TODO: use arg
-        var id = ScopeIdHelper.GetScopeId(TestContext.Current, FixtureScopeType.TestCase);
+        ArgumentNullException.ThrowIfNull(testCase);
+        var id = ScopeIdHelper.GetScopeId(testCase);
         return _fixtureManager.RemoveScopeAsync(id);
     }
 
@@ -54,6 +58,7 @@ internal class FixtureAdapter
     public ValueTask OnTestCaseStartingAsync(IXunitTestCase testCase) => ValueTask.CompletedTask;
     public ValueTask OnTestClassStartingAsync(IXunitTestClass testClass) => ValueTask.CompletedTask;
     public ValueTask OnTestCollectionStartingAsync(IXunitTestCollection testCollection) => ValueTask.CompletedTask;
+    # endregion
 
     internal IFixtureScope GetScope(string scopeId)
     {
