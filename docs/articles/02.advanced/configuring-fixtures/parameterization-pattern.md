@@ -1,4 +1,4 @@
-# Fixture Parameterization
+# Generic Parameterization Pattern
 
 ## Overview
 
@@ -86,7 +86,7 @@ var fixtureInstance = TestContext.Current.GetFeffFixture<TmpDatabaseNameFixture<
 The generic type parameter `OptionsFixture` tells `TmpDatabaseNameFixture` which options to use.
 
 > [!TIP]
-> Single `OptionsFixture` class can implement multiple different interfaces to parameterize multiple fixtures used in a test suite.
+> A single `OptionsFixture` class can implement multiple different interfaces to parameterize multiple fixtures used in a test suite.
 
 ## Benefits of Fixture Parameterization
 
@@ -99,8 +99,7 @@ The generic type parameter `OptionsFixture` tells `TmpDatabaseNameFixture` which
 
 | Resource | Description |
 |----------|-------------|
-| [TmpDatabaseNameFixture.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.AspNetCore/Fixtures/TmpDatabaseNameFixture.cs) | Parameterized fixture implementation |
-| [ITmpDatabaseNameFixtureOptions.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.AspNetCore/Fixtures/TmpDatabaseNameFixture.cs) | Options interface definition |
+| [TmpDatabaseNameFixture.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures.AspNetCore/Fixtures/TmpDatabaseNameFixture.cs) | Parameterized fixture and options interface |
 | [ApiTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs) | Example usage in API tests |
 | [TmpDatabaseNameFixtureTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/FixturesTests/FEFF.TestFixtures.AspNetCore/TmpDatabaseNameFixtureTests.cs) | Unit tests for parameterization |
 | [Options Pattern](options-pattern.md) | Alternative configuration via environment variables |

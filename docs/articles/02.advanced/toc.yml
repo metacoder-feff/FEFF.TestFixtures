@@ -8,7 +8,7 @@
   items:
     - name: Options Pattern
       href: configuring-fixtures/options-pattern.md
-    - name: Parameterization Pattern
+    - name: Generic Parameterization Pattern
       href: configuring-fixtures/parameterization-pattern.md
     - name: Selecting Configuration Method
       href: configuring-fixtures/selecting-configuration-method.md
