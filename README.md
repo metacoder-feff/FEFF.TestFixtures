@@ -6,6 +6,8 @@
 Integrations:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV3)
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=FEFF.TestFixtures.TUnit)](https://www.nuget.org/packages/FEFF.TestFixtures.TUnit)  
+[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV4?label=FEFF.TestFixtures.XunitV4)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV4)  
+
 Fixture libraries:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=FEFF.TestFixtures)](https://www.nuget.org/packages/FEFF.TestFixtures)
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore?label=FEFF.TestFixtures.AspNetCore)](https://www.nuget.org/packages/FEFF.TestFixtures.AspNetCore)
