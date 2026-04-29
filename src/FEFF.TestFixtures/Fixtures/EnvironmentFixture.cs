@@ -18,7 +18,7 @@ public sealed class EnvironmentFixture : IDisposable
 #if NET9_0_OR_GREATER
     private static readonly Lock __lockObj = new(); 
 #else
-    private static readonly Object __lockObj = new();
+    private static readonly object __lockObj = new();
 #endif
 
     // Disallow parallel environment variable saving or restoring process-wide
@@ -54,7 +54,7 @@ public sealed class EnvironmentFixture : IDisposable
     /// This method is used not to forget to instantiate <see cref="EnvironmentFixture"/>.
     /// </summary>
     /// <remarks>
-    /// Underling <see cref="Environment.SetEnvironmentVariable(string, string?)"/> can be also be used instad of this.
+    /// Underlying <see cref="Environment.SetEnvironmentVariable(string, string?)"/> can also be used instead of this.
     /// </remarks>
     /// <param name="variable">The name of the environment variable.</param>
     /// <param name="value">The value to set for the environment variable.</param>

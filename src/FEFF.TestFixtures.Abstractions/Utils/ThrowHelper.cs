@@ -30,17 +30,21 @@ internal static class ThrowHelper
     /// Returns argument if it is not null.<br/>
     /// Throws <see cref="InvalidOperationException"/> otherwise.
     /// </summary>
+    /// <typeparam name="T">The type of the argument.</typeparam>
+    /// <param name="argument">The value to check for null.</param>
+    /// <param name="paramName">The name of the parameter (auto-populated).</param>
+    /// <returns>The argument if not null.</returns>
     /// <remarks>
     /// It is convenient to wrap a complex expression with <see cref="EnsureNotNull"/>:
     /// <example>
     /// <code>
-    /// var result = ThrowHelper.Ensure(anObject?.Nested?.Nested?.Value);
+    /// var result = ThrowHelper.EnsureNotNull(anObject?.Nested?.Nested?.Value);
     /// </code>
     /// </example>
     /// Here:
     /// <list type="number">
-    /// <item> The whole expression is serialized into error message, if expression is null.</item>
-    /// <item> The expression is calculated only once and is returned to consumer, if expression is NOT null.</item>
+    /// <item>The whole expression is serialized into error message, if expression is null.</item>
+    /// <item>The expression is calculated only once and is returned to consumer, if expression is NOT null.</item>
     /// </list>
     /// </remarks>
     /// <exception cref="InvalidOperationException"></exception>
