@@ -1,8 +1,8 @@
-using FEFF.TestFixtures.Xunit.Internal;
+using FEFF.TestFixtures.Xunit.V4.Internal;
 using Xunit;
 using Xunit.v3;
 
-namespace FEFF.TestFixtures.Xunit;
+namespace FEFF.TestFixtures.Xunit.V4;
 
 //TODO: revert xml comment
 //TestContextExtensions.GetFeffFixture{T}

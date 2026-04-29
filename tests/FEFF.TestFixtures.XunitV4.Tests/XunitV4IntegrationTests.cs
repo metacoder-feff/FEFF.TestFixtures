@@ -4,7 +4,7 @@ using AwesomeAssertions;
 using AwesomeAssertions.Json;
 using Xunit;
 
-namespace FEFF.TestFixtures.XunitV4.Tests;
+namespace FEFF.TestFixtures.Xunit.V4.Tests;
 
 public class XunitV4IntegrationTests
 {

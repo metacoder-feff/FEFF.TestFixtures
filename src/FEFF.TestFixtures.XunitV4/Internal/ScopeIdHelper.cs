@@ -2,7 +2,7 @@ using FEFF.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FEFF.TestFixtures.Xunit.Internal;
+namespace FEFF.TestFixtures.Xunit.V4.Internal;
 
 internal static class ScopeIdHelper
 {

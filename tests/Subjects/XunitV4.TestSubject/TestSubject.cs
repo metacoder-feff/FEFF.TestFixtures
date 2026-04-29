@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AwesomeAssertions;
-using FEFF.TestFixtures.Xunit;
+using FEFF.TestFixtures.Xunit.V4;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.v3;
@@ -9,7 +9,7 @@ using Xunit.v3;
 // register the extension
 [assembly: TestFixturesExtension]
 
-namespace FEFF.TestFixtures.XunitV4.TestSubjects;
+namespace FEFF.TestFixtures.Xunit.V4.TestSubjects;
 
 internal class BaseFix : IDisposable
 {
@@ -36,7 +36,7 @@ internal class BaseFix : IDisposable
 
         // for simplier test
         if(cls != null)
-            cls = cls.Replace("FEFF.TestFixtures.XunitV4.TestSubjects.", "");
+            cls = cls.Replace("FEFF.TestFixtures.Xunit.V4.TestSubjects.", "");
 
         // remove default collection name for simplier test
         if (col != null && col.StartsWith("Test collection for "))

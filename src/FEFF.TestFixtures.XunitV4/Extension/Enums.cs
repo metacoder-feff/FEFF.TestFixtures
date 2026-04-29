@@ -1,4 +1,4 @@
-namespace FEFF.TestFixtures.Xunit;
+namespace FEFF.TestFixtures.Xunit.V4;
 
 /// <summary>
 /// Defines the lifetime scope for a fixture in xUnit v3 tests.

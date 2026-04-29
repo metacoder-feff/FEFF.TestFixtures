@@ -1,12 +1,12 @@
-using FEFF.TestFixtures.Xunit;
-using FEFF.TestFixtures.Xunit.Internal;
+using FEFF.TestFixtures.Xunit.V4;
+using FEFF.TestFixtures.Xunit.V4.Internal;
 
 namespace Xunit.v3;
 
 /// <summary>
 /// Extension methods for <see cref="ITestContext"/> to resolve FEFF.TestFixtures fixtures in xUnit v3.
 /// </summary>
-public static class TestContextExtensions
+public static class TestContextExtensionsV4
 {
     /// <summary>
     /// Resolves a fixture from the specified scope within the test context.
