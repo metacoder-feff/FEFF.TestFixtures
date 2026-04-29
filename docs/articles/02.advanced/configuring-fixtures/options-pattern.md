@@ -1,4 +1,4 @@
-# Configuring Fixtures
+# Options Pattern
 
 Fixtures that implement `IFixtureRegistrar` can expose configuration options through the standard `Microsoft.Extensions.Options` pattern. This article demonstrates how to add configuration support to a fixture using `TmpDirectoryFixture` as an example.
 
@@ -162,3 +162,5 @@ var manager = new FixtureManagerBuilder()
 | [TmpDirectoryFixture.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/src/FEFF.TestFixtures/Fixtures/TmpDirectoryFixture.cs) | Complete source code example |
 | [TmpDirectoryFixtureTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/Fixtures/TmpDirectoryFixtureTests.cs) | Unit tests for TmpDirectoryFixture |
 | [OptionsConfigurationTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/FEFF.TestFixtures.Tests/EngineTests/OptionsConfigurationTests.cs) | Tests for options configuration patterns |
+| [Parameterization Pattern](parameterization-pattern.md) | Alternative generic type-based configuration |
+| [Selecting Configuration Method](selecting-configuration-method.md) | Comparison of configuration approaches |

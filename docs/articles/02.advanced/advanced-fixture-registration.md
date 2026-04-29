@@ -50,7 +50,7 @@ This approach gives you full control over how the fixture and its dependencies a
 
 Fixtures that implement `IFixtureRegistrar` can expose configuration options through the `Microsoft.Extensions.Options` pattern. See the dedicated article for a complete walkthrough:
 
-👉 [Configuring Fixtures](configuring-fixtures.md) - Learn how to add configuration support to fixtures like `TmpDirectoryFixture`.
+👉 [Options Pattern](configuring-fixtures/options-pattern.md) - Learn how to add configuration support to fixtures like `TmpDirectoryFixture`.
 
 ## When to Use Advanced Registration
 
