@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace FEFF.TestFixtures.Engine.Tests;
 
 /// <remarks>
@@ -119,10 +121,53 @@ public sealed class FixtureManagerTests : IAsyncDisposable
         var err = await act.Should().ThrowExactlyAsync<InvalidOperationException>();
         err.Which.Message.Should().Be("test exception");
     }
+    
+    [Fact]
+    public void NestedFixture__should_be_registered_and_returned()
+    {
+        var sc1 = manager.GetScope("test-1");
+        var f1 = sc1.GetFixture<Outer.NestedFixture>();
+
+        f1.Should().BeOfType<Outer.NestedFixture>();
+        f1.Value.Should().Be("hello");
+    }
+
+    [Fact]
+    public void NestedFixtureRegistrar__should_be_registered_and_returned()
+    {
+        var sc1 = manager.GetScope("test-1");
+        var f1 = sc1.GetFixture<Outer.NestedFixtureService>();
+
+        f1.Should().BeOfType<Outer.NestedFixtureService>();
+        f1.Value.Should().Be("hello");
+    }
 }
 
 [Fixture]
 internal class CustomFixture
 {
     public string Value { get; } = "hello";
+}
+
+internal class Outer
+{
+    [Fixture]
+    internal class NestedFixture
+    {
+        public string Value { get; } = "hello";
+    }
+
+    internal class NestedFixtureRegistrar : IFixtureRegistrar
+    {
+        public static void RegisterFixture(IServiceCollection services)
+        {
+            services.AddTransient<NestedFixtureService>();
+        }
+    }
+
+    internal class NestedFixtureService
+    {
+        public string Value { get; } = "hello";
+    }
+
 }
