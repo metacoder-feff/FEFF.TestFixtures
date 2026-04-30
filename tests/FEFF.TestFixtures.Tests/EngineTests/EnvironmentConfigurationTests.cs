@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 namespace FEFF.TestFixtures.Engine.Tests;
 
 [Collection(EnvironmentCollection)]
-public class EnvironmentFixtureOptionsTests : FixtureTestBase
+public class EnvironmentConfigurationTests : FixtureTestBase
 {
     // Auto restore ENV after test
     // Use regular fixture integration for EnvironmentFixture used here as a helper
@@ -16,7 +16,7 @@ public class EnvironmentFixtureOptionsTests : FixtureTestBase
     [InlineData("")]
     [InlineData("Value-1")]
     [InlineData("Value-2")]
-    public void Directory__after_dispose__should_exist__when_option(string? value)
+    public void FixtureOptions__should_be_set_by_environment(string? value)
     {
         var k = "FixtureWithOptions__Prefix";
         // Arrange
