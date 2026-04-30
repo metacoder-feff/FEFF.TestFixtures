@@ -1,7 +1,9 @@
 # FEFF.TestFixtures.XunitV3
 
-PREVIEW! Xunit v4 integration for the **FEFF.TestFixtures** solution.
+Xunit v4 integration for the **FEFF.TestFixtures** solution.
 Built against [Xunit-v3 4.0.0-pre.*](https://xunit.net/docs/using-ci-builds)
+
+> **Note:** This package is in **preview** — the API may change in future releases. Breaking changes will be documented in release notes.
 
 ## About
 
