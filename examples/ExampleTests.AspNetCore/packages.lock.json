@@ -20,11 +20,11 @@
       },
       "FEFF.TestFixtures.AspNetCore": {
         "type": "Direct",
-        "requested": "[1.5.0, )",
-        "resolved": "1.5.0",
-        "contentHash": "5lkAx2WA33LRs4iSn2Sv55bLxbvHmI3VPzQV+60GUNMH15T3FWnZiddlRuQUYTvB+9BCf9P570YSqBLOkXse4g==",
+        "requested": "[1.5.1, )",
+        "resolved": "1.5.1",
+        "contentHash": "amenDHuukmp/7aCGE33dINjKZW+zQTQZ17T8UtOE3v4Ql796hSVhhTT3hwU5638K7BekOc2fXMDp+rmIbsUNLg==",
         "dependencies": {
-          "FEFF.TestFixtures": "1.5.0",
+          "FEFF.TestFixtures": "1.5.1",
           "Microsoft.AspNetCore.Mvc.Testing": "10.0.7",
           "Microsoft.Extensions.Diagnostics.Testing": "10.5.0",
           "Microsoft.Extensions.TimeProvider.Testing": "10.5.0"
@@ -32,22 +32,22 @@
       },
       "FEFF.TestFixtures.AspNetCore.EF": {
         "type": "Direct",
-        "requested": "[1.5.0, )",
-        "resolved": "1.5.0",
-        "contentHash": "Kv7G0EUTs+881EFMUbTeP8kXC2+HpIeUGQKjHjpHy0VvncpTIvL1H84eikEF8BDrLEG4C7rOfxiHyXLF/w/iRg==",
+        "requested": "[1.5.1, )",
+        "resolved": "1.5.1",
+        "contentHash": "Xs1HD99uQasFGxFtAmkztUxMg8iRZOzX/T1LYLsCZFASQvVRDFjt2PPKGjxI0aUlLuCkA1QkySE7ixCJFjMzPw==",
         "dependencies": {
-          "FEFF.TestFixtures.AspNetCore": "1.5.0",
+          "FEFF.TestFixtures.AspNetCore": "1.5.1",
           "Microsoft.EntityFrameworkCore": "10.0.7"
         }
       },
       "FEFF.TestFixtures.XunitV3": {
         "type": "Direct",
-        "requested": "[1.5.0, )",
-        "resolved": "1.5.0",
-        "contentHash": "ZFJEECfj2P/LYQwpKUXZzoRwxi6+WF3Ksr1CWuqALhJN+JZL/YiA+L4zP0DiqL4m0qQYfhLPuTlCahAr4PFVUw==",
+        "requested": "[1.5.1, )",
+        "resolved": "1.5.1",
+        "contentHash": "aA82FMogD/EBoyVYiGx0RmZzIwAwDAWgelH+IlflDamqPyfHlayb8XOob3YDndl7MUzUIqI2GgLvu+Xo7pU0BA==",
         "dependencies": {
-          "FEFF.TestFixtures": "1.5.0",
-          "FEFF.TestFixtures.Engine": "1.5.0",
+          "FEFF.TestFixtures": "1.5.1",
+          "FEFF.TestFixtures.Engine": "1.5.1",
           "xunit.v3.extensibility.core": "3.2.2"
         }
       },
@@ -75,27 +75,27 @@
       },
       "FEFF.TestFixtures": {
         "type": "Transitive",
-        "resolved": "1.5.0",
-        "contentHash": "MhqaxQDssM9ibnzTlOPHWwGCnBYEUYRNGvybxM9ZbfeXMNBVcBXNCa8NceRLORKnIeo4jGmRrLyAM6wh4A2KSg==",
+        "resolved": "1.5.1",
+        "contentHash": "QquhhVkLThT1Vu0eI/2QVcE6ljja5RRizkF2upkqYCCWXOYBUP937WscuTXDNIG+j5s0hSxLhG7jAzA5RydV4Q==",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "1.5.0",
+          "FEFF.TestFixtures.Abstractions": "1.5.1",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.7"
         }
       },
       "FEFF.TestFixtures.Abstractions": {
         "type": "Transitive",
-        "resolved": "1.5.0",
-        "contentHash": "wL396c+TYA7ExweHrt39LgiJU25htxUabsaqxhVbC34CiqZaQlHoxz1e5KcGfqckHm/cFq4OlCIVF5QSqqn/aQ==",
+        "resolved": "1.5.1",
+        "contentHash": "gbZ28DqD/ym1JK3kgjrmry0mbTqOHgK06ofNaEM89NtuNGXJZN8EIp+YXqD9biRb39Gi4hu2JkScVhkzf8+05g==",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "10.0.7"
         }
       },
       "FEFF.TestFixtures.Engine": {
         "type": "Transitive",
-        "resolved": "1.5.0",
-        "contentHash": "Pq3vMFNtELtNNSIlOJpDBpKfHobBY23dNP/cnwVyuHiqMN0Nl2JhRrtHTgTU+xorpno8XT87c+zEKL1wrRpVVg==",
+        "resolved": "1.5.1",
+        "contentHash": "qNxr+C9yewC/fbzG3gIYkGSzsyL/08r7t+d94xK9wtZZQAwvkGRuIrmTsGc0ulz20at5KNhBfg3EJojwhJJUYA==",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "1.5.0",
+          "FEFF.TestFixtures.Abstractions": "1.5.1",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "10.0.7",
           "Microsoft.Extensions.DependencyInjection": "10.0.7",
           "Microsoft.Extensions.Options": "10.0.7",
