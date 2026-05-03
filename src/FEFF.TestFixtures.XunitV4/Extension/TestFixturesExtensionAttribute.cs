@@ -4,12 +4,9 @@ using Xunit.v3;
 
 namespace FEFF.TestFixtures.Xunit.V4;
 
-//TODO: revert xml comment
-//TestContextExtensions.GetFeffFixture{T}
-
 /// <summary>
 /// Manages <see cref="Engine.FixtureManager"/> for xUnit tests. <br/>
-/// Enables the use of <see cref="TestContextExtensions"/>.
+/// Enables the use of <see cref="TestContextExtensionsV4.GetFeffFixture{T}"/>.
 /// </summary>
 /// <remarks>
 /// Apply this attribute at the assembly level in an <c>AssemblyInfo.cs</c> or any source file:

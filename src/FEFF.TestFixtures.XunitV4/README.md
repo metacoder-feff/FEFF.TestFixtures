@@ -1,7 +1,9 @@
 # FEFF.TestFixtures.XunitV3
 
-PREVIEW! Xunit v4 integration for the **FEFF.TestFixtures** solution.
+Xunit v4 integration for the **FEFF.TestFixtures** solution.
 Built against [Xunit-v3 4.0.0-pre.*](https://xunit.net/docs/using-ci-builds)
+
+> **Note:** This package is in **preview** — the API may change in future releases. Breaking changes will be documented in release notes.
 
 ## About
 
@@ -17,13 +19,13 @@ This package integrates the fixture engine with **Xunit v4**, enabling fixture r
 1. Add the package to your test project:
 
    ```bash
-   dotnet add package FEFF.TestFixtures.XunitV3
+   dotnet add package FEFF.TestFixtures.XunitV4 --prerelease
    ```
 
 2. Enable the extension at the assembly level:
 
    ```csharp
-   [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
+   [assembly: FEFF.TestFixtures.Xunit.V4.TestFixturesExtension]
    ```
 
 3. Resolve fixtures in your tests:

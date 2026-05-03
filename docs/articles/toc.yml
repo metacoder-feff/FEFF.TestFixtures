@@ -6,5 +6,9 @@
   href: 02.advanced/toc.yml
 - name: Fixtures
   href: fixtures/toc.yml
+# - name: Tutorials
+#   href: tutorials/toc.yml
+- name: Comparison with xUnit
+  href: comparison-with-xunit.md
 - name: Troubleshooting & FAQ
   href: troubleshooting-faq.md

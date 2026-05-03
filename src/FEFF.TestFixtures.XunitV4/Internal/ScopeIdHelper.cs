@@ -21,10 +21,13 @@ internal static class ScopeIdHelper
 
     internal static string GetScopeId(ITestCaseMetadata testCase) => 
         GetScopeId(FixtureScopeType.TestCase, testCase.UniqueID);
+
     internal static string GetScopeId(ITestClassMetadata testClass) => 
         GetScopeId(FixtureScopeType.Class, testClass.UniqueID);
+
     internal static string GetScopeId(ITestCollectionMetadata testCollection) => 
         GetScopeId(FixtureScopeType.Collection, testCollection.UniqueID);
+        
     internal static string GetScopeId(IAssemblyMetadata testAssembly) => 
         GetScopeId(FixtureScopeType.Assembly, testAssembly.UniqueID);
 
