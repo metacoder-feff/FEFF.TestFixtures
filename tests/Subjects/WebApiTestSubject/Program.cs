@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApiTestSubject;
 
+public record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary);
+
 public class SomeService(ILogger<SomeService> logger)
 {
     public string Data => "123";
@@ -31,7 +33,6 @@ public class Program
     /// </remarks>
     public const string ConnectionStringName = "PgDb";
 
-    record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary);
 
     public static void Main(string[] args)
     {
@@ -111,15 +112,37 @@ public class Program
             };
         });
 
-        app.MapPost("/user", async (ApplicationDbContext dbCtx) =>
+        app.MapPost("/weatherforecast", async (WeatherForecast forecast, ApplicationDbContext dbCtx) =>
         {
-            dbCtx.Users.Add(new User()
-            {
-                Age = 100,
-                Name = "test",
-            });
+            dbCtx.WeatherForecasts.Add(new WeatherForecastEntity{Data = forecast});
             await dbCtx.SaveChangesAsync();
         });
+
+        #region for Asp-tutorial
+
+        app.MapPost("/weatherforecast/generate", async (TimeProvider tp, Random r, IConfiguration cfg, ApplicationDbContext dbCtx) =>
+        {
+            var now = tp.GetUtcNow();
+            var date = DateOnly.FromDateTime(now.Date);
+            var temperature = r.Next(100);
+            var summary = cfg.GetValue<string>("summary");
+            var forecast = new WeatherForecast(date, temperature, summary);
+            dbCtx.WeatherForecasts.Add(new WeatherForecastEntity { Data = forecast });
+            await dbCtx.SaveChangesAsync();
+        });
+
+        app.MapGet("/weatherforecast/today", async (TimeProvider tp, ApplicationDbContext dbCtx) =>
+        {
+            var now = tp.GetUtcNow();
+            var today = DateOnly.FromDateTime(now.Date);
+
+            var entity = await dbCtx.WeatherForecasts
+                .Where(x => x.Data.Date == today)
+                .FirstOrDefaultAsync();
+                
+            return entity is null ? Results.NotFound() : Results.Ok(entity.Data);
+        });
+        #endregion
 
         app.Run();
     }

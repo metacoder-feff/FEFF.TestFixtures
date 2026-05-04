@@ -1,13 +1,15 @@
 - name: Overview
   href: overview.md
 - name: Getting Started
-  href: 01.getting-started/toc.yml
+  href: getting-started/toc.yml
 - name: Advanced Usage
-  href: 02.advanced/toc.yml
+  href: advanced/toc.yml
 - name: Fixtures
   href: fixtures/toc.yml
 # - name: Tutorials
 #   href: tutorials/toc.yml
+- name: "Tutorial: ASP.NET Core Application Testing"
+  href: tutorials/asp-net-core-application-testing.md
 - name: Comparison with xUnit
   href: comparison-with-xunit.md
 - name: Troubleshooting & FAQ

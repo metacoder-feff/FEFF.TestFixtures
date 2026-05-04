@@ -89,6 +89,12 @@ public class TimeTests
 }
 ```
 
+## Type Arguments
+
+| Type Argument | Constraint | Description |
+|---------------|------------|-------------|
+| `TEntryPoint` | `class` | The application entry point type. Typically the `Startup` or `Program` class. |
+
 ## Key Members
 
 | Member | Type | Description |

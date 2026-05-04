@@ -143,6 +143,13 @@ After the fixture is applied:
 Server=localhost;Database=MyAppDb-test-abc123;Trusted_Connection=True;
 ```
 
+## Type Arguments
+
+| Type Argument | Constraint | Description |
+|---------------|------------|-------------|
+| `TEntryPoint` | `class` | The application entry point type. Typically the `Startup` or `Program` class. |
+| `TOptionsFixture` | `ITmpDatabaseNameFixtureOptions` | The options type implementing `ITmpDatabaseNameFixtureOptions` that specifies which connection strings should be patched with unique database names. |
+
 ## Key Members
 
 All functionality is implemented in the constructor; there are no public members to access directly.

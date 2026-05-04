@@ -72,6 +72,12 @@ public class ApiTests
 }
 ```
 
+## Type Arguments
+
+| Type Argument | Constraint | Description |
+|---------------|------------|-------------|
+| `TEntryPoint` | `class` | A type in the entry point assembly of the application. Typically the `Startup` or `Program` classes can be used. |
+
 ## Key Members
 
 | Property | Type | Description |
