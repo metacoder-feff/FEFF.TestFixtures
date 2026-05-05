@@ -2,6 +2,10 @@
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
 namespace FEFF.TestFixtures.AspNetCore.EF
 {
+    public static class DatabaseLifecycleFixtureExtensions
+    {
+        public static System.Threading.Tasks.Task EnsureCreatedAsync(this FEFF.TestFixtures.AspNetCore.EF.IDatabaseLifecycleFixture src, System.Threading.CancellationToken token) { }
+    }
     [FEFF.TestFixtures.Fixture]
     public sealed class DatabaseLifecycleFixture<TEntryPoint, TContext> : FEFF.TestFixtures.AspNetCore.EF.IDatabaseLifecycleFixture, FEFF.TestFixtures.AspNetCore.EF.IDatabaseLifecycleFixture<TContext>, System.IAsyncDisposable
         where TEntryPoint :  class
@@ -10,11 +14,10 @@ namespace FEFF.TestFixtures.AspNetCore.EF
         public DatabaseLifecycleFixture(FEFF.TestFixtures.AspNetCore.AppManagerFixture<TEntryPoint> app, FEFF.TestFixtures.AspNetCore.AppServicesFixture<TEntryPoint> services) { }
         public TContext LazyDbContext { get; }
         public System.Threading.Tasks.ValueTask DisposeAsync() { }
-        public System.Threading.Tasks.Task EnsureCreatedAsync(System.Threading.CancellationToken token) { }
     }
     public interface IDatabaseLifecycleFixture
     {
-        System.Threading.Tasks.Task EnsureCreatedAsync(System.Threading.CancellationToken token);
+        Microsoft.EntityFrameworkCore.DbContext LazyDbContext { get; }
     }
     public interface IDatabaseLifecycleFixture<TContext> : FEFF.TestFixtures.AspNetCore.EF.IDatabaseLifecycleFixture
         where TContext : Microsoft.EntityFrameworkCore.DbContext

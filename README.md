@@ -1,18 +1,22 @@
 # FEFF.TestFixtures
 
+<p align="center">
+  <img src="docs/images/logo/logo.svg" alt="FEFF.TestFixtures Logo" width="200"/>
+</p>
+
 [![Test](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/test.yml)
 [![Release](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/release-nuget.yml/badge.svg)](https://github.com/metacoder-feff/FEFF.TestFixtures/actions/workflows/release-nuget.yml)
 
 Integrations:
-[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=FEFF.TestFixtures.XunitV3)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV3)
-[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=FEFF.TestFixtures.TUnit)](https://www.nuget.org/packages/FEFF.TestFixtures.TUnit)  
-[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV4?label=FEFF.TestFixtures.XunitV4)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV4)  
+[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=XunitV3)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV3)
+[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=TUnit)](https://www.nuget.org/packages/FEFF.TestFixtures.TUnit)
+[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV4?label=XunitV4)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV4)  
 
 Fixture libraries:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=FEFF.TestFixtures)](https://www.nuget.org/packages/FEFF.TestFixtures)
-[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore?label=FEFF.TestFixtures.AspNetCore)](https://www.nuget.org/packages/FEFF.TestFixtures.AspNetCore)
-[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore.EF?label=FEFF.TestFixtures.AspNetCore.EF)](https://www.nuget.org/packages/FEFF.TestFixtures.AspNetCore.EF)
-[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore.SignalR?label=FEFF.TestFixtures.AspNetCore.SignalR)](https://www.nuget.org/packages/FEFF.TestFixtures.AspNetCore.SignalR)
+[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore?label=AspNetCore)](https://www.nuget.org/packages/FEFF.TestFixtures.AspNetCore)
+[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore.EF?label=AspNetCore.EF)](https://www.nuget.org/packages/FEFF.TestFixtures.AspNetCore.EF)
+[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.AspNetCore.SignalR?label=AspNetCore.SignalR)](https://www.nuget.org/packages/FEFF.TestFixtures.AspNetCore.SignalR)
 
 ✅ Replace setup/teardown methods and test-class "Disposable pattern" with reusable **Fixtures**.  
 ✅ Fixtures can depend on other fixtures.  

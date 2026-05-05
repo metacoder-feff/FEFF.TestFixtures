@@ -1,0 +1,129 @@
+<svg width="51" height="51" viewBox="0 0 250 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Purple color -->
+    <linearGradient id="purpleTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A56CC1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9B59B6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8E44AD;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7D3C98;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9B59B6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8E44AD;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Teal color -->
+    <linearGradient id="tealTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2DD4BF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1ABC9C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="tealLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#16A085;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#148E75;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="tealRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1ABC9C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16A085;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Green for checkmarks -->
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ADE80;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22C55E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- ==================== BOTTOM LAYER (4 cubes) ==================== -->
+  
+  
+  <!-- Back-right: Teal -->
+  <g transform="translate(80, 100)">
+    <polygon points="0,0 40,-20 80,0 40,20" fill="url(#tealTop)"/>
+    <polygon points="0,0 40,20 40,60 0,40" fill="url(#tealLeft)"/>
+    <polygon points="80,0 40,20 40,60 80,40" fill="url(#tealRight)"/>
+  </g>
+  
+  <!-- Back-left: Teal -->
+  <g transform="translate(30, 120)">
+    <polygon points="0,0 40,-20 80,0 40,20" fill="url(#tealTop)"/>
+    <polygon points="0,0 40,20 40,60 0,40" fill="url(#tealLeft)"/>
+    <polygon points="80,0 40,20 40,60 80,40" fill="url(#tealRight)"/>
+  </g>
+  
+  <!-- Front-right: Purple -->
+  <g transform="translate(130, 120)">
+    <polygon points="0,0 40,-20 80,0 40,20" fill="url(#purpleTop)"/>
+    <polygon points="0,0 40,20 40,60 0,40" fill="url(#purpleLeft)"/>
+    <polygon points="80,0 40,20 40,60 80,40" fill="url(#purpleRight)"/>
+  </g>
+  
+  <!-- Front-left: Teal -->
+  <g transform="translate(80, 145)">
+    <polygon points="0,0 40,-20 80,0 40,20" fill="url(#purpleTop)"/>
+    <polygon points="0,0 40,20 40,60 0,40" fill="url(#purpleLeft)"/>
+    <polygon points="80,0 40,20 40,60 80,40" fill="url(#purpleRight)"/>
+  </g>
+  
+  <!-- ==================== TOP LAYER (4 cubes) ==================== -->
+  
+  <!-- Back-right: Teal -->
+  <g transform="translate(80, 40)">
+    <polygon points="0,0 40,-20 80,0 40,20" fill="url(#tealTop)"/>
+    <polygon points="0,0 40,20 40,60 0,40" fill="url(#tealLeft)"/>
+    <polygon points="80,0 40,20 40,60 80,40" fill="url(#tealRight)"/>
+  </g>
+
+  <!-- Back-left: Purple -->
+  <!-- (ELEVATED - half-height raised) -->
+  <g transform="translate(10, 25)">
+    <polygon points="0,0 40,-20 80,0 40,20" fill="url(#purpleTop)"/>
+    <polygon points="0,0 40,20 40,60 0,40" fill="url(#purpleLeft)"/>
+    <polygon points="80,0 40,20 40,60 80,40" fill="url(#purpleRight)"/>
+  </g>
+
+  <!-- Front-right: Purple -->
+  <g transform="translate(130, 70)">
+    <polygon points="0,0 40,-20 80,0 40,20" fill="url(#purpleTop)"/>
+    <polygon points="0,0 40,20 40,60 0,40" fill="url(#purpleLeft)"/>
+    <polygon points="80,0 40,20 40,60 80,40" fill="url(#purpleRight)"/>
+  </g>
+  
+  <!-- Front-left: Teal -->
+  <g transform="translate(80, 95)">
+    <polygon points="0,0 40,-20 80,0 40,20" fill="url(#tealTop)"/>
+    <polygon points="0,0 40,20 40,60 0,40" fill="url(#tealLeft)"/>
+    <polygon points="80,0 40,20 40,60 80,40" fill="url(#tealRight)"/>
+  </g>
+  
+  
+  
+  
+  <!-- ==================== GREEN CHECK MARKS (right side, vertical column) ==================== -->
+  <g transform="translate(200, 50)">
+    <!-- Top check mark -->
+    <path d="M 5,30 L 15,42 L 35,18" 
+          stroke="url(#greenGrad)" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+    
+    <!-- Bottom check mark (overlapping, slightly offset) -->
+    <path d="M 5,65 L 15,77 L 35,53" 
+          stroke="url(#greenGrad)" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+
+    <!-- Bottom check mark (overlapping, slightly offset) -->
+    <path d="M 5,100 L 15,112 L 35,88" 
+          stroke="url(#greenGrad)" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+  </g>
+</svg>

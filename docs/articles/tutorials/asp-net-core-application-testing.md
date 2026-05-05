@@ -218,7 +218,7 @@ using Microsoft.Extensions.Time.Testing;
 using Newtonsoft.Json.Linq;
 using Xunit.v3;
 
-public class WeatherForecastApiTests
+public class ApiTests
 {
     protected FixtureSet FixtureSet { get; } =
         TestContext.Current.GetFeffFixture<FixtureSet>();
@@ -409,7 +409,6 @@ public class ApiTests
             }
             """);
     }
-    #endregion
 
     # region helpers
 
@@ -461,7 +460,7 @@ public class ApiTests
 Execute the test from the command line:
 
 ```bash
-dotnet test --filter "FullyQualifiedName~WeatherForecastApiTests"
+dotnet test --filter "FullyQualifiedName~ApiTests"
 ```
 
 The test should pass in a few seconds. Because all external factors (time, randomness, database name) are controlled by fixtures, the result is deterministic and repeatable.
@@ -499,7 +498,7 @@ You have now written integration tests that:
 2. **Request the application** via an HTTP client.
 3. **Inject configuration** before startup via `IAppConfigurator`.
 4. **Control externalities** like time and randomness with `FakeTimeFixture` and `FakeRandomFixture`.
-5. **Isolate data** across tests using `TmpDatabaseNameFixture`.
+5. **Isolate data** across tests using `TmpDatabaseNameFixture` and `DatabaseLifecycleFixture`.
 6. **Assert on persistence** by combining HTTP calls with direct `DbContext` queries.
 
 ## See Also
