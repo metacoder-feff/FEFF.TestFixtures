@@ -37,14 +37,10 @@ public class Program
         );
         var app = builder.Build();
 
-        // Creates a default user for demonstration purposes
-        app.MapPost("/user", async (ApplicationDbContext dbCtx) =>
+        // Receives weather forecast and saves it to the database
+        app.MapPost("/weatherforecast", async (ApplicationDbContext dbCtx, WeatherForecast forecast) =>
         {
-            dbCtx.Users.Add(new User()
-            {
-                Age = 100,
-                Name = "test",
-            });
+            dbCtx.WeatherForecasts.Add(forecast);
             await dbCtx.SaveChangesAsync();
         });
 
@@ -73,26 +69,46 @@ public class DatabaseTests
     protected HttpClient Client => ClientFx.LazyValue;
 
     [Fact]
-    public async Task Create_User__should_persist_to_database()
+    public async Task Create_WeatherForecast__should_persist_to_database()
     {
         // Ensure the database is created and migrations are applied
         await DbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
         // Perform database operations
-        // Send a POST request to the /user endpoint to create a new user
-        // The API creates a default user when the request body is null
-        var resp = await Client.PostAsync("/user", null, TestContext.Current.CancellationToken);
-        var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
+        // Send a POST request to the /weatherforecast endpoint to create a new weather forecast
+        await PostAsync(Client, """
+            {
+                "date": "2000-01-01",
+                "temperatureC": 20,
+                "summary": "normal"
+            }
+            """);
 
         // Verify the data was persisted
-        var users = await AppDbCtx.Users.ToListAsync(TestContext.Current.CancellationToken);
-        users.Count.Should().Be(1);
-        users[0].Name.Should().Be("Test");
+        var forecasts = await AppDbCtx.WeatherForecasts.ToListAsync(TestContext.Current.CancellationToken);
+        // Assert the weather forecasts table contains exactly one record with expected properties
+        JToken.FromObject(forecasts)
+            .Should().BeEquivalentTo("""
+            [
+                {
+                    "Date": "2000-01-01",
+                    "TemperatureC": 20,
+                    "Summary": "normal",
+                }
+            ]
+            """);
+    }
     }
     // The database is automatically deleted after the test completes
 }
 ```
+
+## Type Arguments
+
+| Type Argument | Constraint | Description |
+|---------------|------------|-------------|
+| `TEntryPoint` | `class` | The application entry point type. Typically the `Startup` or `Program` class. |
+| `TContext` | `DbContext` | The `DbContext` type to manage for database lifecycle operations. |
 
 ## Key Members
 
@@ -125,11 +141,12 @@ public class TestOptionsFixture : ITmpDatabaseNameFixtureOptions
         [Program.ConnectionStringName];
 }
 
-// Both fixtures are instantiated together
+// All fixtures are instantiated together
 [Fixture]
 public record FixtureSet(
     DatabaseLifecycleFixture<Program, ApplicationDbContext> EnsureDbFx,
-    TmpDatabaseNameFixture<Program, TestOptionsFixture> TmpDbNameFx
+    TmpDatabaseNameFixture<Program, TestOptionsFixture> TmpDbNameFx,
+    AppClientFixture<Program> ClientFx
 );
 
 public class IsolatedDatabaseTests
@@ -137,15 +154,14 @@ public class IsolatedDatabaseTests
     protected FixtureSet FixtureSet { get; } = 
         TestContext.Current.GetFeffFixture<FixtureSet>();
 
-    protected DatabaseLifecycleFixture<Program, ApplicationDbContext> EnsureDbFx => 
-        FixtureSet.EnsureDbFx;
-    
     protected ApplicationDbContext AppDbCtx => 
         FixtureSet.EnsureDbFx.LazyDbContext;
+    protected HttpClient Client => 
+        FixtureSet.ClientFx.LazyValue;
 
     // Each test gets its own unique database
     [Fact]
-    public async Task Create_User__should_persist_to_database()
+    public async Task Create_WeatherForecast__should_persist_to_database()
     {
         // TmpDatabaseNameFixture automatically redirects the connection string
         // to a unique temporary database (e.g., "TestDb_a1b2c3d4")

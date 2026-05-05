@@ -6,28 +6,42 @@ In this tutorial, you will learn how to integration-test an ASP.NET Core Web API
 - Override configuration values before the app starts.
 - Control time and randomness for deterministic tests.
 - Isolate database state across tests with temporary database names.
-- Verify HTTP responses and database side-effects together.
+- Verify HTTP responses and database side effects together.
 
 ## Prerequisites
 
 - .NET 8.0 or later
-- xUnit v3 (the examples use xUnit v3, but the same fixtures work with TUnit)
-- A running PostgreSQL instance (or container) if you plan to execute the database examples
-- Basic familiarity with ASP.NET Core Minimal APIs and EF Core
+- xUnit v3 (the tutorial uses xUnit v3, but the same fixtures work with TUnit)
+- A running PostgreSQL instance
+- Basic familiarity with ASP.NET Core minimal APIs and Entity Framework Core
 
 ## The Application Under Test
 
-The examples in this tutorial target a small Web API with the following endpoints:
+The tutorial assumes an ASP.NET Core application with the following endpoints:
 
 | Endpoint | Description |
 |----------|-------------|
-| `GET /weatherforecast/const` | Returns a hard-coded weather forecast. |
-| `GET /weatherforecast/env` | Returns a forecast whose `summary` comes from config (`summary` key). |
-| `GET /weatherforecast/time` | Returns a forecast whose `date` comes from `TimeProvider`. |
-| `GET /weatherforecast/random` | Returns a forecast whose `temperatureC` comes from `Random`. |
-| `POST /user` | Creates a `User` record in the database. |
+| `POST /weatherforecast/generate` | Creates a weather forecast using the system's `TimeProvider`, `Random`, and `IConfiguration`, then persists it to the database via EF Core. |
+| `GET /weatherforecast/today` | Returns the persisted weather forecast for the current date. |
 
-Create an application skeleton in `program.cs`:
+The application registers `TimeProvider`, `Random`, and `ApplicationDbContext` in its dependency injection container:
+
+```csharp
+builder.Services
+    .AddSingleton((_) => Random.Shared)
+    .AddSingleton((_) => TimeProvider.System)
+    .AddDbContext<ApplicationDbContext>((sp, options) =>
+    {
+        var connStr = sp.GetRequiredService<IConfiguration>()
+            .GetConnectionString("PgDb");
+        options.UseNpgsql(connStr);
+    });
+```
+
+<details>
+  <summary>Expand to see full Program.cs source</summary>
+
+The complete `Program.cs` file used in this tutorial, including `ApplicationDbContext`:
 
 ```csharp
 using Microsoft.EntityFrameworkCore;
@@ -38,71 +52,134 @@ public class Program
 {
     public const string ConnectionStringName = "PgDb";
 
-    record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary);
-
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        // Register services here
-        // ...
+        builder.Services
+            .AddSingleton((_) => Random.Shared)
+            .AddSingleton((_) => TimeProvider.System)
+            .AddScoped<SomeService>()
+            .AddDbContext<ApplicationDbContext>((sp, options) =>
+            {
+                var connStr = builder.Configuration.GetConnectionString(ConnectionStringName);
+                options.UseNpgsql(connStr);
+            });
+
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        // app.Map ...
+        app.MapPost("/weatherforecast/generate", async (TimeProvider tp, Random r, IConfiguration cfg, ApplicationDbContext dbCtx) =>
+        {
+            var now = tp.GetUtcNow();
+            var date = DateOnly.FromDateTime(now.Date);
+            var temperature = r.Next(100);
+            var summary = cfg.GetValue<string>("summary");
+
+            var forecast = new WeatherForecast(date, temperature, summary);
+            dbCtx.WeatherForecasts.Add(new WeatherForecastEntity { Data = forecast });
+            
+            await dbCtx.SaveChangesAsync();
+        });
+
+        app.MapGet("/weatherforecast/today", async (TimeProvider tp, ApplicationDbContext dbCtx) =>
+        {
+            var now = tp.GetUtcNow();
+            var today = DateOnly.FromDateTime(now.Date);
+
+            var entity = await dbCtx.WeatherForecasts
+                .Where(x => x.Data.Date == today)
+                .FirstOrDefaultAsync();
+                
+            return entity is null ? Results.NotFound() : Results.Ok(entity.Data);
+        });
 
         app.Run();
     }
 }
+
+public class ApplicationDbContext : DbContext
+{
+    public DbSet<WeatherForecastEntity> WeatherForecasts { get; init; }
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<WeatherForecastEntity>().ComplexProperty(e => e.Data);
+    }
+}
+
+public class WeatherForecastEntity
+{
+    public long Id { get; init; }
+    public required WeatherForecast Data { get; init; }
+}
+
+public record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary);
 ```
 
-The application registers `Random`, `TimeProvider`, and an EF Core `DbContext` in its service container. The full subject application is available in the [project repo](https://github.com/metacoder-feff/FEFF.TestFixtures/tree/main/tests/Subjects/WebApiTestSubject).
+</details>
 
-## Step 1 — Install Packages
+---
+
+
+## Step 1: Install the Required Packages
 
 Add the following packages to your test project:
 
 ```bash
+dotnet add package AwesomeAssertions
+dotnet add package AwesomeAssertions.Json
 dotnet add package FEFF.TestFixtures.XunitV3
 dotnet add package FEFF.TestFixtures.AspNetCore
 dotnet add package FEFF.TestFixtures.AspNetCore.EF
 ```
 
-Optional but recommended for fluent assertions:
+> [!NOTE]
+> `AwesomeAssertions` and `AwesomeAssertions.Json` are used in this tutorial for readable assertions and JSON equivalence checking. You can use any assertion library you prefer.
 
-```bash
-dotnet add package AwesomeAssertions
-dotnet add package AwesomeAssertions.Json
-```
+## Step 2: Enable the Test Fixtures Extension
 
-## Step 2 — Register the Extension
-
-In any C# file in your test project, add the assembly-level attribute so that xUnit v3 loads the FEFF.TestFixtures engine:
+Register the FEFF.TestFixtures extension with xUnit v3 by adding the assembly-level attribute to any file in your test project:
 
 ```csharp
 [assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
 ```
 
-## Step 3 — Configure Database Isolation
+## Step 3: Configure Database Isolation
 
-When multiple tests run in parallel, they must not collide on the same database. `TmpDatabaseNameFixture` redirects configured connection strings to unique temporary database names. To tell it which connection strings to rewrite, create an options fixture:
+To prevent tests from interfering with one another, use [`TmpDatabaseNameFixture`](../fixtures/asp-net-core/TmpDatabaseNameFixture.md) to redirect the application's connection string to a unique temporary database for each test scope.
+
+First, define an options fixture that tells `TmpDatabaseNameFixture` which connection strings to redirect:
 
 ```csharp
-using FEFF.TestFixtures.AspNetCore.EF;
+using FEFF.TestFixtures;
+using FEFF.TestFixtures.AspNetCore;
 
 [Fixture]
 public class OptionsFixture : ITmpDatabaseNameFixtureOptions
 {
-    public IReadOnlyCollection<string> ConnectionStringNames => [Program.ConnectionStringName];
+    public IReadOnlyCollection<string> ConnectionStringNames => ["PgDb"];
 }
 ```
 
+This fixture is requested automatically by `TmpDatabaseNameFixture` and ensures every test runs against its own database.
+
 > **Tip:** The connection string name (`"PgDb"` here) must match the name used by the application under test.
 
-## Step 4 — Compose the Fixture Set
+## Step 4: Compose the Fixture Set
 
-Instead of inheriting from a base test class, compose all the infrastructure you need into a single `record`. Each fixture is injected automatically by the engine:
+FEFF.TestFixtures encourages composition over inheritance. Instead of deriving from a base class, bundle all the fixtures your tests need into a single `FixtureSet` record:
 
 ```csharp
+using FEFF.TestFixtures;
+using FEFF.TestFixtures.AspNetCore;
+using FEFF.TestFixtures.AspNetCore.EF;
+using FEFF.TestFixtures.AspNetCore.Randomness;
+using Microsoft.Extensions.Time.Testing;
+
 [Fixture]
 public record FixtureSet(
     AppManagerFixture<Program> AppManagerFx,
@@ -114,21 +191,34 @@ public record FixtureSet(
 );
 ```
 
+Each fixture serves a specific purpose:
+
 | Fixture | Purpose |
 |---------|---------|
-| `AppManagerFixture<Program>` | Configures and manages the `TestApplication` lifecycle. |
+| `AppManagerFixture<Program>` | Manages the test application lifecycle and pre-startup configuration. |
 | `FakeRandomFixture<Program>` | Replaces the app's `Random` with a deterministic fake. |
 | `FakeTimeFixture<Program>` | Replaces the app's `TimeProvider` with a controllable fake. |
-| `AppClientFixture<Program>` | Provides an `HttpClient` pointing at the test application. |
-| `DatabaseLifecycleFixture<Program, ApplicationDbContext>` | Ensures the database is created and later deleted. |
-| `TmpDatabaseNameFixture<Program, OptionsFixture>` | Rewrites the connection string to a unique temporary name. |
+| `AppClientFixture<Program>` | Provides an `HttpClient` wired to the test application. |
+| `DatabaseLifecycleFixture<Program, ApplicationDbContext>` | Ensures the database is created and cleaned up after the test. |
+| `TmpDatabaseNameFixture<Program, OptionsFixture>` | Redirects the connection string to a unique temporary database. |
 
-## Step 5 — Create the Test Class
+## Step 5: Create the Test Class
 
-Retrieve the `FixtureSet` from the test context and expose convenience properties so your tests stay concise:
+Retrieve the `FixtureSet` in your test class and expose convenience properties for the parts you access most often:
 
 ```csharp
-public class ApiTests
+using AwesomeAssertions;
+using AwesomeAssertions.Json;
+using FEFF.TestFixtures;
+using FEFF.TestFixtures.AspNetCore;
+using FEFF.TestFixtures.AspNetCore.EF;
+using FEFF.TestFixtures.AspNetCore.Randomness;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Time.Testing;
+using Newtonsoft.Json.Linq;
+using Xunit.v3;
+
+public class WeatherForecastApiTests
 {
     protected FixtureSet FixtureSet { get; } =
         TestContext.Current.GetFeffFixture<FixtureSet>();
@@ -151,299 +241,272 @@ public class ApiTests
     protected ApplicationDbContext AppDbCtx => 
         FixtureSet.DbFx.LazyDbContext;
 
-    // Tests will go here...
+    // ... tests will go here
 }
 ```
 
-> **Lazy initialization:** The application is built and started on the first access to `AppManagerFx.LazyApplication` directly via other fixtures. This means you can still configure the app via `AppConfigurationBuilder` *before* it is started (e.g. the first HTTP request).
+These properties reduce noise in your test methods and make the intent of each test clearer.
 
-## Step 6 — Create and Test a Basic Endpoint
+> **Lazy initialization:** The application is built and started on the first access to `AppManagerFx.LazyApplication`, either directly or via other fixtures. This means you can still configure the app via `AppConfigurationBuilder` *before* it starts (e.g., before the first HTTP request).
 
-Add application endpoint:
-```csharp
-// Program.cs
-//...
-app.MapGet("/weatherforecast/const", () =>
-{
-    return new List<WeatherForecast>()
-    {
-        new (DateOnly.Parse("2000-01-01"), 20, "normal")
-    };
-});
-```
+## Step 6: Write the Integration Test
 
-Verify that the constant endpoint returns the expected JSON:
+Now write the test that exercises the full flow. The test configures the application's environment, triggers forecast generation, verifies database persistence, and validates the HTTP response.
 
 ```csharp
-// Tests.cs
 [Fact]
-public async Task Example1__Client__should__get_response()
+public async Task Generate_weatherforecast__should_persist_and_return()
 {
-    var resp = await Client.GetAsync("/weatherforecast/const", TestContext.Current.CancellationToken);
-    var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-    resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
+    // Arrange
+    var expectedDate = "2025-06-15";
+    var expectedTemperature = 42;
+    var expectedSummary = "sunny";
 
-    JToken.Parse(body)
-        .Should().BeEquivalentTo(
-        """
-        [
-            {
-                "date": "2000-01-01",
-                "temperatureC": 20,
-                "summary": "normal"
-            }
-        ]
-        """);
-}
-```
+    // Control what TimeProvider.GetUtcNow() returns
+    AppTime.SetUtcNow(DateTimeOffset.Parse($"{expectedDate}T12:00:00Z"));
 
-## Step 7 — Override Configuration Before Startup
-Add application endpoint:
-```csharp
-// Program.cs
-//...
-app.MapGet("/weatherforecast/env", (IConfiguration c) =>
-{
-    var summary = c.GetValue<string>("summary");
-    return new List<WeatherForecast>()
-    {
-        new (DateOnly.Parse("2000-01-01"), 20, summary)
-    };
-});
-```
+    // Control what Random.Next() returns
+    AppRandom.Int32Next = FixedNextStrategy.From(expectedTemperature);
 
-Use `AppConfigurationBuilder.UseSetting` to inject configuration values before the application starts. Because the app is lazily initialized, the setting is applied in time:
+    // Inject a configuration value before the application starts
+    AppConfigurationBuilder.UseSetting("summary", expectedSummary);
 
-```csharp
-// Tests.cs
-[Theory]
-[InlineData("cloudy")]
-[InlineData("warm")]
-public async Task Example2__SetEnvVar__should_make_api_to_respond_with(string envVarValue)
-{
-    AppConfigurationBuilder.UseSetting("summary", envVarValue);
-
-    var resp = await Client.GetAsync("/weatherforecast/env", TestContext.Current.CancellationToken);
-    var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-    resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
-
-    JToken.Parse(body)
-        .Should().BeEquivalentTo(
-        $$"""
-        [
-            {
-                "date": "2000-01-01",
-                "temperatureC": 20,
-                "summary": "{{envVarValue}}"
-            }
-        ]
-        """);
-}
-```
-
-## Step 8 — Control Time
-
-Add Services and application endpoint:
-```csharp
-// Program.cs
-//...
-builder.Services.AddSingleton((_) => TimeProvider.System)
-//...
-app.MapGet("/weatherforecast/time", (TimeProvider t) =>
-{
-    var now = t.GetUtcNow();
-    return new List<WeatherForecast>()
-    {
-        new (DateOnly.FromDateTime(now.Date) , 20, "normal")
-    };
-});
-```
-
-`FakeTimeFixture` replaces the application's `TimeProvider` with `FakeTimeProvider`. You can set the exact instant returned by `GetUtcNow()`:
-
-```csharp
-// Tests.cs
-[Theory]
-[InlineData("2006-01-05")]
-[InlineData("2150-11-15")]
-public async Task Example3__FakeTimeFixture__should_make_api_to_respond__with(string date)
-{
-    AppTime.SetUtcNow(DateTimeOffset.Parse($"{date}T05:05:05Z"));
-
-    var resp = await Client.GetAsync("/weatherforecast/time", TestContext.Current.CancellationToken);
-    var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-    resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
-
-    JToken.Parse(body)
-        .Should().BeEquivalentTo(
-        $$"""
-        [
-            {
-                "date": "{{date}}",
-                "temperatureC": 20,
-                "summary": "normal"
-            }
-        ]
-        """);
-}
-```
-
-## Step 9 — Control Randomness
-
-Add Services and application endpoint:
-```csharp
-// Program.cs
-//...
-builder.Services.AddSingleton((_) => Random.Shared))
-//...
-app.MapGet("/weatherforecast/random", (Random r) =>
-{
-    var t = r.Next(100);
-    return new List<WeatherForecast>()
-    {
-        new (DateOnly.Parse("2000-01-01"), t, "normal")
-    };
-});
-```
-
-`FakeRandomFixture` replaces the application's `Random` with a `FakeRandom` instance. Assign a fixed strategy so `Random.Next()` always returns the value you expect:
-
-```csharp
-// Tests.cs
-[Theory]
-[InlineData(42)]
-[InlineData(77)]
-public async Task Example4__FakeRandomFixture__should_make_api_to_respond__with(int temperature)
-{
-    AppRandom.Int32Next = FixedNextStrategy.From(temperature);
-
-    var resp = await Client.GetAsync("/weatherforecast/random", TestContext.Current.CancellationToken);
-    var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-    resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
-
-    JToken.Parse(body)
-        .Should().BeEquivalentTo(
-        $$"""
-        [
-            {
-                "date": "2000-01-01",
-                "temperatureC": {{temperature}},
-                "summary": "normal"
-            }
-        ]
-        """);
-}
-```
-
-## Step 10 — Verify Database Side-Effects
-
-Create DbContext:
-```csharp
-// ApplicationContext.cs
-public class User
-{
-    public int Id { get; set; }
-    public string? Name { get; set; }
-    public int Age { get; set; }
-}
-
-public class ApplicationDbContext : DbContext
-{
-    public DbSet<User> Users { get; set; }
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : base(options)
-    {
-    }
-}
-```
-
-Add DbContext and application endpoint:
-```csharp
-// Program.cs
-//...
-builder.Services..AddDbContext<ApplicationDbContext>((sp, options) =>
-{
-    var connStr = sp
-        .GetRequiredService<IConfiguration>()
-        .GetConnectionString(ConnectionStringName)
-        ;
-    options.UseNpgsql(connStr);
-});
-//...
-app.MapPost("/user", async (ApplicationDbContext dbCtx) =>
-{
-    dbCtx.Users.Add(new User()
-    {
-        Age = 100,
-        Name = "test",
-    });
-    await dbCtx.SaveChangesAsync();
-});
-```
-
-Integration tests should confirm that data is actually persisted. `DatabaseLifecycleFixture` can create the database on demand, and `LazyDbContext` gives you direct access to EF Core for assertions:
-
-```csharp
-// Tests.cs
-[Fact]
-public async Task Example5__Post_user__should_create_record_in_db()
-{
+    // Ensure the isolated database is created and migrated
+    // Note: The application starts here
     await DbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
-    var resp = await Client.PostAsync("/user", null, TestContext.Current.CancellationToken);
-    var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-    resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
+    // Act: trigger forecast generation
+    await PostAsync(Client, "/weatherforecast/generate", null);
 
-    var users = await AppDbCtx.Users.ToListAsync(TestContext.Current.CancellationToken);
+    // Assert: verify the forecast was persisted to the database
+    var forecastEntities = await AppDbCtx.WeatherForecasts
+        .ToListAsync(TestContext.Current.CancellationToken);
 
-    JToken.FromObject(users)
-        .Should().BeEquivalentTo("""
+    var forecasts = forecastEntities.Select(x => x.Data).ToList();
+
+    JToken.FromObject(forecasts)
+        .Should().BeEquivalentTo($$"""
         [
             {
-                "Id": 1,
-                "Name": "test",
-                "Age": 100
+                "Date": "{{expectedDate}}",
+                "TemperatureC": {{expectedTemperature}},
+                "Summary": "{{expectedSummary}}",
             }
         ]
+        """);
+
+
+    // Act: retrieve the forecast via the API
+    var response = await GetAsync(Client, "/weatherforecast/today");
+
+    // Assert: verify the API returns the persisted forecast
+    response
+        .Should().BeEquivalentTo(
+        $$"""
+        {
+            "date": "{{expectedDate}}",
+            "temperatureC": {{expectedTemperature}},
+            "summary": "{{expectedSummary}}"
+        }
         """);
 }
 ```
 
-> **Cleanup:** `DatabaseLifecycleFixture` automatically deletes the temporary database after the test finishes, so the next test starts from a clean slate.
+<details>
+  <summary>Expand to see full ApiTests.cs source</summary>
 
-### Entire application services registration section
+The complete `ApiTests.cs` file used in this tutorial:
 
 ```csharp
-// Program.cs
-//...
-builder.Services
-    .AddSingleton((_) => Random.Shared)
-    .AddSingleton((_) => TimeProvider.System)
-    .AddScoped<SomeService>()
-    .AddDbContext<ApplicationDbContext>((sp, options) =>
+using System.Net;
+using AwesomeAssertions;
+using AwesomeAssertions.Json;
+using FEFF.TestFixtures;
+using FEFF.TestFixtures.AspNetCore;
+using FEFF.TestFixtures.AspNetCore.Randomness;
+using FEFF.TestFixtures.AspNetCore.EF;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Time.Testing;
+using Newtonsoft.Json.Linq;
+using WebApiTestSubject;
+using Xunit.v3;
+
+// Register the FEFF TestFixtures extension with xUnit v3
+[assembly: FEFF.TestFixtures.Xunit.TestFixturesExtension]
+
+namespace ExampleTests.AspNetCore;
+
+[Fixture]
+public class OptionsFixture : ITmpDatabaseNameFixtureOptions
+{
+    public IReadOnlyCollection<string> ConnectionStringNames => [Program.ConnectionStringName];
+}
+
+[Fixture]
+public record FixtureSet(
+    AppManagerFixture<Program> AppManagerFx,
+    FakeRandomFixture<Program> FakeRandomFx,
+    FakeTimeFixture<Program> FakeTimeFx,provider
+    AppClientFixture<Program> ClientFx,
+    DatabaseLifecycleFixture<Program, ApplicationDbContext> DbFx,
+    TmpDatabaseNameFixture<Program, OptionsFixture> TmpDbNameFx
+);
+
+public class ApiTests
+{
+    protected FixtureSet FixtureSet { get; } = TestContext.Current.GetFeffFixture<FixtureSet>();
+
+    #region properties for fast access
+
+    protected FakeRandom AppRandom => FixtureSet.FakeRandomFx.Value;
+    protected FakeTimeProvider AppTime => FixtureSet.FakeTimeFx.Value;
+    protected IAppConfigurator AppConfigurationBuilder => FixtureSet.AppManagerFx.ConfigurationBuilder;
+    protected IDatabaseLifecycleFixture DbFx => FixtureSet.DbFx;
+    protected HttpClient Client => FixtureSet.ClientFx.LazyValue;
+    protected ApplicationDbContext AppDbCtx => FixtureSet.DbFx.LazyDbContext;
+    #endregion
+
+    [Fact]
+    public async Task Example_Tutorial_Asp__Api__should_persist_and_return()
     {
-        var connStr = sp
-            .GetRequiredService<IConfiguration>()
-            .GetConnectionString(ConnectionStringName)
-            ;
-        options.UseNpgsql(connStr);
-    });
-//...
+        var expectedDate = "2025-06-15";
+        var expectedTemperature = 42;
+        var expectedSummary = "sunny";
+
+        AppTime.SetUtcNow(DateTimeOffset.Parse($"{expectedDate}T12:00:00Z"));
+        AppRandom.Int32Next = FixedNextStrategy.From(expectedTemperature);
+        // This should be set before the app starts
+        AppConfigurationBuilder.UseSetting("summary", expectedSummary);
+
+        // Start Application and then create the database
+        await DbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+
+        await PostAsync(Client, "/weatherforecast/generate", null);
+
+        var forecastEntities = await AppDbCtx.WeatherForecasts.ToListAsync(TestContext.Current.CancellationToken);
+        var forecasts = forecastEntities.Select(x => x.Data).ToList();
+        // Assert the WeatherForecasts table contains exactly one record with expected properties
+        JToken.FromObject(forecasts)
+            .Should().BeEquivalentTo($$"""
+            [
+                {
+                    "Date": "{{expectedDate}}",
+                    "TemperatureC": {{expectedTemperature}},
+                    "Summary": "{{expectedSummary}}",
+                }
+            ]
+            """);
+
+        var response = await GetAsync(Client, "/weatherforecast/today");
+
+        response
+            .Should().BeEquivalentTo(
+            $$"""
+            {
+                "date": "{{expectedDate}}",
+                "temperatureC": {{expectedTemperature}},
+                "summary": "{{expectedSummary}}"
+            }
+            """);
+    }
+    #endregion
+
+    # region helpers
+
+    private static async Task<JToken> GetAsync(HttpClient client, string url)
+    {
+        var getResp = await client.GetAsync(url, TestContext.Current.CancellationToken);
+        var getBody = await getResp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        getResp.StatusCode.Should().Be(HttpStatusCode.OK, getBody);
+        return JToken.Parse(getBody);
+    }
+
+    private static async Task PostAsync(HttpClient client, string url, string? data)
+    {
+        StringContent? sc = null;
+        if(data != null)
+            sc = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            
+        var resp = await client.PostAsync(url, sc, TestContext.Current.CancellationToken);
+        var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
+    }
+    #endregion
+}
 ```
+</details>
+
+---
+
+### What the test does
+
+1. **Deterministic setup**
+   - [`FakeTimeFixture`](../fixtures/asp-net-core/FakeTimeFixture.md) pins the system clock to `2025-06-15`.
+   - [`FakeRandomFixture`](../fixtures/asp-net-core/FakeRandomFixture.md) forces `Random.Next()` to return `42`.
+   - [`AppManagerFixture`](../fixtures/asp-net-core/AppManagerFixture.md) injects the `"summary"` setting before the application starts.
+
+2. **Database preparation**
+   - [`DatabaseLifecycleFixture`](../fixtures/asp-net-core-ef/DatabaseLifecycleFixture.md) creates the database schema. Because [`TmpDatabaseNameFixture`](../fixtures/asp-net-core/TmpDatabaseNameFixture.md) is also in the fixture set, the schema is created inside a uniquely named temporary database.
+
+3. **HTTP interaction**
+   - [`AppClientFixture`](../fixtures/asp-net-core/AppClientFixture.md) provides the `HttpClient`.
+   - The `POST` endpoint uses the faked services to generate the forecast and saves it via EF Core.
+
+4. **Dual verification**
+   - The test queries `AppDbCtx.WeatherForecasts` directly to prove the data was actually persisted.
+   - The test then calls `GET /weatherforecast/today` to prove the API returns the same data.
+
+## Step 7: Run the Test
+
+Execute the test from the command line:
+
+```bash
+dotnet test --filter "FullyQualifiedName~WeatherForecastApiTests"
+```
+
+The test should pass in a few seconds. Because all external factors (time, randomness, database name) are controlled by fixtures, the result is deterministic and repeatable.
+
+## How It Works
+
+### Lazy initialization
+
+Fixtures are created on first access. The ASP.NET Core application is not started until you either:
+
+- Make an HTTP request through `AppClientFixture.LazyValue`, or
+- Call `DbFx.EnsureCreatedAsync()`.
+
+This allows you to configure the application (settings, faked services) before it boots.
+
+### Automatic cleanup
+
+When the test finishes, the fixture scope is disposed:
+
+- The temporary database is deleted by `DatabaseLifecycleFixture`.
+- The test application is shut down.
+- The `HttpClient` is disposed.
+
+You do not need any `[CollectionDefinition]` or `IClassFixture` boilerplate; FEFF.TestFixtures manages the lifecycle for you.
+
+### Test isolation
+
+`TmpDatabaseNameFixture` intercepts the connection string during application startup and appends a unique suffix. Even if multiple tests run in parallel, each operates on a separate database, eliminating cross-test contamination.
 
 ## Summary
 
 You have now written integration tests that:
 
 1. **Host the application in-memory** using `AppManagerFixture` and `AppClientFixture`.
-2. **Request the application**  via HTTP client
+2. **Request the application** via an HTTP client.
 3. **Inject configuration** before startup via `IAppConfigurator`.
 4. **Control externalities** like time and randomness with `FakeTimeFixture` and `FakeRandomFixture`.
 5. **Isolate data** across tests using `TmpDatabaseNameFixture`.
 6. **Assert on persistence** by combining HTTP calls with direct `DbContext` queries.
 
-## Next Steps
+## See Also
 
-- Explore the full list of ASP.NET Core fixtures in the [Fixtures reference](../fixtures/asp-net-core/toc.yml).
-- Learn how to [create your own fixtures](../01.getting-started/creating-custom-fixtures.md) for domain-specific test infrastructure.
+| Reference | Description |
+|-----------|-------------|
+| [Program.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/tests/Subjects/WebApiTestSubject/Program.cs) | The application under test used in this tutorial. |
+| [ApiTests.cs](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/main/examples/ExampleTests.AspNetCore/ApiTests.cs) | The complete integration test implementation. |
+| [Fixture List](../fixtures/list.md) | Explore fixtures |
+| [Creating Custom Fixtures](../getting-started/creating-custom-fixtures.md) | Learn how to create your own fixtures for domain-specific test infrastructure. |

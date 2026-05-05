@@ -6,12 +6,12 @@ This article provides a detailed comparison between FEFF.TestFixtures and the na
 
 | Capability | FEFF.TestFixtures | xUnit Native Fixtures |
 |------------|-------------------|----------------------|
-| **Test-Case Scope** | ✅ Yes | ❌ No |
-| **Fixture Dependencies** | ✅ Yes | ❌ No |
-| **Scope Control Convenience** | ✅ Simple | ⚠️ Complex |
-| **IoC Container Integration** | ✅ Yes | ❌ No |
-| **Built-in Fixtures** | ✅ Yes | ❌ No |
-| **Async Setup** | ⚠️ Manual | ✅ Automatic |
+| [Test-Case Scope](#test-case-scope) | ✅ Yes | ❌ No |
+| [Fixture Dependencies](#fixture-dependencies) | ✅ Yes | ❌ No |
+| [Scope Control Convenience](#scope-control-convenience) | ✅ Simple | ⚠️ Complex |
+| [IoC Container Integration](#ioc-container-integration) | ✅ Yes | ❌ No |
+| [Built-in Fixtures](#built-in-fixtures) | ✅ Yes | ❌ No |
+| [Async Setup](#automatic-async-setup) | ⚠️ Manual | ✅ Automatic |
 
 ## Detailed Comparison
 

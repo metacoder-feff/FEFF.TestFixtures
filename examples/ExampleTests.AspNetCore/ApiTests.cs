@@ -63,11 +63,11 @@ public class OptionsFixture : ITmpDatabaseNameFixtureOptions
 /// </summary>
 [Fixture]
 public record FixtureSet(
-    AppManagerFixture<Program> AppManagerFx,                 // Allows to configure the test web application before start
+    AppManagerFixture<Program> AppManagerFx,                 // Allows configuring the test web application before starting
     FakeRandomFixture<Program> FakeRandomFx,                 // Deterministic randomness
     FakeTimeFixture<Program> FakeTimeFx,                     // Controllable time provider
     AppClientFixture<Program> ClientFx,                      // HTTP client for API requests
-    DatabaseLifecycleFixture<Program, ApplicationDbContext> DbFx,  // Database EnsureCreated/EnsureDeleted using EfCore.DbContext
+    DatabaseLifecycleFixture<Program, ApplicationDbContext> DbFx,  // Database EnsureCreated/EnsureDeleted using EF Core DbContext
     TmpDatabaseNameFixture<Program, OptionsFixture> TmpDbNameFx    // Temp database naming
 );
 
@@ -114,7 +114,7 @@ public class ApiTests
     /// <summary>
     /// Interface for ensuring the database is created.
     /// Call EnsureCreatedAsync() before or during tests that require a fresh database.
-    /// The database would be deleted automatically after the test.
+    /// The database will be deleted automatically after the test.
     /// </summary>
     protected IDatabaseLifecycleFixture DbFx => FixtureSet.DbFx;
 
@@ -181,7 +181,7 @@ public class ApiTests
     [Theory]
     [InlineData("cloudy")]
     [InlineData("warm")]
-    public async Task Example2__SetEnvVar__should_make_api_to_respond_with(string envVarValue)
+    public async Task Example2__SetEnvVar__should_make_api_respond_with(string envVarValue)
     {
         // Change TestApp configuration before it starts
         // UseSetting modifies the appsettings configuration with the specified key-value pair
@@ -226,7 +226,7 @@ public class ApiTests
     [Theory]
     [InlineData("2006-01-05")]
     [InlineData("2150-11-15")]
-    public async Task Example3__FakeTimeFixture__should_make_api_to_respond__with(string date)
+    public async Task Example3__FakeTimeFixture__should_make_api_respond__with(string date)
     {
         // Set the fake time provider's "current" UTC time to the specified date at 05:05:05
         // This makes TimeProvider.GetUtcNow() return this value throughout the test
@@ -295,45 +295,128 @@ public class ApiTests
     }
 
     /// <summary>
-    /// Test: POST operation creates a user record in the database.
+    /// Test: POST operation creates a weather forecast record in the database.
     ///
     /// This test verifies the full integration flow:
-    /// 1. POST request to create a user
-    /// 2. Database query to verify the user was actually persisted
+    /// 1. POST request with a weather forecast payload
+    /// 2. Database query to verify the forecast was actually persisted
     ///
     /// Key concepts demonstrated:
-    /// - EnsureDbFx.EnsureCreatedAsync(): Creates (and fast migrates) the database before the test
+    /// - EnsureDbFx.EnsureCreatedAsync(): Creates (and quickly migrates) the database before the test
     /// - Direct DbContext access for database-level assertions
-    /// - POST request testing (currently sends null body, which the API handles by creating a default user)
+    /// - POST request testing with JSON body
     /// </summary>
     [Fact]
-    public async Task Example5__Post_user__should_create_record_in_db()
+    public async Task Example5__Post_weatherforecast__should_create_record_in_db()
     {
         // Ensure the database is created and all migrations are applied
         // This gives us a clean database state for the test
         // Note that we work with a unique database due to the TmpDatabaseNameFixture
         await DbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
-        // Send a POST request to the /user endpoint to create a new user
-        // The API creates a default user when the request body is null
-        var resp = await Client.PostAsync("/user", null, TestContext.Current.CancellationToken);
-        var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
+        // Send a POST request to the /weatherforecast endpoint with a payload
+        await PostAsync(Client, "/weatherforecast", """
+            {
+                "date": "2000-01-01",
+                "temperatureC": 20,
+                "summary": "normal"
+            }
+            """);
 
-        // Query the database directly to verify the user was actually created
+        // Query the database directly to verify the forecast was actually created
         // This proves the API didn't just return a success response, but actually persisted the data
-        var users = await AppDbCtx.Users.ToListAsync(TestContext.Current.CancellationToken);
+        var forecastsEntities = await AppDbCtx.WeatherForecasts.ToListAsync(TestContext.Current.CancellationToken);
+        var forecasts = forecastsEntities.Select(x => x.Data).ToList();
 
-        // Assert the users table contains exactly one user with expected properties
-        JToken.FromObject(users)
+        // Assert the WeatherForecasts table contains exactly one record with expected properties
+        JToken.FromObject(forecasts)
             .Should().BeEquivalentTo("""
             [
                 {
-                    "Id": 1,
-                    "Name": "test",
-                    "Age": 100
+                    "Date": "2000-01-01",
+                    "TemperatureC": 20,
+                    "Summary": "normal",
                 }
             ]
             """);
     }
+
+    #region  tutorial: ASP.NET Core Application Testing
+
+    /// <summary>
+    /// Test: POST /weatherforecast/generate creates a forecast using time, random, and env var,
+    /// persists it to the database, and GET /weatherforecast/today returns it.
+    ///
+    /// This test verifies the full integration flow:
+    /// 1. Configure fake time, fake random, and environment variable
+    /// 2. POST to /weatherforecast/generate
+    /// 3. Query the database directly to verify persistence
+    /// 4. GET /weatherforecast/today to verify the API returns the persisted record
+    /// </summary>
+    [Fact]
+    public async Task Example_Tutorial_Asp__Api__should_persist_and_return()
+    {
+        var expectedDate = "2025-06-15";
+        var expectedTemperature = 42;
+        var expectedSummary = "sunny";
+
+        AppTime.SetUtcNow(DateTimeOffset.Parse($"{expectedDate}T12:00:00Z"));
+        AppRandom.Int32Next = FixedNextStrategy.From(expectedTemperature);
+        // This should be set before the app starts
+        AppConfigurationBuilder.UseSetting("summary", expectedSummary);
+
+        // Start Application and then create the database
+        await DbFx.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+
+        await PostAsync(Client, "/weatherforecast/generate", null);
+
+        var forecastEntities = await AppDbCtx.WeatherForecasts.ToListAsync(TestContext.Current.CancellationToken);
+        var forecasts = forecastEntities.Select(x => x.Data).ToList();
+        // Assert the WeatherForecasts table contains exactly one record with expected properties
+        JToken.FromObject(forecasts)
+            .Should().BeEquivalentTo($$"""
+            [
+                {
+                    "Date": "{{expectedDate}}",
+                    "TemperatureC": {{expectedTemperature}},
+                    "Summary": "{{expectedSummary}}",
+                }
+            ]
+            """);
+
+        var response = await GetAsync(Client, "/weatherforecast/today");
+
+        response
+            .Should().BeEquivalentTo(
+            $$"""
+            {
+                "date": "{{expectedDate}}",
+                "temperatureC": {{expectedTemperature}},
+                "summary": "{{expectedSummary}}"
+            }
+            """);
+    }
+    #endregion
+
+    # region helpers
+
+    private static async Task<JToken> GetAsync(HttpClient client, string url)
+    {
+        var getResp = await client.GetAsync(url, TestContext.Current.CancellationToken);
+        var getBody = await getResp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        getResp.StatusCode.Should().Be(HttpStatusCode.OK, getBody);
+        return JToken.Parse(getBody);
+    }
+
+    private static async Task PostAsync(HttpClient client, string url, string? data)
+    {
+        StringContent? sc = null;
+        if(data != null)
+            sc = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            
+        var resp = await client.PostAsync(url, sc, TestContext.Current.CancellationToken);
+        var body = await resp.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        resp.StatusCode.Should().Be(HttpStatusCode.OK, body);
+    }
+    #endregion
 }

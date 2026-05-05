@@ -91,6 +91,12 @@ public class RandomTests
 }
 ```
 
+## Type Arguments
+
+| Type Argument | Constraint | Description |
+|---------------|------------|-------------|
+| `TEntryPoint` | `class` | The application entry point type. Typically the `Startup` or `Program` class. |
+
 ## Key Members
 
 ### FakeRandomFixture<TEntryPoint>

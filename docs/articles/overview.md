@@ -106,8 +106,8 @@ Choose your path based on your needs:
 
 | Your Goal | Next Step |
 |-----------|-----------|
-| Quick setup with xUnit v3 | [Quick Start (xUnit v3)](01.getting-started/quick-start-xunit.md) |
-| Quick setup with TUnit | [Quick Start (TUnit)](01.getting-started/quick-start-tunit.md) |
-| Create your own fixture | [Creating Custom Fixtures](01.getting-started/creating-custom-fixtures.md) |
-| Combine fixtures | [Fixture Dependencies](01.getting-started/fixture-dependencies.md) |
+| Quick setup with xUnit v3 | [Quick Start (xUnit v3)](getting-started/quick-start-xunit.md) |
+| Quick setup with TUnit | [Quick Start (TUnit)](getting-started/quick-start-tunit.md) |
+| Create your own fixture | [Creating Custom Fixtures](getting-started/creating-custom-fixtures.md) |
+| Combine fixtures | [Fixture Dependencies](getting-started/fixture-dependencies.md) |
 | Explore builtin fixtures | [Fixture List](fixtures/list.md) |

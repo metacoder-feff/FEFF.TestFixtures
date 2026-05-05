@@ -70,6 +70,12 @@ using var scope = AppManagerFx.LazyApplication.Services.CreateAsyncScope();
 var svc = scope.ServiceProvider.GetRequiredService<SomeService>();
 ```
 
+## Type Arguments
+
+| Type Argument | Constraint | Description |
+|---------------|------------|-------------|
+| `TEntryPoint` | `class` | The application entry point type. Typically the `Startup` or `Program` class. |
+
 ## Key Members
 
 | Member | Type | Description |
