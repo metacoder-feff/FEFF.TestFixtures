@@ -1,0 +1,22 @@
+
+The logo should represent one of these key ideas:
+Interlocking / Reusable Blocks → "Fixtures" as modular components.
+
+
+1.
+Complete 2x2x2 cube structure (8 cubes total)
+4 purple cubes + 4 teal cubes in alternating pattern
+One of cubes is elevated (half-height raised) showing dynamic insertion
+2-3 green check marks in one vertical column overlapping on the right side with Front-facing orientation (perpendicular to camera)
+Professional 3D isometric view
+
+2. 
+The "Interlocking Fixture Blocks"
+What it is: 3 simple, slightly overlapping rounded squares (like Lego bricks). Two are dark gray (setup), one is green (test runs). An arrow loops from the last block back to the first, indicating teardown/reset.
+Why it fits: Mirrors MyFixtureSet(F1, F2) dependencies – fixtures assembling into larger fixtures.
+Color: Dark slate (#2D333B) + Emerald green (#2DA44E – GitHub's success green).
+
+for github-repository's social media preview
+convert docs/images/logo/logo.svg
+to png with size 1280×640px
+save as logo-1280-github.png

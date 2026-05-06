@@ -9,14 +9,12 @@ namespace FEFF.TestFixtures.AspNetCore.EF;
 public interface IDatabaseLifecycleFixture
 {
     /// <summary>
-    /// Ensures that the database for the context exists and is created.
+    /// Gets the <see cref="DbContext" /> instance resolved from the service provider.
     /// </summary>
-    /// <param name="token">A token to cancel the operation.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
     /// <remarks>
-    /// Starts the application under test if not already running.
+    /// Accessing this property starts the application under test if not already running.
     /// </remarks>
-    Task EnsureCreatedAsync(CancellationToken token);
+    DbContext LazyDbContext { get; }
 }
 
 /// <inheritdoc/>
@@ -29,7 +27,7 @@ where TContext : DbContext
     /// <remarks>
     /// Accessing this property starts the application under test if not already running.
     /// </remarks>
-    TContext LazyDbContext { get; }
+    new TContext LazyDbContext { get; }
 }
 
 //TODO: skip options/properties + tests
@@ -55,6 +53,8 @@ where TContext : DbContext
     /// <inheritdoc/>
     public TContext LazyDbContext => _servicesFx.LazyServiceProvider.GetRequiredService<TContext>();
 
+    DbContext IDatabaseLifecycleFixture.LazyDbContext => LazyDbContext;
+
     /// <summary>
     /// Creates a new database lifecycle management fixture.
     /// </summary>
@@ -78,10 +78,24 @@ where TContext : DbContext
             // This can happen when database is locked or inaccessible
             // System.Console.Error.WriteLine($"[DatabaseLifecycleFixture] Warning: Failed to delete database: {ex.Message}");
     }
+}
 
-    /// <inheritdoc/>
-    public async Task EnsureCreatedAsync(CancellationToken token)
+/// <summary>
+/// Provides extension methods for <see cref="IDatabaseLifecycleFixture"/>.
+/// </summary>
+public static class DatabaseLifecycleFixtureExtensions
+{
+    /// <summary>
+    /// Ensures that the database for the context exists and is created.
+    /// </summary>
+    /// <param name="src">The database lifecycle fixture.</param>
+    /// <param name="token">A token to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    /// <remarks>
+    /// Starts the application under test if not already running.
+    /// </remarks>
+    public static async Task EnsureCreatedAsync(this IDatabaseLifecycleFixture src, CancellationToken token)
     {
-        await LazyDbContext.Database.EnsureCreatedAsync(token).ConfigureAwait(false);
+        await src.LazyDbContext.Database.EnsureCreatedAsync(token).ConfigureAwait(false);
     }
 }

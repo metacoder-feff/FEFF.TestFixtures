@@ -1,6 +1,8 @@
 # Overview
 
-FEFF.TestFixtures is a testing library extension for .NET that replaces traditional setup/teardown methods or test-class "Disposable pattern" with reusable, composable fixtures.
+![lLogo](../images/logo/logo.svg){width=250 height=120}
+
+FEFF.TestFixtures is a .NET testing library extension that replaces traditional setup/teardown methods or the test-class "Disposable pattern" with reusable, composable fixtures.
 
 ## What is a Fixture?
 
@@ -16,19 +18,19 @@ A **fixture** is a reusable component that manages resources for testing purpose
 
 FEFF.TestFixtures aims to:
 
-✅ **Eliminate boilerplate** - Replace repetitive setup/teardown methods  
-✅ **Enable composition** - Build complex fixtures from simpler ones  
-✅ **Simplify ASP.NET Core testing** - Built-in fixtures for web applications  
-✅ **Maintain isolation** - Each test gets clean, predictable state  
+✅ **Eliminate boilerplate** – Replace repetitive setup/teardown methods  
+✅ **Enable composition** – Build complex fixtures from simpler ones  
+✅ **Simplify ASP.NET Core testing** – Built-in fixtures for web applications  
+✅ **Maintain isolation** – Each test gets clean, predictable state  
 
-Additionaly:  
-✅ **Support multiple frameworks** - Works with xUnit v3 and TUnit  
+Additionally:  
+✅ **Support multiple frameworks** – Works with xUnit v3 and TUnit  
 
 ## Key Concepts
 
 ### Fixtures
 
-Fixtures are classes marked with the `[Fixture]` attribute. The framework discovers and manages their lifecycle automatically.
+Fixtures are classes marked with the `[Fixture]` attribute. The framework automatically discovers and manages their lifecycle.
 
 ```csharp
 [Fixture]
@@ -50,13 +52,13 @@ public class MyFixture : IDisposable
 
 ### Scopes
 
-The **scope** of a fixture defines its lifetime. Within a scope, each fixture is created only once (lazily on demand) and destroyed at the end of the scope. If the fixture implements Dispose() or DisposeAsync(), those methods are called.
+The **scope** of a fixture defines its lifetime. Within a scope, each fixture is created only once (lazily, on demand) and destroyed at the end of the scope. If the fixture implements `Dispose()` or `DisposeAsync()`, those methods are called.
 
-The available scopes are defined by the test framework used. For **Xunit Integration**, they are:  
-`TestCase` , `Class`, `Collection`, `Assembly`
+The available scopes are defined by the test framework used. For **xUnit Integration**, they are:  
+`TestCase`, `Class`, `Collection`, `Assembly`
 
 For **TUnit Integration**, they are:  
-`TestCase` , `Class`, `Assembly`, `Session`
+`TestCase`, `Class`, `Assembly`, `Session`
 
 ### Fixture Dependencies
 
@@ -110,4 +112,5 @@ Choose your path based on your needs:
 | Quick setup with TUnit | [Quick Start (TUnit)](getting-started/quick-start-tunit.md) |
 | Create your own fixture | [Creating Custom Fixtures](getting-started/creating-custom-fixtures.md) |
 | Combine fixtures | [Fixture Dependencies](getting-started/fixture-dependencies.md) |
-| Explore builtin fixtures | [Fixture List](fixtures/list.md) |
+| Explore built-in fixtures | [Fixture List](fixtures/list.md) |
+| Learn how to simplify ASP.NET Core application testing | [Tutorial](tutorials/asp-net-core-application-testing.md) |

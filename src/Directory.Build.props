@@ -24,7 +24,10 @@
     <Description>Reusable testing components.</Description>
     <RepositoryUrl>https://github.com/metacoder-feff/FEFF.TestFixtures</RepositoryUrl>
     <PackageTags>testing;fixtures;FEFF;</PackageTags>
+    <!-- Point to the file name within the package -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- Point to the file name within the package -->
+    <PackageIcon>logo-128-nuget.png</PackageIcon>
     <!-- PDB/SourceLink -->
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -44,6 +47,9 @@
     -->
     <!-- add readme -->
     <None Include="README.md" Pack="true" PackagePath="\"/>
+
+    <!-- add icon -->
+    <None Include="../../docs/images/logo/logo-128-nuget.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
