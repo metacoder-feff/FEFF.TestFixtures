@@ -45,11 +45,6 @@
         "resolved": "2.23.0",
         "contentHash": "nWArUZTdU7iqZLycLKWe0TDms48KKGE6pONH2terYNa8REXiqixrMOkf1sk5DHGMaUTqONU2YkS4SAXBhLStgw=="
       },
-      "Microsoft.Bcl.AsyncInterfaces": {
-        "type": "Transitive",
-        "resolved": "6.0.0",
-        "contentHash": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg=="
-      },
       "Microsoft.DiaSymReader": {
         "type": "Transitive",
         "resolved": "2.2.5",
@@ -194,14 +189,6 @@
         "resolved": "4.0.0-pre.103",
         "contentHash": "vhke3b55zpgL9BwqlK3TmXMAPyVqD1MwHYu2jO35Jvb96Wrts0zL9pXWbrJrS1rny0pgoIeagAsguUGXjJpAag=="
       },
-      "xunit.v3.common": {
-        "type": "Transitive",
-        "resolved": "4.0.0-pre.103",
-        "contentHash": "9d6oYJqTNLG0/a2n2sR7i5ChJx9xV9DH287u1SqiFZ8imx+Cua7bMuObNANOlvEd5EpTXQjCOC+p9JoULdzF1w==",
-        "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
-        }
-      },
       "xunit.v3.core.mtp-v2": {
         "type": "Transitive",
         "resolved": "4.0.0-pre.103",
@@ -213,14 +200,6 @@
           "Microsoft.Testing.Platform.MSBuild": "2.2.1",
           "xunit.v3.extensibility.core": "[4.0.0-pre.103]",
           "xunit.v3.runner.inproc.console": "[4.0.0-pre.103]"
-        }
-      },
-      "xunit.v3.extensibility.core": {
-        "type": "Transitive",
-        "resolved": "4.0.0-pre.103",
-        "contentHash": "WVO4mpv2HErpqe5yqYXUXeVZz+Hx7E3JYrVdOMtVuirrXk3ls3i1zRoyGrhQY+thzY5K3beww/8h8B9Qis0S/Q==",
-        "dependencies": {
-          "xunit.v3.common": "[4.0.0-pre.103]"
         }
       },
       "xunit.v3.runner.common": {
@@ -271,14 +250,14 @@
         "dependencies": {
           "FEFF.TestFixtures": "[0.0.1, )",
           "FEFF.TestFixtures.Engine": "[0.0.1, )",
-          "xunit.v3.extensibility.core": "[4.0.0-pre.103, )"
+          "xunit.v3.extensibility.core": "[4.0.0-pre.112, )"
         }
       },
       "xunitv4.testsubject": {
         "type": "Project",
         "dependencies": {
           "AwesomeAssertions": "[9.4.0, )",
-          "FEFF.TestFixtures.XunitV4": "[0.0.1, )",
+          "FEFF.TestFixtures.XunitV4": "[0.0.1-preview, )",
           "Microsoft.Testing.Extensions.CodeCoverage": "[18.6.2, )",
           "xunit.v3.mtp-v2": "[4.0.0-pre.103, )"
         }
