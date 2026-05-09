@@ -420,7 +420,7 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.4.3, )",
+          "FEFF.TestFixtures.Abstractions": "[0.0.1, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.7, )"
         }
       },
@@ -433,7 +433,7 @@
       "feff.testfixtures.aspnetcore": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures": "[1.4.3, )",
+          "FEFF.TestFixtures": "[0.0.1, )",
           "Microsoft.AspNetCore.Mvc.Testing": "[10.0.7, )",
           "Microsoft.Extensions.Diagnostics.Testing": "[10.5.0, )",
           "Microsoft.Extensions.TimeProvider.Testing": "[10.5.0, )"
@@ -867,7 +867,7 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.4.3, )",
+          "FEFF.TestFixtures.Abstractions": "[0.0.1, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.7, )"
         }
       },
@@ -880,7 +880,7 @@
       "feff.testfixtures.aspnetcore": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures": "[1.4.3, )",
+          "FEFF.TestFixtures": "[0.0.1, )",
           "Microsoft.AspNetCore.Mvc.Testing": "[8.0.25, )",
           "Microsoft.Extensions.Diagnostics.Testing": "[10.5.0, )",
           "Microsoft.Extensions.TimeProvider.Testing": "[10.5.0, )"
@@ -1306,7 +1306,7 @@
       "feff.testfixtures": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures.Abstractions": "[1.4.3, )",
+          "FEFF.TestFixtures.Abstractions": "[0.0.1, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.7, )"
         }
       },
@@ -1319,7 +1319,7 @@
       "feff.testfixtures.aspnetcore": {
         "type": "Project",
         "dependencies": {
-          "FEFF.TestFixtures": "[1.4.3, )",
+          "FEFF.TestFixtures": "[0.0.1, )",
           "Microsoft.AspNetCore.Mvc.Testing": "[9.0.14, )",
           "Microsoft.Extensions.Diagnostics.Testing": "[10.5.0, )",
           "Microsoft.Extensions.TimeProvider.Testing": "[10.5.0, )"
