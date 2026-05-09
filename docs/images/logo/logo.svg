@@ -105,7 +105,7 @@
     <!-- Top check mark -->
     <path d="M 5,30 L 15,42 L 35,18" 
           stroke="url(#greenGrad)" 
-          stroke-width="6" 
+          stroke-width="10" 
           stroke-linecap="round" 
           stroke-linejoin="round" 
           fill="none"/>
@@ -113,7 +113,7 @@
     <!-- Bottom check mark (overlapping, slightly offset) -->
     <path d="M 5,65 L 15,77 L 35,53" 
           stroke="url(#greenGrad)" 
-          stroke-width="6" 
+          stroke-width="10" 
           stroke-linecap="round" 
           stroke-linejoin="round" 
           fill="none"/>
@@ -121,7 +121,7 @@
     <!-- Bottom check mark (overlapping, slightly offset) -->
     <path d="M 5,100 L 15,112 L 35,88" 
           stroke="url(#greenGrad)" 
-          stroke-width="6" 
+          stroke-width="10" 
           stroke-linecap="round" 
           stroke-linejoin="round" 
           fill="none"/>
