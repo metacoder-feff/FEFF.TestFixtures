@@ -1,7 +1,8 @@
 
 The logo should represent one of these key ideas:
 Interlocking / Reusable Blocks → "Fixtures" as modular components.
-
+Green Check Marks → "Successful Test Results" (color #2DA44E – GitHub's success Emerald green).
+s
 
 1.
 Complete 2x2x2 cube structure (8 cubes total)
@@ -20,3 +21,12 @@ for github-repository's social media preview
 convert docs/images/logo/logo.svg
 to png with size 1280×640px
 save as logo-1280-github.png
+
+for nuget
+convert docs/images/logo/logo.svg
+to png with size 128×128px
+save as logo-128-nuget.png
+
+convert docs/images/logo/logo.svg
+to favicon with size 128×128px
+save as docs/images/logo/favicon.ico

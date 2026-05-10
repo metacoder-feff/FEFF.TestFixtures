@@ -45,6 +45,7 @@
       "_appName": "FEFF.TestFixtures Library Documentation",
       "_appTitle": "FEFF.TestFixtures Library Documentation",
       "_appLogoPath": "images/logo/logo-51-docfx.svg",
+      "_appFaviconPath": "images/logo/favicon.ico",
       "_enableSearch": true,
       "pdf": false
     }
