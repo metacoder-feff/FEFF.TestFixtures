@@ -440,7 +440,7 @@ public class ApiTests
 ### What the test does
 
 1. **Deterministic setup**
-   - [`FakeTimeFixture`](../fixtures/asp-net-core/FakeTimeFixture.md) pins the system clock to `2025-06-15`.
+   - [`FakeTimeFixture`](../fixtures/asp-net-core/FakeTimeFixture.md) pins the system clock to `2025-06-15T12:00:00Z`.
    - [`FakeRandomFixture`](../fixtures/asp-net-core/FakeRandomFixture.md) forces `Random.Next()` to return `42`.
    - [`AppManagerFixture`](../fixtures/asp-net-core/AppManagerFixture.md) injects the `"summary"` setting before the application starts.
 
