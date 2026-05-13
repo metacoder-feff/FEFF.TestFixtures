@@ -1,14 +1,14 @@
 
-The logo should represent one of these key ideas:
+The logo should represent these key ideas:
 Interlocking / Reusable Blocks → "Fixtures" as modular components.
 Green Check Marks → "Successful Test Results" (color #2DA44E – GitHub's success Emerald green).
-s
+Additional hint: when check marks are attached to "Blocks" by only one end - the other ends of checkmarks are alike "clothing fixtures"
 
 1.
 Complete 2x2x2 cube structure (8 cubes total)
 4 purple cubes + 4 teal cubes in alternating pattern
 One of cubes is elevated (half-height raised) showing dynamic insertion
-2-3 green check marks in one vertical column overlapping on the right side with Front-facing orientation (perpendicular to camera)
+3 green (#2DA44E) check marks in one vertical column overlapping on the right side with Front-facing orientation (perpendicular to camera)
 Professional 3D isometric view
 
 2. 
