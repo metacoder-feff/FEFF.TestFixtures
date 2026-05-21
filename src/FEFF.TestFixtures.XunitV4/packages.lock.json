@@ -15,11 +15,11 @@
       },
       "xunit.v3.extensibility.core": {
         "type": "Direct",
-        "requested": "[4.0.0-pre.116, )",
-        "resolved": "4.0.0-pre.116",
-        "contentHash": "XBv+/IznJ26fJ3iYXow4EjKlbvIyr7go97jELlmXVRmWW0zldmnT36ITvxzZ+9APV0RqmyBOBGLt+Zb0E8VPrA==",
+        "requested": "[4.0.0-pre.121, )",
+        "resolved": "4.0.0-pre.121",
+        "contentHash": "exvuxgk1A4BaZWIMqmNlfyc96EZH2tut8lNfqH1mCEEjJF7jEwvy3+UGqcCK4BUjzanmweYwYsD/k19jER/kdQ==",
         "dependencies": {
-          "xunit.v3.common": "[4.0.0-pre.116]"
+          "xunit.v3.common": "[4.0.0-pre.121]"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -126,8 +126,8 @@
       },
       "xunit.v3.common": {
         "type": "Transitive",
-        "resolved": "4.0.0-pre.116",
-        "contentHash": "xiOrmuj8AtSqF6eZalaW1XdHLKBA/Y+2ZDzFY2YAZhcYeuAPOo7DOaovSCSGwuChUyk2m72x3i0bdfV6CRjt9A==",
+        "resolved": "4.0.0-pre.121",
+        "contentHash": "MmEBUverYnvf5DspIovuzwonjaOnwby6pklEQWjGbG5BEAkTAVC5sIxKhIRZenGUfeqSLM51CRtnMITQ74y+Kg==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
         }
@@ -171,11 +171,11 @@
       },
       "xunit.v3.extensibility.core": {
         "type": "Direct",
-        "requested": "[4.0.0-pre.116, )",
-        "resolved": "4.0.0-pre.116",
-        "contentHash": "XBv+/IznJ26fJ3iYXow4EjKlbvIyr7go97jELlmXVRmWW0zldmnT36ITvxzZ+9APV0RqmyBOBGLt+Zb0E8VPrA==",
+        "requested": "[4.0.0-pre.121, )",
+        "resolved": "4.0.0-pre.121",
+        "contentHash": "exvuxgk1A4BaZWIMqmNlfyc96EZH2tut8lNfqH1mCEEjJF7jEwvy3+UGqcCK4BUjzanmweYwYsD/k19jER/kdQ==",
         "dependencies": {
-          "xunit.v3.common": "[4.0.0-pre.116]"
+          "xunit.v3.common": "[4.0.0-pre.121]"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -299,8 +299,8 @@
       },
       "xunit.v3.common": {
         "type": "Transitive",
-        "resolved": "4.0.0-pre.116",
-        "contentHash": "xiOrmuj8AtSqF6eZalaW1XdHLKBA/Y+2ZDzFY2YAZhcYeuAPOo7DOaovSCSGwuChUyk2m72x3i0bdfV6CRjt9A==",
+        "resolved": "4.0.0-pre.121",
+        "contentHash": "MmEBUverYnvf5DspIovuzwonjaOnwby6pklEQWjGbG5BEAkTAVC5sIxKhIRZenGUfeqSLM51CRtnMITQ74y+Kg==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
         }
