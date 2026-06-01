@@ -58,7 +58,6 @@ public class Program
         builder.Services
             .AddSingleton((_) => Random.Shared)
             .AddSingleton((_) => TimeProvider.System)
-            .AddScoped<SomeService>()
             .AddDbContext<ApplicationDbContext>((sp, options) =>
             {
                 var connStr = builder.Configuration.GetConnectionString(ConnectionStringName);
