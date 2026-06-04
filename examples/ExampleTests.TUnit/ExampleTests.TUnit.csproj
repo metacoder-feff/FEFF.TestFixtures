@@ -10,11 +10,11 @@
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.7.0" />
-    <PackageReference Include="TUnit" Version="1.46.0" />
+    <PackageReference Include="TUnit" Version="1.49.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FEFF.TestFixtures.TUnit" Version="1.6.0" />
+    <PackageReference Include="FEFF.TestFixtures.TUnit" Version="1.6.1" />
   </ItemGroup>
 
 </Project>
