@@ -55,15 +55,15 @@
       },
       "Verify.XunitV3": {
         "type": "Direct",
-        "requested": "[31.19.1, )",
-        "resolved": "31.19.1",
-        "contentHash": "jxXh/aF2oA3/h/UMOhmsADH2MauIXdvr7yaRZlOjNztOa/7aE0bm6uLXIpyJkObMnJ0OCh75dg2SER+ksdgqMg==",
+        "requested": "[31.20.0, )",
+        "resolved": "31.20.0",
+        "contentHash": "rWaM0L/ufScjyvGqZ81phrRKoIphIkxhBANduyQY/gnm4yv1aARHAiUtnIDjqZak3k6w7mV3T2EiXwMe+zZM5g==",
         "dependencies": {
           "Argon": "0.34.0",
           "DiffEngine": "19.2.0",
-          "Microsoft.Bcl.AsyncInterfaces": "10.0.8",
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.9",
           "SimpleInfoName": "3.2.0",
-          "Verify": "31.19.1",
+          "Verify": "31.20.0",
           "xunit.v3.extensibility.core": "3.2.2"
         }
       },
@@ -186,8 +186,8 @@
       },
       "Microsoft.Bcl.AsyncInterfaces": {
         "type": "Transitive",
-        "resolved": "10.0.8",
-        "contentHash": "e+kYYRb0HmNo5FTOcjXkP0mIEFHEyygm4ea/iLWpdumsACzCH078nZMfnk6RQFmtSrnNbh654c8nNtmUSwQoow=="
+        "resolved": "10.0.9",
+        "contentHash": "Aq7M8lG6BrHeatqKqncVm9m55ec34k6nnfPRLe/PvGg+b/pAsRM2ejofeKmCLjTXMa+5NGXm382f8CG/D5WDow=="
       },
       "Microsoft.DiaSymReader": {
         "type": "Transitive",
@@ -631,13 +631,13 @@
       },
       "TUnit.Core": {
         "type": "Transitive",
-        "resolved": "1.55.2",
-        "contentHash": "i5At3HGDi++qvp2HhDdbG09DLXUbaTy3wkJT3qDb7334vNHk0896fYv+2+Nqkazvhm1eYqtJASe7sWTbiQ6+Qg=="
+        "resolved": "1.56.35",
+        "contentHash": "9F6zv7LM+BBPG9Sav7RwQfDNL9E/GTfMzg0gOJEF5+/aRDthW1KicFBxmhoH1eoXPtV/mq6d8IZybxzQ5WRcbg=="
       },
       "Verify": {
         "type": "Transitive",
-        "resolved": "31.19.1",
-        "contentHash": "YsvivJXlAVEwTjMbNDGnYTH659/FafRH0gVrY5d0cCfI0d2erXy7J9psM7VfOCd7Gt8O7Eo+J386fMaqYgRwyg==",
+        "resolved": "31.20.0",
+        "contentHash": "rG9Uvg49LwBHRBagYjBj3ckMj2PwEl6QhI5GUhqec1Z3sNWX9+58oVUH90ckPOhj/2VgVi0lh7kYIXcLkxur2A==",
         "dependencies": {
           "Argon": "0.34.0",
           "DiffEngine": "19.2.0",
@@ -753,7 +753,7 @@
         "dependencies": {
           "FEFF.TestFixtures": "[0.0.1, )",
           "FEFF.TestFixtures.Engine": "[0.0.1, )",
-          "TUnit.Core": "[1.55.2, )"
+          "TUnit.Core": "[1.56.35, )"
         }
       },
       "feff.testfixtures.xunitv3": {

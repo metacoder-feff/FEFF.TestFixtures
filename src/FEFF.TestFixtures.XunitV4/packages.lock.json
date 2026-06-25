@@ -15,11 +15,11 @@
       },
       "xunit.v3.extensibility.core": {
         "type": "Direct",
-        "requested": "[4.0.0-pre.126, )",
-        "resolved": "4.0.0-pre.126",
-        "contentHash": "tb5Mo7H3juJOEvKv4FnRKxXFduM1F9jenQnKHhhCzhX0j3aR/D15ggVlRz8TlOooOSFWVRMBSUCOkFvF6s7wDQ==",
+        "requested": "[4.0.0-pre.148, )",
+        "resolved": "4.0.0-pre.148",
+        "contentHash": "/vtbFS/ZSeRrQxXiI5N65+rRzd+P762q9bFfozWPhwp0qQb/7l6zEVsAQi6ItCY8vu8jJU9XjgwU7vsH7y+ntg==",
         "dependencies": {
-          "xunit.v3.common": "[4.0.0-pre.126]"
+          "xunit.v3.common": "[4.0.0-pre.148]"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -126,8 +126,8 @@
       },
       "xunit.v3.common": {
         "type": "Transitive",
-        "resolved": "4.0.0-pre.126",
-        "contentHash": "Os5s97ooN1KpzzVfoWJtHUhfzvYf5LgDPyNo06UezEJIY0Jf63G17F+gJlbn0hshPX/gLXAKvIRLaOomi4ELhQ==",
+        "resolved": "4.0.0-pre.148",
+        "contentHash": "py32Hekj7Pklb1+a2oY12bMPUiEw+1gAgxdC0RzeVAU44lwwwgsKM7N3rf+gbuoJfeWDxouRu+Oy0bduHKHzcw==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
         }
@@ -171,11 +171,11 @@
       },
       "xunit.v3.extensibility.core": {
         "type": "Direct",
-        "requested": "[4.0.0-pre.126, )",
-        "resolved": "4.0.0-pre.126",
-        "contentHash": "tb5Mo7H3juJOEvKv4FnRKxXFduM1F9jenQnKHhhCzhX0j3aR/D15ggVlRz8TlOooOSFWVRMBSUCOkFvF6s7wDQ==",
+        "requested": "[4.0.0-pre.148, )",
+        "resolved": "4.0.0-pre.148",
+        "contentHash": "/vtbFS/ZSeRrQxXiI5N65+rRzd+P762q9bFfozWPhwp0qQb/7l6zEVsAQi6ItCY8vu8jJU9XjgwU7vsH7y+ntg==",
         "dependencies": {
-          "xunit.v3.common": "[4.0.0-pre.126]"
+          "xunit.v3.common": "[4.0.0-pre.148]"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -299,8 +299,8 @@
       },
       "xunit.v3.common": {
         "type": "Transitive",
-        "resolved": "4.0.0-pre.126",
-        "contentHash": "Os5s97ooN1KpzzVfoWJtHUhfzvYf5LgDPyNo06UezEJIY0Jf63G17F+gJlbn0hshPX/gLXAKvIRLaOomi4ELhQ==",
+        "resolved": "4.0.0-pre.148",
+        "contentHash": "py32Hekj7Pklb1+a2oY12bMPUiEw+1gAgxdC0RzeVAU44lwwwgsKM7N3rf+gbuoJfeWDxouRu+Oy0bduHKHzcw==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
         }
