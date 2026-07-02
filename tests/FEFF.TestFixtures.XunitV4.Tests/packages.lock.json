@@ -45,11 +45,6 @@
         "resolved": "2.23.0",
         "contentHash": "nWArUZTdU7iqZLycLKWe0TDms48KKGE6pONH2terYNa8REXiqixrMOkf1sk5DHGMaUTqONU2YkS4SAXBhLStgw=="
       },
-      "Microsoft.Bcl.AsyncInterfaces": {
-        "type": "Transitive",
-        "resolved": "6.0.0",
-        "contentHash": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg=="
-      },
       "Microsoft.DiaSymReader": {
         "type": "Transitive",
         "resolved": "2.2.3",
@@ -194,14 +189,6 @@
         "resolved": "4.0.0-pre.126",
         "contentHash": "lNAkGToAHCIEIfWdH/m3bBudzNaNtq8ce33ZI8ce8zicMuJ5EfjT9rx57TBNQ32ZjJSlQgNRGcI0Mmbw95M2Iw=="
       },
-      "xunit.v3.common": {
-        "type": "Transitive",
-        "resolved": "4.0.0-pre.126",
-        "contentHash": "Os5s97ooN1KpzzVfoWJtHUhfzvYf5LgDPyNo06UezEJIY0Jf63G17F+gJlbn0hshPX/gLXAKvIRLaOomi4ELhQ==",
-        "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
-        }
-      },
       "xunit.v3.core.mtp-v2": {
         "type": "Transitive",
         "resolved": "4.0.0-pre.126",
@@ -213,14 +200,6 @@
           "Microsoft.Testing.Platform.MSBuild": "2.2.3",
           "xunit.v3.extensibility.core": "[4.0.0-pre.126]",
           "xunit.v3.runner.inproc.console": "[4.0.0-pre.126]"
-        }
-      },
-      "xunit.v3.extensibility.core": {
-        "type": "Transitive",
-        "resolved": "4.0.0-pre.126",
-        "contentHash": "tb5Mo7H3juJOEvKv4FnRKxXFduM1F9jenQnKHhhCzhX0j3aR/D15ggVlRz8TlOooOSFWVRMBSUCOkFvF6s7wDQ==",
-        "dependencies": {
-          "xunit.v3.common": "[4.0.0-pre.126]"
         }
       },
       "xunit.v3.runner.common": {
@@ -271,8 +250,7 @@
         "dependencies": {
           "FEFF.TestFixtures": "[0.0.1, )",
           "FEFF.TestFixtures.Engine": "[0.0.1, )",
-          "Microsoft.Testing.Extensions.CodeCoverage": "[18.8.0, )",
-          "xunit.v3.extensibility.core": "[4.0.0-pre.126, )"
+          "xunit.v3.extensibility.core": "[4.0.0-pre.148, )"
         }
       },
       "xunitv4.testsubject": {
