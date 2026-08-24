@@ -9,7 +9,7 @@ using Xunit.v3;
 // register the extension
 [assembly: TestFixturesExtension]
 
-namespace FEFF.TestFixtures.Xunit.V4.TestSubjects;
+namespace FEFF.TestFixtures.Xunit.TestSubjects;
 
 internal class BaseFix : IDisposable
 {
