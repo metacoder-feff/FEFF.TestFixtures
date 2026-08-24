@@ -35,11 +35,20 @@ jobs:
         with:
           dotnet-version: 10.x
 
-      - name: Restore dependencies with lock
+      - run: dotnet tool update -g docfx
+
+      - name: Restore dependencies
         run: dotnet restore --use-lock-file
 
-      - run: dotnet tool update -g docfx
-      - run: docfx docs/docfx.json -m noRestore=true
+      - name: Build sources
+        run: |
+          dotnet build \
+            --no-restore \
+            --configuration Release \
+            -p:ContinuousIntegrationBuild=true
+
+      - name: Build DocFx
+        run: docfx build "docs/docfx.json" --warningsAsErrors
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
