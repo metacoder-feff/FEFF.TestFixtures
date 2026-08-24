@@ -1,12 +1,11 @@
 using FEFF.TestFixtures.Xunit.Internal;
 using Xunit;
-using Xunit.v3;
 
 namespace FEFF.TestFixtures.Xunit;
 
 /// <summary>
 /// Manages <see cref="Engine.FixtureManager"/> for xUnit tests. <br/>
-/// Enables the use of <see cref="TestContextExtensionsV4.GetFeffFixture{T}"/>.
+/// Enables the use of <see cref="global::Xunit.v3.TestContextExtensions.GetFeffFixture{T}(ITestContext, FixtureScopeType)"/>.
 /// </summary>
 /// <remarks>
 /// Apply this attribute at the assembly level in an <c>AssemblyInfo.cs</c> or any source file:
