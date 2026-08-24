@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AwesomeAssertions;
-using FEFF.TestFixtures.Xunit.V4;
+using FEFF.TestFixtures.Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.v3;

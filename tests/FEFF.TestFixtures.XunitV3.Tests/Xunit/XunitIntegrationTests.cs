@@ -191,7 +191,7 @@ public class XunitIntegrationTests
         int? assertEquivalentMaxDepth = null,
         string? culture = null,
         bool? diagnosticMessages = null,
-        bool? disableParallelization = null,
+        ParallelMode? pm = null,
         ExplicitOption? explicitOption = null,
         bool? failSkips = null,
         bool? failTestsWithWarnings = null,
@@ -212,7 +212,7 @@ public class XunitIntegrationTests
         result.SetAssertEquivalentMaxDepth(assertEquivalentMaxDepth);
         result.SetCulture(culture);
         result.SetDiagnosticMessages(diagnosticMessages);
-        result.SetDisableParallelization(disableParallelization);
+        result.SetParallelMode(pm);
         result.SetExplicitOption(explicitOption);
         result.SetFailSkips(failSkips);
         result.SetFailTestsWithWarnings(failTestsWithWarnings);
