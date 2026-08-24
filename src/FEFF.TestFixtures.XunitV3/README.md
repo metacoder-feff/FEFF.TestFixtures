@@ -9,7 +9,7 @@ See the [main README](https://github.com/metacoder-feff/FEFF.TestFixtures/blob/m
 
 ## This Package
 
-This package integrates the fixture engine with **Xunit v3**, enabling fixture resolution through the xUnit test context.
+This package integrates the fixture engine with **Xunit v3** (version 4.0.0 +), enabling fixture resolution through the xUnit test context.
 
 ### Quick Start
 

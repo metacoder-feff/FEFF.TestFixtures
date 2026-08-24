@@ -1,8 +1,8 @@
-using FEFF.TestFixtures.Xunit.V4.Internal;
+using FEFF.TestFixtures.Xunit.Internal;
 using Xunit;
 using Xunit.v3;
 
-namespace FEFF.TestFixtures.Xunit.V4;
+namespace FEFF.TestFixtures.Xunit;
 
 /// <summary>
 /// Manages <see cref="Engine.FixtureManager"/> for xUnit tests. <br/>

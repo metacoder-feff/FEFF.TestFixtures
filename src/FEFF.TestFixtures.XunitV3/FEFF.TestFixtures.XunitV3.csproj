@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 
@@ -11,9 +11,9 @@
   <ItemGroup>
      <InternalsVisibleTo Include="FEFF.TestFixtures.Tests" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.2" />
+    <PackageReference Include="xunit.v3.extensibility.core" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
