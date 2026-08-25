@@ -3,7 +3,7 @@ using FEFF.TestFixtures.Engine;
 using Xunit;
 using Xunit.v3;
 
-namespace FEFF.TestFixtures.Xunit.V4.Internal;
+namespace FEFF.TestFixtures.Xunit.Internal;
 
 /// <summary>
 /// Adapter that integrates FEFF.TestFixtures with xUnit v4 lifecycle events.

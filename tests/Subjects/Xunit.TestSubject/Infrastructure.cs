@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace FEFF.TestFixtures.Xunit.V4.TestSubjects;
+namespace FEFF.TestFixtures.Xunit.TestSubjects;
 
 public static class Infrastructure
 {

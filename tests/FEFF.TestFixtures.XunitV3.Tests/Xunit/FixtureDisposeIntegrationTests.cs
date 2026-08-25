@@ -1,12 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using AwesomeAssertions;
-using AwesomeAssertions.Json;
-using Xunit;
 
-namespace FEFF.TestFixtures.Xunit.V4.Tests;
+namespace FEFF.TestFixtures.Xunit.Tests;
 
-public class XunitV4IntegrationTests
+public class FixtureDisposeIntegrationTests
 {
     // Fixture creating is tested inside TestSubject
     [Fact]
@@ -36,7 +33,11 @@ public class XunitV4IntegrationTests
 
         // Assert
         File.Exists(resultFile).Should().BeTrue();
-        var res = File.ReadAllLines(resultFile, Encoding.UTF8);
+        var res = File
+            .ReadAllLines(resultFile, Encoding.UTF8)
+            .Select(x => x.Replace("FEFF.TestFixtures.Xunit.TestSubjects.", null))
+            .ToList()
+            ;
 
         // Assert that all fixures are disposed (and created)
         // order may varry because tests run in parallel
@@ -67,8 +68,6 @@ public class XunitV4IntegrationTests
             "AssemblyFix:{}", 
             "SingletonTester:{}",
         ]);
-
-
     }
 
     private static void TryDelete(string f)

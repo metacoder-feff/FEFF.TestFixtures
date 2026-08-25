@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 // register the extension
 [assembly: TestFixturesExtension]
 
-namespace FEFF.TestFixtures.Tests;
+namespace FEFF.TestFixtures.Xunit.Tests;
 
 internal class BaseFix : IAsyncDisposable
 {
@@ -43,7 +43,7 @@ class SingletonTester : IFixtureRegistrar, IDisposable
     }
 }
 
-public class TestSubject
+public class FixtureRegistrationTests
 {
     protected static T GetFixture<T>(FixtureScopeType scopeType = FixtureScopeType.TestCase)
     where T : notnull
@@ -66,23 +66,4 @@ public class TestSubject
         f4.Should().BeOfType<AssemblyFix>();
         s0.Should().BeOfType<SingletonTester>();
     }
-
-    [Fact]
-    public void Second_test_method()
-    {
-        var f1 = GetFixture<TestFix>();
-        var f2 = GetFixture<ClassFix>(FixtureScopeType.Class);
-        var f3 = GetFixture<CollectionFix>(FixtureScopeType.Collection);
-        var f4 = GetFixture<AssemblyFix>(FixtureScopeType.Assembly);
-
-        f1.Should().BeOfType<TestFix>();
-        f2.Should().BeOfType<ClassFix>();
-        f3.Should().BeOfType<CollectionFix>();
-        f4.Should().BeOfType<AssemblyFix>();
-    }
 }
-
-[Collection("collecion-a")]
-public class SecondTestSubject : TestSubject { }
-[Collection("collecion-a")]
-public class ThirdTestSubject : TestSubject { }

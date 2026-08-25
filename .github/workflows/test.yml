@@ -123,9 +123,15 @@ jobs:
         with:
           dotnet-version: 10.x
 
-      - name: Restore dependencies with lock
+      - run: dotnet tool update -g docfx
+
+      - name: Restore dependencies
         run: dotnet restore --use-lock-file
 
-      - run: dotnet tool update -g docfx
-      - run: docfx docs/docfx.json --warningsAsErrors -m noRestore=true
+#TODO: DRY (_DevOps/local-dev/docfx-build.sh)
+      - name: "DocFx: Build api metadata without 'warningsAsErrors'"
+        run: docfx metadata "docs/docfx.json"
+
+      - name: "DocFx: Build & validate"
+        run: docfx build "docs/docfx.json" --warningsAsErrors
 # endof: validate-docs
