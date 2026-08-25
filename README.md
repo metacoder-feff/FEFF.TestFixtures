@@ -15,7 +15,6 @@
 Integrations:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV3?label=XunitV3)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV3)
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.TUnit?label=TUnit)](https://www.nuget.org/packages/FEFF.TestFixtures.TUnit)
-[![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures.XunitV4?label=XunitV4)](https://www.nuget.org/packages/FEFF.TestFixtures.XunitV4)
 \
 Fixture libraries:
 [![NuGet Version](https://img.shields.io/nuget/v/FEFF.TestFixtures?label=TestFixtures)](https://www.nuget.org/packages/FEFF.TestFixtures)
