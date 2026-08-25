@@ -40,12 +40,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore --use-lock-file
 
-      - name: Build sources
-        run: |
-          dotnet build \
-            --no-restore \
-            --configuration Release \
-            -p:ContinuousIntegrationBuild=true
+#TODO: DRY (_DevOps/local-dev/docfx-build.sh)
+      - name: Build api doc-metadata without 'warningsAsErrors'
+        run: docfx metadata "docs/docfx.json"
 
       - name: Build DocFx
         run: docfx build "docs/docfx.json" --warningsAsErrors
