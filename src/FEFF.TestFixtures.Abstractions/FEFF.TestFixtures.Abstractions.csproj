@@ -16,7 +16,6 @@
     <InternalsVisibleTo Include="FEFF.TestFixtures.Engine" />
     <InternalsVisibleTo Include="FEFF.TestFixtures.AspNetCore" />
     <InternalsVisibleTo Include="FEFF.TestFixtures.XunitV3" />
-    <InternalsVisibleTo Include="FEFF.TestFixtures.XunitV4" />
     <InternalsVisibleTo Include="FEFF.TestFixtures.TUnit" />
   </ItemGroup>
   
