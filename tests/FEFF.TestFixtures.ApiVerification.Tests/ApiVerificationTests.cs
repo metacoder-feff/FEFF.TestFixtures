@@ -6,7 +6,7 @@ namespace FEFF.TestFixtures.Tests;
 
 public class ApiVerificationTests
 {
-    static ApiVerificationTests() => VerifyDiffPlex.Initialize(OutputType.Minimal);
+    static ApiVerificationTests() => VerifierSettings.UseTextDiffFormat(DiffEngine.TextDiffFormat.Minimal);
 
     [Fact]
     public Task VerifyXunit_checks_should_be_positive() => VerifyChecks.Run();

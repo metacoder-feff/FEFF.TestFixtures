@@ -14,6 +14,12 @@
     for Microsoft Testing Platform, please visit:
       https://xunit.net/docs/getting-started/v3/microsoft-testing-platform
     -->
+
+    <!--
+    see: https://github.com/VerifyTests/Verify/blob/main/docs/maintenance-fee.md
+    -->
+    <Verify_SponsorshipLicenseIgnored>true</Verify_SponsorshipLicenseIgnored>
+    <NoWarn>$(NoWarn);SC023;SC023</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,14 +33,14 @@
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" Version="9.6.0" />
     <PackageReference Include="AwesomeAssertions.Json" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.11.0" />
-    <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.0" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0" />
+    <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="PublicApiGenerator" Version="11.5.4" />
-    <PackageReference Include="Verify.DiffPlex" Version="3.3.1" />
-    <PackageReference Include="Verify.XunitV3" Version="32.0.0" />
+    <PackageReference Include="Verify.DiffPlex" Version="3.4.0" />
+    <PackageReference Include="Verify.XunitV3" Version="33.3.3" />
   </ItemGroup>
 
   <ItemGroup>
