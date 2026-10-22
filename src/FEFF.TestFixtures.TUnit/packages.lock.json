@@ -15,9 +15,9 @@
       },
       "TUnit.Core": {
         "type": "Direct",
-        "requested": "[1.75.0, )",
-        "resolved": "1.75.0",
-        "contentHash": "bhY96NO8UPPQqwEuSW0KfvMoL848aFdSivecPKAMNvGBNp3qOUWBKYQJ5fVgiARACUASvyqxZbZuUIX/2exnbw=="
+        "requested": "[1.76.0, )",
+        "resolved": "1.76.0",
+        "contentHash": "PygMkyOMbhTmhbuTn7kqyHQY1zrkXhPA5nQCZVYLBT5pHw5SCPAhUxmayBxpr0NA0sTyOg6JRZRUuNLRZfEvyA=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
