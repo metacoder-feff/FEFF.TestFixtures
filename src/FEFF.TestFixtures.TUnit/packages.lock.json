@@ -15,9 +15,9 @@
       },
       "TUnit.Core": {
         "type": "Direct",
-        "requested": "[1.83.8, )",
-        "resolved": "1.83.8",
-        "contentHash": "nAzgKu95BO70kPYp7S/8XZroRKp5EYnuO5cqRKNYQ+dSY97AvdDjnpg5ubazfoSOBcy7VKGkpSwVTLpsblUQbw=="
+        "requested": "[1.87.0, )",
+        "resolved": "1.87.0",
+        "contentHash": "YxDHsrdAOIXukw1xyAO9Ix4N4P5suIDCCbHBFyqXCMFEaMESWTv8WTa5AQTDeMs3mkQDV5r+mnkOXatbwNmdzg=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
@@ -172,13 +172,9 @@
       },
       "TUnit.Core": {
         "type": "Direct",
-        "requested": "[1.83.8, )",
-        "resolved": "1.83.8",
-        "contentHash": "nAzgKu95BO70kPYp7S/8XZroRKp5EYnuO5cqRKNYQ+dSY97AvdDjnpg5ubazfoSOBcy7VKGkpSwVTLpsblUQbw==",
-        "dependencies": {
-          "System.Collections.Immutable": "9.0.0",
-          "System.Text.Json": "9.0.0"
-        }
+        "requested": "[1.87.0, )",
+        "resolved": "1.87.0",
+        "contentHash": "YxDHsrdAOIXukw1xyAO9Ix4N4P5suIDCCbHBFyqXCMFEaMESWTv8WTa5AQTDeMs3mkQDV5r+mnkOXatbwNmdzg=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
@@ -277,11 +273,6 @@
         "resolved": "11.0.0",
         "contentHash": "U+Bv2qCYt6eONi+arSP0QIp4uTO6os6uceBsqiAwruZ+Wo2HrRhO/0tj38M9URJtS+4DhAtT3ka2TGNFYsnhyQ=="
       },
-      "System.IO.Pipelines": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "eA3cinogwaNB4jdjQHOP3Z3EuyiDII7MT35jgtnsA4vkn0LUrrSHsU0nzHTzFzmaFYeKV7MYyMxOocFzsBHpTw=="
-      },
       "System.Reflection.Metadata": {
         "type": "Transitive",
         "resolved": "11.0.0",
@@ -297,20 +288,6 @@
         "dependencies": {
           "System.Collections.Immutable": "11.0.0",
           "System.Reflection.Metadata": "11.0.0"
-        }
-      },
-      "System.Text.Encodings.Web": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "e2hMgAErLbKyUUwt18qSBf9T5Y+SFAL3ZedM8fLupkVj8Rj2PZ9oxQ37XX2LF8fTO1wNIxvKpihD7Of7D/NxZw=="
-      },
-      "System.Text.Json": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "js7+qAu/9mQvnhA4EfGMZNEzXtJCDxgkgj8ohuxq/Qxv+R56G+ljefhiJHOxTNiw54q8vmABCWUwkMulNdlZ4A==",
-        "dependencies": {
-          "System.IO.Pipelines": "9.0.0",
-          "System.Text.Encodings.Web": "9.0.0"
         }
       },
       "feff.testfixtures": {
